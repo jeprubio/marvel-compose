@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.ui.theme
+package com.rumosoft.marvelcompose.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

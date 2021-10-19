@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.ui.theme
+package com.rumosoft.marvelcompose.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -48,7 +48,7 @@ private fun ResultBox(heroListResult: HeroListResult) {
 @Preview(showBackground = true)
 @Composable
 fun HeroListScreenPreview() {
-    val heroes = SampleData.peopleSample
+    val heroes = SampleData.heroesSample
     MarvelComposeTheme {
         HeroListScreenContent(HeroListResult.Success(heroes))
     }

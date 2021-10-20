@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'com.google.secrets_gradle_plugin' version '0.6'
 }
 
 android {
@@ -20,6 +21,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com:443/\"")
     }
 
     buildTypes {
@@ -29,8 +32,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -41,7 +44,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerVersion '1.5.31'
     }
     packagingOptions {
         resources {
@@ -80,6 +83,13 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation:1.0.0"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Gson + Retrofit (to perform API calls and parse the response)
+    implementation("com.google.code.gson:gson:$gson_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.okio:okio:2.10.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junit5_version")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junit5_version")

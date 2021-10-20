@@ -4,8 +4,10 @@ import com.rumosoft.marvelcompose.domain.model.Hero
 
 object SampleData {
     val batman = Hero(
-        name = "Batman"
+        name = "Batman",
+        description = "whatever",
+        thumbnail = "",
     )
 
-    val peopleSample = listOf(batman, batman.copy(name = "Spiderman"))
+    val heroesSample = listOf(batman, batman.copy(name = "Spiderman"))
 }

@@ -1,6 +1,7 @@
-package com.rumosoft.marvelcompose.domain.usecase
+package com.rumosoft.marvelcompose.data.repository
 
 import com.rumosoft.marvelcompose.MainCoroutineRule
+import com.rumosoft.marvelcompose.data.network.MarvelNetwork
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
@@ -8,7 +9,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -17,40 +17,29 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class SearchUseCaseImplTest : TestCase() {
+internal class SearchRepositoryImplTest : TestCase() {
+
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 
     @MockK
-    val repo: SearchRepository = mockk()
+    lateinit var marvelNetwork: MarvelNetwork
 
-    val useCase: SearchUseCase = SearchUseCaseImpl(repo)
+    private val searchRepository: SearchRepository
 
     init {
         MockKAnnotations.init(this)
+        searchRepository = SearchRepositoryImpl(marvelNetwork)
     }
 
     @Test
-    fun `useCase should call repo`() {
+    fun `searchHeroes is called when calling performSearch in the repository and no results from database`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            `given performSearch invocation returns results`()
+            coEvery { marvelNetwork.searchHeroes() } returns
+                Resource.Success(SampleData.heroesSample)
 
-            `when the use case gets invoked`()
+            searchRepository.performSearch()
 
-            `then performSearch gets executed on repo`()
+            coVerify { marvelNetwork.searchHeroes() }
         }
-    }
-
-    private fun `given performSearch invocation returns results`() {
-        coEvery { repo.performSearch() } returns
-            Resource.Success(SampleData.heroesSample)
-    }
-
-    private suspend fun `when the use case gets invoked`() {
-        useCase.invoke()
-    }
-
-    private fun `then performSearch gets executed on repo`() {
-        coVerify { repo.performSearch() }
-    }
 }

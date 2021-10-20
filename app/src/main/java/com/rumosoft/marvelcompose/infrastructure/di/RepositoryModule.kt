@@ -1,5 +1,6 @@
 package com.rumosoft.marvelcompose.infrastructure.di
 
+import com.rumosoft.marvelcompose.data.network.MarvelNetwork
 import com.rumosoft.marvelcompose.data.repository.SearchRepositoryImpl
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import dagger.Module
@@ -13,5 +14,7 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideRepository(): SearchRepository = SearchRepositoryImpl()
+    fun provideRepository(
+        network: MarvelNetwork
+    ): SearchRepository = SearchRepositoryImpl(network)
 }

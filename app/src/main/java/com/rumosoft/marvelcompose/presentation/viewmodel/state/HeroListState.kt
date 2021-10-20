@@ -15,8 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
-import com.rumosoft.marvelcompose.presentation.component.HeroResult
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
+import com.rumosoft.marvelcompose.presentation.component.HeroResult
 
 data class HeroListScreenState(val heroListResult: HeroListResult)
 

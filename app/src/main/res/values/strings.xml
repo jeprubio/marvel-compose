@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MarvelCompose</string>
+    <string name="error_data_message">Couldn\'t get the data</string>
+    <string name="no_results">No results</string>
 </resources>

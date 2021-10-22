@@ -77,6 +77,6 @@ private fun ResultBox(heroListState: HeroListState) {
 fun HeroListScreenPreview() {
     val heroes = SampleData.heroesSample
     MarvelComposeTheme {
-        HeroListScreenContent(HeroListState.Success(heroes) {})
+        HeroListScreenContent(HeroListState.Success(heroes))
     }
 }

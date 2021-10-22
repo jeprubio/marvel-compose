@@ -47,7 +47,10 @@ sealed class HeroListState {
         }
     }
 
-    class Error(private val throwable: Throwable, private val retry: () -> Unit) : HeroListState() {
+    class Error(
+        private val throwable: Throwable,
+        private val retry: () -> Unit = {},
+    ) : HeroListState() {
         @Composable
         override fun BuildUI() {
             Box(
@@ -63,7 +66,7 @@ sealed class HeroListState {
 
     class Success(
         private val heroes: List<Hero>?,
-        private val onClick: (Hero) -> Unit
+        private val onClick: (Hero) -> Unit = {}
     ) : HeroListState() {
         @Composable
         override fun BuildUI() {

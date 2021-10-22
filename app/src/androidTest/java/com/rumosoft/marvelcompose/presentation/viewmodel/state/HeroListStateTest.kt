@@ -28,7 +28,7 @@ internal class HeroListStateTest {
     fun heroListResult_error_shows_error_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Error(Exception("Error")) {}.BuildUI()
+                HeroListState.Error(Exception("Error")).BuildUI()
             }
         }
 
@@ -39,7 +39,7 @@ internal class HeroListStateTest {
     fun heroListResult_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Success(SampleData.heroesSample) {}.BuildUI()
+                HeroListState.Success(SampleData.heroesSample).BuildUI()
             }
         }
 
@@ -50,7 +50,7 @@ internal class HeroListStateTest {
     fun heroListResult_success_with_no_data_shows_no_results() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Success(emptyList()) {}.BuildUI()
+                HeroListState.Success(emptyList()).BuildUI()
             }
         }
 

@@ -1,15 +1,21 @@
 package com.rumosoft.marvelcompose.presentation.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
@@ -22,14 +28,33 @@ fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel, her
     hero?.let {
         viewModel.setHero(hero)
     }
-    DetailsScreenContent(screenState)
+    DetailsScreenContent(screenState) {
+        navController.popBackStack(
+            route = Screen.HERO_LIST,
+            inclusive = false
+        )
+    }
 }
 
 @Composable
-private fun DetailsScreenContent(detailsState: DetailsState) {
-    Box(
+private fun DetailsScreenContent(
+    detailsState: DetailsState,
+    onBackPressed: () -> Unit = {}
+) {
+    Column(
         modifier = Modifier.fillMaxSize(),
     ) {
+        TopAppBar(
+            title = { Text(text = "Details") },
+            navigationIcon = {
+                IconButton(onClick = { onBackPressed.invoke() }) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_arrow_back_24),
+                        contentDescription = "Menu Btn"
+                    )
+                }
+            },
+        )
         detailsState.BuildUI()
     }
 }

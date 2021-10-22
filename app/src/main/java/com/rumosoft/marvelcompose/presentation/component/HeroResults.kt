@@ -31,7 +31,7 @@ import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 fun HeroResults(
     heroes: List<Hero>,
     modifier: Modifier = Modifier,
-    onClick: (Hero) -> Unit,
+    onClick: (Hero) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
@@ -46,7 +46,7 @@ fun HeroResults(
 @Composable
 private fun HeroResult(
     hero: Hero,
-    onClick: (Hero) -> Unit,
+    onClick: (Hero) -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -83,6 +83,6 @@ private fun HeroResult(
 fun HeroResultPreview() {
     val heroes = remember { listOf(SampleData.batman) }
     MarvelComposeTheme {
-        HeroResults(heroes) {}
+        HeroResults(heroes)
     }
 }

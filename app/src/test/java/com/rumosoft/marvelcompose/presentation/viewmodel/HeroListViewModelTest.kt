@@ -4,7 +4,7 @@ import com.rumosoft.marvelcompose.MainCoroutineRule
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.SearchUseCase
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
-import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListResult
+import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListState
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -22,6 +22,8 @@ internal class HeroListViewModelTest : TestCase() {
 
     private val searchUseCase: SearchUseCase = mockk()
     private lateinit var heroListViewModel: HeroListViewModel
+
+    private val hero = SampleData.batman
 
     @Test
     fun `performSearch() calls searchUseCase`() {
@@ -54,6 +56,32 @@ internal class HeroListViewModelTest : TestCase() {
             `then HeroListScreenSuccess should be Error`()
         }
 
+    @Test
+    fun `If a hero is selected the screen state must change`() {
+        coroutineRule.testDispatcher.runBlockingTest {
+            `given searchUseCase invocation returns results`()
+            `given the ViewModel is initialised`()
+            `given the screen state has no selected hero`()
+
+            `when a hero gets selected`()
+
+            `then the screen state selected hero should have been updated`()
+        }
+    }
+
+    @Test
+    fun `If the selected hero is reset the screen state must change`() {
+        coroutineRule.testDispatcher.runBlockingTest {
+            `given searchUseCase invocation returns results`()
+            `given the ViewModel is initialised`()
+            `given the screen state has a selected hero`()
+
+            `when the selected hero gets reset`()
+
+            `then the screen state selected hero should have been reset`()
+        }
+    }
+
     private fun `given searchUseCase invocation returns results`() {
         coEvery { searchUseCase.invoke() } returns
             Resource.Success(SampleData.heroesSample)
@@ -64,8 +92,29 @@ internal class HeroListViewModelTest : TestCase() {
             Resource.Error(Exception())
     }
 
+    private fun `given the ViewModel is initialised`() {
+        heroListViewModel = HeroListViewModel(searchUseCase)
+    }
+
+    private fun `given the screen state has no selected hero`() {
+        assertNull(heroListViewModel.heroListScreenState.value.selectedHero)
+    }
+
+    private fun `given the screen state has a selected hero`() {
+        heroListViewModel.heroClicked(hero)
+        assertNotNull(heroListViewModel.heroListScreenState.value.selectedHero)
+    }
+
     private fun `when initialising the ViewModel`() {
         heroListViewModel = HeroListViewModel(searchUseCase)
+    }
+
+    private fun `when a hero gets selected`() {
+        heroListViewModel.heroClicked(hero)
+    }
+
+    private fun `when the selected hero gets reset`() {
+        heroListViewModel.resetSelectedHero()
     }
 
     private fun `then searchUseCase gets invoked`() {
@@ -73,10 +122,18 @@ internal class HeroListViewModelTest : TestCase() {
     }
 
     private fun `then HeroListScreenSuccess should be Success`() {
-        assertTrue(heroListViewModel.heroListScreenState.value.heroListResult is HeroListResult.Success)
+        assertTrue(heroListViewModel.heroListScreenState.value.heroListState is HeroListState.Success)
     }
 
     private fun `then HeroListScreenSuccess should be Error`() {
-        assertTrue(heroListViewModel.heroListScreenState.value.heroListResult is HeroListResult.Error)
+        assertTrue(heroListViewModel.heroListScreenState.value.heroListState is HeroListState.Error)
+    }
+
+    private fun `then the screen state selected hero should have been updated`() {
+        assertEquals(hero, heroListViewModel.heroListScreenState.value.selectedHero)
+    }
+
+    private fun `then the screen state selected hero should have been reset`() {
+        assertNull(heroListViewModel.heroListScreenState.value.selectedHero)
     }
 }

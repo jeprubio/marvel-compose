@@ -1,11 +1,11 @@
 package com.rumosoft.marvelcompose.infrastructure.interceptors
 
 import com.rumosoft.marvelcompose.BuildConfig
+import java.math.BigInteger
+import java.security.MessageDigest
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.IOException
-import java.math.BigInteger
-import java.security.MessageDigest
 
 class MarvelInterceptor : Interceptor {
     private val apiKey = "cfcb9596194b34c19e3f80cb295d33a1"

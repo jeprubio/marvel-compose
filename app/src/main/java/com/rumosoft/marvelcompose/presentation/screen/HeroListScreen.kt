@@ -1,7 +1,6 @@
 package com.rumosoft.marvelcompose.presentation.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,26 +12,34 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.presentation.viewmodel.HeroListViewModel
-import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListResult
+import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListState
 
 @Composable
-fun HeroListScreen(viewModel: HeroListViewModel) {
+fun HeroListScreen(navController: NavController, viewModel: HeroListViewModel) {
     val heroListScreenState by viewModel.heroListScreenState.collectAsState()
-    HeroListScreenContent(heroListResult = heroListScreenState.heroListResult)
+    if (heroListScreenState.selectedHero != null) {
+        viewModel.resetSelectedHero()
+        navController.currentBackStackEntry?.arguments?.putParcelable(
+            "hero",
+            heroListScreenState.selectedHero
+        )
+        navController.navigate(Screen.HeroDetails.route)
+    }
+    HeroListScreenContent(heroListState = heroListScreenState.heroListState)
 }
 
 @Composable
 fun HeroListScreenContent(
-    heroListResult: HeroListResult
+    heroListState: HeroListState
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -47,12 +54,12 @@ fun HeroListScreenContent(
                 .width(200.dp)
                 .padding(16.dp),
         )
-        ResultBox(heroListResult)
+        ResultBox(heroListState)
     }
 }
 
 @Composable
-private fun ResultBox(heroListResult: HeroListResult) {
+private fun ResultBox(heroListState: HeroListState) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +68,7 @@ private fun ResultBox(heroListResult: HeroListResult) {
                 end = 24.dp,
             )
     ) {
-        heroListResult.BuildUI()
+        heroListState.BuildUI()
     }
 }
 
@@ -70,6 +77,6 @@ private fun ResultBox(heroListResult: HeroListResult) {
 fun HeroListScreenPreview() {
     val heroes = SampleData.heroesSample
     MarvelComposeTheme {
-        HeroListScreenContent(HeroListResult.Success(heroes))
+        HeroListScreenContent(HeroListState.Success(heroes) {})
     }
 }

@@ -3,8 +3,8 @@ package com.rumosoft.marvelcompose.data.network
 import com.rumosoft.marvelcompose.data.network.apimodels.toHero
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.Resource
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 class MarvelNetworkImpl @Inject constructor(
     private val marvelService: MarvelService,

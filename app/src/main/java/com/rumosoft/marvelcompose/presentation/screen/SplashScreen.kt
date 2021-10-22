@@ -27,7 +27,7 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
         delay(THREE_SECS)
         navController.popBackStack()
-        navController.navigate(Screen.HeroListScreen.route)
+        navController.navigate(Screen.HeroList.route)
     }
 
     SplashScreenContent()

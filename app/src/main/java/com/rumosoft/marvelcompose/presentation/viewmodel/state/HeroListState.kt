@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +17,7 @@ import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.component.HeroResults
+import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 
 const val ProgressIndicator = "progressIndicator"
 const val ErrorResult = "errorResult"
@@ -92,7 +92,7 @@ sealed class HeroListState {
     ) {
         Text(
             text = message,
-            color = MaterialTheme.colors.onBackground,
+            color = MarvelComposeTheme.colors.onBackground,
             fontWeight = FontWeight.Bold,
             modifier = modifier.padding(16.dp),
         )

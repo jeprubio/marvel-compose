@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
+import com.rumosoft.marvelcompose.presentation.component.DetailsState
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import org.junit.Rule
 import org.junit.Test

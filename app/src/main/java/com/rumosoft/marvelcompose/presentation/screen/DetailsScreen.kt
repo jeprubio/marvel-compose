@@ -16,18 +16,14 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.rumosoft.marvelcompose.R
-import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
+import com.rumosoft.marvelcompose.presentation.component.DetailsState
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.presentation.viewmodel.DetailsViewModel
-import com.rumosoft.marvelcompose.presentation.viewmodel.state.DetailsState
 
 @Composable
-fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel, hero: Hero?) {
+fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel) {
     val screenState by viewModel.detailsState.collectAsState()
-    hero?.let {
-        viewModel.setHero(hero)
-    }
     DetailsScreenContent(screenState) {
         navController.popBackStack(
             route = Screen.HERO_LIST,
@@ -42,7 +38,8 @@ private fun DetailsScreenContent(
     onBackPressed: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
     ) {
         TopAppBar(
             title = { Text(text = "Details") },

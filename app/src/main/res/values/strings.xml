@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">MarvelCompose</string>
-    <string name="error_data_message">Couldn\'t get the data</string>
+    <string name="error_data_message">Could not get the data</string>
     <string name="marvel_logo">MARVEL Logo</string>
     <string name="no_results">No results</string>
     <string name="show_details">Show Details</string>
+    <string name="description">Description</string>
+    <string name="no_description">Sorry, there is no description for this character.</string>
+    <string name="comics">Comics</string>
 </resources>

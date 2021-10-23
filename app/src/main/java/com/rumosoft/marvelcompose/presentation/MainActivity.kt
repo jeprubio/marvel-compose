@@ -3,7 +3,6 @@ package com.rumosoft.marvelcompose.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MarvelComposeTheme {
-                Surface(color = MaterialTheme.colors.background) {
+                Surface(color = MarvelComposeTheme.colors.background) {
                     MarvelApp()
                 }
             }
@@ -49,12 +48,14 @@ fun MarvelApp() {
             )
         }
         composable(Screen.HERO_DETAILS) { navBackStackEntry ->
-            val hero = navController.previousBackStackEntry?.arguments?.getParcelable<Hero>("hero")
+            val hero: Hero? = navController.previousBackStackEntry?.arguments?.getParcelable<Hero>("hero")
             val viewModel: DetailsViewModel = hiltViewModel(navBackStackEntry)
+            hero?.let {
+                viewModel.setHero(it)
+            }
             DetailsScreen(
                 navController = navController,
                 viewModel = viewModel,
-                hero = hero,
             )
         }
     }

@@ -3,13 +3,11 @@ package com.rumosoft.marvelcompose.domain.usecase
 import com.rumosoft.marvelcompose.MainCoroutineRule
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
-import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -17,14 +15,18 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class SearchUseCaseImplTest : TestCase() {
+internal class GetComicThumbnailUseCaseImplTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 
     @MockK
     val repo: SearchRepository = mockk()
 
-    private val useCase: SearchUseCase = SearchUseCaseImpl(repo)
+    private val useCase: GetComicThumbnailUseCase = GetComicThumbnailUseCaseImpl(repo)
+
+    private val comicId = 1
+
+    private val thumbnailUrl = "thumbnailUrl"
 
     init {
         MockKAnnotations.init(this)
@@ -33,7 +35,7 @@ internal class SearchUseCaseImplTest : TestCase() {
     @Test
     fun `useCase should call repo`() {
         coroutineRule.testDispatcher.runBlockingTest {
-            `given performSearch invocation returns results`()
+            `given getThumbnail invocation returns results`()
 
             `when the use case gets invoked`()
 
@@ -41,16 +43,16 @@ internal class SearchUseCaseImplTest : TestCase() {
         }
     }
 
-    private fun `given performSearch invocation returns results`() {
-        coEvery { repo.performSearch() } returns
-            Resource.Success(SampleData.heroesSample)
+    private fun `given getThumbnail invocation returns results`() {
+        coEvery { repo.getThumbnail(comicId) } returns
+            Resource.Success(thumbnailUrl)
     }
 
     private suspend fun `when the use case gets invoked`() {
-        useCase.invoke()
+        useCase.invoke(comicId)
     }
 
     private fun `then performSearch gets executed on repo`() {
-        coVerify { repo.performSearch() }
+        coVerify { repo.getThumbnail(comicId) }
     }
 }

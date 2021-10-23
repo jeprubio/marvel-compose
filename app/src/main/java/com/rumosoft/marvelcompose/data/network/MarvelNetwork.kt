@@ -5,4 +5,6 @@ import com.rumosoft.marvelcompose.domain.model.Resource
 
 interface MarvelNetwork {
     suspend fun searchHeroes(): Resource<List<Hero>>
+
+    suspend fun getComicThumbnail(comicId: Int): Resource<String>
 }

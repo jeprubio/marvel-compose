@@ -27,19 +27,58 @@ internal class SearchRepositoryImplTest : TestCase() {
 
     private val searchRepository: SearchRepository
 
+    private val comicId = 1
+
+    private val thumbnailUrl = "thumbnailUrl"
+
     init {
         MockKAnnotations.init(this)
         searchRepository = SearchRepositoryImpl(marvelNetwork)
     }
 
     @Test
-    fun `searchHeroes is called when calling performSearch in the repository and no results from database`() =
+    fun `searchHeroes is called when calling performSearch in the repository`() =
         coroutineRule.testDispatcher.runBlockingTest {
-            coEvery { marvelNetwork.searchHeroes() } returns
-                Resource.Success(SampleData.heroesSample)
+            `given searchHeroes invocation on network returns results`()
 
-            searchRepository.performSearch()
+            `when performSearch on repo gets invoked`()
 
-            coVerify { marvelNetwork.searchHeroes() }
+            `then searchHeroes gets executed on nework`()
         }
+
+    @Test
+    fun `getComicThumbnail is called when calling getThumbnail in the repository`() =
+        coroutineRule.testDispatcher.runBlockingTest {
+            `given getComicThumbnail invocation on network returns results`()
+
+            `when getThumbnail on repo gets invoked`()
+
+            `then getComicThumbnail gets executed on network`()
+        }
+
+    private fun `given searchHeroes invocation on network returns results`() {
+        coEvery { marvelNetwork.searchHeroes() } returns
+            Resource.Success(SampleData.heroesSample)
+    }
+
+    private fun `given getComicThumbnail invocation on network returns results`() {
+        coEvery { marvelNetwork.getComicThumbnail(comicId) } returns
+            Resource.Success(thumbnailUrl)
+    }
+
+    private suspend fun `when performSearch on repo gets invoked`() {
+        searchRepository.performSearch()
+    }
+
+    private suspend fun `when getThumbnail on repo gets invoked`() {
+        searchRepository.getThumbnail(comicId)
+    }
+
+    private fun `then searchHeroes gets executed on nework`() {
+        coVerify { marvelNetwork.searchHeroes() }
+    }
+
+    private fun `then getComicThumbnail gets executed on network`() {
+        coVerify { marvelNetwork.getComicThumbnail(comicId) }
+    }
 }

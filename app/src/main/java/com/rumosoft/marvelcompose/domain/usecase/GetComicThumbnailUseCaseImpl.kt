@@ -1,13 +1,12 @@
 package com.rumosoft.marvelcompose.domain.usecase
 
-import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import javax.inject.Inject
 
-class SearchUseCaseImpl @Inject constructor(
+class GetComicThumbnailUseCaseImpl @Inject constructor(
     private val repository: SearchRepository,
-) : SearchUseCase {
-    override suspend operator fun invoke(): Resource<List<Hero>?> =
-        repository.performSearch()
+) : GetComicThumbnailUseCase {
+    override suspend operator fun invoke(comicId: Int): Resource<String> =
+        repository.getThumbnail(comicId)
 }

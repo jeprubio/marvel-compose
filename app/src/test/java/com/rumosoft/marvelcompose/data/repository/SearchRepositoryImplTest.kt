@@ -1,7 +1,9 @@
 package com.rumosoft.marvelcompose.data.repository
 
 import com.rumosoft.marvelcompose.MainCoroutineRule
+import com.rumosoft.marvelcompose.data.network.HeroesResult
 import com.rumosoft.marvelcompose.data.network.MarvelNetwork
+import com.rumosoft.marvelcompose.data.network.PaginationInfo
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
@@ -31,6 +33,10 @@ internal class SearchRepositoryImplTest : TestCase() {
 
     private val thumbnailUrl = "thumbnailUrl"
 
+    private val offset = 0
+
+    private val limit = 20
+
     init {
         MockKAnnotations.init(this)
         searchRepository = SearchRepositoryImpl(marvelNetwork)
@@ -57,8 +63,13 @@ internal class SearchRepositoryImplTest : TestCase() {
         }
 
     private fun `given searchHeroes invocation on network returns results`() {
-        coEvery { marvelNetwork.searchHeroes() } returns
-            Resource.Success(SampleData.heroesSample)
+        coEvery { marvelNetwork.searchHeroes(offset, limit) } returns
+            Resource.Success(
+                HeroesResult(
+                    PaginationInfo(1, 1),
+                    SampleData.heroesSample
+                )
+            )
     }
 
     private fun `given getComicThumbnail invocation on network returns results`() {
@@ -75,7 +86,7 @@ internal class SearchRepositoryImplTest : TestCase() {
     }
 
     private fun `then searchHeroes gets executed on nework`() {
-        coVerify { marvelNetwork.searchHeroes() }
+        coVerify { marvelNetwork.searchHeroes(offset, limit) }
     }
 
     private fun `then getComicThumbnail gets executed on network`() {

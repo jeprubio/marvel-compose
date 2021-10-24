@@ -23,20 +23,25 @@ class HeroListViewModel @Inject constructor(
     private val _heroListScreenState =
         MutableStateFlow(initialScreenState())
 
+    private var currentHeroes: List<Hero> = emptyList()
+
     init {
-        performSearch(::heroClicked)
+        performSearch()
     }
 
-    private fun performSearch(onHeroClicked: (Hero) -> Unit) {
+    private fun performSearch() {
         Timber.d("Searching:")
         viewModelScope.launch {
             val result = searchUseCase()
             Timber.d("Search result: $result")
             when (result) {
                 is Resource.Success -> {
+                    val newList = currentHeroes.toMutableList()
+                    result.data?.let { newList.addAll(it) }
+                    currentHeroes = newList.toList()
                     _heroListScreenState.emit(
                         _heroListScreenState.value
-                            .copy(heroListState = HeroListState.Success(result.data, onHeroClicked))
+                            .copy(heroListState = HeroListState.Success(newList, ::heroClicked, ::onReachedEnd))
                     )
                 }
                 is Resource.Error -> {
@@ -57,6 +62,10 @@ class HeroListViewModel @Inject constructor(
                     .copy(selectedHero = hero)
             )
         }
+    }
+
+    private fun onReachedEnd() {
+        performSearch()
     }
 
     fun resetSelectedHero() {

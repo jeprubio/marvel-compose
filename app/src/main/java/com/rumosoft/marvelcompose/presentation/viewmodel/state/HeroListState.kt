@@ -66,7 +66,8 @@ sealed class HeroListState {
 
     class Success(
         private val heroes: List<Hero>?,
-        private val onClick: (Hero) -> Unit = {}
+        private val onClick: (Hero) -> Unit = {},
+        private val onEndReached: () -> Unit = {},
     ) : HeroListState() {
         @Composable
         override fun BuildUI() {
@@ -75,6 +76,7 @@ sealed class HeroListState {
                     heroes = heroes,
                     modifier = Modifier.testTag(SuccessResult),
                     onClick = onClick,
+                    onEndReached = onEndReached,
                 )
             } ?: run {
                 SimpleMessage(
@@ -102,13 +104,13 @@ sealed class HeroListState {
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchSuccess() {
-    HeroListState.Success(listOf(SampleData.batman)) {}.BuildUI()
+    HeroListState.Success(listOf(SampleData.batman)).BuildUI()
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchError() {
-    HeroListState.Error(Exception("Whatever")) {}.BuildUI()
+    HeroListState.Error(Exception("Whatever")).BuildUI()
 }
 
 @Preview(showBackground = true)

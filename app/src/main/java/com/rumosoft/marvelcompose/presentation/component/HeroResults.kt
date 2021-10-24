@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,17 +25,26 @@ import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
+import timber.log.Timber
 
 @Composable
 fun HeroResults(
     heroes: List<Hero>,
     modifier: Modifier = Modifier,
     onClick: (Hero) -> Unit = {},
+    onEndReached: () -> Unit = {},
 ) {
+    val lastIndex = heroes.lastIndex
     LazyColumn(
         modifier = modifier.fillMaxWidth()
     ) {
-        items(heroes) { hero ->
+        itemsIndexed(heroes) { index, hero ->
+            if (lastIndex == index) {
+                LaunchedEffect(Unit) {
+                    Timber.d("End element reached")
+                    onEndReached.invoke()
+                }
+            }
             HeroResult(hero, onClick)
             Spacer(modifier = Modifier.padding(8.dp))
         }

@@ -8,7 +8,6 @@ import com.rumosoft.marvelcompose.data.network.apimodels.HeroDto
 import com.rumosoft.marvelcompose.data.network.apimodels.HeroResults
 import com.rumosoft.marvelcompose.data.network.apimodels.ImageDto
 import com.rumosoft.marvelcompose.data.network.apimodels.SearchData
-import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.Resource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -31,6 +30,10 @@ internal class MarvelNetworkImplTest {
     private val marvelNetwork: MarvelNetwork
 
     private val comicId = 1
+
+    val offset = 0
+
+    val limit = 20
 
     init {
         MockKAnnotations.init(this)
@@ -80,9 +83,13 @@ internal class MarvelNetworkImplTest {
         }
 
     private fun `given a response is returned when searchHeroes gets called on the service`() {
-        coEvery { marvelService.searchHeroes() } returns
+        coEvery { marvelService.searchHeroes(offset = offset, limit = limit) } returns
             HeroResults(
                 data = SearchData(
+                    offset = 0,
+                    limit = limit,
+                    total = 1,
+                    count = 1,
                     results = listOf(
                         HeroDto(
                             name = "Batman",
@@ -121,15 +128,15 @@ internal class MarvelNetworkImplTest {
         coEvery { marvelService.searchComic(any()) } throws Exception()
     }
 
-    private suspend fun `when searchHeroes gets called on the network`(): Resource<List<Hero>> {
-        return marvelNetwork.searchHeroes()
+    private suspend fun `when searchHeroes gets called on the network`(): Resource<HeroesResult> {
+        return marvelNetwork.searchHeroes(offset, limit)
     }
 
     private suspend fun `when getComicThumbnail gets called on the network`(): Resource<String> {
         return marvelNetwork.getComicThumbnail(comicId)
     }
 
-    private fun `then the response should be of type Success`(response: Resource<List<Hero>>) {
+    private fun `then the response should be of type Success`(response: Resource<HeroesResult>) {
         Assertions.assertTrue(response is Resource.Success)
     }
 
@@ -137,12 +144,12 @@ internal class MarvelNetworkImplTest {
         Assertions.assertTrue(response is Resource.Success)
     }
 
-    private fun `then there should be one element in the returned data`(response: Resource<List<Hero>>) {
+    private fun `then there should be one element in the returned data`(response: Resource<HeroesResult>) {
         val data = when (response) {
             is Resource.Success -> response.data
             else -> null
         }
-        Assertions.assertEquals(1, data!!.size)
+        Assertions.assertEquals(1, data!!.heroes!!.size)
     }
 
     private fun `then there should be one element in the returned data from searchComic`(response: Resource<String>) {
@@ -153,7 +160,7 @@ internal class MarvelNetworkImplTest {
         Assertions.assertEquals("path.extension", data)
     }
 
-    private fun `then the response should be of type Error`(response: Resource<List<Hero>>) {
+    private fun `then the response should be of type Error`(response: Resource<HeroesResult>) {
         Assertions.assertTrue(response is Resource.Error)
     }
 

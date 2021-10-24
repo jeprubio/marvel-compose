@@ -18,10 +18,9 @@ class SearchRepositoryImpl @Inject constructor(
     private var currentPage = 1
     private var isRequestInProgress = false
 
-    override suspend fun performSearch(): Resource<List<Hero>?> {
-        if (currentPage > maxPages) {
-            return Resource.Error(NoMoreResultsException("No more data"))
-        }
+    override suspend fun performSearch(fromStart: Boolean): Resource<List<Hero>?> {
+        if (fromStart) currentPage = 1
+        if (currentPage > maxPages) return Resource.Error(NoMoreResultsException("No more data"))
         if (isRequestInProgress) {
             Timber.d("Request is in progress current page: $currentPage")
             return Resource.Error(CallInProgressException("Request is in progress"))

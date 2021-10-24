@@ -26,13 +26,13 @@ class HeroListViewModel @Inject constructor(
     private var currentHeroes: List<Hero> = emptyList()
 
     init {
-        performSearch()
+        performSearch(true)
     }
 
-    private fun performSearch() {
+    private fun performSearch(fromStart: Boolean) {
         Timber.d("Searching:")
         viewModelScope.launch {
-            val result = searchUseCase()
+            val result = searchUseCase(fromStart)
             Timber.d("Search result: $result")
             when (result) {
                 is Resource.Success -> {
@@ -79,7 +79,7 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun onReachedEnd() {
-        performSearch()
+        performSearch(false)
     }
 
     private fun initialScreenState(): HeroListScreenState =

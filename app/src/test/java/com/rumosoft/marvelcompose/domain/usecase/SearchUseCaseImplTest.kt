@@ -47,7 +47,7 @@ internal class SearchUseCaseImplTest : TestCase() {
     }
 
     private suspend fun `when the use case gets invoked`() {
-        useCase.invoke()
+        useCase.invoke(false)
     }
 
     private fun `then performSearch gets executed on repo`() {

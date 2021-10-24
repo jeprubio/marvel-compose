@@ -23,8 +23,6 @@ class HeroListViewModel @Inject constructor(
     private val _heroListScreenState =
         MutableStateFlow(initialScreenState())
 
-    private var currentHeroes: List<Hero> = emptyList()
-
     init {
         performSearch(true)
     }
@@ -64,12 +62,11 @@ class HeroListViewModel @Inject constructor(
 
     private suspend fun parseSuccessResponse(result: Resource.Success<List<Hero>?>) {
         setLoadingMore(false)
-        val newList = addValuesToCurrentHeroes(result)
         _heroListScreenState.emit(
             _heroListScreenState.value
                 .copy(
                     heroListState = HeroListState.Success(
-                        newList,
+                        result.data,
                         false,
                         ::heroClicked,
                         ::onReachedEnd
@@ -85,13 +82,6 @@ class HeroListViewModel @Inject constructor(
         )
     }
 
-    private fun addValuesToCurrentHeroes(result: Resource.Success<List<Hero>?>): MutableList<Hero> {
-        val newList = currentHeroes.toMutableList()
-        result.data?.let { newList.addAll(it) }
-        currentHeroes = newList.toList()
-        return newList
-    }
-
     private fun onReachedEnd() {
         viewModelScope.launch {
             setLoadingMore(true)
@@ -100,15 +90,18 @@ class HeroListViewModel @Inject constructor(
     }
 
     private suspend fun setLoadingMore(value: Boolean) {
-        _heroListScreenState.emit(
-            _heroListScreenState.value
-                .copy(
-                    heroListState = HeroListState.Success(
-                        heroes = currentHeroes,
-                        loadingMore = value,
+        val currentHeroes = (_heroListScreenState.value.heroListState as? HeroListState.Success)?.heroes
+        if (currentHeroes != null) {
+            _heroListScreenState.emit(
+                _heroListScreenState.value
+                    .copy(
+                        heroListState = HeroListState.Success(
+                            heroes = currentHeroes,
+                            loadingMore = value,
+                        )
                     )
-                )
-        )
+            )
+        }
     }
 
     private fun initialScreenState(): HeroListScreenState =

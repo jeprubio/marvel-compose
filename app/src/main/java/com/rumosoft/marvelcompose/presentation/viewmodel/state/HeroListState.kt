@@ -65,7 +65,7 @@ sealed class HeroListState {
     }
 
     class Success(
-        private val heroes: List<Hero>?,
+        val heroes: List<Hero>?,
         private val loadingMore: Boolean = false,
         private val onClick: (Hero) -> Unit = {},
         private val onEndReached: () -> Unit = {},

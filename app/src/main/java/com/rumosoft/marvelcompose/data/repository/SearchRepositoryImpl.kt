@@ -18,8 +18,9 @@ class SearchRepositoryImpl @Inject constructor(
     private var currentPage = 1
     private var isRequestInProgress = false
 
+    private var currentHeroes: List<Hero> = emptyList()
+
     override suspend fun performSearch(fromStart: Boolean): Resource<List<Hero>?> {
-        if (fromStart) currentPage = 1
         if (currentPage > maxPages) return Resource.Error(NoMoreResultsException("No more data"))
         if (isRequestInProgress) {
             Timber.d("Request is in progress current page: $currentPage")
@@ -44,9 +45,16 @@ class SearchRepositoryImpl @Inject constructor(
         val offset = (page - 1) * LIMIT
         val networkResult = network.searchHeroes(offset, LIMIT)
         isRequestInProgress = false
-        return if (currentPage <= maxPages && networkResult is Resource.Success)
-            Resource.Success(networkResult.data.heroes)
-        else
+        return if (currentPage <= maxPages && networkResult is Resource.Success) {
+            Resource.Success(addValuesToCurrentHeroes(networkResult.data.heroes))
+        } else
             Resource.Error(NoMoreResultsException("No more data"))
+    }
+
+    private fun addValuesToCurrentHeroes(heroes: List<Hero>?): MutableList<Hero> {
+        val newList = currentHeroes.toMutableList()
+        heroes?.let { newList.addAll(it) }
+        currentHeroes = newList.toList()
+        return newList
     }
 }

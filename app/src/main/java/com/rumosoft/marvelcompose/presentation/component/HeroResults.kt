@@ -2,6 +2,7 @@ package com.rumosoft.marvelcompose.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +33,7 @@ import timber.log.Timber
 fun HeroResults(
     heroes: List<Hero>,
     modifier: Modifier = Modifier,
+    loadingMore: Boolean = false,
     onClick: (Hero) -> Unit = {},
     onEndReached: () -> Unit = {},
 ) {
@@ -47,6 +50,11 @@ fun HeroResults(
             }
             HeroResult(hero, onClick)
             Spacer(modifier = Modifier.padding(8.dp))
+        }
+        if (loadingMore) {
+            item {
+                Loading()
+            }
         }
     }
 }
@@ -68,27 +76,66 @@ private fun HeroResult(
     ) {
         val imageModifier = Modifier
             .size(80.dp)
-        if (hero.thumbnail.isNotEmpty()) {
-            MarvelImage(
-                thumbnailUrl = hero.thumbnail,
-                contentDescription = hero.name,
-                modifier = imageModifier,
-            )
-        } else {
-            Image(
-                painterResource(id = R.drawable.img_no_image),
-                contentDescription = hero.name,
-                modifier = imageModifier,
-            )
-        }
+        HeroImage(hero, imageModifier)
         Spacer(modifier = Modifier.padding(8.dp))
-        Text(
-            text = hero.name,
-            style = MarvelComposeTheme.typography.subtitle1,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            softWrap = false,
-        )
+        HeroName(hero)
+    }
+}
+
+@Composable
+private fun HeroImage(
+    hero: Hero,
+    modifier: Modifier
+) {
+    if (hero.thumbnail.isNotEmpty()) {
+        RemoteImage(hero, modifier)
+    } else {
+        LocalImage(hero, modifier)
+    }
+}
+
+@Composable
+private fun RemoteImage(
+    hero: Hero,
+    modifier: Modifier
+) {
+    MarvelImage(
+        thumbnailUrl = hero.thumbnail,
+        contentDescription = hero.name,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun LocalImage(
+    hero: Hero,
+    modifier: Modifier
+) {
+    Image(
+        painterResource(id = R.drawable.img_no_image),
+        contentDescription = hero.name,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun HeroName(hero: Hero) {
+    Text(
+        text = hero.name,
+        style = MarvelComposeTheme.typography.subtitle1,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        softWrap = false,
+    )
+}
+
+@Composable
+private fun Loading() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        CircularProgressIndicator()
     }
 }
 

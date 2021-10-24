@@ -30,19 +30,13 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun performSearch(fromStart: Boolean) {
-        Timber.d("Searching:")
         viewModelScope.launch {
-            val result = searchUseCase(fromStart)
-            Timber.d("Search result: $result")
-            when (result) {
+            when (val result = searchUseCase(fromStart)) {
                 is Resource.Success -> {
                     parseSuccessResponse(result)
                 }
                 is Resource.Error -> {
-                    _heroListScreenState.emit(
-                        _heroListScreenState.value
-                            .copy(heroListState = HeroListState.Error(result.throwable) {})
-                    )
+                    parseErrorResponse(result)
                 }
             }
         }
@@ -59,7 +53,7 @@ class HeroListViewModel @Inject constructor(
     }
 
     internal fun resetSelectedHero() {
-        Timber.d("reset selected person")
+        Timber.d("Reset selected hero")
         viewModelScope.launch {
             _heroListScreenState.emit(
                 _heroListScreenState.value
@@ -69,17 +63,52 @@ class HeroListViewModel @Inject constructor(
     }
 
     private suspend fun parseSuccessResponse(result: Resource.Success<List<Hero>?>) {
-        val newList = currentHeroes.toMutableList()
-        result.data?.let { newList.addAll(it) }
-        currentHeroes = newList.toList()
+        setLoadingMore(false)
+        val newList = addValuesToCurrentHeroes(result)
         _heroListScreenState.emit(
             _heroListScreenState.value
-                .copy(heroListState = HeroListState.Success(newList, ::heroClicked, ::onReachedEnd))
+                .copy(
+                    heroListState = HeroListState.Success(
+                        newList,
+                        false,
+                        ::heroClicked,
+                        ::onReachedEnd
+                    )
+                )
         )
     }
 
+    private suspend fun parseErrorResponse(result: Resource.Error) {
+        _heroListScreenState.emit(
+            _heroListScreenState.value
+                .copy(heroListState = HeroListState.Error(result.throwable) {})
+        )
+    }
+
+    private fun addValuesToCurrentHeroes(result: Resource.Success<List<Hero>?>): MutableList<Hero> {
+        val newList = currentHeroes.toMutableList()
+        result.data?.let { newList.addAll(it) }
+        currentHeroes = newList.toList()
+        return newList
+    }
+
     private fun onReachedEnd() {
+        viewModelScope.launch {
+            setLoadingMore(true)
+        }
         performSearch(false)
+    }
+
+    private suspend fun setLoadingMore(value: Boolean) {
+        _heroListScreenState.emit(
+            _heroListScreenState.value
+                .copy(
+                    heroListState = HeroListState.Success(
+                        heroes = currentHeroes,
+                        loadingMore = value,
+                    )
+                )
+        )
     }
 
     private fun initialScreenState(): HeroListScreenState =

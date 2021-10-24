@@ -66,6 +66,7 @@ sealed class HeroListState {
 
     class Success(
         private val heroes: List<Hero>?,
+        private val loadingMore: Boolean = false,
         private val onClick: (Hero) -> Unit = {},
         private val onEndReached: () -> Unit = {},
     ) : HeroListState() {
@@ -74,6 +75,7 @@ sealed class HeroListState {
             heroes?.takeIf { it.isNotEmpty() }?.let {
                 HeroResults(
                     heroes = heroes,
+                    loadingMore = loadingMore,
                     modifier = Modifier.testTag(SuccessResult),
                     onClick = onClick,
                     onEndReached = onEndReached,

@@ -14,6 +14,7 @@ fun MarvelImage(
     thumbnailUrl: String,
     modifier: Modifier = Modifier,
     circular: Boolean = false,
+    originalSize: Boolean = false,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
@@ -28,7 +29,7 @@ fun MarvelImage(
                 }
                 crossfade(true)
                 placeholder(R.mipmap.ic_launcher)
-                size(OriginalSize)
+                if (originalSize) size(OriginalSize)
             }
         ),
         contentDescription = contentDescription,

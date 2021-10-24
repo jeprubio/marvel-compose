@@ -76,7 +76,7 @@ private fun HeroResult(
             )
         } else {
             Image(
-                painterResource(id = R.drawable.ic_hero),
+                painterResource(id = R.drawable.img_no_image),
                 contentDescription = hero.name,
                 modifier = imageModifier,
             )

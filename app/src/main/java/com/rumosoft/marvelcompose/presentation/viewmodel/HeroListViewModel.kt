@@ -36,13 +36,7 @@ class HeroListViewModel @Inject constructor(
             Timber.d("Search result: $result")
             when (result) {
                 is Resource.Success -> {
-                    val newList = currentHeroes.toMutableList()
-                    result.data?.let { newList.addAll(it) }
-                    currentHeroes = newList.toList()
-                    _heroListScreenState.emit(
-                        _heroListScreenState.value
-                            .copy(heroListState = HeroListState.Success(newList, ::heroClicked, ::onReachedEnd))
-                    )
+                    parseSuccessResponse(result)
                 }
                 is Resource.Error -> {
                     _heroListScreenState.emit(
@@ -54,7 +48,7 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    fun heroClicked(hero: Hero) {
+    internal fun heroClicked(hero: Hero) {
         Timber.d("On hero clicked: $hero")
         viewModelScope.launch {
             _heroListScreenState.emit(
@@ -64,11 +58,7 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    private fun onReachedEnd() {
-        performSearch()
-    }
-
-    fun resetSelectedHero() {
+    internal fun resetSelectedHero() {
         Timber.d("reset selected person")
         viewModelScope.launch {
             _heroListScreenState.emit(
@@ -76,6 +66,20 @@ class HeroListViewModel @Inject constructor(
                     .copy(selectedHero = null)
             )
         }
+    }
+
+    private suspend fun parseSuccessResponse(result: Resource.Success<List<Hero>?>) {
+        val newList = currentHeroes.toMutableList()
+        result.data?.let { newList.addAll(it) }
+        currentHeroes = newList.toList()
+        _heroListScreenState.emit(
+            _heroListScreenState.value
+                .copy(heroListState = HeroListState.Success(newList, ::heroClicked, ::onReachedEnd))
+        )
+    }
+
+    private fun onReachedEnd() {
+        performSearch()
     }
 
     private fun initialScreenState(): HeroListScreenState =

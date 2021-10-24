@@ -12,13 +12,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = Ribbon200,
+    primary = Ribbon500,
     primaryVariant = Ribbon700,
     secondary = Skin400,
     secondaryVariant = Skin200,
     background = Color.Black,
     surface = Ribbon500,
-    onPrimary = Color.Black,
+    onPrimary = Color.White,
     onSecondary = Color.White,
     onBackground = Color.White,
     onSurface = Color.White,

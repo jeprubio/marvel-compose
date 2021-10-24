@@ -3,6 +3,7 @@ package com.rumosoft.marvelcompose.presentation.component
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -20,9 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,20 +49,40 @@ fun HeroDetails(hero: Hero) {
             .testTag(SuccessResult)
             .padding(horizontal = MarvelComposeTheme.paddings.defaultPadding),
     ) {
-        MarvelImage(
-            thumbnailUrl = hero.thumbnail,
-            circular = true,
-            modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally)
-                .padding(top = MarvelComposeTheme.paddings.defaultPadding)
-                .size(150.dp),
-        )
+        val avatarModifier = Modifier
+            .align(alignment = Alignment.CenterHorizontally)
+            .padding(top = MarvelComposeTheme.paddings.defaultPadding)
+            .size(150.dp)
+        HeroImage(hero.thumbnail, hero.name, avatarModifier)
         HeroName(hero.name)
         if (hero.links != null) {
             Links(hero.links, Modifier.align(alignment = Alignment.CenterHorizontally))
         }
         Description(hero.description)
         Comics(hero.comics)
+    }
+}
+
+@Composable
+fun HeroImage(
+    thumbnail: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier
+) {
+    if (thumbnail.isNotEmpty()) {
+        MarvelImage(
+            thumbnailUrl = thumbnail,
+            contentDescription = contentDescription,
+            circular = true,
+            modifier = modifier,
+        )
+    } else {
+        Image(
+            painterResource(id = R.drawable.img_no_image),
+            contentDescription = stringResource(id = R.string.no_image),
+            modifier = modifier
+                .clip(CircleShape),
+        )
     }
 }
 
@@ -143,6 +167,7 @@ fun ComicThumbnail(title: String, thumbnail: String) {
         thumbnailUrl = thumbnail,
         contentScale = ContentScale.Fit,
         contentDescription = title,
+        originalSize = true,
         modifier = Modifier
             .height(150.dp)
             .padding(end = MarvelComposeTheme.paddings.medium),

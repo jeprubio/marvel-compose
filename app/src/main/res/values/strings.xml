@@ -8,4 +8,6 @@
     <string name="no_description">Sorry, there is no description for this character.</string>
     <string name="comics">Comics</string>
     <string name="no_image">No Image</string>
+    <string name="retry">Retry</string>
+    <string name="no_more_results">There are no more results</string>
 </resources>

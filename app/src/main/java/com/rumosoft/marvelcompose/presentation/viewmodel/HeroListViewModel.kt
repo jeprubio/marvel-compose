@@ -78,7 +78,7 @@ class HeroListViewModel @Inject constructor(
     private suspend fun parseErrorResponse(result: Resource.Error) {
         _heroListScreenState.emit(
             _heroListScreenState.value
-                .copy(heroListState = HeroListState.Error(result.throwable) {})
+                .copy(heroListState = HeroListState.Error(result.throwable, ::retry))
         )
     }
 
@@ -87,6 +87,10 @@ class HeroListViewModel @Inject constructor(
             setLoadingMore(true)
         }
         performSearch(false)
+    }
+
+    private fun retry() {
+        onReachedEnd()
     }
 
     private suspend fun setLoadingMore(value: Boolean) {

@@ -142,6 +142,7 @@ fun Description(description: String) {
     Text(
         text = description.takeIf { it.isNotEmpty() }
             ?: stringResource(id = R.string.no_description),
+        color = MaterialTheme.colors.onBackground,
         style = MaterialTheme.typography.body1
     )
 }

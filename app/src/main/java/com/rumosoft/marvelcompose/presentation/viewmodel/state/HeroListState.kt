@@ -1,8 +1,12 @@
 package com.rumosoft.marvelcompose.presentation.viewmodel.state
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
+import com.rumosoft.marvelcompose.domain.model.NoMoreResultsException
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.component.HeroResults
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
@@ -23,6 +28,8 @@ const val ProgressIndicator = "progressIndicator"
 const val ErrorResult = "errorResult"
 const val SuccessResult = "successResult"
 const val NoResults = "noResults"
+
+const val RetryTag = "retry"
 
 data class HeroListScreenState(
     val heroListState: HeroListState,
@@ -53,13 +60,26 @@ sealed class HeroListState {
     ) : HeroListState() {
         @Composable
         override fun BuildUI() {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .testTag(ErrorResult),
-                contentAlignment = Alignment.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
             ) {
-                SimpleMessage(stringResource(id = R.string.error_data_message))
+                val message = if (throwable is NoMoreResultsException) {
+                    stringResource(id = R.string.no_more_results)
+                } else {
+                    stringResource(id = R.string.error_data_message)
+                }
+                SimpleMessage(message)
+                Spacer(modifier = Modifier.padding(top = MarvelComposeTheme.paddings.defaultPadding))
+                Button(
+                    onClick = { retry.invoke() },
+                    modifier = Modifier.testTag(RetryTag),
+                ) {
+                    Text(text = stringResource(id = R.string.retry))
+                }
             }
         }
     }

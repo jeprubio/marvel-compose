@@ -3,8 +3,14 @@ package com.rumosoft.marvelcompose.presentation.viewmodel.state
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
 
@@ -33,6 +39,20 @@ internal class HeroListStateTest {
         }
 
         composeTestRule.onNodeWithTag(ErrorResult).assertIsDisplayed()
+    }
+
+    @Test
+    fun heroListResult_error_tap_on_retry_executes_lambda() {
+        val retryFun: () -> Unit = mockk()
+        every { retryFun.invoke() } just Runs
+        composeTestRule.setContent {
+            MarvelComposeTheme {
+                HeroListState.Error(Exception("Error"), retryFun).BuildUI()
+            }
+        }
+
+        composeTestRule.onNodeWithTag(RetryTag).performClick()
+        verify { retryFun.invoke() }
     }
 
     @Test

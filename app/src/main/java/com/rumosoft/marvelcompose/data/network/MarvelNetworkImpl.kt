@@ -21,8 +21,8 @@ class MarvelNetworkImpl @Inject constructor(
                 Resource.Success(
                     HeroesResult(
                         paginationInfo = PaginationInfo(
-                            current = result.data.offset!! / 20,
-                            total = result.data.total!! / 20,
+                            current = result.data.offset?.div(20) ?: 1,
+                            total = result.data.total?.div(20) ?: Int.MAX_VALUE,
                         ),
                         heroes = result.data.results?.map { it.toHero() }.orEmpty()
                     )

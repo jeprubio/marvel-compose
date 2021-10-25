@@ -3,6 +3,7 @@ package com.rumosoft.marvelcompose.data.repository
 import com.rumosoft.marvelcompose.data.network.MarvelNetwork
 import com.rumosoft.marvelcompose.domain.model.CallInProgressException
 import com.rumosoft.marvelcompose.domain.model.Hero
+import com.rumosoft.marvelcompose.domain.model.NetworkErrorException
 import com.rumosoft.marvelcompose.domain.model.NoMoreResultsException
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
@@ -48,7 +49,7 @@ class SearchRepositoryImpl @Inject constructor(
         return if (currentPage <= maxPages && networkResult is Resource.Success) {
             Resource.Success(addValuesToCurrentHeroes(networkResult.data.heroes))
         } else
-            Resource.Error(NoMoreResultsException("No more data"))
+            Resource.Error(NetworkErrorException("Network Error"))
     }
 
     private fun addValuesToCurrentHeroes(heroes: List<Hero>?): MutableList<Hero> {

@@ -41,16 +41,12 @@ sealed class DetailsState {
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun PreviewDetailsSuccess() {
-    MarvelComposeTheme {
-        DetailsState.Success(SampleData.batman).BuildUI()
-    }
-}
-
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewDetailsSuccessDarkMode() {
     MarvelComposeTheme {
         DetailsState.Success(SampleData.batman).BuildUI()
     }

@@ -1,5 +1,6 @@
 package com.rumosoft.marvelcompose.presentation.screen
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -95,6 +96,10 @@ private fun ResultBox(heroListState: HeroListState) {
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun HeroListScreenPreview() {
     val heroes = SampleData.heroesSample

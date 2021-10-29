@@ -1,6 +1,6 @@
 package com.rumosoft.marvelcompose.presentation.screen
 
-import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
@@ -57,16 +57,12 @@ private fun DetailsScreenContent(
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun DetailsPreviewSuccess() {
-    MarvelComposeTheme {
-        DetailsScreenContent(DetailsState.Success(SampleData.batman))
-    }
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun DetailsPreviewSuccessDarkMode() {
     MarvelComposeTheme {
         DetailsScreenContent(DetailsState.Success(SampleData.batman))
     }
@@ -80,7 +76,19 @@ fun DetailsPreviewLoading() {
     }
 }
 
-@Preview(showBackground = true, device = Devices.AUTOMOTIVE_1024p, widthDp = 1440, heightDp = 720)
+@Preview(
+    showBackground = true,
+    device = Devices.AUTOMOTIVE_1024p,
+    widthDp = 1440,
+    heightDp = 720,
+)
+@Preview(
+    showBackground = true,
+    device = Devices.AUTOMOTIVE_1024p,
+    widthDp = 1440,
+    heightDp = 720,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun DetailsPreviewSuccessLandscape() {
     MarvelComposeTheme {

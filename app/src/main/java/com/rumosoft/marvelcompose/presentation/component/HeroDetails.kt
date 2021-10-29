@@ -1,6 +1,7 @@
 package com.rumosoft.marvelcompose.presentation.component
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -29,11 +30,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Comic
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.Link
+import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.theme.CustomDiamond
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.presentation.viewmodel.state.SuccessResult
@@ -183,4 +186,16 @@ fun SectionTitle(section: String) {
         style = MarvelComposeTheme.typography.subtitle1,
         modifier = Modifier.padding(vertical = MarvelComposeTheme.paddings.medium)
     )
+}
+
+@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+fun PreviewHeroDetails() {
+    MarvelComposeTheme {
+        HeroDetails(SampleData.batman)
+    }
 }

@@ -1,5 +1,6 @@
 package com.rumosoft.marvelcompose.presentation.viewmodel.state
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -124,19 +125,33 @@ sealed class HeroListState {
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun PreviewSearchSuccess() {
-    HeroListState.Success(listOf(SampleData.batman)).BuildUI()
+    MarvelComposeTheme {
+        HeroListState.Success(listOf(SampleData.batman)).BuildUI()
+    }
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun PreviewSearchError() {
-    HeroListState.Error(Exception("Whatever")).BuildUI()
+    MarvelComposeTheme {
+        HeroListState.Error(Exception("Whatever")).BuildUI()
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchLoading() {
-    HeroListState.Loading
+    MarvelComposeTheme {
+        HeroListState.Loading
+    }
 }

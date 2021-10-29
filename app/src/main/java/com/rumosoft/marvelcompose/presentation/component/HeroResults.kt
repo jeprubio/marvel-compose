@@ -1,5 +1,6 @@
 package com.rumosoft.marvelcompose.presentation.component
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -122,6 +123,7 @@ private fun LocalImage(
 private fun HeroName(hero: Hero) {
     Text(
         text = hero.name,
+        color = MarvelComposeTheme.colors.onBackground,
         style = MarvelComposeTheme.typography.subtitle1,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
@@ -140,6 +142,10 @@ private fun Loading() {
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
 @Composable
 fun HeroResultPreview() {
     val heroes = remember { listOf(SampleData.batman) }

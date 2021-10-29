@@ -11,11 +11,12 @@ import javax.inject.Inject
 class MarvelNetworkImpl @Inject constructor(
     private val marvelService: MarvelService,
 ) : MarvelNetwork {
-    override suspend fun searchHeroes(offset: Int, limit: Int): Resource<HeroesResult> {
+    override suspend fun searchHeroes(offset: Int, limit: Int, nameStartsWith: String): Resource<HeroesResult> {
         return try {
             val result = marvelService.searchHeroes(
                 offset = offset,
                 limit = limit,
+                nameStartsWith = nameStartsWith.takeIf { it.isNotEmpty() },
             )
             if (result.data != null) {
                 Resource.Success(

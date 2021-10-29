@@ -162,6 +162,11 @@ fun Comics(comics: List<Comic>?) {
                 }
             }
         }
+    } else {
+        SimpleMessage(
+            message = stringResource(id = R.string.no_comics_info),
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 

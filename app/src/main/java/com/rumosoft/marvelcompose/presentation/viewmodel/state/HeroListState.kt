@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
@@ -15,14 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.NoMoreResultsException
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.component.HeroResults
+import com.rumosoft.marvelcompose.presentation.component.SimpleMessage
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 
 const val ProgressIndicator = "progressIndicator"
@@ -35,6 +35,7 @@ const val RetryTag = "retry"
 data class HeroListScreenState(
     val heroListState: HeroListState,
     val selectedHero: Hero? = null,
+    val textSearched: String = "",
 )
 
 sealed class HeroListState {
@@ -73,7 +74,10 @@ sealed class HeroListState {
                 } else {
                     stringResource(id = R.string.error_data_message)
                 }
-                SimpleMessage(message)
+                SimpleMessage(
+                    message = message,
+                    modifier = Modifier.fillMaxWidth(),
+                )
                 Spacer(modifier = Modifier.padding(top = MarvelComposeTheme.paddings.defaultPadding))
                 Button(
                     onClick = { retry.invoke() },
@@ -103,24 +107,13 @@ sealed class HeroListState {
                 )
             } ?: run {
                 SimpleMessage(
-                    stringResource(id = R.string.no_results),
-                    modifier = Modifier.testTag(NoResults)
+                    message = stringResource(id = R.string.no_results),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag(NoResults),
                 )
             }
         }
-    }
-
-    @Composable
-    fun SimpleMessage(
-        message: String,
-        modifier: Modifier = Modifier
-    ) {
-        Text(
-            text = message,
-            color = MarvelComposeTheme.colors.onBackground,
-            fontWeight = FontWeight.Bold,
-            modifier = modifier.padding(16.dp),
-        )
     }
 }
 

@@ -2,22 +2,27 @@ package com.rumosoft.marvelcompose.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,10 +31,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
+import com.rumosoft.marvelcompose.presentation.component.SearchView
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListState
 
+@ExperimentalComposeUiApi
 @Composable
 fun HeroListScreen(navController: NavController, viewModel: HeroListViewModel) {
     val heroListScreenState by viewModel.heroListScreenState.collectAsState()
@@ -41,21 +48,40 @@ fun HeroListScreen(navController: NavController, viewModel: HeroListViewModel) {
         )
         navController.navigate(Screen.HeroDetails.route)
     }
-    HeroListScreenContent(heroListState = heroListScreenState.heroListState)
+    HeroListScreenContent(
+        heroListState = heroListScreenState.heroListState,
+        searchText = remember {
+            mutableStateOf(TextFieldValue(heroListScreenState.textSearched))
+        },
+        onValueChanged = viewModel::onQueryChanged,
+    )
 }
 
+@ExperimentalComposeUiApi
 @Composable
 fun HeroListScreenContent(
-    heroListState: HeroListState
+    heroListState: HeroListState,
+    searchText: MutableState<TextFieldValue>,
+    onValueChanged: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        HeroListTitle()
+        SearchableTitle(searchText, onValueChanged)
+        Spacer(modifier = Modifier.padding(MarvelComposeTheme.paddings.medium))
         ResultBox(heroListState)
     }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+private fun SearchableTitle(
+    searchText: MutableState<TextFieldValue>,
+    onValueChanged: (String) -> Unit
+) {
+    HeroListTitle()
+    SearchView(searchText, onValueChanged)
 }
 
 @Composable
@@ -64,7 +90,6 @@ private fun HeroListTitle() {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = MarvelComposeTheme.paddings.defaultPadding)
             .background(MarvelComposeTheme.colors.surface),
     ) {
         val marvelFont = Font(R.font.marvel_regular)
@@ -95,6 +120,7 @@ private fun ResultBox(heroListState: HeroListState) {
     }
 }
 
+@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,
@@ -102,8 +128,9 @@ private fun ResultBox(heroListState: HeroListState) {
 )
 @Composable
 fun HeroListScreenPreview() {
+    val searchState = remember { mutableStateOf(TextFieldValue("")) }
     val heroes = SampleData.heroesSample
     MarvelComposeTheme {
-        HeroListScreenContent(HeroListState.Success(heroes))
+        HeroListScreenContent(HeroListState.Success(heroes), searchState)
     }
 }

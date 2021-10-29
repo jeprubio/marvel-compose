@@ -10,4 +10,5 @@
     <string name="no_image">No Image</string>
     <string name="retry">Retry</string>
     <string name="no_more_results">There are no more results</string>
+    <string name="no_comics_info">No Comics Info</string>
 </resources>

@@ -4,5 +4,5 @@ import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.Resource
 
 interface SearchUseCase {
-    suspend operator fun invoke(fromStart: Boolean): Resource<List<Hero>?>
+    suspend operator fun invoke(nameStart: String, fromStart: Boolean): Resource<List<Hero>?>
 }

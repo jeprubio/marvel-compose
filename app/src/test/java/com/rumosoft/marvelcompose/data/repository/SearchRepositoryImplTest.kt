@@ -63,7 +63,7 @@ internal class SearchRepositoryImplTest : TestCase() {
         }
 
     private fun `given searchHeroes invocation on network returns results`() {
-        coEvery { marvelNetwork.searchHeroes(offset, limit) } returns
+        coEvery { marvelNetwork.searchHeroes(offset, limit, "") } returns
             Resource.Success(
                 HeroesResult(
                     PaginationInfo(1, 1),
@@ -78,7 +78,7 @@ internal class SearchRepositoryImplTest : TestCase() {
     }
 
     private suspend fun `when performSearch on repo gets invoked`() {
-        searchRepository.performSearch()
+        searchRepository.performSearch("")
     }
 
     private suspend fun `when getThumbnail on repo gets invoked`() {
@@ -86,7 +86,7 @@ internal class SearchRepositoryImplTest : TestCase() {
     }
 
     private fun `then searchHeroes gets executed on nework`() {
-        coVerify { marvelNetwork.searchHeroes(offset, limit) }
+        coVerify { marvelNetwork.searchHeroes(offset, limit, "") }
     }
 
     private fun `then getComicThumbnail gets executed on network`() {

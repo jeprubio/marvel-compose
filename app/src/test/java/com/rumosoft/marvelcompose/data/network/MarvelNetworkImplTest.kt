@@ -129,7 +129,7 @@ internal class MarvelNetworkImplTest {
     }
 
     private suspend fun `when searchHeroes gets called on the network`(): Resource<HeroesResult> {
-        return marvelNetwork.searchHeroes(offset, limit)
+        return marvelNetwork.searchHeroes(offset, limit, "")
     }
 
     private suspend fun `when getComicThumbnail gets called on the network`(): Resource<String> {

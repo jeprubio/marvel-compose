@@ -8,11 +8,16 @@ import com.rumosoft.marvelcompose.domain.usecase.SearchUseCase
 import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListScreenState
 import com.rumosoft.marvelcompose.presentation.viewmodel.state.HeroListState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+
+const val DEBOUNCE_DELAY = 1_000L
 
 @HiltViewModel
 class HeroListViewModel @Inject constructor(
@@ -23,13 +28,37 @@ class HeroListViewModel @Inject constructor(
     private val _heroListScreenState =
         MutableStateFlow(initialScreenState())
 
+    private var performSearchJob: Job? = null
+
     init {
-        performSearch(true)
+        performSearch(_heroListScreenState.value.textSearched, true)
     }
 
-    private fun performSearch(fromStart: Boolean) {
+    fun onQueryChanged(query: String) {
+        if (query != _heroListScreenState.value.textSearched) {
+            Timber.d("Searching: $query")
+            cancelJobIfActive()
+            performSearchJob = viewModelScope.launch {
+                _heroListScreenState.emit(
+                    _heroListScreenState.value
+                        .copy(textSearched = query, heroListState = HeroListState.Loading)
+                )
+                delay(DEBOUNCE_DELAY)
+                try {
+                    _heroListScreenState.value = _heroListScreenState.value.copy(textSearched = query)
+                    performSearch(query, true)
+                } catch (exception: Exception) {
+                    if (exception !is CancellationException) {
+                        // TODO Do something?
+                    }
+                }
+            }
+        }
+    }
+
+    private fun performSearch(query: String = "", fromStart: Boolean) {
         viewModelScope.launch {
-            when (val result = searchUseCase(fromStart)) {
+            when (val result = searchUseCase(query, fromStart)) {
                 is Resource.Success -> {
                     parseSuccessResponse(result)
                 }
@@ -83,14 +112,18 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun onReachedEnd() {
-        viewModelScope.launch {
-            setLoadingMore(true)
-        }
-        performSearch(false)
+        loadMoreData()
     }
 
     private fun retry() {
-        onReachedEnd()
+        loadMoreData()
+    }
+
+    private fun loadMoreData() {
+        viewModelScope.launch {
+            setLoadingMore(true)
+        }
+        performSearch(_heroListScreenState.value.textSearched, false)
     }
 
     private suspend fun setLoadingMore(value: Boolean) {
@@ -106,6 +139,10 @@ class HeroListViewModel @Inject constructor(
                     )
             )
         }
+    }
+
+    private fun cancelJobIfActive() {
+        performSearchJob?.takeIf { it.isActive }?.cancel()
     }
 
     private fun initialScreenState(): HeroListScreenState =

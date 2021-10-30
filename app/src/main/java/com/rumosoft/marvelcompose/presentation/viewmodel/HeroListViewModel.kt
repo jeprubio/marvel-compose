@@ -56,6 +56,11 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
+    fun onToggleSearchClick() {
+        _heroListScreenState.value = heroListScreenState.value
+            .copy(showingSearchBar = !_heroListScreenState.value.showingSearchBar)
+    }
+
     private fun performSearch(query: String = "", fromStart: Boolean) {
         viewModelScope.launch {
             when (val result = searchUseCase(query, fromStart)) {

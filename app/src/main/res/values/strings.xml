@@ -11,4 +11,6 @@
     <string name="retry">Retry</string>
     <string name="no_more_results">There are no more results</string>
     <string name="no_comics_info">No Comics Info</string>
+    <string name="search">Search</string>
+    <string name="characters">Characters</string>
 </resources>

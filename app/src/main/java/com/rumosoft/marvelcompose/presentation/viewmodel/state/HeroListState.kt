@@ -34,6 +34,7 @@ const val RetryTag = "retry"
 
 data class HeroListScreenState(
     val heroListState: HeroListState,
+    val showingSearchBar: Boolean = false,
     val selectedHero: Hero? = null,
     val textSearched: String = "",
 )

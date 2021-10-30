@@ -31,7 +31,7 @@ import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 
 @ExperimentalComposeUiApi
 @Composable
-fun SearchView(
+fun SearchBar(
     state: MutableState<TextFieldValue>,
     onValueChanged: (String) -> Unit = {},
 ) {
@@ -86,7 +86,7 @@ fun SearchView(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = { keyboardController?.hide() }
-        )
+        ),
     )
 }
 
@@ -105,7 +105,7 @@ private fun onCrossIconPressed(
 fun SearchViewPreviewEmpty() {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     MarvelComposeTheme {
-        SearchView(textState)
+        SearchBar(textState)
     }
 }
 
@@ -115,6 +115,6 @@ fun SearchViewPreviewEmpty() {
 fun SearchViewPreviewWithText() {
     val textState = remember { mutableStateOf(TextFieldValue("Spider")) }
     MarvelComposeTheme {
-        SearchView(textState)
+        SearchBar(textState)
     }
 }

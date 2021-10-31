@@ -17,6 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.rumosoft.marvelcompose.R
+import com.rumosoft.marvelcompose.presentation.navigation.Screen
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import kotlinx.coroutines.delay
 

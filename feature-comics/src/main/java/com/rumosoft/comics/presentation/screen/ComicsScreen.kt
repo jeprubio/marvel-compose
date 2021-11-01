@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.presentation.screen
+package com.rumosoft.comics.presentation.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
@@ -7,8 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.comics.R
 import com.rumosoft.components.presentation.component.SectionTabBar
-import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 
 @Composable

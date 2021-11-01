@@ -7,8 +7,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.rumosoft.comics.presentation.screen.ComicsScreen
 import com.rumosoft.marvelcompose.domain.model.Hero
-import com.rumosoft.marvelcompose.presentation.screen.ComicsScreen
 import com.rumosoft.marvelcompose.presentation.screen.DetailsScreen
 import com.rumosoft.marvelcompose.presentation.screen.HeroListScreen
 import com.rumosoft.marvelcompose.presentation.screen.SplashScreen

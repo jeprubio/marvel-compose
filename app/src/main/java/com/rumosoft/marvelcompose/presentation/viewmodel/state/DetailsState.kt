@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.presentation.component
+package com.rumosoft.marvelcompose.presentation.viewmodel.state
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
+import com.rumosoft.marvelcompose.presentation.component.HeroDetails
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
-import com.rumosoft.marvelcompose.presentation.viewmodel.state.ProgressIndicator
 
 sealed class DetailsState {
     @Composable

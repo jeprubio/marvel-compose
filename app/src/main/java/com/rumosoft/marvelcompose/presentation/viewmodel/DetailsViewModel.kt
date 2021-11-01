@@ -6,7 +6,7 @@ import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.marvelcompose.infrastructure.extensions.update
-import com.rumosoft.marvelcompose.presentation.component.DetailsState
+import com.rumosoft.marvelcompose.presentation.viewmodel.state.DetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

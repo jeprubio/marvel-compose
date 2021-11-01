@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.presentation.component
+package com.rumosoft.components.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.transform.CircleCropTransformation
-import com.rumosoft.marvelcompose.R
+import com.rumosoft.components.R
 
 @Composable
 fun MarvelImage(

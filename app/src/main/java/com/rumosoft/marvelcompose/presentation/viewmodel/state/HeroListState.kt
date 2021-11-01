@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.domain.model.Hero
 import com.rumosoft.marvelcompose.domain.model.NoMoreResultsException
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.component.HeroResults
-import com.rumosoft.marvelcompose.presentation.component.SimpleMessage
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 
 const val ProgressIndicator = "progressIndicator"

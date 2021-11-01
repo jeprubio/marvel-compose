@@ -26,10 +26,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.rumosoft.components.presentation.component.SearchBar
+import com.rumosoft.components.presentation.component.SectionTabBar
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
-import com.rumosoft.marvelcompose.presentation.component.SearchBar
-import com.rumosoft.marvelcompose.presentation.component.SectionTabBar
 import com.rumosoft.marvelcompose.presentation.navigation.Screen
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.presentation.viewmodel.HeroListViewModel

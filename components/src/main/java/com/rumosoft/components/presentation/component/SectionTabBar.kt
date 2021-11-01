@@ -1,5 +1,6 @@
-package com.rumosoft.marvelcompose.presentation.component
+package com.rumosoft.components.presentation.component
 
+import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,8 +19,9 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.rumosoft.marvelcompose.R
+import com.rumosoft.components.R
 import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 
 @Composable
@@ -57,5 +59,17 @@ fun SectionTabBar(
                     .padding(MarvelComposeTheme.paddings.medium),
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+fun SectionTabBarPreview() {
+    MarvelComposeTheme {
+        SectionTabBar(R.string.app_name)
     }
 }

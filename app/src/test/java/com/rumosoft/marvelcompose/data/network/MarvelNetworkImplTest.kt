@@ -8,7 +8,7 @@ import com.rumosoft.marvelcompose.data.network.apimodels.HeroDto
 import com.rumosoft.marvelcompose.data.network.apimodels.HeroResults
 import com.rumosoft.marvelcompose.data.network.apimodels.ImageDto
 import com.rumosoft.marvelcompose.data.network.apimodels.SearchData
-import com.rumosoft.marvelcompose.domain.model.Resource
+import com.rumosoft.components.domain.model.Resource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

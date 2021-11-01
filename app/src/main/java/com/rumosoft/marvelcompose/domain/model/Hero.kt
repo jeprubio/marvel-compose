@@ -28,4 +28,3 @@ data class Comic(
     val url: String,
     var thumbnail: String? = null,
 ) : Parcelable
-

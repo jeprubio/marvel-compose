@@ -4,7 +4,7 @@ import com.rumosoft.marvelcompose.MainCoroutineRule
 import com.rumosoft.marvelcompose.data.network.HeroesResult
 import com.rumosoft.marvelcompose.data.network.MarvelNetwork
 import com.rumosoft.marvelcompose.data.network.PaginationInfo
-import com.rumosoft.marvelcompose.domain.model.Resource
+import com.rumosoft.components.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import io.mockk.MockKAnnotations

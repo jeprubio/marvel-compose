@@ -1,7 +1,7 @@
 package com.rumosoft.marvelcompose.presentation.viewmodel
 
 import com.rumosoft.marvelcompose.MainCoroutineRule
-import com.rumosoft.marvelcompose.domain.model.Resource
+import com.rumosoft.components.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import com.rumosoft.marvelcompose.presentation.component.DetailsState

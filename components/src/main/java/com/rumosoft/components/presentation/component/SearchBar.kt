@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.presentation.component
+package com.rumosoft.components.presentation.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

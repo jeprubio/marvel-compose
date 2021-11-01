@@ -1,7 +1,7 @@
 package com.rumosoft.marvelcompose.domain.usecase
 
 import com.rumosoft.marvelcompose.MainCoroutineRule
-import com.rumosoft.marvelcompose.domain.model.Resource
+import com.rumosoft.components.domain.model.Resource
 import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
 import io.mockk.MockKAnnotations

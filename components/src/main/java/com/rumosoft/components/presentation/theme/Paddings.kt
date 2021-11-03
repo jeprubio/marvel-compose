@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.presentation.theme
+package com.rumosoft.components.presentation.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf

@@ -12,12 +12,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.rumosoft.comics.presentation.navigation.ComicsScreens
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
+import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
-import com.rumosoft.marvelcompose.presentation.navigation.Screen
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
-import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalComposeUiApi
@@ -50,8 +51,8 @@ fun MarvelApp() {
     Scaffold(
         bottomBar = {
             if (currentRoute(navController) in listOf(
-                    Screen.HERO_LIST,
-                    Screen.COMICS
+                    CharactersScreens.CHARACTERS_LIST,
+                    ComicsScreens.COMICS
                 )
             ) {
                 BottomNavigationBar(navController, navigationItems)

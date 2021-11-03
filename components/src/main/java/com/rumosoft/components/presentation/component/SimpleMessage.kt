@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun SimpleMessage(

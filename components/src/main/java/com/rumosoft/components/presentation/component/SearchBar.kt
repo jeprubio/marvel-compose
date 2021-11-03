@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @ExperimentalComposeUiApi
 @Composable

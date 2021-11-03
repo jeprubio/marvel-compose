@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.comics.R
 import com.rumosoft.components.presentation.component.SectionTabBar
-import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun ComicsScreen() {

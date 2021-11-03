@@ -3,9 +3,11 @@ package com.rumosoft.marvelcompose.presentation.viewmodel.state
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.rumosoft.marvelcompose.infrastructure.sampleData.SampleData
-import com.rumosoft.marvelcompose.presentation.component.DetailsState
-import com.rumosoft.marvelcompose.presentation.theme.MarvelComposeTheme
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
+import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
+import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
+import com.rumosoft.feature_characters.presentation.viewmodel.state.ProgressIndicator
+import com.rumosoft.feature_characters.presentation.viewmodel.state.SuccessResult
 import org.junit.Rule
 import org.junit.Test
 

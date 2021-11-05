@@ -5,6 +5,7 @@ sealed class CharactersScreens(val route: String) {
     object CharacterDetails : CharactersScreens(CHARACTER_DETAILS)
 
     companion object {
+        const val CHARACTERS_ROUTE = "characters"
         const val CHARACTERS_LIST = "charactersList"
         const val CHARACTER_DETAILS = "characterDetails"
     }

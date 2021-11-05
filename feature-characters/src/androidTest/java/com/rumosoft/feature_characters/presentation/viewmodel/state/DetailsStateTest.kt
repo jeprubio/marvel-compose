@@ -19,7 +19,7 @@ internal class DetailsStateTest {
     fun detailsState_loading_shows_ProgressIndicator() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                DetailsState.Loading.BuildUI()
+                DetailsState.Loading.BuildUI {}
             }
         }
 
@@ -30,7 +30,7 @@ internal class DetailsStateTest {
     fun detailsState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                DetailsState.Success(SampleData.batman).BuildUI()
+                DetailsState.Success(SampleData.batman).BuildUI {}
             }
         }
 

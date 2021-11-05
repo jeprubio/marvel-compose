@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':commons')
     implementation project(path: ':components')
 
     implementation 'androidx.core:core-ktx:1.7.0'

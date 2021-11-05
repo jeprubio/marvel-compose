@@ -1,6 +1,6 @@
-package com.rumosoft.components.infrastructure.interceptors
+package com.rumosoft.commons.infrastructure.interceptors
 
-import com.rumosoft.components.BuildConfig
+import com.rumosoft.commons.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.IOException

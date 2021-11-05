@@ -1,4 +1,4 @@
-package com.rumosoft.marvelcompose.infrastructure.interceptors
+package com.rumosoft.commons.infrastructure.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Request

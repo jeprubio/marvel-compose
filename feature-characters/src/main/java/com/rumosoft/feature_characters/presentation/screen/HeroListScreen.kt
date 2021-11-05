@@ -124,6 +124,10 @@ fun HeroListScreenPreview() {
     val searchState = remember { mutableStateOf(TextFieldValue("")) }
     val heroes = SampleData.heroesSample
     MarvelComposeTheme {
-        HeroListScreenContent(HeroListState.Success(heroes), false, searchState)
+        HeroListScreenContent(
+            heroListState = HeroListState.Success(heroes),
+            showSearchBar = false,
+            searchText = searchState
+        )
     }
 }

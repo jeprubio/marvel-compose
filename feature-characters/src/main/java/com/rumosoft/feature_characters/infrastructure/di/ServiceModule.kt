@@ -1,9 +1,9 @@
 package com.rumosoft.feature_characters.infrastructure.di
 
+import com.rumosoft.commons.infrastructure.interceptors.LoggingInterceptor
+import com.rumosoft.commons.infrastructure.interceptors.MarvelInterceptor
 import com.rumosoft.components.BuildConfig
-import com.rumosoft.components.infrastructure.interceptors.MarvelInterceptor
 import com.rumosoft.feature_characters.data.network.MarvelService
-import com.rumosoft.marvelcompose.infrastructure.interceptors.LoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

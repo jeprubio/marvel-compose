@@ -1,6 +1,7 @@
 package com.rumosoft.feature_characters.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
@@ -15,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import com.rumosoft.commons.DeepLinkUri
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
@@ -25,18 +27,21 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
 @Composable
 fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel) {
     val screenState by viewModel.detailsState.collectAsState()
-    DetailsScreenContent(screenState) {
+    DetailsScreenContent(screenState, {
         navController.popBackStack(
             route = CharactersScreens.CHARACTERS_LIST,
             inclusive = false
         )
-    }
+    }, {
+        navController.navigate(Uri.parse("$DeepLinkUri/comics"))
+    })
 }
 
 @Composable
 private fun DetailsScreenContent(
     detailsState: DetailsState,
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
+    onComicSelected: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -53,7 +58,7 @@ private fun DetailsScreenContent(
                 }
             },
         )
-        detailsState.BuildUI()
+        detailsState.BuildUI(onComicSelected)
     }
 }
 

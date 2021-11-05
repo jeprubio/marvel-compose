@@ -45,7 +45,7 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.SuccessResul
 import timber.log.Timber
 
 @Composable
-fun HeroDetails(hero: Hero) {
+fun HeroDetails(hero: Hero, onComicSelected: () -> Unit = {}) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -64,7 +64,7 @@ fun HeroDetails(hero: Hero) {
             Links(hero.links, Modifier.align(alignment = Alignment.CenterHorizontally))
         }
         Description(hero.description)
-        Comics(hero.comics)
+        Comics(hero.comics, onComicSelected)
     }
 }
 
@@ -153,13 +153,13 @@ fun Description(description: String) {
 }
 
 @Composable
-fun Comics(comics: List<Comic>?) {
+fun Comics(comics: List<Comic>?, onComicSelected: () -> Unit = {}) {
     SectionTitle(stringResource(id = R.string.comics))
     if (!comics.isNullOrEmpty()) {
         LazyRow {
             items(comics) { comic ->
                 comic.thumbnail?.takeIf { it.isNotEmpty() }?.let { thumbnail ->
-                    ComicThumbnail(comic.name, thumbnail)
+                    ComicThumbnail(comic.name, thumbnail, onComicSelected)
                     Timber.d("thumbnail: $thumbnail")
                 }
             }
@@ -173,13 +173,14 @@ fun Comics(comics: List<Comic>?) {
 }
 
 @Composable
-fun ComicThumbnail(title: String, thumbnail: String) {
+fun ComicThumbnail(title: String, thumbnail: String, onComicSelected: () -> Unit = {}) {
     MarvelImage(
         thumbnailUrl = thumbnail,
         contentScale = ContentScale.Fit,
         contentDescription = title,
         originalSize = true,
         modifier = Modifier
+            .clickable { onComicSelected() }
             .height(150.dp)
             .padding(end = MarvelComposeTheme.paddings.medium),
     )

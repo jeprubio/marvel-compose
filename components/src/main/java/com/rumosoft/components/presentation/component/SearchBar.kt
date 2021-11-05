@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,6 +29,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
+
+internal const val TextFieldTestTag = "textFieldTestTag"
+internal const val SearchBarTrailingIconTestTag = "searchBarTrailingIconTestTag"
 
 @ExperimentalComposeUiApi
 @Composable
@@ -43,7 +47,8 @@ fun SearchBar(
             onValueChanged(value.text)
         },
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .testTag(TextFieldTestTag),
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
             Icon(
@@ -59,7 +64,8 @@ fun SearchBar(
                 IconButton(
                     onClick = {
                         onCrossIconPressed(state, onValueChanged)
-                    }
+                    },
+                    modifier = Modifier.testTag(SearchBarTrailingIconTestTag)
                 ) {
                     Icon(
                         Icons.Default.Close,

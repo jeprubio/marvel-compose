@@ -16,11 +16,11 @@ import com.rumosoft.feature_characters.presentation.component.HeroDetails
 
 sealed class DetailsState {
     @Composable
-    abstract fun BuildUI()
+    abstract fun BuildUI(onComicSelected: () -> Unit)
 
     object Loading : DetailsState() {
         @Composable
-        override fun BuildUI() {
+        override fun BuildUI(onComicSelected: () -> Unit) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -34,8 +34,8 @@ sealed class DetailsState {
 
     class Success(val hero: Hero) : DetailsState() {
         @Composable
-        override fun BuildUI() {
-            HeroDetails(hero)
+        override fun BuildUI(onComicSelected: () -> Unit) {
+            HeroDetails(hero, onComicSelected)
         }
     }
 }
@@ -48,7 +48,7 @@ sealed class DetailsState {
 @Composable
 fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
-        DetailsState.Success(SampleData.batman).BuildUI()
+        DetailsState.Success(SampleData.batman).BuildUI {}
     }
 }
 

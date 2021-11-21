@@ -1,17 +1,11 @@
-package com.rumosoft.marvelcompose.presentation.viewmodel.state
+package com.rumosoft.feature_characters.presentation.viewmodel.state
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.feature_characters.presentation.viewmodel.state.ErrorResult
-import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListState
-import com.rumosoft.feature_characters.presentation.viewmodel.state.NoResults
-import com.rumosoft.feature_characters.presentation.viewmodel.state.ProgressIndicator
-import com.rumosoft.feature_characters.presentation.viewmodel.state.RetryTag
-import com.rumosoft.feature_characters.presentation.viewmodel.state.SuccessResult
+import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -33,7 +27,7 @@ internal class HeroListStateTest {
             }
         }
 
-        composeTestRule.onNodeWithTag(ProgressIndicator).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(HeroListProgressIndicator).assertIsDisplayed()
     }
 
     @Test
@@ -44,7 +38,7 @@ internal class HeroListStateTest {
             }
         }
 
-        composeTestRule.onNodeWithTag(ErrorResult).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(HeroListErrorResult).assertIsDisplayed()
     }
 
     @Test
@@ -57,7 +51,7 @@ internal class HeroListStateTest {
             }
         }
 
-        composeTestRule.onNodeWithTag(RetryTag).performClick()
+        composeTestRule.onNodeWithTag(HeroListRetryTag).performClick()
         verify { retryFun.invoke() }
     }
 
@@ -65,11 +59,11 @@ internal class HeroListStateTest {
     fun heroListResult_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Success(SampleData.heroesSample).BuildUI()
+                HeroListState.Success(SampleData.heroesSampleWithoutImages).BuildUI()
             }
         }
 
-        composeTestRule.onNodeWithTag(SuccessResult).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(HeroListSuccessResult).assertIsDisplayed()
     }
 
     @Test
@@ -80,6 +74,6 @@ internal class HeroListStateTest {
             }
         }
 
-        composeTestRule.onNodeWithTag(NoResults).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(HeroListNoResults).assertIsDisplayed()
     }
 }

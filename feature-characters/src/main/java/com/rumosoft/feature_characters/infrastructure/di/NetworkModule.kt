@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.infrastructure.di
 
-import com.rumosoft.feature_characters.data.network.MarvelNetwork
-import com.rumosoft.feature_characters.data.network.MarvelNetworkImpl
+import com.rumosoft.feature_characters.data.network.CharactersNetwork
+import com.rumosoft.feature_characters.data.network.CharactersNetworkImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ abstract class NetworkModule {
     @Binds
     @Singleton
     abstract fun bindNetwork(
-        marvelNetwork: MarvelNetworkImpl,
-    ): MarvelNetwork
+        marvelNetwork: CharactersNetworkImpl,
+    ): CharactersNetwork
 }

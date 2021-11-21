@@ -1,12 +1,12 @@
 package com.rumosoft.feature_characters.data.repository
 
+import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.feature_characters.MainCoroutineRule
+import com.rumosoft.feature_characters.data.network.CharactersNetwork
 import com.rumosoft.feature_characters.data.network.HeroesResult
-import com.rumosoft.feature_characters.data.network.MarvelNetwork
 import com.rumosoft.feature_characters.data.network.PaginationInfo
-import com.rumosoft.feature_characters.domain.model.Resource
+import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
-import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -25,7 +25,7 @@ internal class SearchRepositoryImplTest : TestCase() {
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 
     @MockK
-    lateinit var marvelNetwork: MarvelNetwork
+    lateinit var marvelNetwork: CharactersNetwork
 
     private val searchRepository: SearchRepository
 

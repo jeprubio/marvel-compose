@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.feature_characters.domain.model.Hero
+import com.rumosoft.commons.domain.model.Hero
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.component.HeroDetails
 
@@ -25,7 +25,7 @@ sealed class DetailsState {
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag(ProgressIndicator),
+                    .testTag(HeroListProgressIndicator),
             ) {
                 CircularProgressIndicator()
             }
@@ -48,7 +48,7 @@ sealed class DetailsState {
 @Composable
 fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
-        DetailsState.Success(SampleData.batman).BuildUI {}
+        DetailsState.Success(SampleData.heroesSample.first()).BuildUI {}
     }
 }
 

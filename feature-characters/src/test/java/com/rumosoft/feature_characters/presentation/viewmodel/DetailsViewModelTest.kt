@@ -1,10 +1,10 @@
 package com.rumosoft.feature_characters.presentation.viewmodel
 
+import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.feature_characters.MainCoroutineRule
-import com.rumosoft.feature_characters.domain.model.Resource
+import com.rumosoft.feature_characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
-import com.rumosoft.marvelcompose.domain.usecase.GetComicThumbnailUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -23,7 +23,7 @@ internal class DetailsViewModelTest : TestCase() {
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase = mockk()
     private lateinit var detailsViewModel: DetailsViewModel
 
-    private val hero = SampleData.batman
+    private val hero = SampleData.heroesSampleWithoutImages.first()
 
     @Test
     fun `When the view model is created the state is Loading`() {
@@ -39,6 +39,7 @@ internal class DetailsViewModelTest : TestCase() {
         coroutineRule.testDispatcher.runBlockingTest {
             `given the view model is initialised`()
             `given the current state is Loading`()
+            `given getComicThumbnailUseCase returns url`()
 
             `when setHero gets called in view model`()
 
@@ -67,7 +68,7 @@ internal class DetailsViewModelTest : TestCase() {
             `given the current state is Loading`()
             `given getComicThumbnailUseCase invocation returns results`()
 
-            `when setHero with a hero without commics gets called in view model`()
+            `when setHero with a hero without comics gets called in view model`()
 
             `then the state is Success`()
             `then getComicThumbnailUseCase should not be invoked`()
@@ -87,6 +88,10 @@ internal class DetailsViewModelTest : TestCase() {
             Resource.Success("thumbnail")
     }
 
+    private fun `given getComicThumbnailUseCase returns url`() {
+        coEvery { getComicThumbnailUseCase.invoke(any()) } returns Resource.Success("")
+    }
+
     private fun `when view model is initialised`() {
         detailsViewModel = DetailsViewModel(getComicThumbnailUseCase)
     }
@@ -95,7 +100,7 @@ internal class DetailsViewModelTest : TestCase() {
         detailsViewModel.setHero(hero)
     }
 
-    private fun `when setHero with a hero without commics gets called in view model`() {
+    private fun `when setHero with a hero without comics gets called in view model`() {
         detailsViewModel.setHero(hero.copy(comics = emptyList()))
     }
 

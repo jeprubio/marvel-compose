@@ -1,7 +1,7 @@
-package com.rumosoft.marvelcompose.domain.usecase
+package com.rumosoft.feature_characters.domain.usecase
 
-import com.rumosoft.feature_characters.domain.model.Resource
-import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import javax.inject.Inject
 
 class GetComicThumbnailUseCaseImpl @Inject constructor(

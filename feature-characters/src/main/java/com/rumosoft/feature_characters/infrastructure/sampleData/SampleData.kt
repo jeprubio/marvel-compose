@@ -1,35 +1,46 @@
 package com.rumosoft.feature_characters.infrastructure.sampleData
 
-import com.rumosoft.feature_characters.domain.model.Comic
-import com.rumosoft.feature_characters.domain.model.Hero
-import com.rumosoft.feature_characters.domain.model.Link
+import com.rumosoft.commons.domain.model.Comic
+import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Link
 
 object SampleData {
-    val batman = Hero(
-        name = "Batman",
-        description = "whatever",
-        thumbnail = "",
-        links = listOf(
-            Link(
-                type = "Detail",
-                url = "DetailUrl",
-            ),
-            Link(
-                type = "Wiki",
-                url = "wikiUrl",
-            ),
-            Link(
-                type = "ComicLink",
-                url = "comicLink",
-            ),
-        ),
-        comics = listOf(
-            Comic(
-                name = "name",
-                url = "url/123",
-            )
-        ),
-    )
 
-    val heroesSample = listOf(batman, batman.copy(name = "Spiderman"))
+    val heroesSample = (1..10).map {
+        Hero(
+            name = "Hero$it",
+            description = "Description hero $it",
+            thumbnail = "http://lorempixel.com/150/150/people/$it/",
+            links = listOf(
+                Link(
+                    type = "Detail",
+                    url = "DetailUrl",
+                ),
+                Link(
+                    type = "Wiki",
+                    url = "wikiUrl",
+                ),
+                Link(
+                    type = "ComicLink",
+                    url = "comicLink",
+                ),
+            ),
+            comics = (1..2).map {
+                Comic(
+                    name = "comic $it",
+                    url = "url/comic/$it",
+                    thumbnail = "http://lorempixel.com/150/150/cats/$it/",
+                )
+            },
+        )
+    }
+
+    val heroesSampleWithoutImages = heroesSample.map { hero ->
+        hero.copy(
+            thumbnail = "",
+            comics = hero.comics?.map {
+                it.copy(thumbnail = "")
+            }
+        )
+    }
 }

@@ -17,20 +17,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
-import com.rumosoft.feature_characters.domain.model.Hero
-import com.rumosoft.feature_characters.domain.model.NoMoreResultsException
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.component.HeroResults
 
-const val ProgressIndicator = "progressIndicator"
-const val ErrorResult = "errorResult"
-const val SuccessResult = "successResult"
-const val NoResults = "noResults"
-
-const val RetryTag = "retry"
+const val HeroListProgressIndicator = "progressIndicator"
+const val HeroListErrorResult = "errorResult"
+const val HeroListSuccessResult = "successResult"
+const val HeroListNoResults = "noResults"
+const val HeroListRetryTag = "retry"
 
 data class HeroListScreenState(
     val heroListState: HeroListState,
@@ -51,7 +50,7 @@ sealed class HeroListState {
                 modifier = Modifier.fillMaxSize(),
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.testTag(ProgressIndicator)
+                    modifier = Modifier.testTag(HeroListProgressIndicator)
                 )
             }
         }
@@ -66,7 +65,7 @@ sealed class HeroListState {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag(ErrorResult),
+                    .testTag(HeroListErrorResult),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -82,7 +81,7 @@ sealed class HeroListState {
                 Spacer(modifier = Modifier.padding(top = MarvelComposeTheme.paddings.defaultPadding))
                 Button(
                     onClick = { retry.invoke() },
-                    modifier = Modifier.testTag(RetryTag),
+                    modifier = Modifier.testTag(HeroListRetryTag),
                 ) {
                     Text(text = stringResource(id = R.string.retry))
                 }
@@ -102,7 +101,7 @@ sealed class HeroListState {
                 HeroResults(
                     heroes = heroes,
                     loadingMore = loadingMore,
-                    modifier = Modifier.testTag(SuccessResult),
+                    modifier = Modifier.testTag(HeroListSuccessResult),
                     onClick = onClick,
                     onEndReached = onEndReached,
                 )
@@ -111,7 +110,7 @@ sealed class HeroListState {
                     message = stringResource(id = R.string.no_results),
                     modifier = Modifier
                         .fillMaxSize()
-                        .testTag(NoResults),
+                        .testTag(HeroListNoResults),
                 )
             }
         }
@@ -126,7 +125,7 @@ sealed class HeroListState {
 @Composable
 fun PreviewSearchSuccess() {
     MarvelComposeTheme {
-        HeroListState.Success(listOf(SampleData.batman)).BuildUI()
+        HeroListState.Success(listOf(SampleData.heroesSample.first())).BuildUI()
     }
 }
 

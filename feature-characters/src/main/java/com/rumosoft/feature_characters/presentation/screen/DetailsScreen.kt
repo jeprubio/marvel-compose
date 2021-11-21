@@ -70,7 +70,7 @@ private fun DetailsScreenContent(
 @Composable
 fun DetailsPreviewSuccess() {
     MarvelComposeTheme {
-        DetailsScreenContent(DetailsState.Success(SampleData.batman))
+        DetailsScreenContent(DetailsState.Success(SampleData.heroesSample.first()))
     }
 }
 
@@ -98,6 +98,6 @@ fun DetailsPreviewLoading() {
 @Composable
 fun DetailsPreviewSuccessLandscape() {
     MarvelComposeTheme {
-        DetailsScreenContent(DetailsState.Success(SampleData.batman))
+        DetailsScreenContent(DetailsState.Success(SampleData.heroesSample.first()))
     }
 }

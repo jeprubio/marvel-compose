@@ -1,11 +1,9 @@
 package com.rumosoft.feature_characters.domain.usecase
 
+import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.feature_characters.MainCoroutineRule
-import com.rumosoft.feature_characters.domain.model.Resource
+import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
-import com.rumosoft.marvelcompose.domain.usecase.SearchUseCase
-import com.rumosoft.marvelcompose.domain.usecase.SearchUseCaseImpl
-import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

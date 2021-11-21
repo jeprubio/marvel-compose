@@ -1,6 +1,6 @@
-package com.rumosoft.marvelcompose.domain.usecase
+package com.rumosoft.feature_characters.domain.usecase
 
-import com.rumosoft.feature_characters.domain.model.Resource
+import com.rumosoft.commons.infrastructure.Resource
 
 interface GetComicThumbnailUseCase {
     suspend operator fun invoke(comicId: Int): Resource<String>

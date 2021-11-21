@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -74,7 +73,6 @@ fun HeroListScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SearchableTitle(searchText, showSearchBar, onToggleSearchClick, onValueChanged)
-        Spacer(modifier = Modifier.padding(MarvelComposeTheme.paddings.medium))
         ResultBox(heroListState)
     }
 }
@@ -103,10 +101,6 @@ private fun ResultBox(heroListState: HeroListState) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                start = 24.dp,
-                end = 24.dp,
-            )
     ) {
         heroListState.BuildUI()
     }

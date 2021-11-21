@@ -3,7 +3,9 @@ package com.rumosoft.feature_characters.presentation.component
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,10 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rumosoft.commons.domain.model.Hero
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
-import com.rumosoft.feature_characters.domain.model.Hero
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import timber.log.Timber
 
@@ -41,6 +43,8 @@ fun HeroResults(
 ) {
     val lastIndex = heroes.lastIndex
     LazyColumn(
+        contentPadding = PaddingValues(MarvelComposeTheme.paddings.defaultPadding),
+        verticalArrangement = Arrangement.spacedBy(MarvelComposeTheme.paddings.defaultPadding),
         modifier = modifier.fillMaxWidth()
     ) {
         itemsIndexed(heroes) { index, hero ->
@@ -51,7 +55,6 @@ fun HeroResults(
                 }
             }
             HeroResult(hero, onClick)
-            Spacer(modifier = Modifier.padding(8.dp))
         }
         if (loadingMore) {
             item {
@@ -149,7 +152,7 @@ private fun Loading() {
 )
 @Composable
 fun HeroResultPreview() {
-    val heroes = remember { listOf(SampleData.batman) }
+    val heroes = remember { listOf(SampleData.heroesSample.first()) }
     MarvelComposeTheme {
         HeroResults(heroes)
     }

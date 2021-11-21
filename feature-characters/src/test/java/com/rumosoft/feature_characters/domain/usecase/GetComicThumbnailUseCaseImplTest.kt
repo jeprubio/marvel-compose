@@ -1,10 +1,8 @@
 package com.rumosoft.feature_characters.domain.usecase
 
+import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.feature_characters.MainCoroutineRule
-import com.rumosoft.feature_characters.domain.model.Resource
-import com.rumosoft.marvelcompose.domain.usecase.GetComicThumbnailUseCase
-import com.rumosoft.marvelcompose.domain.usecase.GetComicThumbnailUseCaseImpl
-import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -41,7 +39,7 @@ internal class GetComicThumbnailUseCaseImplTest {
 
             `when the use case gets invoked`()
 
-            `then performSearch gets executed on repo`()
+            `then getThumbnail gets executed on repo`()
         }
     }
 
@@ -54,7 +52,7 @@ internal class GetComicThumbnailUseCaseImplTest {
         useCase.invoke(comicId)
     }
 
-    private fun `then performSearch gets executed on repo`() {
+    private fun `then getThumbnail gets executed on repo`() {
         coVerify { repo.getThumbnail(comicId) }
     }
 }

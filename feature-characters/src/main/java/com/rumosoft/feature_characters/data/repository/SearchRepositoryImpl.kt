@@ -1,19 +1,19 @@
 package com.rumosoft.feature_characters.data.repository
 
-import com.rumosoft.feature_characters.data.network.MarvelNetwork
-import com.rumosoft.feature_characters.domain.model.CallInProgressException
-import com.rumosoft.feature_characters.domain.model.Hero
-import com.rumosoft.feature_characters.domain.model.NetworkErrorException
-import com.rumosoft.feature_characters.domain.model.NoMoreResultsException
-import com.rumosoft.feature_characters.domain.model.Resource
-import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.commons.domain.model.CallInProgressException
+import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.NetworkErrorException
+import com.rumosoft.commons.domain.model.NoMoreResultsException
+import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.feature_characters.data.network.CharactersNetwork
+import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import timber.log.Timber
 import javax.inject.Inject
 
 private const val LIMIT = 20
 
 class SearchRepositoryImpl @Inject constructor(
-    private val network: MarvelNetwork,
+    private val network: CharactersNetwork,
 ) : SearchRepository {
     private var maxPages = Long.MAX_VALUE
     private var currentPage = 1

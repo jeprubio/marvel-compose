@@ -3,7 +3,7 @@ package com.rumosoft.feature_characters.infrastructure.di
 import com.rumosoft.commons.infrastructure.interceptors.LoggingInterceptor
 import com.rumosoft.commons.infrastructure.interceptors.MarvelInterceptor
 import com.rumosoft.components.BuildConfig
-import com.rumosoft.feature_characters.data.network.MarvelService
+import com.rumosoft.commons.data.network.MarvelService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

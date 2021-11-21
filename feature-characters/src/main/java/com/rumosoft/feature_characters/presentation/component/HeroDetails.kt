@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -24,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -37,11 +35,12 @@ import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.CustomDiamond
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
-import com.rumosoft.feature_characters.domain.model.Comic
-import com.rumosoft.feature_characters.domain.model.Hero
-import com.rumosoft.feature_characters.domain.model.Link
+import com.rumosoft.commons.domain.model.Comic
+import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Link
+import com.rumosoft.components.presentation.component.ComicThumbnail
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
-import com.rumosoft.feature_characters.presentation.viewmodel.state.SuccessResult
+import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListSuccessResult
 import timber.log.Timber
 
 @Composable
@@ -51,7 +50,7 @@ fun HeroDetails(hero: Hero, onComicSelected: () -> Unit = {}) {
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
-            .testTag(SuccessResult)
+            .testTag(HeroListSuccessResult)
             .padding(horizontal = MarvelComposeTheme.paddings.defaultPadding),
     ) {
         val avatarModifier = Modifier
@@ -60,8 +59,8 @@ fun HeroDetails(hero: Hero, onComicSelected: () -> Unit = {}) {
             .size(150.dp)
         HeroImage(hero.thumbnail, hero.name, avatarModifier)
         HeroName(hero.name)
-        if (hero.links != null) {
-            Links(hero.links, Modifier.align(alignment = Alignment.CenterHorizontally))
+        hero.links?.let { links ->
+            Links(links, Modifier.align(alignment = Alignment.CenterHorizontally))
         }
         Description(hero.description)
         Comics(hero.comics, onComicSelected)
@@ -159,7 +158,11 @@ fun Comics(comics: List<Comic>?, onComicSelected: () -> Unit = {}) {
         LazyRow {
             items(comics) { comic ->
                 comic.thumbnail?.takeIf { it.isNotEmpty() }?.let { thumbnail ->
-                    ComicThumbnail(comic.name, thumbnail, onComicSelected)
+                    ComicThumbnail(
+                        title = comic.name,
+                        thumbnail = thumbnail,
+                        onComicSelected = onComicSelected
+                    )
                     Timber.d("thumbnail: $thumbnail")
                 }
             }
@@ -170,20 +173,6 @@ fun Comics(comics: List<Comic>?, onComicSelected: () -> Unit = {}) {
             modifier = Modifier.fillMaxWidth()
         )
     }
-}
-
-@Composable
-fun ComicThumbnail(title: String, thumbnail: String, onComicSelected: () -> Unit = {}) {
-    MarvelImage(
-        thumbnailUrl = thumbnail,
-        contentScale = ContentScale.Fit,
-        contentDescription = title,
-        originalSize = true,
-        modifier = Modifier
-            .clickable { onComicSelected() }
-            .height(150.dp)
-            .padding(end = MarvelComposeTheme.paddings.medium),
-    )
 }
 
 @Composable
@@ -204,6 +193,6 @@ fun SectionTitle(section: String) {
 @Composable
 fun PreviewHeroDetails() {
     MarvelComposeTheme {
-        HeroDetails(SampleData.batman)
+        HeroDetails(SampleData.heroesSample.first())
     }
 }

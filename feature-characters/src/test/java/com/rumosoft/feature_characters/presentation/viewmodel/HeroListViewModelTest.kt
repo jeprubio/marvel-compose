@@ -1,10 +1,10 @@
 package com.rumosoft.feature_characters.presentation.viewmodel
 
+import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.feature_characters.MainCoroutineRule
-import com.rumosoft.feature_characters.domain.model.Resource
+import com.rumosoft.feature_characters.domain.usecase.SearchUseCase
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListState
-import com.rumosoft.marvelcompose.domain.usecase.SearchUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -23,7 +23,7 @@ internal class HeroListViewModelTest : TestCase() {
     private val searchUseCase: SearchUseCase = mockk()
     private lateinit var heroListViewModel: HeroListViewModel
 
-    private val hero = SampleData.batman
+    private val hero = SampleData.heroesSample.first()
 
     @Test
     fun `performSearch() calls searchUseCase`() {

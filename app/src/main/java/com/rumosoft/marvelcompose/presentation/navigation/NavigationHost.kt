@@ -13,13 +13,14 @@ import com.rumosoft.comics.presentation.navigation.ComicsScreens.Companion.COMIC
 import com.rumosoft.comics.presentation.navigation.ComicsScreens.Companion.COMICS_ROUTE
 import com.rumosoft.comics.presentation.screen.ComicsScreen
 import com.rumosoft.commons.DeepLinkUri
-import com.rumosoft.feature_characters.domain.model.Hero
+import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens.Companion.CHARACTERS_LIST
 import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens.Companion.CHARACTERS_ROUTE
 import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens.Companion.CHARACTER_DETAILS
 import com.rumosoft.feature_characters.presentation.screen.DetailsScreen
 import com.rumosoft.feature_characters.presentation.screen.HeroListScreen
 import com.rumosoft.feature_characters.presentation.viewmodel.DetailsViewModel
+import com.rumosoft.commons.domain.model.Hero
 import com.rumosoft.feature_characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.marvelcompose.presentation.screen.SplashScreen
 
@@ -59,8 +60,9 @@ fun NavigationHost(navController: NavHostController) {
             composable(
                 COMICS,
                 deepLinks = listOf(navDeepLink { uriPattern = "$DeepLinkUri/comics" }),
-            ) {
-                ComicsScreen()
+            ) { navBackStackEntry ->
+                val viewModel: ComicListViewModel = hiltViewModel(navBackStackEntry)
+                ComicsScreen(viewModel)
             }
         }
     }

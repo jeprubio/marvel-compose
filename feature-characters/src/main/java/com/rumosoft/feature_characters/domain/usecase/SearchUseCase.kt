@@ -1,7 +1,7 @@
-package com.rumosoft.marvelcompose.domain.usecase
+package com.rumosoft.feature_characters.domain.usecase
 
-import com.rumosoft.feature_characters.domain.model.Hero
-import com.rumosoft.feature_characters.domain.model.Resource
+import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.commons.domain.model.Hero
 
 interface SearchUseCase {
     suspend operator fun invoke(nameStart: String, fromStart: Boolean): Resource<List<Hero>?>

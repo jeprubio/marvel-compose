@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.infrastructure.di
 
 import com.rumosoft.feature_characters.data.repository.SearchRepositoryImpl
-import com.rumosoft.marvelcompose.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,18 +1,18 @@
 package com.rumosoft.comics.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,8 +20,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rumosoft.comics.R
@@ -31,6 +32,7 @@ import com.rumosoft.components.presentation.component.ComicThumbnail
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
+@ExperimentalFoundationApi
 @Composable
 fun ComicResults(
     comics: List<Comic>,
@@ -40,10 +42,10 @@ fun ComicResults(
     onEndReached: () -> Unit = {},
 ) {
     val lastIndex = comics.lastIndex
-    LazyColumn(
-        contentPadding = PaddingValues(MarvelComposeTheme.paddings.defaultPadding),
-        verticalArrangement = Arrangement.spacedBy(MarvelComposeTheme.paddings.defaultPadding),
-        modifier = modifier.fillMaxWidth()
+    LazyVerticalGrid(
+        cells = GridCells.Adaptive(130.dp),
+        contentPadding = PaddingValues(MarvelComposeTheme.paddings.smallPadding),
+        modifier = modifier.fillMaxWidth(),
     ) {
         itemsIndexed(comics) { index, comic ->
             if (lastIndex == index) {
@@ -69,11 +71,14 @@ private fun ComicResult(
 ) {
     Column(
         modifier = Modifier
+            .padding(MarvelComposeTheme.paddings.smallPadding)
             .clickable(
                 onClickLabel = stringResource(id = R.string.show_details)
             ) {
                 onClick(comic)
-            },
+            }
+            .width(130.dp)
+            .padding(MarvelComposeTheme.paddings.smallPadding),
     ) {
         comic.thumbnail?.let {
             ComicThumbnail(title = comic.name, thumbnail = it)
@@ -89,6 +94,9 @@ private fun ComicName(
 ) {
     Text(
         comic.name,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
+        style = MarvelComposeTheme.typography.body2,
         modifier = modifier,
     )
 }
@@ -103,6 +111,7 @@ private fun Loading() {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

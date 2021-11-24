@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
@@ -18,6 +19,7 @@ fun ComicThumbnail(title: String, thumbnail: String, modifier: Modifier = Modifi
         contentScale = ContentScale.Fit,
         contentDescription = title,
         originalSize = true,
+        noImage = R.drawable.img_no_image,
         modifier = modifier
             .clickable { onComicSelected() }
             .height(150.dp)

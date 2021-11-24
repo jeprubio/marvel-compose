@@ -1,9 +1,12 @@
 package com.rumosoft.components.presentation.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.transform.CircleCropTransformation
@@ -16,24 +19,33 @@ fun MarvelImage(
     circular: Boolean = false,
     originalSize: Boolean = false,
     contentDescription: String? = null,
+    @DrawableRes noImage: Int? = null,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
-    Image(
-        painter = rememberImagePainter(
-            data = thumbnailUrl,
-            builder = {
-                if (circular) {
-                    transformations(
-                        CircleCropTransformation()
-                    )
+    if (thumbnailUrl.isNotEmpty()) {
+        Image(
+            painter = rememberImagePainter(
+                data = thumbnailUrl,
+                builder = {
+                    if (circular) {
+                        transformations(
+                            CircleCropTransformation()
+                        )
+                    }
+                    crossfade(true)
+                    placeholder(R.mipmap.ic_launcher)
+                    if (originalSize) size(OriginalSize)
                 }
-                crossfade(true)
-                placeholder(R.mipmap.ic_launcher)
-                if (originalSize) size(OriginalSize)
-            }
-        ),
-        contentDescription = contentDescription,
-        contentScale = contentScale,
-        modifier = modifier
-    )
+            ),
+            contentDescription = contentDescription,
+            contentScale = contentScale,
+            modifier = modifier
+        )
+    } else if (noImage != null) {
+        Image(
+            painterResource(id = noImage),
+            contentDescription = stringResource(id = R.string.no_image),
+            modifier = modifier
+        )
+    }
 }

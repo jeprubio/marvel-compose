@@ -17,7 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens
+import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.R
 import kotlinx.coroutines.delay
 
@@ -28,7 +28,7 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
         delay(THREE_SECS)
         navController.popBackStack()
-        navController.navigate(CharactersScreens.CharactersList.route)
+        navController.navigate(NavCharItem.Characters.route)
     }
 
     SplashScreenContent()

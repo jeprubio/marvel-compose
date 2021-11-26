@@ -14,7 +14,7 @@ import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
 
-internal class HeroListStateTest {
+internal class CharacterListStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()

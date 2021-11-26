@@ -2,7 +2,7 @@ package com.rumosoft.commons.data.network.apimodels
 
 import com.google.gson.annotations.SerializedName
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.Link
 
 data class HeroDto(
@@ -41,8 +41,8 @@ data class ComicSummaryDto(
     val name: String? = null,
 )
 
-fun HeroDto.toHero(): Hero {
-    return Hero(
+fun HeroDto.toHero(): Character {
+    return Character(
         name = name.orEmpty(),
         description = description.orEmpty(),
         thumbnail = thumbnail?.toThumbnailUrl().orEmpty(),

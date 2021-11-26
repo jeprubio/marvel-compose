@@ -4,7 +4,7 @@ import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.data.network.apimodels.ErrorParsingException
 import com.rumosoft.commons.data.network.apimodels.getThumbnail
 import com.rumosoft.commons.data.network.apimodels.toHero
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.infrastructure.Resource
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class CharactersNetworkImpl @Inject constructor(
                             current = data.offset?.div(20) ?: 1,
                             total = data.total?.div(20) ?: Int.MAX_VALUE,
                         ),
-                        heroes = data.results?.map { it.toHero() }.orEmpty()
+                        characters = data.results?.map { it.toHero() }.orEmpty()
                     )
                 )
             } ?: run {
@@ -57,4 +57,4 @@ data class PaginationInfo(
     var total: Int
 )
 
-data class HeroesResult(val paginationInfo: PaginationInfo, val heroes: List<Hero>?)
+data class HeroesResult(val paginationInfo: PaginationInfo, val characters: List<Character>?)

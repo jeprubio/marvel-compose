@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -34,7 +34,7 @@ const val HeroListRetryTag = "retry"
 data class HeroListScreenState(
     val heroListState: HeroListState,
     val showingSearchBar: Boolean = false,
-    val selectedHero: Hero? = null,
+    val selectedCharacter: Character? = null,
     val textSearched: String = "",
 )
 
@@ -90,16 +90,16 @@ sealed class HeroListState {
     }
 
     class Success(
-        val heroes: List<Hero>?,
+        val characters: List<Character>?,
         private val loadingMore: Boolean = false,
-        private val onClick: (Hero) -> Unit = {},
+        private val onClick: (Character) -> Unit = {},
         private val onEndReached: () -> Unit = {},
     ) : HeroListState() {
         @Composable
         override fun BuildUI() {
-            heroes?.takeIf { it.isNotEmpty() }?.let {
+            characters?.takeIf { it.isNotEmpty() }?.let {
                 HeroResults(
-                    heroes = heroes,
+                    characters = characters,
                     loadingMore = loadingMore,
                     modifier = Modifier.testTag(HeroListSuccessResult),
                     onClick = onClick,

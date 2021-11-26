@@ -150,7 +150,7 @@ internal class CharactersNetworkImplTest {
             is Resource.Success -> response.data
             else -> null
         }
-        Assertions.assertEquals(1, data!!.heroes!!.size)
+        Assertions.assertEquals(1, data!!.characters!!.size)
     }
 
     private fun `then there should be one element in the returned data from searchComic`(response: Resource<String>) {

@@ -9,7 +9,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -23,29 +22,22 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.components.presentation.component.SearchBar
 import com.rumosoft.components.presentation.component.SectionTabBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
-import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens
 import com.rumosoft.feature_characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListState
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable
-fun HeroListScreen(navController: NavController, viewModel: HeroListViewModel) {
+fun HeroListScreen(viewModel: HeroListViewModel, onCharacterSelected: (character: Character) -> Unit = {}) {
     val heroListScreenState by viewModel.heroListScreenState.collectAsState()
-    if (heroListScreenState.selectedHero != null) {
-        viewModel.resetSelectedHero()
-        navController.currentBackStackEntry?.arguments?.putParcelable(
-            "hero",
-            heroListScreenState.selectedHero
-        )
-        navController.navigate(CharactersScreens.CharacterDetails.route)
+    heroListScreenState.selectedCharacter?.let {
+        onCharacterSelected(it)
     }
     HeroListScreenContent(
         heroListState = heroListScreenState.heroListState,

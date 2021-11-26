@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
@@ -35,19 +35,19 @@ import timber.log.Timber
 
 @Composable
 fun HeroResults(
-    heroes: List<Hero>,
+    characters: List<Character>,
     modifier: Modifier = Modifier,
     loadingMore: Boolean = false,
-    onClick: (Hero) -> Unit = {},
+    onClick: (Character) -> Unit = {},
     onEndReached: () -> Unit = {},
 ) {
-    val lastIndex = heroes.lastIndex
+    val lastIndex = characters.lastIndex
     LazyColumn(
         contentPadding = PaddingValues(MarvelComposeTheme.paddings.defaultPadding),
         verticalArrangement = Arrangement.spacedBy(MarvelComposeTheme.paddings.defaultPadding),
         modifier = modifier.fillMaxWidth()
     ) {
-        itemsIndexed(heroes) { index, hero ->
+        itemsIndexed(characters) { index, hero ->
             if (lastIndex == index) {
                 LaunchedEffect(Unit) {
                     Timber.d("End element reached")
@@ -66,8 +66,8 @@ fun HeroResults(
 
 @Composable
 private fun HeroResult(
-    hero: Hero,
-    onClick: (Hero) -> Unit = {},
+    character: Character,
+    onClick: (Character) -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -76,57 +76,57 @@ private fun HeroResult(
             .clickable(
                 onClickLabel = stringResource(id = R.string.show_details)
             ) {
-                onClick(hero)
+                onClick(character)
             },
     ) {
         val imageModifier = Modifier
             .size(80.dp)
-        HeroImage(hero, imageModifier)
+        HeroImage(character, imageModifier)
         Spacer(modifier = Modifier.padding(8.dp))
-        HeroName(hero)
+        HeroName(character)
     }
 }
 
 @Composable
 private fun HeroImage(
-    hero: Hero,
+    character: Character,
     modifier: Modifier
 ) {
-    if (hero.thumbnail.isNotEmpty()) {
-        RemoteImage(hero, modifier)
+    if (character.thumbnail.isNotEmpty()) {
+        RemoteImage(character, modifier)
     } else {
-        LocalImage(hero, modifier)
+        LocalImage(character, modifier)
     }
 }
 
 @Composable
 private fun RemoteImage(
-    hero: Hero,
+    character: Character,
     modifier: Modifier
 ) {
     MarvelImage(
-        thumbnailUrl = hero.thumbnail,
-        contentDescription = hero.name,
+        thumbnailUrl = character.thumbnail,
+        contentDescription = character.name,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun LocalImage(
-    hero: Hero,
+    character: Character,
     modifier: Modifier
 ) {
     Image(
         painterResource(id = R.drawable.img_no_image),
-        contentDescription = hero.name,
+        contentDescription = character.name,
         modifier = modifier,
     )
 }
 
 @Composable
-private fun HeroName(hero: Hero) {
+private fun HeroName(character: Character) {
     Text(
-        text = hero.name,
+        text = character.name,
         color = MarvelComposeTheme.colors.onBackground,
         style = MarvelComposeTheme.typography.subtitle1,
         maxLines = 1,

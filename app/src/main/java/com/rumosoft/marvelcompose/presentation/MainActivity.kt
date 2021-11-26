@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -12,9 +13,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.rumosoft.comics.presentation.navigation.ComicsScreens
+import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens
+import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
@@ -23,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,7 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
+@ExperimentalFoundationApi
 @Composable
 fun MarvelApp() {
     val navController = rememberNavController()
@@ -51,8 +54,8 @@ fun MarvelApp() {
     Scaffold(
         bottomBar = {
             if (currentRoute(navController) in listOf(
-                    CharactersScreens.CHARACTERS_LIST,
-                    ComicsScreens.COMICS
+                    NavCharItem.Characters.destination,
+                    NavComicItem.Comics.route
                 )
             ) {
                 BottomNavigationBar(navController, navigationItems)

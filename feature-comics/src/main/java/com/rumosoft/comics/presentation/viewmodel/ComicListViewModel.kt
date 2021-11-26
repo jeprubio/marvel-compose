@@ -1,5 +1,6 @@
 package com.rumosoft.comics.presentation.viewmodel
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalFoundationApi
 @HiltViewModel
 class ComicListViewModel @Inject constructor(
     private val getComicsUseCase: GetComicsUseCase,
@@ -57,8 +59,19 @@ class ComicListViewModel @Inject constructor(
     private suspend fun parseErrorResponse(result: Resource.Error) {
         _comicsListScreenState.emit(
             _comicsListScreenState.value
-                .copy(comicListState = ComicListState.Error(result.throwable, {}))
+                .copy(comicListState = ComicListState.Error(result.throwable, ::retry))
         )
+    }
+
+    private fun retry() {
+        loadMoreData()
+    }
+
+    private fun loadMoreData() {
+        viewModelScope.launch {
+            setLoadingMore(true)
+        }
+        performSearch(_comicsListScreenState.value.textSearched, false)
     }
 
     private suspend fun setLoadingMore(value: Boolean) {

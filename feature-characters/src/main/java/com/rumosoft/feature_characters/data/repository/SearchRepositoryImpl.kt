@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.data.repository
 
 import com.rumosoft.commons.domain.model.CallInProgressException
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.NetworkErrorException
 import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.commons.infrastructure.Resource
@@ -19,12 +19,12 @@ class SearchRepositoryImpl @Inject constructor(
     private var currentPage = 1
     private var isRequestInProgress = false
 
-    private var currentHeroes: List<Hero> = emptyList()
+    private var currentCharacters: List<Character> = emptyList()
 
     override suspend fun performSearch(
         nameStartsWith: String,
         fromStart: Boolean
-    ): Resource<List<Hero>?> {
+    ): Resource<List<Character>?> {
         if (fromStart) currentPage = 1
         if (currentPage > maxPages) return Resource.Error(NoMoreResultsException("No more data"))
         if (isRequestInProgress) {
@@ -48,25 +48,25 @@ class SearchRepositoryImpl @Inject constructor(
     private suspend fun performNetworkSearch(
         nameStartsWith: String,
         page: Int
-    ): Resource<List<Hero>?> {
+    ): Resource<List<Character>?> {
         isRequestInProgress = true
         val offset = (page - 1) * LIMIT
         val networkResult = network.searchHeroes(offset, LIMIT, nameStartsWith)
         isRequestInProgress = false
         return if (currentPage <= maxPages && networkResult is Resource.Success) {
-            Resource.Success(parseNetworkResponse(networkResult.data.heroes))
+            Resource.Success(parseNetworkResponse(networkResult.data.characters))
         } else
             Resource.Error(NetworkErrorException("Network Error"))
     }
 
-    private fun parseNetworkResponse(heroes: List<Hero>?): List<Hero> {
-        currentHeroes = if (currentPage > 1) {
-            val newList = currentHeroes.toMutableList()
-            heroes?.let { newList.addAll(it) }
+    private fun parseNetworkResponse(characters: List<Character>?): List<Character> {
+        currentCharacters = if (currentPage > 1) {
+            val newList = currentCharacters.toMutableList()
+            characters?.let { newList.addAll(it) }
             newList.toList()
         } else {
-            heroes?.toList() ?: emptyList()
+            characters?.toList() ?: emptyList()
         }
-        return currentHeroes
+        return currentCharacters
     }
 }

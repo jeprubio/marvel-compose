@@ -1,5 +1,6 @@
 package com.rumosoft.comics.presentation.viewmodel
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import com.rumosoft.comics.MainCoroutineRule
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
@@ -15,6 +16,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
 import org.junit.jupiter.api.Test
 
+@ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 internal class ComicListViewModelTest {
     @get:Rule

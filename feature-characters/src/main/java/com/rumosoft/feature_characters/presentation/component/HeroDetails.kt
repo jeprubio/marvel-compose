@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.Link
 import com.rumosoft.components.presentation.component.ComicThumbnail
 import com.rumosoft.components.presentation.component.MarvelImage
@@ -42,7 +42,7 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListSucc
 import timber.log.Timber
 
 @Composable
-fun HeroDetails(hero: Hero, onComicSelected: () -> Unit = {}) {
+fun HeroDetails(character: Character, onComicSelected: () -> Unit = {}) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -57,13 +57,13 @@ fun HeroDetails(hero: Hero, onComicSelected: () -> Unit = {}) {
             .padding(top = MarvelComposeTheme.paddings.defaultPadding)
             .size(150.dp)
             .clip(CircleShape)
-        HeroImage(hero.thumbnail, hero.name, avatarModifier)
-        HeroName(hero.name)
-        hero.links?.let { links ->
+        HeroImage(character.thumbnail, character.name, avatarModifier)
+        HeroName(character.name)
+        character.links?.let { links ->
             Links(links, Modifier.align(alignment = Alignment.CenterHorizontally))
         }
-        Description(hero.description)
-        Comics(hero.comics, onComicSelected)
+        Description(character.description)
+        Comics(character.comics, onComicSelected)
     }
 }
 

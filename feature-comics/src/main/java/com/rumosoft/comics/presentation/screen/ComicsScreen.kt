@@ -1,6 +1,7 @@
 package com.rumosoft.comics.presentation.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,12 +18,14 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.components.presentation.component.SectionTabBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
+@ExperimentalFoundationApi
 @Composable
 fun ComicsScreen(viewModel: ComicListViewModel) {
     val comicsListScreenState by viewModel.comicsListScreenState.collectAsState()
     ComicsScreenContent(comicsListScreenState.comicListState)
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun ComicsScreenContent(comicListState: ComicListState) {
     Column(
@@ -34,6 +37,7 @@ fun ComicsScreenContent(comicListState: ComicListState) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun ResultBox(comicsListState: ComicListState) {
     Box(
@@ -44,6 +48,7 @@ private fun ResultBox(comicsListState: ComicListState) {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

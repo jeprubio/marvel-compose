@@ -1,13 +1,13 @@
 package com.rumosoft.feature_characters.infrastructure.sampleData
 
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.Link
 
 object SampleData {
 
     val heroesSample = (1..10).map {
-        Hero(
+        Character(
             name = "Hero$it",
             description = "Description hero $it",
             thumbnail = "http://lorempixel.com/150/150/people/$it/",

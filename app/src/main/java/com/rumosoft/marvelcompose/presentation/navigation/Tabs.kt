@@ -5,8 +5,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.rumosoft.comics.presentation.navigation.ComicsScreens
-import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens
+import com.rumosoft.comics.presentation.navigation.NavComicItem
+import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.R
 
 sealed class Tabs(
@@ -14,6 +14,6 @@ sealed class Tabs(
     @StringRes val title: Int,
     val icon: ImageVector
 ) {
-    object Characters : Tabs(CharactersScreens.CHARACTERS_LIST, R.string.characters, Icons.Default.Person)
-    object Comics : Tabs(ComicsScreens.COMICS, R.string.comics, Icons.Default.List)
+    object Characters : Tabs(NavCharItem.Characters.destination, R.string.characters, Icons.Default.Person)
+    object Comics : Tabs(NavComicItem.Comics.destination, R.string.comics, Icons.Default.List)
 }

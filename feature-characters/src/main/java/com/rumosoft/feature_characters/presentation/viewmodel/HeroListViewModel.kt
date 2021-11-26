@@ -3,7 +3,7 @@ package com.rumosoft.feature_characters.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.feature_characters.domain.usecase.SearchUseCase
 import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListScreenState
 import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListState
@@ -74,27 +74,27 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    internal fun heroClicked(hero: Hero) {
-        Timber.d("On hero clicked: $hero")
+    internal fun heroClicked(character: Character) {
+        Timber.d("On hero clicked: $character")
         viewModelScope.launch {
             _heroListScreenState.emit(
                 _heroListScreenState.value
-                    .copy(selectedHero = hero)
+                    .copy(selectedCharacter = character)
             )
         }
     }
 
-    internal fun resetSelectedHero() {
+    fun resetSelectedHero() {
         Timber.d("Reset selected hero")
         viewModelScope.launch {
             _heroListScreenState.emit(
                 _heroListScreenState.value
-                    .copy(selectedHero = null)
+                    .copy(selectedCharacter = null)
             )
         }
     }
 
-    private suspend fun parseSuccessResponse(result: Resource.Success<List<Hero>?>) {
+    private suspend fun parseSuccessResponse(result: Resource.Success<List<Character>?>) {
         setLoadingMore(false)
         _heroListScreenState.emit(
             _heroListScreenState.value
@@ -132,13 +132,13 @@ class HeroListViewModel @Inject constructor(
     }
 
     private suspend fun setLoadingMore(value: Boolean) {
-        val currentHeroes = (_heroListScreenState.value.heroListState as? HeroListState.Success)?.heroes
+        val currentHeroes = (_heroListScreenState.value.heroListState as? HeroListState.Success)?.characters
         if (currentHeroes != null) {
             _heroListScreenState.emit(
                 _heroListScreenState.value
                     .copy(
                         heroListState = HeroListState.Success(
-                            heroes = currentHeroes,
+                            characters = currentHeroes,
                             loadingMore = value,
                         )
                     )

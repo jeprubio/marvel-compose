@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class HeroListViewModelTest : TestCase() {
+internal class CharacterListViewModelTest : TestCase() {
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 
@@ -97,12 +97,12 @@ internal class HeroListViewModelTest : TestCase() {
     }
 
     private fun `given the screen state has no selected hero`() {
-        assertNull(heroListViewModel.heroListScreenState.value.selectedHero)
+        assertNull(heroListViewModel.heroListScreenState.value.selectedCharacter)
     }
 
     private fun `given the screen state has a selected hero`() {
         heroListViewModel.heroClicked(hero)
-        assertNotNull(heroListViewModel.heroListScreenState.value.selectedHero)
+        assertNotNull(heroListViewModel.heroListScreenState.value.selectedCharacter)
     }
 
     private fun `when initialising the ViewModel`() {
@@ -130,10 +130,10 @@ internal class HeroListViewModelTest : TestCase() {
     }
 
     private fun `then the screen state selected hero should have been updated`() {
-        assertEquals(hero, heroListViewModel.heroListScreenState.value.selectedHero)
+        assertEquals(hero, heroListViewModel.heroListScreenState.value.selectedCharacter)
     }
 
     private fun `then the screen state selected hero should have been reset`() {
-        assertNull(heroListViewModel.heroListScreenState.value.selectedHero)
+        assertNull(heroListViewModel.heroListScreenState.value.selectedCharacter)
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.commons.infrastructure.extensions.update
-import com.rumosoft.commons.domain.model.Hero
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.feature_characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,24 +22,24 @@ class DetailsViewModel @Inject constructor(
     private val _detailsState =
         MutableStateFlow(initialDetailsState())
 
-    fun setHero(hero: Hero) {
+    fun setHero(character: Character) {
         viewModelScope.launch {
-            _detailsState.emit(DetailsState.Success(hero))
-            loadComicThumbnails(hero)
+            _detailsState.emit(DetailsState.Success(character))
+            loadComicThumbnails(character)
         }
     }
 
-    private suspend fun loadComicThumbnails(hero: Hero) {
-        hero.comics?.filter { it.thumbnail.isNullOrEmpty() }?.forEachIndexed { index, comic ->
+    private suspend fun loadComicThumbnails(character: Character) {
+        character.comics?.filter { it.thumbnail.isNullOrEmpty() }?.forEachIndexed { index, comic ->
             val comicId = comic.url.split("/").last().toInt()
             when (val response = getComicThumbnailUseCase(comicId)) {
                 is Resource.Success -> {
-                    val currentHero = (_detailsState.value as DetailsState.Success).hero
+                    val currentHero = (_detailsState.value as DetailsState.Success).character
                     val updatedComics = currentHero.comics?.update(
                         index = index,
                         item = comic.copy(thumbnail = response.data)
                     )
-                    val updatedHero = hero.copy(comics = updatedComics)
+                    val updatedHero = character.copy(comics = updatedComics)
                     _detailsState.emit(DetailsState.Success(updatedHero))
                 }
             }

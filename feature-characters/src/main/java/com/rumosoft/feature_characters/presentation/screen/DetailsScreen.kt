@@ -15,26 +15,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import com.rumosoft.commons.DeepLinkUri
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
-import com.rumosoft.feature_characters.presentation.navigation.CharactersScreens
 import com.rumosoft.feature_characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
 
 @Composable
-fun DetailsScreen(navController: NavController, viewModel: DetailsViewModel) {
+fun DetailsScreen(
+    viewModel: DetailsViewModel,
+    onBackPressed: () -> Unit,
+    onComicSelected: () -> Unit,
+) {
     val screenState by viewModel.detailsState.collectAsState()
-    DetailsScreenContent(screenState, {
-        navController.popBackStack(
-            route = CharactersScreens.CHARACTERS_LIST,
-            inclusive = false
-        )
-    }, {
-        navController.navigate(Uri.parse("$DeepLinkUri/comics"))
-    })
+    DetailsScreenContent(screenState, onBackPressed, onComicSelected)
 }
 
 @Composable

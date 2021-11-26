@@ -1,6 +1,7 @@
 package com.rumosoft.comics.presentation.viewmodel.state
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
+@ExperimentalFoundationApi
 data class ComicListScreenState(
     val comicListState: ComicListState,
     val showingSearchBar: Boolean = false,
@@ -32,6 +34,7 @@ data class ComicListScreenState(
     val textSearched: String = "",
 )
 
+@ExperimentalFoundationApi
 sealed class ComicListState {
     companion object {
         const val ProgressIndicator = "progressIndicator"
@@ -116,6 +119,7 @@ sealed class ComicListState {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,
@@ -128,6 +132,7 @@ fun PreviewSearchSuccess() {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,
@@ -140,6 +145,7 @@ fun PreviewSearchError() {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchLoading() {

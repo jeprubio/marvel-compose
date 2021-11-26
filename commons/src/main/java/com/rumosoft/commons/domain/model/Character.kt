@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class Hero(
+data class Character(
     val name: String,
     val description: String,
     val thumbnail: String,

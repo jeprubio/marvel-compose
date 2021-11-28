@@ -8,3 +8,8 @@ interface NavigationCommand {
     val destination: String
     val navArgs: List<NamedNavArgument>
 }
+
+sealed class DeepLinks(val route: String) {
+    object Characters : DeepLinks("$DeepLinkUri/characters")
+    object Comics : DeepLinks("$DeepLinkUri/comics")
+}

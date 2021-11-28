@@ -1,8 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'com.google.secrets_gradle_plugin' version '0.6'
 }
@@ -43,12 +41,6 @@ dependencies {
 
     implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
     implementation 'androidx.navigation:navigation-runtime-ktx:2.3.5'
-
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.hilt:hilt-navigation:1.0.0"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0-beta01"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     implementation("com.google.code.gson:gson:$gson_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")

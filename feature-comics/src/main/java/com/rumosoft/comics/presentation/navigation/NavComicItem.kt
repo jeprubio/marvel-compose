@@ -1,7 +1,7 @@
 package com.rumosoft.comics.presentation.navigation
 
 import androidx.navigation.NamedNavArgument
-import com.rumosoft.commons.DeepLinkUri
+import com.rumosoft.commons.DeepLinks
 import com.rumosoft.commons.NavigationCommand
 
 sealed class NavComicItem(
@@ -12,6 +12,6 @@ sealed class NavComicItem(
 
     object Comics : NavComicItem("comics") {
         val deepLink
-            get() = "$DeepLinkUri/comics"
+            get() = DeepLinks.Comics.route
     }
 }

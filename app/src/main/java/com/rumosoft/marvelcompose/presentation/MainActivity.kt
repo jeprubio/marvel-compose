@@ -14,13 +14,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.rumosoft.comics.presentation.navigation.NavComicItem
+import com.rumosoft.comics.presentation.screen.comicsNavModule
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
+import com.rumosoft.feature_characters.presentation.navigation.charactersNavModule
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
 import dagger.hilt.android.AndroidEntryPoint
+import dev.jeziellago.compose.multinavcompose.multiNavModules
 
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
@@ -29,6 +32,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        multiNavModules(charactersNavModule, comicsNavModule)
+
         setContent {
             MarvelComposeTheme {
                 Surface(color = MarvelComposeTheme.colors.background) {

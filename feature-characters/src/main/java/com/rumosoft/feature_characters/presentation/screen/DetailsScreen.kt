@@ -1,7 +1,6 @@
 package com.rumosoft.feature_characters.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon

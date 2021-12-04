@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MarvelCompose</string>
     <string name="heroes">Heroes</string>
+    <string name="details">Details</string>
     <string name="description">Description</string>
     <string name="no_description">Sorry, there is no description for this character.</string>
     <string name="no_image">No Image</string>

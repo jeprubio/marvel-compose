@@ -8,4 +8,8 @@ interface ComicsRepository {
         nameStartsWith: String,
         fromStart: Boolean = false
     ): Resource<List<Comic>?>
+
+    suspend fun getDetails(
+        comicId: Int
+    ): Resource<Comic>
 }

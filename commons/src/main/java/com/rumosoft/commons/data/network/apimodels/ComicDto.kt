@@ -3,9 +3,10 @@ package com.rumosoft.commons.data.network.apimodels
 import com.rumosoft.commons.domain.model.Comic
 
 data class ComicDto(
-    val id: Int? = null,
+    val id: Int,
     val digitalId: Int? = null,
     val title: String?,
+    val pageCount: Int? = null,
     val description: String? = null,
     val thumbnail: ImageDto? = null,
 )
@@ -18,8 +19,12 @@ fun ComicDto.getThumbnail(): String? {
 
 fun ComicDto.toComic(): Comic {
     return Comic(
-        name = title.orEmpty(),
-        url = "",
+        id = id,
+        digitalId = digitalId ?: 0,
+        title = title.orEmpty(),
+        pageCount = pageCount ?: 0,
+        description = description.orEmpty(),
+        urls = emptyList(),
         thumbnail = thumbnail?.toThumbnailUrl().orEmpty()
     )
 }

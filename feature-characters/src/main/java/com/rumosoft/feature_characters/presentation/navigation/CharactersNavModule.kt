@@ -26,14 +26,15 @@ val charactersNavModule = NavComposableModule { graph, navController ->
             val viewModel: HeroListViewModel = hiltViewModel(navBackStackEntry)
             HeroListScreen(
                 viewModel = viewModel,
-            ) { selectedCharacter ->
-                viewModel.resetSelectedHero()
-                navController.currentBackStackEntry?.arguments?.putParcelable(
-                    "character",
-                    selectedCharacter
-                )
-                navController.navigate(NavCharItem.Details.route)
-            }
+                onCharacterSelected = { selectedCharacter ->
+                    viewModel.resetSelectedCharacter()
+                    navController.currentBackStackEntry?.arguments?.putParcelable(
+                        "character",
+                        selectedCharacter
+                    )
+                    navController.navigate(NavCharItem.Details.route)
+                }
+            )
         }
         composable(
             route = NavCharItem.Details.route,
@@ -52,8 +53,12 @@ val charactersNavModule = NavComposableModule { graph, navController ->
                         inclusive = false
                     )
                 },
-                onComicSelected = {
-                    navController.navigate(DeepLinks.Comics.route.toUri())
+                onComicSelected = { comicId ->
+                    navController.currentBackStackEntry?.arguments?.putInt(
+                        "comicId",
+                        comicId
+                    )
+                    navController.navigate(DeepLinks.ComicDetails.route.toUri())
                 },
             )
         }

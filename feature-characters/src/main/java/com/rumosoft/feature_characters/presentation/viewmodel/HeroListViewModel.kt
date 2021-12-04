@@ -74,7 +74,7 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    internal fun heroClicked(character: Character) {
+    internal fun characterClicked(character: Character) {
         Timber.d("On hero clicked: $character")
         viewModelScope.launch {
             _heroListScreenState.emit(
@@ -84,8 +84,8 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    fun resetSelectedHero() {
-        Timber.d("Reset selected hero")
+    fun resetSelectedCharacter() {
+        Timber.d("Reset selected character")
         viewModelScope.launch {
             _heroListScreenState.emit(
                 _heroListScreenState.value
@@ -102,7 +102,7 @@ class HeroListViewModel @Inject constructor(
                     heroListState = HeroListState.Success(
                         result.data,
                         false,
-                        ::heroClicked,
+                        ::characterClicked,
                         ::onReachedEnd
                     )
                 )

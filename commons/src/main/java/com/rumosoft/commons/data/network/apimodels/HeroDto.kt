@@ -1,8 +1,8 @@
 package com.rumosoft.commons.data.network.apimodels
 
 import com.google.gson.annotations.SerializedName
-import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.commons.domain.model.ComicSummary
 import com.rumosoft.commons.domain.model.Link
 
 data class HeroDto(
@@ -63,8 +63,8 @@ fun UrlDto.toUrl(): Link =
         url = url.orEmpty(),
     )
 
-fun ComicSummaryDto.toComic(): Comic =
-    Comic(
-        name = name.orEmpty(),
+fun ComicSummaryDto.toComic(): ComicSummary =
+    ComicSummary(
+        title = name.orEmpty(),
         url = resourceUri.orEmpty(),
     )

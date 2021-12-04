@@ -41,6 +41,10 @@ class ComicsRepositoryImpl @Inject constructor(
         return networkResult
     }
 
+    override suspend fun getDetails(comicId: Int): Resource<Comic> {
+        return network.fetchComic(comicId)
+    }
+
     private suspend fun performNetworkSearch(
         nameStartsWith: String,
         page: Int

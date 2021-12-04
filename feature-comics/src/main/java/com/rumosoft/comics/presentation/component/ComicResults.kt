@@ -2,7 +2,6 @@ package com.rumosoft.comics.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +19,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,8 +48,7 @@ fun ComicResults(
         itemsIndexed(comics) { index, comic ->
             if (lastIndex == index) {
                 LaunchedEffect(Unit) {
-                    Timber.d("End element reached")
-                    onEndReached.invoke()
+                    onLastElementReached(onEndReached)
                 }
             }
             ComicResult(comic, onClick)
@@ -62,6 +59,11 @@ fun ComicResults(
             }
         }
     }
+}
+
+private fun onLastElementReached(onEndReached: () -> Unit) {
+    Timber.d("End element reached")
+    onEndReached.invoke()
 }
 
 @Composable
@@ -81,7 +83,8 @@ private fun ComicResult(
             .padding(MarvelComposeTheme.paddings.smallPadding),
     ) {
         comic.thumbnail?.let {
-            ComicThumbnail(title = comic.name, thumbnail = it)
+            val comicUrl = "http://gateway.marvel.com/v1/public/comics/${comic.id}"
+            ComicThumbnail(title = comic.title, thumbnail = it, url = comicUrl)
         }
         ComicName(comic)
     }
@@ -93,7 +96,7 @@ private fun ComicName(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        comic.name,
+        comic.title,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
         style = MarvelComposeTheme.typography.body2,

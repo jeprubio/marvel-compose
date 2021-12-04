@@ -110,6 +110,7 @@ internal class CharactersNetworkImplTest {
                 data = ComicDataContainer(
                     results = listOf(
                         ComicDto(
+                            id = 123,
                             title = "title",
                             thumbnail = ImageDto(
                                 "path",

@@ -1,16 +1,9 @@
 package com.rumosoft.feature_characters.presentation.viewmodel.state
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.NoMoreResultsException
+import com.rumosoft.components.presentation.component.ErrorMessage
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
@@ -29,7 +23,6 @@ const val HeroListProgressIndicator = "progressIndicator"
 const val HeroListErrorResult = "errorResult"
 const val HeroListSuccessResult = "successResult"
 const val HeroListNoResults = "noResults"
-const val HeroListRetryTag = "retry"
 
 data class HeroListScreenState(
     val heroListState: HeroListState,
@@ -62,30 +55,16 @@ sealed class HeroListState {
     ) : HeroListState() {
         @Composable
         override fun BuildUI() {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .testTag(HeroListErrorResult),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                val message = if (throwable is NoMoreResultsException) {
-                    stringResource(id = R.string.no_more_results)
-                } else {
-                    stringResource(id = R.string.error_data_message)
-                }
-                SimpleMessage(
-                    message = message,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Spacer(modifier = Modifier.padding(top = MarvelComposeTheme.paddings.defaultPadding))
-                Button(
-                    onClick = { retry.invoke() },
-                    modifier = Modifier.testTag(HeroListRetryTag),
-                ) {
-                    Text(text = stringResource(id = R.string.retry))
-                }
+            val message = if (throwable is NoMoreResultsException) {
+                stringResource(id = R.string.no_more_results)
+            } else {
+                stringResource(id = R.string.error_data_message)
             }
+            ErrorMessage(
+                message = message,
+                modifier = Modifier.testTag(HeroListErrorResult),
+                onRetry = retry,
+            )
         }
     }
 

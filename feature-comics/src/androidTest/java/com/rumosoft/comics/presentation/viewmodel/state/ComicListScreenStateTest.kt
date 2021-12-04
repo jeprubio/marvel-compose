@@ -1,5 +1,6 @@
 package com.rumosoft.comics.presentation.viewmodel.state
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -19,13 +20,14 @@ import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalFoundationApi
 internal class ComicListScreenStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun heroListResult_loading_shows_ProgressIndicator() {
+    fun comicListState_loading_shows_ProgressIndicator() {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Loading.BuildUI()
@@ -36,7 +38,7 @@ internal class ComicListScreenStateTest {
     }
 
     @Test
-    fun heroListResult_error_shows_error_result() {
+    fun comicListState_error_shows_error_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Error(Exception("Error")).BuildUI()
@@ -47,7 +49,7 @@ internal class ComicListScreenStateTest {
     }
 
     @Test
-    fun heroListResult_error_tap_on_retry_executes_lambda() {
+    fun comicListState_error_tap_on_retry_executes_lambda() {
         val retryFun: () -> Unit = mockk()
         every { retryFun.invoke() } just Runs
         composeTestRule.setContent {
@@ -61,7 +63,7 @@ internal class ComicListScreenStateTest {
     }
 
     @Test
-    fun heroListResult_success_shows_success_result() {
+    fun comicListState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Success(SampleData.comicsSample).BuildUI()
@@ -72,7 +74,7 @@ internal class ComicListScreenStateTest {
     }
 
     @Test
-    fun heroListResult_success_with_no_data_shows_no_results() {
+    fun comicListState_success_with_no_data_shows_no_results() {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Success(emptyList()).BuildUI()

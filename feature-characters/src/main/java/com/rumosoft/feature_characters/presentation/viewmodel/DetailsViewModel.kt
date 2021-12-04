@@ -2,9 +2,9 @@ package com.rumosoft.feature_characters.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.commons.infrastructure.extensions.update
-import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.feature_characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel

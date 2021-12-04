@@ -15,13 +15,20 @@ import com.rumosoft.comics.R
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
+import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.components.presentation.component.SectionTabBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @ExperimentalFoundationApi
 @Composable
-fun ComicsScreen(viewModel: ComicListViewModel) {
+fun ComicsScreen(
+    viewModel: ComicListViewModel,
+    onComicSelected: (comic: Comic) -> Unit = {}
+) {
     val comicsListScreenState by viewModel.comicsListScreenState.collectAsState()
+    comicsListScreenState.selectedComic?.let {
+        onComicSelected(it)
+    }
     ComicsScreenContent(comicsListScreenState.comicListState)
 }
 

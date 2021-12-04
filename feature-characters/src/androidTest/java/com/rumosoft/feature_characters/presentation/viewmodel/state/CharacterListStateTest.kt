@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.rumosoft.components.presentation.component.RetryButton
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import io.mockk.Runs
@@ -51,7 +52,7 @@ internal class CharacterListStateTest {
             }
         }
 
-        composeTestRule.onNodeWithTag(HeroListRetryTag).performClick()
+        composeTestRule.onNodeWithTag(RetryButton).performClick()
         verify { retryFun.invoke() }
     }
 

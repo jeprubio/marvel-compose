@@ -13,7 +13,13 @@ import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
-fun ComicThumbnail(title: String, thumbnail: String, modifier: Modifier = Modifier, onComicSelected: () -> Unit = {}) {
+fun ComicThumbnail(
+    title: String,
+    thumbnail: String,
+    url: String,
+    modifier: Modifier = Modifier,
+    onComicSelected: ((Int) -> Unit)? = null
+) {
     MarvelImage(
         thumbnailUrl = thumbnail,
         contentScale = ContentScale.Fit,
@@ -21,9 +27,20 @@ fun ComicThumbnail(title: String, thumbnail: String, modifier: Modifier = Modifi
         originalSize = true,
         noImage = R.drawable.img_no_image,
         modifier = modifier
-            .clickable { onComicSelected() }
+            .then(
+                if (onComicSelected != null) {
+                    Modifier.clickable {
+                        onComicSelected.invoke(getComicId(url))
+                    }
+                } else Modifier
+            )
             .height(150.dp)
             .padding(end = MarvelComposeTheme.paddings.medium)
             .clip(RoundedCornerShape(4.dp)),
     )
 }
+
+private fun getComicId(url: String) = url
+    .split("/")
+    .last()
+    .toInt()

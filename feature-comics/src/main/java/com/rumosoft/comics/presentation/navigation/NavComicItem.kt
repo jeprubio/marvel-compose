@@ -8,10 +8,19 @@ sealed class NavComicItem(
     final override val destination: String,
     override val navArgs: List<NamedNavArgument> = emptyList(),
 ) : NavigationCommand {
-    val route = destination
+    val route = run {
+        val argKeys = navArgs.map { "{${it.name}}" }
+        listOf(destination)
+            .plus(argKeys)
+            .joinToString("/")
+    }
 
     object Comics : NavComicItem("comics") {
         val deepLink
             get() = DeepLinks.Comics.route
+    }
+    object Details : NavComicItem("comicDetails") {
+        val deepLink
+            get() = DeepLinks.ComicDetails.route
     }
 }

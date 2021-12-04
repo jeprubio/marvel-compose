@@ -11,7 +11,11 @@ import javax.inject.Inject
 class ComicsNetworkImpl @Inject constructor(
     private val marvelService: MarvelService,
 ) : ComicsNetwork {
-    override suspend fun searchComics(offset: Int, limit: Int, nameStartsWith: String): Resource<ComicsResult> {
+    override suspend fun searchComics(
+        offset: Int,
+        limit: Int,
+        nameStartsWith: String
+    ): Resource<ComicsResult> {
         return try {
             val result = marvelService.searchComics(
                 offset = offset,
@@ -32,6 +36,16 @@ class ComicsNetworkImpl @Inject constructor(
                 Timber.d("Error parsing results")
                 Resource.Error(ErrorParsingException("No results"))
             }
+        } catch (e: Exception) {
+            Timber.d("Something went wrong: $e")
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun fetchComic(comicId: Int): Resource<Comic> {
+        return try {
+            val result = marvelService.searchComic(comicId)
+            Resource.Success(result.data?.results?.first()!!.toComic())
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
             Resource.Error(e)

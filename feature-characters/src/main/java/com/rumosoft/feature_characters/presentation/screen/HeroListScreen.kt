@@ -34,7 +34,10 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListStat
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable
-fun HeroListScreen(viewModel: HeroListViewModel, onCharacterSelected: (character: Character) -> Unit = {}) {
+fun HeroListScreen(
+    viewModel: HeroListViewModel,
+    onCharacterSelected: (character: Character) -> Unit = {}
+) {
     val heroListScreenState by viewModel.heroListScreenState.collectAsState()
     heroListScreenState.selectedCharacter?.let {
         onCharacterSelected(it)

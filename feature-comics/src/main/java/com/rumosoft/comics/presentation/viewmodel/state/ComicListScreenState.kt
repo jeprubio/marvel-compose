@@ -105,7 +105,10 @@ sealed class ComicListState {
             comics?.takeIf { it.isNotEmpty() }?.let {
                 ComicResults(
                     comics = comics,
-                    modifier = Modifier.testTag(SuccessResult)
+                    loadingMore = loadingMore,
+                    modifier = Modifier.testTag(SuccessResult),
+                    onClick = onClick,
+                    onEndReached = onEndReached,
                 )
             } ?: run {
                 SimpleMessage(

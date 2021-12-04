@@ -101,7 +101,7 @@ internal class CharacterListViewModelTest : TestCase() {
     }
 
     private fun `given the screen state has a selected hero`() {
-        heroListViewModel.heroClicked(hero)
+        heroListViewModel.characterClicked(hero)
         assertNotNull(heroListViewModel.heroListScreenState.value.selectedCharacter)
     }
 
@@ -110,11 +110,11 @@ internal class CharacterListViewModelTest : TestCase() {
     }
 
     private fun `when a hero gets selected`() {
-        heroListViewModel.heroClicked(hero)
+        heroListViewModel.characterClicked(hero)
     }
 
     private fun `when the selected hero gets reset`() {
-        heroListViewModel.resetSelectedHero()
+        heroListViewModel.resetSelectedCharacter()
     }
 
     private fun `then searchUseCase gets invoked`() {

@@ -9,18 +9,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.component.HeroDetails
 
 sealed class DetailsState {
     @Composable
-    abstract fun BuildUI(onComicSelected: () -> Unit)
+    abstract fun BuildUI(onComicSelected: (Int) -> Unit)
 
     object Loading : DetailsState() {
         @Composable
-        override fun BuildUI(onComicSelected: () -> Unit) {
+        override fun BuildUI(onComicSelected: (Int) -> Unit) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -34,7 +34,7 @@ sealed class DetailsState {
 
     class Success(val character: Character) : DetailsState() {
         @Composable
-        override fun BuildUI(onComicSelected: () -> Unit) {
+        override fun BuildUI(onComicSelected: (Int) -> Unit) {
             HeroDetails(character, onComicSelected)
         }
     }

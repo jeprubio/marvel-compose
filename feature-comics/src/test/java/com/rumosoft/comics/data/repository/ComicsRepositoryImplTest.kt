@@ -29,8 +29,9 @@ internal class ComicsRepositoryImplTest {
     private val comicsRepository: ComicsRepository
 
     private val offset = 0
-
     private val limit = 20
+
+    private val comicId = 123
 
     init {
         MockKAnnotations.init(this)
@@ -47,6 +48,16 @@ internal class ComicsRepositoryImplTest {
             `then searchComics gets executed on nework`()
         }
 
+    @Test
+    fun `searchComic is called when calling getDetails in the repository`() =
+        coroutineRule.testDispatcher.runBlockingTest {
+            `given fetchComic invocation on network returns results`()
+
+            `when getDetails on repo gets invoked`()
+
+            `then fetchComic gets executed on nework`()
+        }
+
     private fun `given searchComics invocation on network returns results`() {
         coEvery { comicsNetwork.searchComics(offset, limit, "") } returns
             Resource.Success(
@@ -57,11 +68,26 @@ internal class ComicsRepositoryImplTest {
             )
     }
 
+    private fun `given fetchComic invocation on network returns results`() {
+        coEvery { comicsNetwork.fetchComic(comicId) } returns
+            Resource.Success(
+                SampleData.comicsSample.first()
+            )
+    }
+
     private suspend fun `when performSearch on repo gets invoked`() {
         comicsRepository.performSearch("")
     }
 
+    private suspend fun `when getDetails on repo gets invoked`() {
+        comicsRepository.getDetails(comicId)
+    }
+
     private fun `then searchComics gets executed on nework`() {
         coVerify { comicsNetwork.searchComics(offset, limit, "") }
+    }
+
+    private fun `then fetchComic gets executed on nework`() {
+        coVerify { comicsNetwork.fetchComic(comicId) }
     }
 }

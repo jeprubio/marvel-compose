@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalFoundationApi
@@ -49,11 +50,35 @@ class ComicListViewModel @Inject constructor(
                     comicListState = ComicListState.Success(
                         result.data,
                         false,
-                        {},
-                        {}
+                        ::comicClicked,
+                        ::onReachedEnd
                     )
                 )
         )
+    }
+
+    internal fun comicClicked(comic: Comic) {
+        Timber.d("On comic clicked: $comic")
+        viewModelScope.launch {
+            _comicsListScreenState.emit(
+                _comicsListScreenState.value
+                    .copy(selectedComic = comic)
+            )
+        }
+    }
+
+    fun resetSelectedComic() {
+        Timber.d("Reset selected comic")
+        viewModelScope.launch {
+            _comicsListScreenState.emit(
+                _comicsListScreenState.value
+                    .copy(selectedComic = null)
+            )
+        }
+    }
+
+    private fun onReachedEnd() {
+        loadMoreData()
     }
 
     private suspend fun parseErrorResponse(result: Resource.Error) {

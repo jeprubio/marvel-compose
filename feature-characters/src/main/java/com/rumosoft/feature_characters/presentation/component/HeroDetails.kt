@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.commons.domain.model.ComicSummary
 import com.rumosoft.commons.domain.model.Link
 import com.rumosoft.components.presentation.component.ComicThumbnail
 import com.rumosoft.components.presentation.component.MarvelImage
@@ -42,7 +42,7 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListSucc
 import timber.log.Timber
 
 @Composable
-fun HeroDetails(character: Character, onComicSelected: () -> Unit = {}) {
+fun HeroDetails(character: Character, onComicSelected: (Int) -> Unit = {}) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -144,15 +144,16 @@ fun Description(description: String) {
 }
 
 @Composable
-fun Comics(comics: List<Comic>?, onComicSelected: () -> Unit = {}) {
+fun Comics(comics: List<ComicSummary>?, onComicSelected: (Int) -> Unit = {}) {
     SectionTitle(stringResource(id = R.string.comics))
     if (!comics.isNullOrEmpty()) {
         LazyRow {
             items(comics) { comic ->
                 comic.thumbnail?.takeIf { it.isNotEmpty() }?.let { thumbnail ->
                     ComicThumbnail(
-                        title = comic.name,
+                        title = comic.title,
                         thumbnail = thumbnail,
+                        url = comic.url,
                         onComicSelected = onComicSelected
                     )
                     Timber.d("thumbnail: $thumbnail")

@@ -1,3 +1,4 @@
 <resources>
     <string name="comics">Comics</string>
+    <string name="comic_details">Comic Details</string>
 </resources>

@@ -43,7 +43,7 @@ internal class ComicListViewModelTest {
 
             `when initialising the ViewModel`()
 
-            `then HeroListScreenSuccess should be Success`()
+            `then comicListState should be Success`()
         }
 
     @Test
@@ -53,7 +53,7 @@ internal class ComicListViewModelTest {
 
             `when initialising the ViewModel`()
 
-            `then HeroListScreenSuccess should be Error`()
+            `then comicListState should be Error`()
         }
 
     private fun `given searchUseCase invocation returns results`() {
@@ -74,11 +74,11 @@ internal class ComicListViewModelTest {
         coVerify { comicsUseCase.invoke("", true) }
     }
 
-    private fun `then HeroListScreenSuccess should be Success`() {
+    private fun `then comicListState should be Success`() {
         TestCase.assertTrue(comicListViewModel.comicsListScreenState.value.comicListState is ComicListState.Success)
     }
 
-    private fun `then HeroListScreenSuccess should be Error`() {
+    private fun `then comicListState should be Error`() {
         TestCase.assertTrue(comicListViewModel.comicsListScreenState.value.comicListState is ComicListState.Error)
     }
 }

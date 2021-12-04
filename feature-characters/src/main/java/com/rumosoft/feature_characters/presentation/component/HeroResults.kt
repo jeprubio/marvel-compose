@@ -50,8 +50,7 @@ fun HeroResults(
         itemsIndexed(characters) { index, hero ->
             if (lastIndex == index) {
                 LaunchedEffect(Unit) {
-                    Timber.d("End element reached")
-                    onEndReached.invoke()
+                    onLastElementReached(onEndReached)
                 }
             }
             HeroResult(hero, onClick)
@@ -62,6 +61,11 @@ fun HeroResults(
             }
         }
     }
+}
+
+private fun onLastElementReached(onEndReached: () -> Unit) {
+    Timber.d("End element reached")
+    onEndReached.invoke()
 }
 
 @Composable

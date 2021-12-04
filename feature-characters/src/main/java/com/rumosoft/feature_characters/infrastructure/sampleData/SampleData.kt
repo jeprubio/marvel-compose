@@ -1,6 +1,6 @@
 package com.rumosoft.feature_characters.infrastructure.sampleData
 
-import com.rumosoft.commons.domain.model.Comic
+import com.rumosoft.commons.domain.model.ComicSummary
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.Link
 
@@ -26,8 +26,8 @@ object SampleData {
                 ),
             ),
             comics = (1..2).map {
-                Comic(
-                    name = "comic $it",
+                ComicSummary(
+                    title = "comic $it",
                     url = "url/comic/$it",
                     thumbnail = "http://lorempixel.com/150/150/cats/$it/",
                 )

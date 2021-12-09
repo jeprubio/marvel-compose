@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.components.presentation.component.SearchBar
-import com.rumosoft.components.presentation.component.SectionTabBar
+import com.rumosoft.components.presentation.component.SectionTopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
@@ -81,7 +81,7 @@ private fun SearchableTitle(
     onToggleSearchClick: () -> Unit = {},
     onValueChanged: (String) -> Unit = {},
 ) {
-    SectionTabBar(R.string.characters, Icons.Default.Search, onToggleSearchClick)
+    SectionTopBar(R.string.characters, Icons.Default.Search, onToggleSearchClick)
     AnimatedVisibility(
         showSearchBar,
         enter = fadeIn(),

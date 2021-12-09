@@ -16,7 +16,7 @@ import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.components.presentation.component.SectionTabBar
+import com.rumosoft.components.presentation.component.SectionTopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @ExperimentalFoundationApi
@@ -39,7 +39,7 @@ fun ComicsScreenContent(comicListState: ComicListState) {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SectionTabBar(R.string.comics)
+        SectionTopBar(R.string.comics)
         ResultBox(comicsListState = comicListState)
     }
 }

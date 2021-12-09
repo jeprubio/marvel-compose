@@ -7,17 +7,25 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.presentation.screen.SplashScreen
 import dev.jeziellago.compose.multinavcompose.loadMultiNavComposables
+
+private const val SPLASH = "splash"
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
 fun NavigationHost(navController: NavHostController) {
-    NavHost(navController, startDestination = Screen.SPLASH) {
-        composable(Screen.SPLASH) {
-            SplashScreen(navController = navController)
+    NavHost(navController, startDestination = SPLASH) {
+        composable(SPLASH) {
+            SplashScreen(
+                onTimeout = {
+                    navController.popBackStack()
+                    navController.navigate(NavCharItem.Characters.route)
+                }
+            )
         }
         loadMultiNavComposables(navController)
     }

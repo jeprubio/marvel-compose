@@ -1,5 +1,6 @@
 package com.rumosoft.marvelcompose.presentation.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -8,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun BottomNavigationBar(
     navController: NavHostController,
     navigationItems: List<Tabs>,
+    onAppBack: () -> Unit = {},
 ) {
     BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -32,16 +33,32 @@ fun BottomNavigationBar(
                 label = { Text(tabTitle) },
                 selected = currentRoute == tab.route,
                 onClick = {
-                    navController.navigate(tab.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-
-                        launchSingleTop = true
-                    }
+                    onTabClick(tab, navController)
                 },
                 alwaysShowLabel = true
             )
+        }
+    }
+
+    BackHandler {
+        onAppBack()
+    }
+}
+
+private fun onTabClick(
+    tab: Tabs,
+    navController: NavHostController
+) {
+    if (tab.route != navController.currentDestination?.route) {
+        navController.navigate(tab.route) {
+            navController.currentDestination?.route?.let {
+                popUpTo(it) {
+                    saveState = true
+                    inclusive = true
+                }
+            }
+
+            launchSingleTop = true
         }
     }
 }

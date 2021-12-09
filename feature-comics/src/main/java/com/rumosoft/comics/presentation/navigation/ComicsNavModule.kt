@@ -5,7 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
@@ -44,14 +43,15 @@ val comicsNavModule = NavComposableModule { graph, navController ->
         ) { navBackStackEntry ->
             val comicId: Int? =
                 navController.previousBackStackEntry?.arguments?.getInt("comicId")
-            require(comicId != null) { "A comic should be selected" }
             val viewModel: ComicDetailsViewModel = hiltViewModel(navBackStackEntry)
-            viewModel.fetchComicData(comicId)
+            comicId?.let {
+                viewModel.fetchComicData(comicId)
+            }
             ComicDetailsScreen(
                 viewModel = viewModel,
                 onBackPressed = {
                     try {
-                        val entry = navController.getBackStackEntry(NavComicItem.Comics.route)
+                        navController.getBackStackEntry(NavComicItem.Comics.route)
                         navController.popBackStack(
                             route = NavComicItem.Comics.route,
                             inclusive = false

@@ -14,13 +14,16 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusOrder
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -42,7 +45,8 @@ fun SearchBar(
     onValueChanged: (String) -> Unit = {},
     onLeadingClicked: () -> Unit = {},
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    val (textFieldFocus) = FocusRequester.createRefs()
     TextField(
         value = state.value,
         onValueChange = { value ->
@@ -50,39 +54,16 @@ fun SearchBar(
             onValueChanged(value.text)
         },
         modifier = modifier
+            .focusOrder(textFieldFocus)
             .fillMaxWidth()
             .testTag(TextFieldTestTag),
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
-            IconButton(
-                onClick = onLeadingClicked,
-                modifier = Modifier.testTag(SearchBarLeadingIconTestTag),
-            ) {
-                Icon(
-                    Icons.Default.KeyboardArrowUp,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(24.dp),
-                )
-            }
+            SearchBarLeadingIcon(onLeadingClicked)
         },
         trailingIcon = {
             if (state.value.text != "") {
-                IconButton(
-                    onClick = {
-                        onCrossIconPressed(state, onValueChanged)
-                    },
-                    modifier = Modifier.testTag(SearchBarTrailingIconTestTag)
-                ) {
-                    Icon(
-                        Icons.Default.Close,
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(24.dp)
-                    )
-                }
+                SearchBarTrailingIcon(state, onValueChanged)
             }
         },
         singleLine = true,
@@ -99,9 +80,50 @@ fun SearchBar(
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
-            onDone = { keyboardController?.hide() }
+            onDone = { focusManager.clearFocus() }
         ),
     )
+
+    SideEffect {
+        textFieldFocus.requestFocus()
+    }
+}
+
+@Composable
+private fun SearchBarLeadingIcon(onLeadingClicked: () -> Unit) {
+    IconButton(
+        onClick = onLeadingClicked,
+        modifier = Modifier.testTag(SearchBarLeadingIconTestTag),
+    ) {
+        Icon(
+            Icons.Default.KeyboardArrowUp,
+            contentDescription = "",
+            modifier = Modifier
+                .padding(8.dp)
+                .size(24.dp),
+        )
+    }
+}
+
+@Composable
+private fun SearchBarTrailingIcon(
+    state: MutableState<TextFieldValue>,
+    onValueChanged: (String) -> Unit
+) {
+    IconButton(
+        onClick = {
+            onCrossIconPressed(state, onValueChanged)
+        },
+        modifier = Modifier.testTag(SearchBarTrailingIconTestTag)
+    ) {
+        Icon(
+            Icons.Default.Close,
+            contentDescription = "",
+            modifier = Modifier
+                .padding(8.dp)
+                .size(24.dp)
+        )
+    }
 }
 
 private fun onCrossIconPressed(

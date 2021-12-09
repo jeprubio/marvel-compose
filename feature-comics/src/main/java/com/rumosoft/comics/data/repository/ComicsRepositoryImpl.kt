@@ -22,7 +22,7 @@ class ComicsRepositoryImpl @Inject constructor(
     private var currentHeroes: List<Comic> = emptyList()
 
     override suspend fun performSearch(
-        nameStartsWith: String,
+        titleStartsWith: String,
         fromStart: Boolean
     ): Resource<List<Comic>?> {
         if (fromStart) currentPage = 1
@@ -32,7 +32,7 @@ class ComicsRepositoryImpl @Inject constructor(
             return Resource.Error(CallInProgressException("Request is in progress"))
         }
         Timber.d("Performing Network Search")
-        val networkResult = performNetworkSearch(nameStartsWith, currentPage)
+        val networkResult = performNetworkSearch(titleStartsWith, currentPage)
         if (networkResult is Resource.Success) {
             currentPage++
             Timber.d("Returned results ${networkResult.data?.size}")
@@ -46,12 +46,12 @@ class ComicsRepositoryImpl @Inject constructor(
     }
 
     private suspend fun performNetworkSearch(
-        nameStartsWith: String,
+        titleStartsWith: String,
         page: Int
     ): Resource<List<Comic>?> {
         isRequestInProgress = true
         val offset = (page - 1) * LIMIT
-        val networkResult = network.searchComics(offset, LIMIT, nameStartsWith)
+        val networkResult = network.searchComics(offset, LIMIT, titleStartsWith)
         isRequestInProgress = false
         return if (currentPage <= maxPages && networkResult is Resource.Success) {
             Resource.Success(parseNetworkResponse(networkResult.data.comics))

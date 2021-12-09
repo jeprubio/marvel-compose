@@ -81,7 +81,11 @@ private fun SearchableTitle(
     onToggleSearchClick: () -> Unit = {},
     onValueChanged: (String) -> Unit = {},
 ) {
-    SectionTopBar(R.string.characters, Icons.Default.Search, onToggleSearchClick)
+    SectionTopBar(
+        sectionName = R.string.characters,
+        icon = Icons.Default.Search,
+        onIconClick = onToggleSearchClick
+    )
     AnimatedVisibility(
         showSearchBar,
         enter = fadeIn(),

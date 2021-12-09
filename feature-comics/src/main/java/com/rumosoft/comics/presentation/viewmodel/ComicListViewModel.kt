@@ -9,11 +9,16 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.infrastructure.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+
+const val DEBOUNCE_DELAY = 1_000L
 
 @ExperimentalFoundationApi
 @HiltViewModel
@@ -25,8 +30,37 @@ class ComicListViewModel @Inject constructor(
     private val _comicsListScreenState =
         MutableStateFlow(initialScreenState())
 
+    private var performSearchJob: Job? = null
+
     init {
         performSearch(_comicsListScreenState.value.textSearched, true)
+    }
+
+    fun onQueryChanged(query: String) {
+        if (query != _comicsListScreenState.value.textSearched) {
+            Timber.d("Searching: $query")
+            cancelJobIfActive()
+            performSearchJob = viewModelScope.launch {
+                _comicsListScreenState.emit(
+                    _comicsListScreenState.value
+                        .copy(textSearched = query, comicListState = ComicListState.Loading)
+                )
+                delay(DEBOUNCE_DELAY)
+                try {
+                    _comicsListScreenState.value = _comicsListScreenState.value.copy(textSearched = query)
+                    performSearch(query, true)
+                } catch (exception: Exception) {
+                    if (exception !is CancellationException) {
+                        // TODO Do something?
+                    }
+                }
+            }
+        }
+    }
+
+    fun onToggleSearchClick() {
+        _comicsListScreenState.value = _comicsListScreenState.value
+            .copy(showingSearchBar = !_comicsListScreenState.value.showingSearchBar)
     }
 
     private fun performSearch(query: String = "", fromStart: Boolean) {
@@ -112,6 +146,10 @@ class ComicListViewModel @Inject constructor(
                     )
             )
         }
+    }
+
+    private fun cancelJobIfActive() {
+        performSearchJob?.takeIf { it.isActive }?.cancel()
     }
 
     private fun initialScreenState(): ComicListScreenState =

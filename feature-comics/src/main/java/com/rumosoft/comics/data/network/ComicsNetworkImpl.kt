@@ -14,13 +14,13 @@ class ComicsNetworkImpl @Inject constructor(
     override suspend fun searchComics(
         offset: Int,
         limit: Int,
-        nameStartsWith: String
+        titleStartsWith: String
     ): Resource<ComicsResult> {
         return try {
             val result = marvelService.searchComics(
                 offset = offset,
                 limit = limit,
-                nameStartsWith = nameStartsWith.takeIf { it.isNotEmpty() },
+                titleStartsWith = titleStartsWith.takeIf { it.isNotEmpty() },
             )
             result.data?.let { data ->
                 Resource.Success(

@@ -19,7 +19,7 @@ interface MarvelService {
     suspend fun searchComics(
         @Query(OFFSET) offset: Int = 0,
         @Query(LIMIT) limit: Int = 20,
-        @Query(NAME_STARTS_WITH) nameStartsWith: String? = null,
+        @Query(TITLE_STARTS_WITH) titleStartsWith: String? = null,
     ): ComicResults
 
     @GET("/v1/public/comics/{$COMIC_ID}")
@@ -32,5 +32,6 @@ interface MarvelService {
         const val OFFSET = "offset"
         const val LIMIT = "limit"
         const val NAME_STARTS_WITH = "nameStartsWith"
+        const val TITLE_STARTS_WITH = "titleStartsWith"
     }
 }

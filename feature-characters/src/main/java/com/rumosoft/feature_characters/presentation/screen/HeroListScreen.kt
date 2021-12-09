@@ -87,7 +87,13 @@ private fun SearchableTitle(
         enter = fadeIn(),
         exit = slideOutVertically() + fadeOut()
     ) {
-        if (showSearchBar) SearchBar(searchText, onValueChanged)
+        if (showSearchBar) {
+            SearchBar(
+                state = searchText,
+                onValueChanged = onValueChanged,
+                onLeadingClicked = onToggleSearchClick,
+            )
+        }
     }
 }
 

@@ -81,4 +81,23 @@ internal class SearchBarKtTest {
 
         verify { onValueChanged(newText) }
     }
+
+    @Test
+    fun searchBar_leading_icon_calls_lambda() {
+        val onLeadingClicked: () -> Unit = mockk()
+        justRun { onLeadingClicked() }
+        composeTestRule.setContent {
+            MarvelComposeTheme {
+                val textState = remember { mutableStateOf(TextFieldValue("whatever")) }
+                SearchBar(
+                    state = textState,
+                    onLeadingClicked = onLeadingClicked
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(SearchBarLeadingIconTestTag).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(SearchBarLeadingIconTestTag).performClick()
+        verify { onLeadingClicked() }
+    }
 }

@@ -11,7 +11,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -31,13 +31,16 @@ import androidx.compose.ui.unit.sp
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 internal const val TextFieldTestTag = "textFieldTestTag"
+internal const val SearchBarLeadingIconTestTag = "searchBarLeadingIconTestTag"
 internal const val SearchBarTrailingIconTestTag = "searchBarTrailingIconTestTag"
 
 @ExperimentalComposeUiApi
 @Composable
 fun SearchBar(
     state: MutableState<TextFieldValue>,
+    modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit = {},
+    onLeadingClicked: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     TextField(
@@ -46,18 +49,23 @@ fun SearchBar(
             state.value = value
             onValueChanged(value.text)
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .testTag(TextFieldTestTag),
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
-            Icon(
-                Icons.Default.Search,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(15.dp)
-                    .size(24.dp)
-            )
+            IconButton(
+                onClick = onLeadingClicked,
+                modifier = Modifier.testTag(SearchBarLeadingIconTestTag),
+            ) {
+                Icon(
+                    Icons.Default.KeyboardArrowUp,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(24.dp),
+                )
+            }
         },
         trailingIcon = {
             if (state.value.text != "") {
@@ -71,7 +79,7 @@ fun SearchBar(
                         Icons.Default.Close,
                         contentDescription = "",
                         modifier = Modifier
-                            .padding(15.dp)
+                            .padding(8.dp)
                             .size(24.dp)
                     )
                 }

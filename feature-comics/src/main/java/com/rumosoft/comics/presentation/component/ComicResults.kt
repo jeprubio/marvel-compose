@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.GridCells
@@ -108,7 +109,9 @@ private fun ComicName(
 private fun Loading() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(166.dp),
     ) {
         CircularProgressIndicator()
     }
@@ -124,6 +127,9 @@ private fun Loading() {
 fun ComicResultsPreview() {
     val comics = remember { SampleData.comicsSample }
     MarvelComposeTheme {
-        ComicResults(comics = comics)
+        ComicResults(
+            comics = comics,
+            loadingMore = true,
+        )
     }
 }

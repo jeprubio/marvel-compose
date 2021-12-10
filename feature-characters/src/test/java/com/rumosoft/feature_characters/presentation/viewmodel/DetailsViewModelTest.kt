@@ -8,7 +8,7 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import junit.framework.TestCase
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class DetailsViewModelTest : TestCase() {
+internal class DetailsViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 

@@ -8,7 +8,10 @@ import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListStat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
+import junit.framework.TestCase.assertNull
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -16,7 +19,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class CharacterListViewModelTest : TestCase() {
+internal class CharacterListViewModelTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 

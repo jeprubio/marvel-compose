@@ -11,7 +11,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -19,7 +18,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class SearchRepositoryImplTest : TestCase() {
+internal class SearchRepositoryImplTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())

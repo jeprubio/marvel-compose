@@ -1,12 +1,8 @@
 <resources>
-    <string name="app_name">MarvelCompose</string>
-    <string name="heroes">Heroes</string>
+    <string name="characters">Characters</string>
     <string name="details">Details</string>
     <string name="description">Description</string>
     <string name="no_description">Sorry, there is no description for this character.</string>
-    <string name="no_image">No Image</string>
     <string name="no_comics_info">No Comics Info</string>
-    <string name="search">Search</string>
-    <string name="characters">Characters</string>
     <string name="comics">Comics</string>
 </resources>

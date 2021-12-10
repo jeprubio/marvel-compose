@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class SearchUseCaseImplTest : TestCase() {
+internal class SearchUseCaseImplTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
 

@@ -1,6 +1,6 @@
 # Marvel Compose App
 
-[![MARVEL-COMPOSE](https://circleci.com/gh/jeprubio/marvel-compose.svg?style=svg)](https://github.com/jeprubio/marvel-compose)
+[![MARVEL-COMPOSE](https://circleci.com/gh/jeprubio/marvel-compose.svg?style=svg)](https://app.circleci.com/pipelines/github/jeprubio/marvel-compose)
 
 App created in compose that displays Marvel heroes using the [marvel api](https://developer.marvel.com/docs)
 
@@ -39,10 +39,10 @@ To run the UI tests: ./gradlew connectedDebugAndroidTest
 
 ## Screenshots
 
-![https://i.ibb.co/2Yqdmqq/1.jpg](https://i.ibb.co/2Yqdmqq/1.jpg)
-![https://i.ibb.co/c61T3MS/2.jpg](https://i.ibb.co/c61T3MS/2.jpg)
-![https://i.ibb.co/10jCNFH/3.jpg](https://i.ibb.co/10jCNFH/3.jpg)
-![https://i.ibb.co/72F7FVz/4.jpg](https://i.ibb.co/72F7FVz/4.jpg)
+![https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/1-characters-list.jpg](https://github.com/jeprubio/marvel-compose/raw/master/screenshots/readme/1-characters-list.jpg)
+![https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/2-character-details.jpg](https://github.com/jeprubio/marvel-compose/raw/master/screenshots/readme/2-character-details.jpg)
+![https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/3-comics-list.jpg](https://github.com/jeprubio/marvel-compose/raw/master/screenshots/readme/3-comics-list.jpg)
+![https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/4-comic-details.jpg](https://github.com/jeprubio/marvel-compose/raw/master/screenshots/readme/4-comic-details.jpg)
 
 ## Libraries Used
 
@@ -56,7 +56,9 @@ To run the UI tests: ./gradlew connectedDebugAndroidTest
 
 - [Coil](https://github.com/coil-kt/coil) - Loading and caching images.
 
-## Testing libraries:
+- [MultiNavCompose](https://github.com/jeziellago/multinavcompose) - Multi-module navigation built on Jetpack Navigation Compose.
+
+## Testing libraries
 - [Junit5](https://junit.org/junit5/docs/current/user-guide/) - For writing tests.
 
 - [Mockk](https://mockk.io/) - A mocking library similar to mockito that allows you to mock suspend functions.

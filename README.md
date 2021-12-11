@@ -39,10 +39,10 @@ To run the UI tests: ./gradlew connectedDebugAndroidTest
 
 ## Screenshots
 
-![https://raw.githubusercontent.com/jeprubio/marvel-compose/main/screenshots/readme/1-characters-list.jpg](https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/1-characters-list.jpg)
-![https://raw.githubusercontent.com/jeprubio/marvel-compose/main/screenshots/readme/2-character-details.jpg](https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/2-character-details.jpg)
-![https://raw.githubusercontent.com/jeprubio/marvel-compose/main/screenshots/readme/3-comics-list.jpg](https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/3-comics-list.jpg)
-![https://raw.githubusercontent.com/jeprubio/marvel-compose/main/screenshots/readme/4-comic-details.jpg](https://github.com/jeprubio/marvel-compose/blob/master/screenshots/readme/4-comic-details.jpg)
+![Characters List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/1-characters-list.jpg)
+![Character Details](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/2-character-details.jpg)
+![Comics List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/3-comics-list.jpg)
+![Comic Details](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/4-comic-details.jpg)
 
 ## Libraries Used
 

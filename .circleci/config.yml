@@ -37,6 +37,6 @@ jobs:
             ./gradlew assembleRelease
 
 workflows:
-  sample:
+  marvel-compose:
     jobs:
       - build-and-test

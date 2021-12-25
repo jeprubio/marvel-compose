@@ -20,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalComposeUiApi
-internal class SearchBarKtTest : ScreenshotTest {
+internal class SearchBarKtTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -34,8 +34,6 @@ internal class SearchBarKtTest : ScreenshotTest {
         }
 
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertDoesNotExist()
-
-        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -48,8 +46,6 @@ internal class SearchBarKtTest : ScreenshotTest {
         }
 
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertIsDisplayed()
-
-        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -64,8 +60,6 @@ internal class SearchBarKtTest : ScreenshotTest {
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertIsDisplayed()
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).performClick()
         composeTestRule.onNodeWithTag(TextFieldTestTag).assert(hasText(""))
-
-        compareScreenshot(composeTestRule)
     }
 
     @Test

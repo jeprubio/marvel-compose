@@ -37,6 +37,9 @@ Wait until gradle finishes and press the play button.
 To run the unit tests: ./gradlew lint testDebug --continue
 To run the UI tests: ./gradlew connectedDebugAndroidTest
 
+To record the screenshots test: ./gradlew executeScreenshotTests -Precord
+To execute the screenshots test: ./gradlew executeScreenshotTests
+
 ## Screenshots
 
 ![Characters List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/1-characters-list.jpg)

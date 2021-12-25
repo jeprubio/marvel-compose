@@ -11,6 +11,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.text.input.TextFieldValue
+import com.karumi.shot.ScreenshotTest
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import io.mockk.justRun
 import io.mockk.mockk
@@ -19,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalComposeUiApi
-internal class SearchBarKtTest {
+internal class SearchBarKtTest : ScreenshotTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -33,6 +34,8 @@ internal class SearchBarKtTest {
         }
 
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertDoesNotExist()
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -45,6 +48,8 @@ internal class SearchBarKtTest {
         }
 
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -59,6 +64,8 @@ internal class SearchBarKtTest {
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertIsDisplayed()
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).performClick()
         composeTestRule.onNodeWithTag(TextFieldTestTag).assert(hasText(""))
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test

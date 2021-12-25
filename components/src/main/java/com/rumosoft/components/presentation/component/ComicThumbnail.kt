@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -44,3 +45,9 @@ private fun getComicId(url: String) = url
     .split("/")
     .last()
     .toInt()
+
+@Preview
+@Composable
+fun ComicThumbnailImagePreview() {
+    ComicThumbnail(title = "title", thumbnail = "thumbnailUrl", url = "url")
+}

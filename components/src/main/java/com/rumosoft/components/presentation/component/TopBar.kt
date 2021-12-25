@@ -5,7 +5,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.rememberImagePainter
+import com.rumosoft.components.R
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun TopBar(
@@ -19,9 +24,21 @@ fun TopBar(
             IconButton(onClick = { leftIconPressed.invoke() }) {
                 Icon(
                     leftIcon,
-                    contentDescription = "Menu Btn"
+                    contentDescription = "Menu Button",
+                    tint = Color.White,
                 )
             }
         },
     )
+}
+
+@Preview
+@Composable
+fun TopBarPreview() {
+    MarvelComposeTheme {
+        TopBar(
+            apBarText = "App Bar Text",
+            leftIcon = rememberImagePainter(R.drawable.ic_arrow_back_24)
+        )
+    }
 }

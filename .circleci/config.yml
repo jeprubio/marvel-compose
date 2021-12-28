@@ -29,7 +29,7 @@ jobs:
 
       - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
-          system-image: system-images;android-25;google_apis;x86
+          system-image: system-images;android-28;google_apis;x86
 
       - run:
           name: Assemble release build

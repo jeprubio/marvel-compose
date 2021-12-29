@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.karumi.shot.ScreenshotTest
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.ErrorResult
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.NoResults
@@ -21,7 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalFoundationApi
-internal class ComicListScreenStateTest {
+internal class ComicListScreenStateTest : ScreenshotTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -46,6 +47,8 @@ internal class ComicListScreenStateTest {
         }
 
         composeTestRule.onNodeWithTag(ErrorResult).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -71,6 +74,8 @@ internal class ComicListScreenStateTest {
         }
 
         composeTestRule.onNodeWithTag(SuccessResult).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -82,5 +87,7 @@ internal class ComicListScreenStateTest {
         }
 
         composeTestRule.onNodeWithTag(NoResults).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 }

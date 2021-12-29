@@ -3,12 +3,13 @@ package com.rumosoft.feature_characters.presentation.viewmodel.state
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.karumi.shot.ScreenshotTest
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import org.junit.Rule
 import org.junit.Test
 
-internal class DetailsStateTest {
+internal class DetailsStateTest : ScreenshotTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -32,5 +33,7 @@ internal class DetailsStateTest {
         }
 
         composeTestRule.onNodeWithTag(HeroListSuccessResult).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 }

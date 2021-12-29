@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'shot'
 }
 
 android {
@@ -13,7 +14,8 @@ android {
         minSdk 21
         targetSdk 31
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testApplicationId "com.rumosoft.marvelcomposetest"
+        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -96,4 +98,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
     androidTestImplementation("io.mockk:mockk-android:$mockk_version")
+}
+
+shot {
+    applicationId = "com.rumosoft.marvelcomposeshot"
 }

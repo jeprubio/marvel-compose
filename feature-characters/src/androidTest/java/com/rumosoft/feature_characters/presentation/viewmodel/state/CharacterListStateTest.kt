@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.karumi.shot.ScreenshotTest
 import com.rumosoft.components.presentation.component.RetryButton
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
@@ -15,7 +16,7 @@ import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
 
-internal class CharacterListStateTest {
+internal class CharacterListStateTest : ScreenshotTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -40,6 +41,8 @@ internal class CharacterListStateTest {
         }
 
         composeTestRule.onNodeWithTag(HeroListErrorResult).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -65,6 +68,8 @@ internal class CharacterListStateTest {
         }
 
         composeTestRule.onNodeWithTag(HeroListSuccessResult).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 
     @Test
@@ -76,5 +81,7 @@ internal class CharacterListStateTest {
         }
 
         composeTestRule.onNodeWithTag(HeroListNoResults).assertIsDisplayed()
+
+        compareScreenshot(composeTestRule)
     }
 }

@@ -1,9 +1,9 @@
 package com.rumosoft.feature_characters.infrastructure.di
 
+import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.infrastructure.interceptors.LoggingInterceptor
 import com.rumosoft.commons.infrastructure.interceptors.MarvelInterceptor
 import com.rumosoft.components.BuildConfig
-import com.rumosoft.commons.data.network.MarvelService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +28,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideSwapiService(
+    fun provideMarvelService(
         okHttpClient: OkHttpClient,
         baseUrl: String,
     ): MarvelService =

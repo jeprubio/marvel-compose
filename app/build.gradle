@@ -87,6 +87,8 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
     testImplementation("org.junit.jupiter:junit-jupiter:$junit5_version")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junit5_version")
     testImplementation("androidx.arch.core:core-testing:2.1.0")

@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,13 +42,13 @@ class ComicListViewModel @Inject constructor(
             Timber.d("Searching: $query")
             cancelJobIfActive()
             performSearchJob = viewModelScope.launch {
-                _comicsListScreenState.emit(
+                _comicsListScreenState.update {
                     _comicsListScreenState.value
                         .copy(textSearched = query, comicListState = ComicListState.Loading)
-                )
+                }
                 delay(DEBOUNCE_DELAY)
                 try {
-                    _comicsListScreenState.value = _comicsListScreenState.value.copy(textSearched = query)
+                    _comicsListScreenState.update { _comicsListScreenState.value.copy(textSearched = query) }
                     performSearch(query, true)
                 } catch (exception: Exception) {
                     if (exception !is CancellationException) {
@@ -59,8 +60,10 @@ class ComicListViewModel @Inject constructor(
     }
 
     fun onToggleSearchClick() {
-        _comicsListScreenState.value = _comicsListScreenState.value
-            .copy(showingSearchBar = !_comicsListScreenState.value.showingSearchBar)
+        _comicsListScreenState.update {
+            _comicsListScreenState.value
+                .copy(showingSearchBar = !_comicsListScreenState.value.showingSearchBar)
+        }
     }
 
     private fun performSearch(query: String = "", fromStart: Boolean) {
@@ -78,7 +81,7 @@ class ComicListViewModel @Inject constructor(
 
     private suspend fun parseSuccessResponse(result: Resource.Success<List<Comic>?>) {
         setLoadingMore(false)
-        _comicsListScreenState.emit(
+        _comicsListScreenState.update {
             _comicsListScreenState.value
                 .copy(
                     comicListState = ComicListState.Success(
@@ -88,26 +91,26 @@ class ComicListViewModel @Inject constructor(
                         ::onReachedEnd
                     )
                 )
-        )
+        }
     }
 
-    internal fun comicClicked(comic: Comic) {
+    private fun comicClicked(comic: Comic) {
         Timber.d("On comic clicked: $comic")
         viewModelScope.launch {
-            _comicsListScreenState.emit(
+            _comicsListScreenState.update {
                 _comicsListScreenState.value
                     .copy(selectedComic = comic)
-            )
+            }
         }
     }
 
     fun resetSelectedComic() {
         Timber.d("Reset selected comic")
         viewModelScope.launch {
-            _comicsListScreenState.emit(
+            _comicsListScreenState.update {
                 _comicsListScreenState.value
                     .copy(selectedComic = null)
-            )
+            }
         }
     }
 
@@ -116,10 +119,10 @@ class ComicListViewModel @Inject constructor(
     }
 
     private suspend fun parseErrorResponse(result: Resource.Error) {
-        _comicsListScreenState.emit(
+        _comicsListScreenState.update {
             _comicsListScreenState.value
                 .copy(comicListState = ComicListState.Error(result.throwable, ::retry))
-        )
+        }
     }
 
     private fun retry() {
@@ -134,9 +137,10 @@ class ComicListViewModel @Inject constructor(
     }
 
     private suspend fun setLoadingMore(value: Boolean) {
-        val currentComics = (_comicsListScreenState.value.comicListState as? ComicListState.Success)?.comics
+        val currentComics =
+            (_comicsListScreenState.value.comicListState as? ComicListState.Success)?.comics
         if (currentComics != null) {
-            _comicsListScreenState.emit(
+            _comicsListScreenState.update {
                 _comicsListScreenState.value
                     .copy(
                         comicListState = ComicListState.Success(
@@ -144,7 +148,7 @@ class ComicListViewModel @Inject constructor(
                             loadingMore = value,
                         )
                     )
-            )
+            }
         }
     }
 

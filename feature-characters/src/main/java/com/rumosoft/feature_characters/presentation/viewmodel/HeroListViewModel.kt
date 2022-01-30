@@ -13,6 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,13 +40,13 @@ class HeroListViewModel @Inject constructor(
             Timber.d("Searching: $query")
             cancelJobIfActive()
             performSearchJob = viewModelScope.launch {
-                _heroListScreenState.emit(
+                _heroListScreenState.update {
                     _heroListScreenState.value
                         .copy(textSearched = query, heroListState = HeroListState.Loading)
-                )
+                }
                 delay(DEBOUNCE_DELAY)
                 try {
-                    _heroListScreenState.value = _heroListScreenState.value.copy(textSearched = query)
+                    _heroListScreenState.update { _heroListScreenState.value.copy(textSearched = query) }
                     performSearch(query, true)
                 } catch (exception: Exception) {
                     if (exception !is CancellationException) {
@@ -57,8 +58,10 @@ class HeroListViewModel @Inject constructor(
     }
 
     fun onToggleSearchClick() {
-        _heroListScreenState.value = heroListScreenState.value
-            .copy(showingSearchBar = !_heroListScreenState.value.showingSearchBar)
+        _heroListScreenState.update {
+            heroListScreenState.value
+                .copy(showingSearchBar = !_heroListScreenState.value.showingSearchBar)
+        }
     }
 
     private fun performSearch(query: String = "", fromStart: Boolean) {
@@ -96,7 +99,7 @@ class HeroListViewModel @Inject constructor(
 
     private suspend fun parseSuccessResponse(result: Resource.Success<List<Character>?>) {
         setLoadingMore(false)
-        _heroListScreenState.emit(
+        _heroListScreenState.update {
             _heroListScreenState.value
                 .copy(
                     heroListState = HeroListState.Success(
@@ -106,14 +109,14 @@ class HeroListViewModel @Inject constructor(
                         ::onReachedEnd
                     )
                 )
-        )
+        }
     }
 
     private suspend fun parseErrorResponse(result: Resource.Error) {
-        _heroListScreenState.emit(
+        _heroListScreenState.update {
             _heroListScreenState.value
                 .copy(heroListState = HeroListState.Error(result.throwable, ::retry))
-        )
+        }
     }
 
     private fun onReachedEnd() {
@@ -132,9 +135,10 @@ class HeroListViewModel @Inject constructor(
     }
 
     private suspend fun setLoadingMore(value: Boolean) {
-        val currentHeroes = (_heroListScreenState.value.heroListState as? HeroListState.Success)?.characters
+        val currentHeroes =
+            (_heroListScreenState.value.heroListState as? HeroListState.Success)?.characters
         if (currentHeroes != null) {
-            _heroListScreenState.emit(
+            _heroListScreenState.update {
                 _heroListScreenState.value
                     .copy(
                         heroListState = HeroListState.Success(
@@ -142,7 +146,7 @@ class HeroListViewModel @Inject constructor(
                             loadingMore = value,
                         )
                     )
-            )
+            }
         }
     }
 

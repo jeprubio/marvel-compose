@@ -1,6 +1,6 @@
 package com.rumosoft.comics.data.network
 
-import com.rumosoft.comics.MainCoroutineRule
+import com.rumosoft.comics.CoroutineTest
 import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.data.network.apimodels.ComicDataContainer
 import com.rumosoft.commons.data.network.apimodels.ComicDto
@@ -13,15 +13,16 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class ComicsNetworkImplTest {
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+internal class ComicsNetworkImplTest : CoroutineTest {
+
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     @MockK
     private lateinit var marvelService: MarvelService
@@ -58,7 +59,7 @@ internal class ComicsNetworkImplTest {
 
     @Test
     fun `Successful response performing search returns Success`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given a response is returned when searchComics gets called on the service`()
 
             val response = `when searchComics gets called on the network`()
@@ -69,7 +70,7 @@ internal class ComicsNetworkImplTest {
 
     @Test
     fun `Error performing search returns Error`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given an exception is thrown when searchComics gets called on the service`()
 
             val response = `when searchComics gets called on the network`()
@@ -79,7 +80,7 @@ internal class ComicsNetworkImplTest {
 
     @Test
     fun `Successful response performing comic fetch returns Success`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given a response is returned when searchComic gets called on the service`()
 
             val response = `when fetchComic gets called on the network`()
@@ -89,7 +90,7 @@ internal class ComicsNetworkImplTest {
 
     @Test
     fun `Error performing comic fetch returns Error`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given an exception is thrown when searchComic gets called on the service`()
 
             val response = `when fetchComic gets called on the network`()

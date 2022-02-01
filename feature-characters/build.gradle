@@ -87,7 +87,6 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junit5_version")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junit5_version")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("io.mockk:mockk:$mockk_version")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version")

@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.presentation.viewmodel
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.feature_characters.MainCoroutineRule
+import com.rumosoft.feature_characters.CoroutineTest
 import com.rumosoft.feature_characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
@@ -11,14 +11,15 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class DetailsViewModelTest {
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+internal class DetailsViewModelTest : CoroutineTest {
+
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase = mockk()
     private lateinit var detailsViewModel: DetailsViewModel
@@ -27,7 +28,7 @@ internal class DetailsViewModelTest {
 
     @Test
     fun `When the view model is created the state is Loading`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `when view model is initialised`()
 
             `then the state is Loading`()
@@ -36,7 +37,7 @@ internal class DetailsViewModelTest {
 
     @Test
     fun `If a hero is selected the screen state must change`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given the view model is initialised`()
             `given the current state is Loading`()
             `given getComicThumbnailUseCase returns url`()
@@ -49,7 +50,7 @@ internal class DetailsViewModelTest {
 
     @Test
     fun `If a hero WITH comics is selected getComicThumbnailUseCase should be invoked`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given the view model is initialised`()
             `given the current state is Loading`()
             `given getComicThumbnailUseCase invocation returns results`()
@@ -63,7 +64,7 @@ internal class DetailsViewModelTest {
 
     @Test
     fun `If a hero WITHOUT comics is selected getComicThumbnailUseCase should NOT be invoked`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given the view model is initialised`()
             `given the current state is Loading`()
             `given getComicThumbnailUseCase invocation returns results`()

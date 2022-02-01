@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.data.repository
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.feature_characters.MainCoroutineRule
+import com.rumosoft.feature_characters.CoroutineTest
 import com.rumosoft.feature_characters.data.network.CharactersNetwork
 import com.rumosoft.feature_characters.data.network.HeroesResult
 import com.rumosoft.feature_characters.data.network.PaginationInfo
@@ -13,15 +13,15 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class SearchRepositoryImplTest {
+internal class SearchRepositoryImplTest : CoroutineTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     @MockK
     lateinit var marvelNetwork: CharactersNetwork
@@ -43,7 +43,7 @@ internal class SearchRepositoryImplTest {
 
     @Test
     fun `searchHeroes is called when calling performSearch in the repository`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchHeroes invocation on network returns results`()
 
             `when performSearch on repo gets invoked`()
@@ -53,7 +53,7 @@ internal class SearchRepositoryImplTest {
 
     @Test
     fun `getComicThumbnail is called when calling getThumbnail in the repository`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given getComicThumbnail invocation on network returns results`()
 
             `when getThumbnail on repo gets invoked`()

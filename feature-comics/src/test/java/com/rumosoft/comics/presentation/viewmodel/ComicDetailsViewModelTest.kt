@@ -1,7 +1,7 @@
 package com.rumosoft.comics.presentation.viewmodel
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import com.rumosoft.comics.MainCoroutineRule
+import com.rumosoft.comics.CoroutineTest
 import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
@@ -12,16 +12,16 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
-internal class ComicDetailsViewModelTest {
+internal class ComicDetailsViewModelTest : CoroutineTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     private val comicDetailsUseCase: GetComicDetailsUseCase = mockk()
     private val viewModel: ComicDetailsViewModel = ComicDetailsViewModel(comicDetailsUseCase)
@@ -30,7 +30,7 @@ internal class ComicDetailsViewModelTest {
 
     @Test
     fun `fetchComicData() calls getComicDetailsUseCase`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given use case invocation returns results`()
 
             `when fetchComicData gets invoked in viewmodel`()
@@ -41,7 +41,7 @@ internal class ComicDetailsViewModelTest {
 
     @Test
     fun `if fetchComicData() goes well the detailsState should be Success`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given use case invocation returns results`()
 
             `when fetchComicData gets invoked in viewmodel`()
@@ -52,7 +52,7 @@ internal class ComicDetailsViewModelTest {
 
     @Test
     fun `if fetchComicData() returns error the detailsState should be Error`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given use case invocation returns error`()
 
             `when fetchComicData gets invoked in viewmodel`()

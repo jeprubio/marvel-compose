@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.presentation.viewmodel
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.feature_characters.MainCoroutineRule
+import com.rumosoft.feature_characters.CoroutineTest
 import com.rumosoft.feature_characters.domain.usecase.SearchUseCase
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListState
@@ -14,14 +14,15 @@ import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class CharacterListViewModelTest {
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+internal class CharacterListViewModelTest : CoroutineTest {
+
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     private val searchUseCase: SearchUseCase = mockk()
     private lateinit var heroListViewModel: HeroListViewModel
@@ -30,7 +31,7 @@ internal class CharacterListViewModelTest {
 
     @Test
     fun `performSearch() calls searchUseCase`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
@@ -41,7 +42,7 @@ internal class CharacterListViewModelTest {
 
     @Test
     fun `If performSearch() goes well the HeroListScreenState will be Success`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
@@ -51,7 +52,7 @@ internal class CharacterListViewModelTest {
 
     @Test
     fun `If performSearch() returns error the HeroListScreenState will be Error`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchUseCase invocation returns error`()
 
             `when initialising the ViewModel`()
@@ -61,7 +62,7 @@ internal class CharacterListViewModelTest {
 
     @Test
     fun `If a hero is selected the screen state must change`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchUseCase invocation returns results`()
             `given the ViewModel is initialised`()
             `given the screen state has no selected hero`()
@@ -74,7 +75,7 @@ internal class CharacterListViewModelTest {
 
     @Test
     fun `If the selected hero is reset the screen state must change`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchUseCase invocation returns results`()
             `given the ViewModel is initialised`()
             `given the screen state has a selected hero`()

@@ -1,6 +1,6 @@
 package com.rumosoft.comics.domain.usecase
 
-import com.rumosoft.comics.MainCoroutineRule
+import com.rumosoft.comics.CoroutineTest
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.infrastructure.Resource
@@ -11,15 +11,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class GetComicDetailsUseCaseImplTest {
+internal class GetComicDetailsUseCaseImplTest : CoroutineTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     @MockK
     val repo: ComicsRepository = mockk()
@@ -37,7 +37,7 @@ internal class GetComicDetailsUseCaseImplTest {
 
     @Test
     fun `useCase should call repo`() {
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given getDetails invocation returns results`()
 
             `when the use case gets invoked`()

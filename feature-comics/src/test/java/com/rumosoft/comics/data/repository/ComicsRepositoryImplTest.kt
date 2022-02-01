@@ -1,6 +1,6 @@
 package com.rumosoft.comics.data.repository
 
-import com.rumosoft.comics.MainCoroutineRule
+import com.rumosoft.comics.CoroutineTest
 import com.rumosoft.comics.data.network.ComicsNetwork
 import com.rumosoft.comics.data.network.ComicsResult
 import com.rumosoft.comics.data.network.PaginationInfo
@@ -13,15 +13,15 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-internal class ComicsRepositoryImplTest {
+internal class ComicsRepositoryImplTest : CoroutineTest {
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule(TestCoroutineDispatcher())
+    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
 
     @MockK
     lateinit var comicsNetwork: ComicsNetwork
@@ -40,7 +40,7 @@ internal class ComicsRepositoryImplTest {
 
     @Test
     fun `searchComics is called when calling performSearch in the repository`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given searchComics invocation on network returns results`()
 
             `when performSearch on repo gets invoked`()
@@ -50,7 +50,7 @@ internal class ComicsRepositoryImplTest {
 
     @Test
     fun `searchComic is called when calling getDetails in the repository`() =
-        coroutineRule.testDispatcher.runBlockingTest {
+        testScope.runBlockingTest {
             `given fetchComic invocation on network returns results`()
 
             `when getDetails on repo gets invoked`()

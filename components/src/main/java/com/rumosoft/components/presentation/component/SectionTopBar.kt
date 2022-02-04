@@ -59,39 +59,6 @@ fun SectionTopBar(
         },
         modifier = Modifier.height(100.dp),
     )
-
-/*
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MarvelComposeTheme.colors.surface)
-            .padding(MarvelComposeTheme.paddings.medium),
-    ) {
-        val marvelFont = Font(R.font.marvel_regular)
-        Text(
-            text = stringResource(id = sectionName).uppercase(),
-            color = Color.White,
-            fontSize = 70.sp,
-            fontFamily = FontFamily(marvelFont),
-            textAlign = TextAlign.Center,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(MarvelComposeTheme.paddings.defaultPadding),
-        )
-        if (icon != null) {
-            Icon(
-                imageVector = icon,
-                tint = Color.White,
-                contentDescription = stringResource(id = R.string.search),
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .clickable { onIconClick() }
-                    .padding(MarvelComposeTheme.paddings.medium),
-            )
-        }
-    }
- */
 }
 
 @Preview(showBackground = true)

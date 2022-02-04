@@ -67,6 +67,10 @@ object MarvelComposeTheme {
         @Composable
         get() = MaterialTheme.colors
 
+    val extraColors: CustomColors
+        @Composable
+        get() = LocalColors.current
+
     val typography: Typography
         @Composable
         get() = MaterialTheme.typography

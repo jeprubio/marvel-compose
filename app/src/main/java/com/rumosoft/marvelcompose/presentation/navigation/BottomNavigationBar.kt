@@ -3,7 +3,6 @@ package com.rumosoft.marvelcompose.presentation.navigation
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,6 +10,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.rumosoft.components.presentation.component.AnimatedIcon
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun BottomNavigationBar(
@@ -23,15 +24,21 @@ fun BottomNavigationBar(
         val currentRoute = navBackStackEntry?.destination?.route
         navigationItems.forEach { tab ->
             val tabTitle = stringResource(id = tab.title)
+            val selected = currentRoute == tab.route
             BottomNavigationItem(
                 icon = {
-                    Icon(
+                    AnimatedIcon(
                         painter = painterResource(id = tab.icon),
-                        contentDescription = tabTitle
+                        scale = if (selected) 1.2f else 1f,
+                        color = if (selected) {
+                            MarvelComposeTheme.extraColors.colorSelectedTab
+                        } else {
+                            MarvelComposeTheme.extraColors.colorUnselectedTab
+                        },
                     )
                 },
                 label = { Text(tabTitle) },
-                selected = currentRoute == tab.route,
+                selected = selected,
                 onClick = {
                     onTabClick(tab, navController)
                 },

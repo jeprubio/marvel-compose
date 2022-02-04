@@ -82,10 +82,10 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-navigation:1.0.0"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0-rc01"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
 

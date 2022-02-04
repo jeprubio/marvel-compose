@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +22,7 @@ import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.component.ComicResults
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.domain.model.NoMoreResultsException
+import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
@@ -52,11 +52,11 @@ sealed class ComicListState {
         override fun BuildUI() {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag(ProgressIndicator),
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.testTag(ProgressIndicator)
-                )
+                CustomLoading()
             }
         }
     }

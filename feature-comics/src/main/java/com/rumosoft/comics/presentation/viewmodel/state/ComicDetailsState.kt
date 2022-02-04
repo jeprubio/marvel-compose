@@ -15,6 +15,7 @@ import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.component.ComicDetails
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.domain.model.NoMoreResultsException
+import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.component.ErrorMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
@@ -35,7 +36,7 @@ sealed class ComicDetailsState {
                     .fillMaxSize()
                     .testTag(ComicDetailsProgressIndicator),
             ) {
-                CircularProgressIndicator()
+                CustomLoading()
             }
         }
     }

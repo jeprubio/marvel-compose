@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.NoMoreResultsException
+import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.component.ErrorMessage
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -40,11 +41,9 @@ sealed class HeroListState {
         override fun BuildUI() {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().testTag(HeroListProgressIndicator),
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.testTag(HeroListProgressIndicator)
-                )
+                CustomLoading()
             }
         }
     }

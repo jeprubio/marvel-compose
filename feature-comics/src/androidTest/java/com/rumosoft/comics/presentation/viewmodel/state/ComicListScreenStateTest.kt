@@ -1,6 +1,7 @@
 package com.rumosoft.comics.presentation.viewmodel.state
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -12,6 +13,8 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.ProgressIndicator
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.RetryTag
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.SuccessResult
+import com.rumosoft.components.presentation.theme.LocalLottieAnimationIterations
+import com.rumosoft.components.presentation.theme.LottieAnimationIterations
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import io.mockk.Runs
 import io.mockk.every
@@ -30,8 +33,14 @@ internal class ComicListScreenStateTest : ScreenshotTest {
     @Test
     fun comicListState_loading_shows_ProgressIndicator() {
         composeTestRule.setContent {
-            MarvelComposeTheme {
-                ComicListState.Loading.BuildUI()
+            CompositionLocalProvider(
+                LocalLottieAnimationIterations provides LottieAnimationIterations(
+                    1
+                )
+            ) {
+                MarvelComposeTheme {
+                    ComicListState.Loading.BuildUI()
+                }
             }
         }
 

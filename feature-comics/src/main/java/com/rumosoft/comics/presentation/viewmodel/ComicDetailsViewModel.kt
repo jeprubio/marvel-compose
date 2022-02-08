@@ -22,8 +22,7 @@ class ComicDetailsViewModel @Inject constructor(
 
     fun fetchComicData(comicId: Int) {
         viewModelScope.launch {
-            val results = getComicDetailsUseCase(comicId)
-            when (results) {
+            when (val results = getComicDetailsUseCase(comicId)) {
                 is Resource.Success -> {
                     _detailsState.emit(ComicDetailsState.Success(results.data))
                 }

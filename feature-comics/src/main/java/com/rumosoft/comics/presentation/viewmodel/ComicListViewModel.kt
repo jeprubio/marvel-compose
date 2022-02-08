@@ -118,7 +118,7 @@ class ComicListViewModel @Inject constructor(
         loadMoreData()
     }
 
-    private suspend fun parseErrorResponse(result: Resource.Error) {
+    private fun parseErrorResponse(result: Resource.Error) {
         _comicsListScreenState.update {
             _comicsListScreenState.value
                 .copy(comicListState = ComicListState.Error(result.throwable, ::retry))
@@ -136,7 +136,7 @@ class ComicListViewModel @Inject constructor(
         performSearch(_comicsListScreenState.value.textSearched, false)
     }
 
-    private suspend fun setLoadingMore(value: Boolean) {
+    private fun setLoadingMore(value: Boolean) {
         val currentComics =
             (_comicsListScreenState.value.comicListState as? ComicListState.Success)?.comics
         if (currentComics != null) {

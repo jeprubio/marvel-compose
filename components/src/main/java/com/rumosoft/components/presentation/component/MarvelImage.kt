@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,6 +13,9 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.transform.CircleCropTransformation
 import com.rumosoft.components.R
+
+const val MarvelImage = "marvelImage"
+const val Placeholder = "placeholder"
 
 @Composable
 fun MarvelImage(
@@ -40,13 +44,13 @@ fun MarvelImage(
             ),
             contentDescription = contentDescription,
             contentScale = contentScale,
-            modifier = modifier
+            modifier = modifier.testTag(MarvelImage)
         )
     } else if (noImage != null) {
         Image(
             painterResource(id = noImage),
             contentDescription = stringResource(id = R.string.no_image),
-            modifier = modifier
+            modifier = modifier.testTag(Placeholder)
         )
     }
 }

@@ -1,19 +1,10 @@
 package com.rumosoft.feature_characters.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -22,6 +13,7 @@ import com.rumosoft.components.presentation.component.TopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
+import com.rumosoft.feature_characters.presentation.screen.state.BuildUI
 import com.rumosoft.feature_characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
 

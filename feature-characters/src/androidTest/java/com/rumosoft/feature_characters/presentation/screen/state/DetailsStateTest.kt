@@ -1,4 +1,4 @@
-package com.rumosoft.feature_characters.presentation.viewmodel.state
+package com.rumosoft.feature_characters.presentation.screen.state
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.assertIsDisplayed
@@ -9,6 +9,9 @@ import com.rumosoft.components.presentation.theme.LocalLottieAnimationIterations
 import com.rumosoft.components.presentation.theme.LottieAnimationIterations
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
+import com.rumosoft.feature_characters.presentation.viewmodel.state.DetailsState
+import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListProgressIndicator
+import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListSuccessResult
 import org.junit.Rule
 import org.junit.Test
 

@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.comics.R
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
+import com.rumosoft.comics.presentation.screen.state.BuildUI
 import com.rumosoft.comics.presentation.viewmodel.ComicDetailsViewModel
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.components.presentation.component.TopBar

@@ -28,6 +28,7 @@ import com.rumosoft.components.presentation.component.SectionTopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.feature_characters.R
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
+import com.rumosoft.feature_characters.presentation.screen.state.BuildUI
 import com.rumosoft.feature_characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.feature_characters.presentation.viewmodel.state.HeroListState
 

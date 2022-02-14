@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.comics.R
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
+import com.rumosoft.comics.presentation.screen.state.BuildUI
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.commons.domain.model.Comic

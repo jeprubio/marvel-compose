@@ -8,6 +8,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.karumi.shot.ScreenshotTest
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
+import com.rumosoft.comics.presentation.screen.state.BuildUI
 import com.rumosoft.components.presentation.component.RetryButton
 import com.rumosoft.components.presentation.theme.LocalLottieAnimationIterations
 import com.rumosoft.components.presentation.theme.LottieAnimationIterations

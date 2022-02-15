@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.data.repository
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.feature_characters.CoroutineTest
+import com.rumosoft.feature_characters.TestCoroutineExtension
 import com.rumosoft.feature_characters.data.network.CharactersNetwork
 import com.rumosoft.feature_characters.data.network.HeroesResult
 import com.rumosoft.feature_characters.data.network.PaginationInfo
@@ -12,28 +12,19 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
-internal class SearchRepositoryImplTest : CoroutineTest {
-
-    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
-
+@ExtendWith(TestCoroutineExtension::class)
+internal class SearchRepositoryImplTest {
     @MockK
     lateinit var marvelNetwork: CharactersNetwork
-
     private val searchRepository: SearchRepository
-
     private val comicId = 1
-
     private val thumbnailUrl = "thumbnailUrl"
-
     private val offset = 0
-
     private val limit = 20
 
     init {
@@ -43,7 +34,7 @@ internal class SearchRepositoryImplTest : CoroutineTest {
 
     @Test
     fun `searchHeroes is called when calling performSearch in the repository`() =
-        testScope.runBlockingTest {
+        runTest {
             `given searchHeroes invocation on network returns results`()
 
             `when performSearch on repo gets invoked`()
@@ -53,7 +44,7 @@ internal class SearchRepositoryImplTest : CoroutineTest {
 
     @Test
     fun `getComicThumbnail is called when calling getThumbnail in the repository`() =
-        testScope.runBlockingTest {
+        runTest {
             `given getComicThumbnail invocation on network returns results`()
 
             `when getThumbnail on repo gets invoked`()

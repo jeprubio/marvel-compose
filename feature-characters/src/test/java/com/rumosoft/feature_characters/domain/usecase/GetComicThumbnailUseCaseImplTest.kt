@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.domain.usecase
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.feature_characters.CoroutineTest
+import com.rumosoft.feature_characters.TestCoroutineExtension
 import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -9,24 +9,17 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
-internal class GetComicThumbnailUseCaseImplTest : CoroutineTest {
-
-    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
-
+@ExtendWith(TestCoroutineExtension::class)
+internal class GetComicThumbnailUseCaseImplTest {
     @MockK
     val repo: SearchRepository = mockk()
-
     private val useCase: GetComicThumbnailUseCase = GetComicThumbnailUseCaseImpl(repo)
-
     private val comicId = 1
-
     private val thumbnailUrl = "thumbnailUrl"
 
     init {
@@ -35,7 +28,7 @@ internal class GetComicThumbnailUseCaseImplTest : CoroutineTest {
 
     @Test
     fun `useCase should call repo`() {
-        testScope.runBlockingTest {
+        runTest {
             `given getThumbnail invocation returns results`()
 
             `when the use case gets invoked`()

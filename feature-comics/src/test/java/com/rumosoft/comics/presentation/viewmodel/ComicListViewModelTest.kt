@@ -1,7 +1,7 @@
 package com.rumosoft.comics.presentation.viewmodel
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import com.rumosoft.comics.CoroutineTest
+import com.rumosoft.comics.TestCoroutineExtension
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -11,24 +11,20 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
-internal class ComicListViewModelTest : CoroutineTest {
-
-    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
-
+@ExtendWith(TestCoroutineExtension::class)
+internal class ComicListViewModelTest {
     private val comicsUseCase: GetComicsUseCase = mockk()
     private lateinit var comicListViewModel: ComicListViewModel
 
     @Test
     fun `performSearch() calls searchUseCase`() {
-        testScope.runBlockingTest {
+        runTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
@@ -39,7 +35,7 @@ internal class ComicListViewModelTest : CoroutineTest {
 
     @Test
     fun `If performSearch() goes well the HeroListScreenState will be Success`() =
-        testScope.runBlockingTest {
+        runTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
@@ -49,7 +45,7 @@ internal class ComicListViewModelTest : CoroutineTest {
 
     @Test
     fun `If performSearch() returns error the HeroListScreenState will be Error`() =
-        testScope.runBlockingTest {
+        runTest {
             `given searchUseCase invocation returns error`()
 
             `when initialising the ViewModel`()

@@ -1,7 +1,7 @@
 package com.rumosoft.feature_characters.domain.usecase
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.feature_characters.CoroutineTest
+import com.rumosoft.feature_characters.TestCoroutineExtension
 import com.rumosoft.feature_characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.feature_characters.infrastructure.sampleData.SampleData
 import io.mockk.MockKAnnotations
@@ -10,20 +10,15 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
-internal class SearchUseCaseImplTest : CoroutineTest {
-
-    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
-
+@ExtendWith(TestCoroutineExtension::class)
+internal class SearchUseCaseImplTest {
     @MockK
     val repo: SearchRepository = mockk()
-
     private val useCase: SearchUseCase = SearchUseCaseImpl(repo)
 
     init {
@@ -32,7 +27,7 @@ internal class SearchUseCaseImplTest : CoroutineTest {
 
     @Test
     fun `useCase should call repo`() {
-        testScope.runBlockingTest {
+        runTest {
             `given performSearch invocation returns results`()
 
             `when the use case gets invoked`()

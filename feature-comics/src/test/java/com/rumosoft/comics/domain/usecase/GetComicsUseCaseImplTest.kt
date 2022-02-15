@@ -1,6 +1,6 @@
 package com.rumosoft.comics.domain.usecase
 
-import com.rumosoft.comics.CoroutineTest
+import com.rumosoft.comics.TestCoroutineExtension
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.infrastructure.Resource
@@ -10,20 +10,15 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
-internal class GetComicsUseCaseImplTest : CoroutineTest {
-
-    override var dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-    override var testScope: TestCoroutineScope = TestCoroutineScope(dispatcher)
-
+@ExtendWith(TestCoroutineExtension::class)
+internal class GetComicsUseCaseImplTest {
     @MockK
     val repo: ComicsRepository = mockk()
-
     private val useCase: GetComicsUseCase = GetComicsUseCaseImpl(repo)
 
     @MockK
@@ -35,7 +30,7 @@ internal class GetComicsUseCaseImplTest : CoroutineTest {
 
     @Test
     fun `useCase should call repo`() {
-        testScope.runBlockingTest {
+        runTest {
             `given performSearch invocation returns results`()
 
             `when the use case gets invoked`()

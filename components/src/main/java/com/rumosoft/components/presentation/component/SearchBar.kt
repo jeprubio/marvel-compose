@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
@@ -14,7 +15,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -42,6 +42,7 @@ internal const val SearchBarTrailingIconTestTag = "searchBarTrailingIconTestTag"
 fun SearchBar(
     state: MutableState<TextFieldValue>,
     modifier: Modifier = Modifier,
+    hint: String? = null,
     onValueChanged: (String) -> Unit = {},
     onLeadingClicked: () -> Unit = {},
 ) {
@@ -52,6 +53,14 @@ fun SearchBar(
         onValueChange = { value ->
             state.value = value
             onValueChanged(value.text)
+        },
+        placeholder = {
+            if (hint != null) {
+                Text(
+                    text = hint,
+                    style = TextStyle(fontSize = 18.sp)
+                )
+            }
         },
         modifier = modifier
             .focusOrder(textFieldFocus)
@@ -83,10 +92,6 @@ fun SearchBar(
             onDone = { focusManager.clearFocus() }
         ),
     )
-
-    SideEffect {
-        textFieldFocus.requestFocus()
-    }
 }
 
 @Composable

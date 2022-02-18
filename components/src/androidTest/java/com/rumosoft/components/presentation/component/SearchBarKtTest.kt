@@ -54,16 +54,20 @@ internal class SearchBarKtTest : ScreenshotTest {
 
     @Test
     fun searchBar_trailing_icon_cleans_text() {
+        val hint = "hint"
         composeTestRule.setContent {
             MarvelComposeTheme {
                 val textState = remember { mutableStateOf(TextFieldValue("whatever")) }
-                SearchBar(state = textState)
+                SearchBar(
+                    state = textState,
+                    hint = hint,
+                )
             }
         }
 
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).assertIsDisplayed()
         composeTestRule.onNodeWithTag(SearchBarTrailingIconTestTag).performClick()
-        composeTestRule.onNodeWithTag(TextFieldTestTag).assert(hasText(""))
+        composeTestRule.onNodeWithTag(TextFieldTestTag).assert(hasText(hint))
 
         compareScreenshot(composeTestRule)
     }

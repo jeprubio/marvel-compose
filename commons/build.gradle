@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'com.google.secrets_gradle_plugin' version '0.6'
 }
@@ -14,6 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com:443/\"")
     }
 
     buildTypes {
@@ -44,9 +47,16 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
     implementation("com.squareup.okio:okio:2.10.0")
+    debugApi("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation:1.0.0"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_nav_compose"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     androidTestImplementation "androidx.test.ext:junit:$junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

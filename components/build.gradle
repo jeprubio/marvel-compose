@@ -60,7 +60,7 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:1.4.0")
 
-    implementation 'com.airbnb.android:lottie-compose:4.0.0'
+    implementation 'com.airbnb.android:lottie-compose:5.0.3'
 
     androidTestImplementation("androidx.test.ext:junit:$junit_version")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_version")

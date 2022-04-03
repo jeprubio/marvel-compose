@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'com.google.secrets_gradle_plugin' version '0.6'
+    id 'com.dicedmelon.gradle.jacoco-android'
 }
 
 android {
@@ -84,7 +85,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     testImplementation("org.junit.jupiter:junit-jupiter:$junit5_version")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junit5_version")
@@ -97,4 +98,12 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
     androidTestImplementation("io.mockk:mockk-android:$mockk_version")
+}
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
 }

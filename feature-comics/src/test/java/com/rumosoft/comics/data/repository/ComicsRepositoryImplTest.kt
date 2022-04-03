@@ -38,7 +38,18 @@ internal class ComicsRepositoryImplTest {
 
             `when performSearch on repo gets invoked`()
 
-            `then searchComics gets executed on nework`()
+            `then searchComics gets executed on network`()
+        }
+
+    @Test
+    fun `searchComics is called twice when calling performSearch twice in the repository`() =
+        runTest {
+            `given searchComics invocation on network returns results`()
+            `given searchComics invocation on network returns results for the second page`()
+
+            `when performSearch on repo gets invoked`(2)
+
+            `then searchComics gets executed twice on network`()
         }
 
     @Test
@@ -48,11 +59,21 @@ internal class ComicsRepositoryImplTest {
 
             `when getDetails on repo gets invoked`()
 
-            `then fetchComic gets executed on nework`()
+            `then fetchComic gets executed on network`()
         }
 
     private fun `given searchComics invocation on network returns results`() {
         coEvery { comicsNetwork.searchComics(offset, limit, "") } returns
+            Resource.Success(
+                ComicsResult(
+                    PaginationInfo(1, 1),
+                    SampleData.comicsSample
+                )
+            )
+    }
+
+    private fun `given searchComics invocation on network returns results for the second page`() {
+        coEvery { comicsNetwork.searchComics(offset + limit, limit, "") } returns
             Resource.Success(
                 ComicsResult(
                     PaginationInfo(1, 1),
@@ -68,19 +89,26 @@ internal class ComicsRepositoryImplTest {
             )
     }
 
-    private suspend fun `when performSearch on repo gets invoked`() {
-        comicsRepository.performSearch("")
+    private suspend fun `when performSearch on repo gets invoked`(times: Int = 1) {
+        for (i in 1..times) {
+            comicsRepository.performSearch("")
+        }
     }
 
     private suspend fun `when getDetails on repo gets invoked`() {
         comicsRepository.getDetails(comicId)
     }
 
-    private fun `then searchComics gets executed on nework`() {
+    private fun `then searchComics gets executed on network`() {
         coVerify { comicsNetwork.searchComics(offset, limit, "") }
     }
 
-    private fun `then fetchComic gets executed on nework`() {
+    private fun `then searchComics gets executed twice on network`() {
+        coVerify { comicsNetwork.searchComics(offset, limit, "") }
+        coVerify { comicsNetwork.searchComics(offset + limit, limit, "") }
+    }
+
+    private fun `then fetchComic gets executed on network`() {
         coVerify { comicsNetwork.fetchComic(comicId) }
     }
 }

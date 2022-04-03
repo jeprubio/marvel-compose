@@ -1,5 +1,6 @@
 package com.rumosoft.characters.data.network
 
+import com.rumosoft.characters.TestCoroutineExtension
 import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.data.network.apimodels.ComicDataContainer
 import com.rumosoft.commons.data.network.apimodels.ComicDto
@@ -9,7 +10,6 @@ import com.rumosoft.commons.data.network.apimodels.HeroResults
 import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.data.network.apimodels.SearchData
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.characters.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -38,6 +38,7 @@ internal class CharactersNetworkImplTest {
     fun `Successful response performing search returns Success`() =
         runTest {
             `given a response is returned when searchHeroes gets called on the service`()
+
             val response = `when searchHeroes gets called on the network`()
 
             `then the response should be of type Success`(response)
@@ -45,9 +46,20 @@ internal class CharactersNetworkImplTest {
         }
 
     @Test
+    fun `Response without data performing search returns Error`() =
+        runTest {
+            `given a response with no data is returned when searchHeroes gets called on the service`()
+
+            val response = `when searchHeroes gets called on the network`()
+
+            `then the response should be of type Error`(response)
+        }
+
+    @Test
     fun `Error performing search returns Error`() =
         runTest {
             `given an exception is thrown when searchHeroes gets called on the service`()
+
             val response = `when searchHeroes gets called on the network`()
 
             `then the response should be of type Error`(response)
@@ -57,6 +69,7 @@ internal class CharactersNetworkImplTest {
     fun `Successful response performing getComicThumbnail returns Success`() =
         runTest {
             `given a response is returned when searchComic gets called on the service`()
+
             val response = `when getComicThumbnail gets called on the network`()
 
             `then the searchComic response should be of type Success`(response)
@@ -67,6 +80,7 @@ internal class CharactersNetworkImplTest {
     fun `Error performing getComicThumbnail returns Error`() =
         runTest {
             `given an exception is thrown when searchComic gets called on the service`()
+
             val response = `when getComicThumbnail gets called on the network`()
 
             `then the getComicThumbnail response should be of type Error`(response)
@@ -91,6 +105,11 @@ internal class CharactersNetworkImplTest {
                     )
                 )
             )
+    }
+
+    private fun `given a response with no data is returned when searchHeroes gets called on the service`() {
+        coEvery { marvelService.searchHeroes(offset = offset, limit = limit) } returns
+            HeroResults()
     }
 
     private fun `given a response is returned when searchComic gets called on the service`() {

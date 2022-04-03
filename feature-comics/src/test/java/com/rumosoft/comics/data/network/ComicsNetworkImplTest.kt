@@ -44,6 +44,7 @@ internal class ComicsNetworkImplTest {
             )
         )
     )
+    private val comicResultsNoData = ComicResults()
 
     init {
         MockKAnnotations.init(this)
@@ -58,6 +59,15 @@ internal class ComicsNetworkImplTest {
 
             `then the response should be of type Success`(response)
             `then there should be one element in the returned search data`(response)
+        }
+
+    @Test
+    fun `Response without data performing search returns Error`() =
+        runTest {
+            `given a response with no data is returned when searchComics gets called on the service`()
+            val response = `when searchComics gets called on the network`()
+
+            `then the response should be of type Error`(response)
         }
 
     @Test
@@ -90,6 +100,11 @@ internal class ComicsNetworkImplTest {
     private fun `given a response is returned when searchComics gets called on the service`() {
         coEvery { marvelService.searchComics(offset = offset, limit = limit) } returns
             comicResults
+    }
+
+    private fun `given a response with no data is returned when searchComics gets called on the service`() {
+        coEvery { marvelService.searchComics(offset = offset, limit = limit) } returns
+            comicResultsNoData
     }
 
     private fun `given a response is returned when searchComic gets called on the service`() {

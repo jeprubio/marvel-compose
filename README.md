@@ -29,15 +29,20 @@ Follow the instructions at https://developer.android.com/studio/install dependin
 
 Open the code in android studio.
 
-Edit the `local.properties` file adding a value for `MARVEL_KEY`. E.g.:
-`MARVEL_KEY=1234567890abcdef1234567890abcdef12345678`
+Edit the `local.properties` file adding a value for `MARVEL_PRIVATE_KEY` and `MARVEL_PUBLIC_KEY`. E.g.:
+```
+MARVEL_PRIVATE_KEY=1234567890abcdef1234567890abcdef12345678
+MARVEL_PUBLIC_KEY=abcdefghijklmnopqrstuvwxyz123456
+```
 
 Wait until gradle finishes and press the play button.
 
 To run the unit tests: `./gradlew lint testDebug --continue`
+
 To run the UI tests: `./gradlew connectedDebugAndroidTest`
 
 To record the screenshots test: `./gradlew executeScreenshotTests -Precord`
+
 To execute the screenshots test: `./gradlew executeScreenshotTests`
 
 To generate code coverage reports: `./gradlew clean build jacocoTestDebugUnitTestReport`

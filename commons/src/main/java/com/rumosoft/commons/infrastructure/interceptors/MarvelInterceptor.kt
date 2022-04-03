@@ -8,7 +8,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 
 class MarvelInterceptor : Interceptor {
-    private val apiKey = "cfcb9596194b34c19e3f80cb295d33a1"
+    private val apiKey = BuildConfig.MARVEL_PUBLIC_KEY
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -26,7 +26,7 @@ class MarvelInterceptor : Interceptor {
 
     fun hash(ts: String): String {
         val md = MessageDigest.getInstance("MD5")
-        val input = ts + BuildConfig.MARVEL_KEY + apiKey
+        val input = ts + BuildConfig.MARVEL_PRIVATE_KEY + apiKey
 
         return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
     }

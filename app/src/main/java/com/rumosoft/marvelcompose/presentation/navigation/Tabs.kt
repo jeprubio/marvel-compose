@@ -3,7 +3,7 @@ package com.rumosoft.marvelcompose.presentation.navigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.rumosoft.comics.presentation.navigation.NavComicItem
-import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
+import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.R
 
 sealed class Tabs(

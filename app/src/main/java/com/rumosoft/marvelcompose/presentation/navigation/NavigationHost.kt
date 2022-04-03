@@ -7,7 +7,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
+import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.presentation.screen.RedirectScreen
 import dev.jeziellago.compose.multinavcompose.loadMultiNavComposables
 

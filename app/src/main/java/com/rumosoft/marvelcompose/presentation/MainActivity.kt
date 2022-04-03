@@ -23,8 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.comics.presentation.navigation.comicsNavModule
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.feature_characters.presentation.navigation.NavCharItem
-import com.rumosoft.feature_characters.presentation.navigation.charactersNavModule
+import com.rumosoft.characters.presentation.navigation.NavCharItem
+import com.rumosoft.characters.presentation.navigation.charactersNavModule
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost

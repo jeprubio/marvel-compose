@@ -34,11 +34,13 @@ Edit the `local.properties` file adding a value for `MARVEL_KEY`. E.g.:
 
 Wait until gradle finishes and press the play button.
 
-To run the unit tests: ./gradlew lint testDebug --continue
-To run the UI tests: ./gradlew connectedDebugAndroidTest
+To run the unit tests: `./gradlew lint testDebug --continue`
+To run the UI tests: `./gradlew connectedDebugAndroidTest`
 
-To record the screenshots test: ./gradlew executeScreenshotTests -Precord
-To execute the screenshots test: ./gradlew executeScreenshotTests
+To record the screenshots test: `./gradlew executeScreenshotTests -Precord`
+To execute the screenshots test: `./gradlew executeScreenshotTests`
+
+To generate code coverage reports: `./gradlew clean build jacocoTestDebugUnitTestReport`
 
 ## Screenshots
 

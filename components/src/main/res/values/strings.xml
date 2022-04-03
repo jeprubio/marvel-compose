@@ -8,4 +8,7 @@
     <string name="error_data_message">Could not get the data</string>
     <string name="show_details">Show Details</string>
     <string name="search_hint">Text to search. I.e.: Spider</string>
+    <string name="search_text">Text to search</string>
+    <string name="search_close">Close search</string>
+    <string name="search_clear">Clear search</string>
 </resources>

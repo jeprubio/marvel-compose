@@ -24,18 +24,17 @@ import androidx.compose.ui.focus.focusOrder
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-
-internal const val TextFieldTestTag = "textFieldTestTag"
-internal const val SearchBarLeadingIconTestTag = "searchBarLeadingIconTestTag"
-internal const val SearchBarTrailingIconTestTag = "searchBarTrailingIconTestTag"
 
 @ExperimentalComposeUiApi
 @Composable
@@ -48,6 +47,7 @@ fun SearchBar(
 ) {
     val focusManager = LocalFocusManager.current
     val (textFieldFocus) = FocusRequester.createRefs()
+    val searchTextContentDescription = stringResource(R.string.search_text)
     TextField(
         value = state.value,
         onValueChange = { value ->
@@ -65,7 +65,7 @@ fun SearchBar(
         modifier = modifier
             .focusOrder(textFieldFocus)
             .fillMaxWidth()
-            .testTag(TextFieldTestTag),
+            .semantics { contentDescription = searchTextContentDescription },
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
             SearchBarLeadingIcon(onLeadingClicked)
@@ -96,13 +96,14 @@ fun SearchBar(
 
 @Composable
 private fun SearchBarLeadingIcon(onLeadingClicked: () -> Unit) {
+    val closeContentDescription = stringResource(id = R.string.search_close)
     IconButton(
         onClick = onLeadingClicked,
-        modifier = Modifier.testTag(SearchBarLeadingIconTestTag),
+        modifier = Modifier.semantics { contentDescription = closeContentDescription },
     ) {
         Icon(
             Icons.Default.KeyboardArrowUp,
-            contentDescription = "",
+            contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
                 .size(24.dp),
@@ -115,15 +116,16 @@ private fun SearchBarTrailingIcon(
     state: MutableState<TextFieldValue>,
     onValueChanged: (String) -> Unit
 ) {
+    val clearContentDescription = stringResource(id = R.string.search_clear)
     IconButton(
         onClick = {
             onCrossIconPressed(state, onValueChanged)
         },
-        modifier = Modifier.testTag(SearchBarTrailingIconTestTag)
+        modifier = Modifier.semantics { contentDescription = clearContentDescription }
     ) {
         Icon(
             Icons.Default.Close,
-            contentDescription = "",
+            contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
                 .size(24.dp)

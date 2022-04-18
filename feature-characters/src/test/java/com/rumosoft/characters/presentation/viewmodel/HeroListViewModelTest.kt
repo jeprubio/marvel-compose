@@ -1,10 +1,11 @@
 package com.rumosoft.characters.presentation.viewmodel
 
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.characters.TestCoroutineExtension
 import com.rumosoft.characters.domain.usecase.SearchUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
+import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel.Companion.DEBOUNCE_DELAY
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
+import com.rumosoft.commons.infrastructure.Resource
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -13,13 +14,14 @@ import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
 @ExtendWith(TestCoroutineExtension::class)
-internal class CharacterListViewModelTest {
+internal class HeroListViewModelTest {
     private val searchUseCase: SearchUseCase = mockk()
     private lateinit var heroListViewModel: HeroListViewModel
     private val hero = SampleData.heroesSample.first()
@@ -30,6 +32,7 @@ internal class CharacterListViewModelTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
+            `when delay time has passed`()
 
             `then searchUseCase gets invoked`()
         }
@@ -41,6 +44,7 @@ internal class CharacterListViewModelTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
+            `when delay time has passed`()
 
             `then HeroListScreenSuccess should be Success`()
         }
@@ -51,6 +55,7 @@ internal class CharacterListViewModelTest {
             `given searchUseCase invocation returns error`()
 
             `when initialising the ViewModel`()
+            `when delay time has passed`()
 
             `then HeroListScreenSuccess should be Error`()
         }
@@ -106,6 +111,10 @@ internal class CharacterListViewModelTest {
 
     private fun `when initialising the ViewModel`() {
         heroListViewModel = HeroListViewModel(searchUseCase)
+    }
+
+    private suspend fun `when delay time has passed`() {
+        delay(DEBOUNCE_DELAY)
     }
 
     private fun `when a hero gets selected`() {

@@ -9,95 +9,80 @@ import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.infrastructure.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-const val DEBOUNCE_DELAY = 1_000L
-
 @HiltViewModel
 class HeroListViewModel @Inject constructor(
     private val searchUseCase: SearchUseCase,
 ) : ViewModel() {
+    companion object {
+        const val DEBOUNCE_DELAY = 1_000L
+    }
 
     val heroListScreenState: StateFlow<HeroListScreenState> get() = _heroListScreenState
     private val _heroListScreenState =
         MutableStateFlow(initialScreenState())
-
-    private var performSearchJob: Job? = null
+    private val textSearched = MutableStateFlow("")
 
     init {
-        performSearch(_heroListScreenState.value.textSearched, true)
+        observeTextSearched()
     }
 
     fun onQueryChanged(query: String) {
         if (query != _heroListScreenState.value.textSearched) {
-            Timber.d("Searching: $query")
-            cancelJobIfActive()
-            performSearchJob = viewModelScope.launch {
-                _heroListScreenState.update {
-                    _heroListScreenState.value
-                        .copy(textSearched = query, heroListState = HeroListState.Loading)
-                }
-                delay(DEBOUNCE_DELAY)
-                try {
-                    _heroListScreenState.update { _heroListScreenState.value.copy(textSearched = query) }
-                    performSearch(query, true)
-                } catch (exception: Exception) {
-                    if (exception !is CancellationException) {
-                        // TODO Do something?
-                    }
-                }
-            }
+            textSearched.value = query
         }
     }
 
     fun onToggleSearchClick() {
         _heroListScreenState.update {
-            heroListScreenState.value
-                .copy(showingSearchBar = !_heroListScreenState.value.showingSearchBar)
+            it.copy(showingSearchBar = !_heroListScreenState.value.showingSearchBar)
         }
     }
 
+    private fun observeTextSearched() {
+        textSearched
+            .debounce(DEBOUNCE_DELAY)
+            .onEach { searching ->
+                _heroListScreenState.update { it.copy(textSearched = searching) }
+                performSearch(searching, fromStart = true)
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = ""
+            )
+    }
+
     private fun performSearch(query: String = "", fromStart: Boolean) {
-        viewModelScope.launch {
-            when (val result = searchUseCase(query, fromStart)) {
-                is Resource.Success -> {
-                    parseSuccessResponse(result)
+        try {
+            Timber.d("Searching: $query")
+            viewModelScope.launch {
+                when (val result = searchUseCase(query, fromStart)) {
+                    is Resource.Success -> {
+                        parseSuccessResponse(result)
+                    }
+                    is Resource.Error -> {
+                        parseErrorResponse(result)
+                    }
                 }
-                is Resource.Error -> {
-                    parseErrorResponse(result)
-                }
+            }
+        } catch (exception: Exception) {
+            if (exception !is CancellationException) {
+                // TODO Do something?
             }
         }
     }
 
-    internal fun characterClicked(character: Character) {
-        Timber.d("On hero clicked: $character")
-        viewModelScope.launch {
-            _heroListScreenState.emit(
-                _heroListScreenState.value
-                    .copy(selectedCharacter = character)
-            )
-        }
-    }
-
-    fun resetSelectedCharacter() {
-        Timber.d("Reset selected character")
-        viewModelScope.launch {
-            _heroListScreenState.emit(
-                _heroListScreenState.value
-                    .copy(selectedCharacter = null)
-            )
-        }
-    }
-
-    private suspend fun parseSuccessResponse(result: Resource.Success<List<Character>?>) {
+    private fun parseSuccessResponse(result: Resource.Success<List<Character>?>) {
         setLoadingMore(false)
         _heroListScreenState.update {
             _heroListScreenState.value
@@ -112,10 +97,27 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    private suspend fun parseErrorResponse(result: Resource.Error) {
+    internal fun characterClicked(character: Character) {
+        Timber.d("On hero clicked: $character")
+        viewModelScope.launch {
+            _heroListScreenState.update {
+                it.copy(selectedCharacter = character)
+            }
+        }
+    }
+
+    fun resetSelectedCharacter() {
+        Timber.d("Reset selected character")
+        viewModelScope.launch {
+            _heroListScreenState.update {
+                it.copy(selectedCharacter = null)
+            }
+        }
+    }
+
+    private fun parseErrorResponse(result: Resource.Error) {
         _heroListScreenState.update {
-            _heroListScreenState.value
-                .copy(heroListState = HeroListState.Error(result.throwable, ::retry))
+            it.copy(heroListState = HeroListState.Error(result.throwable, ::retry))
         }
     }
 
@@ -131,27 +133,22 @@ class HeroListViewModel @Inject constructor(
         viewModelScope.launch {
             setLoadingMore(true)
         }
-        performSearch(_heroListScreenState.value.textSearched, false)
+        performSearch(_heroListScreenState.value.textSearched, fromStart = false)
     }
 
-    private suspend fun setLoadingMore(value: Boolean) {
+    private fun setLoadingMore(value: Boolean) {
         val currentHeroes =
             (_heroListScreenState.value.heroListState as? HeroListState.Success)?.characters
         if (currentHeroes != null) {
             _heroListScreenState.update {
-                _heroListScreenState.value
-                    .copy(
-                        heroListState = HeroListState.Success(
-                            characters = currentHeroes,
-                            loadingMore = value,
-                        )
+                it.copy(
+                    heroListState = HeroListState.Success(
+                        characters = currentHeroes,
+                        loadingMore = value,
                     )
+                )
             }
         }
-    }
-
-    private fun cancelJobIfActive() {
-        performSearchJob?.takeIf { it.isActive }?.cancel()
     }
 
     private fun initialScreenState(): HeroListScreenState =

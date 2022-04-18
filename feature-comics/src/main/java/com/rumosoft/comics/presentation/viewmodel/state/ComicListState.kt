@@ -1,9 +1,7 @@
 package com.rumosoft.comics.presentation.viewmodel.state
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import com.rumosoft.commons.domain.model.Comic
 
-@ExperimentalFoundationApi
 data class ComicListScreenState(
     val comicListState: ComicListState,
     val showingSearchBar: Boolean = false,
@@ -11,7 +9,6 @@ data class ComicListScreenState(
     val textSearched: String = "",
 )
 
-@ExperimentalFoundationApi
 sealed class ComicListState {
     companion object {
         const val ProgressIndicator = "progressIndicator"

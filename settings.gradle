@@ -8,7 +8,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MarvelCompose"
 include ':app'
-include ':components'
+include ':library-components'
 include ':feature-characters'
 include ':feature-comics'
-include ':commons'
+include ':library-commons'

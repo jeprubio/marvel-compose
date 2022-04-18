@@ -28,6 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rumosoft.characters.R
+import com.rumosoft.characters.infrastructure.sampleData.SampleData
+import com.rumosoft.characters.presentation.viewmodel.state.HeroListSuccessResult
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.ComicSummary
 import com.rumosoft.commons.domain.model.Link
@@ -36,9 +39,6 @@ import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.CustomDiamond
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.characters.R
-import com.rumosoft.characters.infrastructure.sampleData.SampleData
-import com.rumosoft.characters.presentation.viewmodel.state.HeroListSuccessResult
 import timber.log.Timber
 
 @Composable

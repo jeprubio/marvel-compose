@@ -23,15 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.rumosoft.commons.domain.model.Character
-import com.rumosoft.components.presentation.component.SearchBar
-import com.rumosoft.components.presentation.component.SectionTopBar
-import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.characters.R
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.screen.state.BuildUI
 import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
+import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.components.presentation.component.SearchBar
+import com.rumosoft.components.presentation.component.SectionTopBar
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi

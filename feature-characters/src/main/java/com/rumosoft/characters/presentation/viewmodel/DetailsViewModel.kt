@@ -2,11 +2,11 @@ package com.rumosoft.characters.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
+import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.commons.infrastructure.extensions.update
-import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
-import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

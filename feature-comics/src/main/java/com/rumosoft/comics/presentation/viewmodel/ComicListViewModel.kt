@@ -79,7 +79,7 @@ class ComicListViewModel @Inject constructor(
         }
     }
 
-    private suspend fun parseSuccessResponse(result: Resource.Success<List<Comic>?>) {
+    private fun parseSuccessResponse(result: Resource.Success<List<Comic>?>) {
         setLoadingMore(false)
         _comicsListScreenState.update {
             _comicsListScreenState.value

@@ -60,8 +60,8 @@ android {
 dependencies {
     implementation project(path: ':feature-characters')
     implementation project(path: ':feature-comics')
-    implementation project(path: ':components')
-    implementation project(path: ':commons')
+    implementation project(path: ':library-components')
+    implementation project(path: ':library-commons')
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

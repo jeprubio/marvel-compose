@@ -8,14 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import com.rumosoft.components.presentation.component.CustomLoading
-import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.component.HeroDetails
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState.Loading
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState.Success
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListProgressIndicator
+import com.rumosoft.components.presentation.component.CustomLoading
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun DetailsState.BuildUI(onComicSelected: (Int) -> Unit) {

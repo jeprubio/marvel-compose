@@ -9,13 +9,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import com.rumosoft.components.presentation.component.TopBar
-import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.characters.R
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.screen.state.BuildUI
 import com.rumosoft.characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
+import com.rumosoft.components.presentation.component.TopBar
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun DetailsScreen(

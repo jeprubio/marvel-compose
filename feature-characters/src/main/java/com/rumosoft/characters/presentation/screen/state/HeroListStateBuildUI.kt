@@ -9,11 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.rumosoft.commons.domain.model.NoMoreResultsException
-import com.rumosoft.components.presentation.component.CustomLoading
-import com.rumosoft.components.presentation.component.ErrorMessage
-import com.rumosoft.components.presentation.component.SimpleMessage
-import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.characters.R
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.component.HeroResults
@@ -25,6 +20,11 @@ import com.rumosoft.characters.presentation.viewmodel.state.HeroListState.Error
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState.Loading
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState.Success
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListSuccessResult
+import com.rumosoft.commons.domain.model.NoMoreResultsException
+import com.rumosoft.components.presentation.component.CustomLoading
+import com.rumosoft.components.presentation.component.ErrorMessage
+import com.rumosoft.components.presentation.component.SimpleMessage
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun HeroListState.BuildUI() {

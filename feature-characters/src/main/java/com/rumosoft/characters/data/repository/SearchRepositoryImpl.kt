@@ -1,12 +1,12 @@
 package com.rumosoft.characters.data.repository
 
+import com.rumosoft.characters.data.network.CharactersNetwork
+import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.commons.domain.model.CallInProgressException
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.domain.model.NetworkErrorException
 import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.characters.data.network.CharactersNetwork
-import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
 import timber.log.Timber
 import javax.inject.Inject
 

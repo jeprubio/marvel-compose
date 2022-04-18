@@ -26,11 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rumosoft.characters.R
+import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.characters.R
-import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import timber.log.Timber
 
 @Composable

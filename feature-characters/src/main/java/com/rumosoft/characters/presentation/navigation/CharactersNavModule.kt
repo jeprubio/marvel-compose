@@ -7,12 +7,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
-import com.rumosoft.commons.DeepLinks
-import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.characters.presentation.screen.DetailsScreen
 import com.rumosoft.characters.presentation.screen.HeroListScreen
 import com.rumosoft.characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel
+import com.rumosoft.commons.DeepLinks
+import com.rumosoft.commons.domain.model.Character
 import dev.jeziellago.compose.multinavcompose.NavComposableModule
 
 @ExperimentalComposeUiApi

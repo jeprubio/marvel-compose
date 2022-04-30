@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,8 +18,8 @@ private const val REDIRECT = "redirect"
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun NavigationHost(navController: NavHostController) {
-    NavHost(navController, startDestination = REDIRECT) {
+fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController, startDestination = REDIRECT, modifier = modifier) {
         composable(REDIRECT) {
             RedirectScreen(
                 onLoaded = {

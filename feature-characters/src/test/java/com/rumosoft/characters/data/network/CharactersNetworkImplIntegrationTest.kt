@@ -1,16 +1,9 @@
 package com.rumosoft.characters.data.network
 
-import com.google.gson.Gson
 import com.rumosoft.commons.data.network.MarvelService
-import com.rumosoft.commons.data.network.apimodels.ComicDataContainer
-import com.rumosoft.commons.data.network.apimodels.ComicDto
-import com.rumosoft.commons.data.network.apimodels.ComicResults
-import com.rumosoft.commons.data.network.apimodels.HeroDto
-import com.rumosoft.commons.data.network.apimodels.HeroResults
-import com.rumosoft.commons.data.network.apimodels.ImageDto
-import com.rumosoft.commons.data.network.apimodels.SearchData
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.characters.TestCoroutineExtension
+import com.rumosoft.library_tests.FileReader
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -59,6 +52,7 @@ internal class CharactersNetworkImplIntegrationTest {
     fun `Successful response performing search returns Success`() =
         runTest {
             `given a response is returned when searchHeroes gets called on the service`()
+
             val response = `when searchHeroes gets called on the network`()
 
             `then the response should be of type Success`(response)
@@ -69,6 +63,7 @@ internal class CharactersNetworkImplIntegrationTest {
     fun `Error performing search returns Error`() =
         runTest {
             `given an exception is thrown when searchHeroes gets called on the service`()
+
             val response = `when searchHeroes gets called on the network`()
 
             `then the response should be of type Error`(response)
@@ -78,6 +73,7 @@ internal class CharactersNetworkImplIntegrationTest {
     fun `Successful response performing getComicThumbnail returns Success`() =
         runTest {
             `given a response is returned when searchComic gets called on the service`()
+
             val response = `when getComicThumbnail gets called on the network`()
 
             `then the searchComic response should be of type Success`(response)
@@ -88,51 +84,22 @@ internal class CharactersNetworkImplIntegrationTest {
     fun `Error performing getComicThumbnail returns Error`() =
         runTest {
             `given an exception is thrown when searchComic gets called on the service`()
+
             val response = `when getComicThumbnail gets called on the network`()
 
             `then the getComicThumbnail response should be of type Error`(response)
         }
 
     private fun `given a response is returned when searchHeroes gets called on the service`() {
-        val result =
-            HeroResults(
-                data = SearchData(
-                    offset = 0,
-                    limit = limit,
-                    total = 1,
-                    count = 1,
-                    results = listOf(
-                        HeroDto(
-                            name = "Batman",
-                            thumbnail = ImageDto(
-                                "path",
-                                "extension",
-                            ),
-                        )
-                    )
-                )
-            )
-
-        mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(Gson().toJson(result)))
+        FileReader.readFile("characters_list.json")?.also {
+            mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(it))
+        }
     }
 
     private fun `given a response is returned when searchComic gets called on the service`() {
-        val result = ComicResults(
-            data = ComicDataContainer(
-                results = listOf(
-                    ComicDto(
-                        id = 123,
-                        title = "title",
-                        thumbnail = ImageDto(
-                            "path",
-                            "extension",
-                        ),
-                    )
-                )
-            )
-        )
-
-        mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(Gson().toJson(result)))
+        FileReader.readFile("search_comic.json")?.also {
+            mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(it))
+        }
     }
 
     private fun `given an exception is thrown when searchHeroes gets called on the service`() {

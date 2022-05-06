@@ -1,12 +1,12 @@
 package com.rumosoft.comics.data.repository
 
-import com.rumosoft.comics.TestCoroutineExtension
 import com.rumosoft.comics.data.network.ComicsNetwork
 import com.rumosoft.comics.data.network.ComicsResult
 import com.rumosoft.comics.data.network.PaginationInfo
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

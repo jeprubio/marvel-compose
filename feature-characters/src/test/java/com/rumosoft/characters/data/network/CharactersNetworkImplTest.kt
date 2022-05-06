@@ -1,6 +1,5 @@
 package com.rumosoft.characters.data.network
 
-import com.rumosoft.characters.TestCoroutineExtension
 import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.data.network.apimodels.ComicDataContainer
 import com.rumosoft.commons.data.network.apimodels.ComicDto
@@ -10,6 +9,7 @@ import com.rumosoft.commons.data.network.apimodels.HeroResults
 import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.data.network.apimodels.SearchData
 import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

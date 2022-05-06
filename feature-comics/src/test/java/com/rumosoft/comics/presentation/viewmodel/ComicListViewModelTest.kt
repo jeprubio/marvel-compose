@@ -1,12 +1,12 @@
 package com.rumosoft.comics.presentation.viewmodel
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import com.rumosoft.comics.TestCoroutineExtension
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel.Companion.DEBOUNCE_DELAY
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

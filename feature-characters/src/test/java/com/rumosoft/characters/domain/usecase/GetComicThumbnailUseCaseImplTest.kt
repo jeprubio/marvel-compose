@@ -1,8 +1,8 @@
 package com.rumosoft.characters.domain.usecase
 
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.characters.TestCoroutineExtension
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

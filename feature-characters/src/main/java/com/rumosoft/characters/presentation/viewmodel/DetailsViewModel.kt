@@ -17,7 +17,6 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase,
 ) : ViewModel() {
-
     val detailsState: StateFlow<DetailsState> get() = _detailsState
     private val _detailsState =
         MutableStateFlow(initialDetailsState())
@@ -41,6 +40,9 @@ class DetailsViewModel @Inject constructor(
                     )
                     val updatedHero = character.copy(comics = updatedComics)
                     _detailsState.emit(DetailsState.Success(updatedHero))
+                }
+                else -> {
+                    /* Do nothing */
                 }
             }
         }

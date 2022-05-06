@@ -1,14 +1,10 @@
 package com.rumosoft.comics.data.network
 
-import com.google.gson.Gson
-import com.rumosoft.comics.TestCoroutineExtension
 import com.rumosoft.commons.data.network.MarvelService
-import com.rumosoft.commons.data.network.apimodels.ComicDataContainer
-import com.rumosoft.commons.data.network.apimodels.ComicDto
-import com.rumosoft.commons.data.network.apimodels.ComicResults
-import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.library_tests.FileReader
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -42,24 +38,6 @@ internal class ComicsNetworkImplIntegrationTest {
     private val offset = 0
     private val limit = 20
     private val comicId = 123
-    private val comicResults = ComicResults(
-        data = ComicDataContainer(
-            offset = 0,
-            limit = limit,
-            total = 1,
-            count = 1,
-            results = listOf(
-                ComicDto(
-                    id = 0,
-                    title = "Comic",
-                    thumbnail = ImageDto(
-                        "path",
-                        "extension",
-                    ),
-                )
-            )
-        )
-    )
 
     init {
         MockKAnnotations.init(this)
@@ -109,11 +87,15 @@ internal class ComicsNetworkImplIntegrationTest {
         }
 
     private fun `given a response is returned when searchComics gets called on the service`() {
-        mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(Gson().toJson(comicResults)))
+        FileReader.readFile("search_comics.json")?.also {
+            mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(it))
+        }
     }
 
     private fun `given a response is returned when searchComic gets called on the service`() {
-        mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(Gson().toJson(comicResults)))
+        FileReader.readFile("search_comic.json")?.also {
+            mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(it))
+        }
     }
 
     private fun `given an exception is thrown when searchComics gets called on the service`() {

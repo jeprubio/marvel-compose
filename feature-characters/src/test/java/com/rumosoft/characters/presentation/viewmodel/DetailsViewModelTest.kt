@@ -1,10 +1,10 @@
 package com.rumosoft.characters.presentation.viewmodel
 
-import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.characters.TestCoroutineExtension
 import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
+import com.rumosoft.commons.infrastructure.Resource
+import com.rumosoft.library_tests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'com.google.secrets_gradle_plugin' version '0.6'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.dicedmelon.gradle.jacoco-android'
 }
 
@@ -33,6 +33,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    namespace 'com.rumosoft.commons'
 }
 
 dependencies {

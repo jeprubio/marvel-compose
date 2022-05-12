@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
@@ -38,7 +38,7 @@ fun TopBarPreview() {
     MarvelComposeTheme {
         TopBar(
             apBarText = "App Bar Text",
-            leftIcon = rememberImagePainter(R.drawable.ic_arrow_back_24)
+            leftIcon = rememberAsyncImagePainter(R.drawable.ic_arrow_back_24)
         )
     }
 }

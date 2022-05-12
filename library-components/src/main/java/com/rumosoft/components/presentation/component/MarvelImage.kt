@@ -5,12 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Size
 import coil.transform.CircleCropTransformation
 import com.rumosoft.components.R
 
@@ -28,20 +30,22 @@ fun MarvelImage(
     contentScale: ContentScale = ContentScale.Crop,
 ) {
     if (thumbnailUrl.isNotEmpty()) {
-        Image(
-            painter = rememberImagePainter(
-                data = thumbnailUrl,
-                builder = {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(thumbnailUrl)
+                .crossfade(enable = true)
+                .placeholder(R.mipmap.ic_launcher)
+                .apply {
                     if (circular) {
                         transformations(
                             CircleCropTransformation()
                         )
                     }
-                    crossfade(true)
-                    placeholder(R.mipmap.ic_launcher)
-                    if (originalSize) size(OriginalSize)
+                    if (originalSize) {
+                        size(Size.ORIGINAL)
+                    }
                 }
-            ),
+                .build(),
             contentDescription = contentDescription,
             contentScale = contentScale,
             modifier = modifier.testTag(MarvelImage)

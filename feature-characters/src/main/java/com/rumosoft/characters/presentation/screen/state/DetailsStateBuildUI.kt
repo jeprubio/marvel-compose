@@ -18,10 +18,17 @@ import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
-fun DetailsState.BuildUI(onComicSelected: (Int) -> Unit) {
+fun DetailsState.BuildUI(
+    modifier: Modifier = Modifier,
+    onComicSelected: (Int) -> Unit
+) {
     when (this) {
         is Loading -> BuildLoading()
-        is Success -> HeroDetails(character, onComicSelected)
+        is Success -> HeroDetails(
+            character = character,
+            modifier = modifier,
+            onComicSelected = onComicSelected
+        )
     }
 }
 

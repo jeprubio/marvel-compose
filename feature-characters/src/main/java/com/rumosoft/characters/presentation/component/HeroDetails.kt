@@ -42,10 +42,14 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
 @Composable
-fun HeroDetails(character: Character, onComicSelected: (Int) -> Unit = {}) {
+fun HeroDetails(
+    character: Character,
+    modifier: Modifier = Modifier,
+    onComicSelected: (Int) -> Unit = {}
+) {
     val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
             .testTag(HeroListSuccessResult)

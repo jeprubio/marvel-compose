@@ -24,11 +24,13 @@ import com.rumosoft.components.presentation.component.ErrorMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
-fun ComicDetailsState.BuildUI() {
+fun ComicDetailsState.BuildUI(
+    modifier: Modifier = Modifier
+) {
     when (this) {
         is Loading -> BuildLoading()
         is Error -> BuildError()
-        is Success -> ComicDetails(comic)
+        is Success -> ComicDetails(comic, modifier)
     }
 }
 

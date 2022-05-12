@@ -16,8 +16,11 @@ import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
-fun ComicDetails(comic: Comic) {
-    LazyColumn {
+fun ComicDetails(
+    comic: Comic,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier) {
         item {
             comic.thumbnail?.let {
                 MarvelImage(

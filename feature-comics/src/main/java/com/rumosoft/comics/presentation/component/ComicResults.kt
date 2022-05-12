@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +42,7 @@ fun ComicResults(
 ) {
     val lastIndex = comics.lastIndex
     LazyVerticalGrid(
-        cells = GridCells.Adaptive(130.dp),
+        columns = GridCells.Adaptive(130.dp),
         contentPadding = PaddingValues(MarvelComposeTheme.paddings.smallPadding),
         modifier = modifier.fillMaxWidth(),
     ) {

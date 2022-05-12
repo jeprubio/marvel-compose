@@ -22,11 +22,11 @@ jobs:
 
       - run:
           name: Add Empty Private Api Key
-          command: echo "MARVEL_PRIVATE_KEY=\"\"" >> local.properties
+          command: echo "MARVEL_PRIVATE_KEY=privatekey" >> local.properties
 
       - run:
           name: Add Empty Public Api Key
-          command: echo "MARVEL_PUBLIC_KEY=\"\"" >> local.properties
+          command: echo "MARVEL_PUBLIC_KEY=publickey" >> local.properties
 
       - android/run-tests:
           test-command: ./gradlew lint testDebug --continue

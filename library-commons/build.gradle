@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         minSdk 21
-        targetSdk 31
+        targetSdk 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -48,7 +48,7 @@ dependencies {
     implementation("com.google.code.gson:gson:$gson_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation('com.squareup.okio:okio:3.0.0')
+    implementation('com.squareup.okio:okio:3.1.0')
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 

@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         minSdk 21
-        targetSdk 31
+        targetSdk 32
 
         testApplicationId "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
@@ -75,7 +75,7 @@ dependencies {
     implementation("com.google.code.gson:gson:$gson_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation('com.squareup.okio:okio:3.0.0')
+    implementation('com.squareup.okio:okio:3.1.0')
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
     implementation("io.coil-kt:coil-compose:$coil_version")
@@ -96,6 +96,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
     androidTestImplementation("io.mockk:mockk-android:$mockk_version")
+    androidTestImplementation("pl.pragmatists:JUnitParams:1.1.1")
 }
 
 shot {

@@ -23,17 +23,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.rumosoft.comics.presentation.navigation.NavComicItem
-import com.rumosoft.comics.presentation.navigation.comicsNavModule
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.characters.presentation.navigation.NavCharItem
-import com.rumosoft.characters.presentation.navigation.charactersNavModule
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
 import dagger.hilt.android.AndroidEntryPoint
-import dev.jeziellago.compose.multinavcompose.multiNavModules
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,8 +43,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         installSplashScreen()
-
-        multiNavModules(charactersNavModule, comicsNavModule)
 
         setContent {
             MarvelComposeTheme {

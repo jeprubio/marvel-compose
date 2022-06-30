@@ -69,7 +69,6 @@ dependencies {
 
     implementation "androidx.navigation:navigation-compose:$nav_compose"
     implementation 'androidx.navigation:navigation-runtime-ktx:2.5.0'
-    implementation 'com.github.jeziellago:multinavcompose:0.1.0'
 
     // Gson + Retrofit (to perform API calls and parse the response)
     implementation("com.google.code.gson:gson:$gson_version")

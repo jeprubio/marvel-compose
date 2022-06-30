@@ -9,8 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.rumosoft.characters.presentation.navigation.NavCharItem
+import com.rumosoft.characters.presentation.navigation.charactersGraph
+import com.rumosoft.comics.presentation.navigation.comicsGraph
 import com.rumosoft.marvelcompose.presentation.screen.RedirectScreen
-import dev.jeziellago.compose.multinavcompose.loadMultiNavComposables
 
 private const val REDIRECT = "redirect"
 
@@ -28,6 +29,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
                 }
             )
         }
-        loadMultiNavComposables(navController)
+        charactersGraph(navController)
+        comicsGraph(navController)
     }
 }

@@ -1,7 +1,5 @@
 # Marvel Compose App
 
-[![MARVEL-COMPOSE](https://circleci.com/gh/jeprubio/marvel-compose.svg?style=svg)](https://app.circleci.com/pipelines/github/jeprubio/marvel-compose?branch=main)
-
 App created in compose that displays Marvel heroes using the [marvel api](https://developer.marvel.com/docs)
 
 This app uses MVVM but trying to follow the [Recommended app architecture](https://developer.android.com/jetpack/guide#recommended-app-arch) 

@@ -60,24 +60,25 @@ android {
 dependencies {
     implementation project(path: ':library-commons')
     implementation project(path: ':library-components')
+    implementation platform("androidx.compose:compose-bom:$compose_bom_version")
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation "com.google.android.material:material:$material_version"
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material:material"
+    implementation "androidx.compose.ui:ui-tooling-preview"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.activity:activity-compose:1.6.0'
+    implementation 'androidx.activity:activity-compose:1.6.1'
 
     implementation "androidx.navigation:navigation-compose:$nav_compose"
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
 
     // Gson + Retrofit (to perform API calls and parse the response)
     implementation("com.google.code.gson:gson:$gson_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation('com.squareup.okio:okio:3.1.0')
+    implementation('com.squareup.okio:okio:3.2.0')
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
     implementation("io.coil-kt:coil-compose:$coil_version")
@@ -95,8 +96,8 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:$junit_version")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_version")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
     androidTestImplementation("io.mockk:mockk-android:$mockk_version")
 }
 

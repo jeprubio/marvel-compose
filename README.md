@@ -64,8 +64,6 @@ To generate code coverage reports: `./gradlew clean build jacocoTestDebugUnitTes
 
 - [Coil](https://github.com/coil-kt/coil) - Loading and caching images.
 
-- [MultiNavCompose](https://github.com/jeziellago/multinavcompose) - Multi-module navigation built on Jetpack Navigation Compose.
-
 ## Testing libraries
 - [Junit5](https://junit.org/junit5/docs/current/user-guide/) - For writing tests.
 

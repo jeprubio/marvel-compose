@@ -22,7 +22,7 @@ fun CustomLoading() {
 
     LottieAnimation(
         composition,
-        progress,
+        { progress },
         modifier = Modifier.size(100.dp)
     )
 }

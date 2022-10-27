@@ -44,6 +44,7 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += "META-INF/LICENSE*"
         }
     }
     namespace 'com.rumosoft.components'
@@ -64,7 +65,7 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:$coil_version")
 
-    implementation 'com.airbnb.android:lottie-compose:5.0.3'
+    implementation 'com.airbnb.android:lottie-compose:5.2.0'
 
     androidTestImplementation composeBom
     androidTestImplementation("androidx.test.ext:junit:$junit_version")

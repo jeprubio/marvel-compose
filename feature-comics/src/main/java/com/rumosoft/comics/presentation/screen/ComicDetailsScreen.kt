@@ -3,7 +3,8 @@ package com.rumosoft.comics.presentation.screen
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,7 +20,7 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.components.presentation.component.TopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalFoundationApi
+@ExperimentalMaterial3Api
 @Composable
 fun ComicDetailsScreen(
     viewModel: ComicDetailsViewModel,
@@ -29,7 +30,7 @@ fun ComicDetailsScreen(
     ComicDetailsScreenContent(screenState, onBackPressed)
 }
 
-@ExperimentalFoundationApi
+@ExperimentalMaterial3Api
 @Composable
 fun ComicDetailsScreenContent(
     screenState: ComicDetailsState,
@@ -50,7 +51,7 @@ fun ComicDetailsScreenContent(
     }
 }
 
-@ExperimentalFoundationApi
+@ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -152,7 +152,7 @@ private fun HeroName(character: Character) {
     Text(
         text = character.name,
         color = MarvelComposeTheme.colors.onBackground,
-        style = MarvelComposeTheme.typography.subtitle1,
+        style = MarvelComposeTheme.typography.titleMedium,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         softWrap = false,

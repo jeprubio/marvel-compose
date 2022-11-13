@@ -2,7 +2,8 @@ package com.rumosoft.characters.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +20,7 @@ import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.components.presentation.component.TopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
+@ExperimentalMaterial3Api
 @Composable
 fun DetailsScreen(
     viewModel: DetailsViewModel,
@@ -29,6 +31,7 @@ fun DetailsScreen(
     DetailsScreenContent(screenState, onBackPressed, onComicSelected)
 }
 
+@ExperimentalMaterial3Api
 @Composable
 private fun DetailsScreenContent(
     detailsState: DetailsState,
@@ -51,6 +54,7 @@ private fun DetailsScreenContent(
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,
@@ -63,6 +67,7 @@ fun DetailsPreviewSuccess() {
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Composable
 fun DetailsPreviewLoading() {
@@ -71,6 +76,7 @@ fun DetailsPreviewLoading() {
     }
 }
 
+@ExperimentalMaterial3Api
 @Preview(
     showBackground = true,
     device = Devices.AUTOMOTIVE_1024p,

@@ -1,6 +1,7 @@
 package com.rumosoft.characters.presentation.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,6 +16,7 @@ import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.commons.DeepLinks
 import com.rumosoft.commons.domain.model.Character
 
+@ExperimentalMaterial3Api
 @OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
 fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
     composable(

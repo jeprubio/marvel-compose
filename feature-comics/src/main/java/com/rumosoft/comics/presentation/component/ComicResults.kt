@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -100,7 +100,7 @@ private fun ComicName(
         comic.title,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
-        style = MarvelComposeTheme.typography.body2,
+        style = MarvelComposeTheme.typography.bodyMedium,
         modifier = modifier,
     )
 }

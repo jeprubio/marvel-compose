@@ -14,9 +14,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -91,7 +91,7 @@ private fun HeroName(name: String) {
     Text(
         text = name,
         color = MarvelComposeTheme.colors.primary,
-        style = MaterialTheme.typography.h1,
+        style = MaterialTheme.typography.displayLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .fillMaxWidth()
@@ -121,7 +121,6 @@ fun Urls(link: Link) {
         color = MarvelComposeTheme.colors.surface,
         border = BorderStroke(1.dp, MarvelComposeTheme.colors.onSecondary),
         shape = CustomDiamond(10f),
-        elevation = 8.dp,
         modifier = Modifier
             .clickable { context.startActivity(intent) }
             .padding(end = MarvelComposeTheme.paddings.smallPadding),
@@ -142,8 +141,8 @@ fun Description(description: String) {
     Text(
         text = description.takeIf { it.isNotEmpty() }
             ?: stringResource(id = R.string.no_description),
-        color = MaterialTheme.colors.onBackground,
-        style = MaterialTheme.typography.body1
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.displayLarge
     )
 }
 
@@ -177,7 +176,7 @@ fun SectionTitle(section: String) {
     Text(
         text = section,
         color = MarvelComposeTheme.colors.primary,
-        style = MarvelComposeTheme.typography.subtitle1,
+        style = MarvelComposeTheme.typography.titleMedium,
         modifier = Modifier.padding(vertical = MarvelComposeTheme.paddings.medium)
     )
 }

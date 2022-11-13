@@ -1,21 +1,20 @@
 package com.rumosoft.components.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColorScheme(
     primary = Ribbon500,
-    primaryVariant = Ribbon700,
-    secondary = Skin400,
-    secondaryVariant = Skin200,
+    secondary = Ribbon700,
+    tertiary = Skin400,
     background = Color.Black,
     surface = Ribbon500,
     onPrimary = Color.White,
@@ -24,11 +23,10 @@ private val DarkColorPalette = darkColors(
     onSurface = Color.White,
 )
 
-private val LightColorPalette = lightColors(
+private val LightColorPalette = lightColorScheme(
     primary = Ribbon500,
-    primaryVariant = Ribbon700,
-    secondary = Skin200,
-    secondaryVariant = Skin400,
+    secondary = Ribbon700,
+    tertiary = Skin200,
     background = Color.White,
     surface = Ribbon500,
     error = Color.Red,
@@ -54,7 +52,7 @@ fun MarvelComposeTheme(
         LocalPaddings provides Paddings()
     ) {
         MaterialTheme(
-            colors = colors,
+            colorScheme = colors,
             typography = Typography,
             shapes = Shapes,
             content = content
@@ -63,9 +61,9 @@ fun MarvelComposeTheme(
 }
 
 object MarvelComposeTheme {
-    val colors: Colors
+    val colors: ColorScheme
         @Composable
-        get() = MaterialTheme.colors
+        get() = MaterialTheme.colorScheme
 
     val extraColors: CustomColors
         @Composable

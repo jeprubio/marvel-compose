@@ -8,12 +8,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Surface
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -54,6 +56,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalMaterial3Api
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
@@ -64,12 +67,11 @@ fun MarvelApp() {
         Characters,
         Comics,
     )
-    val scaffoldState = rememberScaffoldState()
+    val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     Scaffold(
-        scaffoldState = scaffoldState,
         bottomBar = {
             if (currentRoute(navController) in listOf(
                     NavCharItem.Characters.destination,
@@ -80,7 +82,7 @@ fun MarvelApp() {
                     navController = navController,
                     navigationItems = navigationItems,
                     onAppBack = {
-                        onAppBack(scaffoldState, context, scope)
+                        onAppBack(snackBarHostState, context, scope)
                     }
                 )
             }
@@ -97,15 +99,15 @@ private fun currentRoute(navController: NavHostController): String? {
 }
 
 private fun onAppBack(
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     context: Context,
     scope: CoroutineScope
 ) {
-    if (scaffoldState.snackbarHostState.currentSnackbarData != null) {
+    if (snackBarHostState.currentSnackbarData != null) {
         (context as? Activity)?.finish()
     } else {
         scope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.double_tap_to_exit))
+            snackBarHostState.showSnackbar(context.getString(R.string.double_tap_to_exit))
         }
     }
 }

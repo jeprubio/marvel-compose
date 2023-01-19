@@ -1,6 +1,7 @@
 package com.rumosoft.marvelcompose.presentation.navigation
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -27,14 +28,9 @@ fun BottomNavigationBar(
             val selected = currentRoute == tab.route
             NavigationBarItem(
                 icon = {
-                    AnimatedIcon(
+                    Icon(
                         painter = painterResource(id = tab.icon),
-                        scale = if (selected) 1.2f else 1f,
-                        color = if (selected) {
-                            MarvelComposeTheme.extraColors.colorSelectedTab
-                        } else {
-                            MarvelComposeTheme.extraColors.colorUnselectedTab
-                        },
+                        contentDescription = null
                     )
                 },
                 label = { Text(tabTitle) },

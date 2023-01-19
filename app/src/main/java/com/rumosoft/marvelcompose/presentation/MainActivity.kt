@@ -18,14 +18,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toComposeRect
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.window.layout.WindowMetricsCalculator
+import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
@@ -34,6 +39,7 @@ import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
@@ -47,9 +53,10 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
+            val widthSizeClass = rememberWidthSizeClass()
             MarvelComposeTheme {
                 Surface(color = MarvelComposeTheme.colors.background) {
-                    MarvelApp()
+                    MarvelApp(widthSizeClass)
                 }
             }
         }
@@ -61,7 +68,7 @@ class MainActivity : ComponentActivity() {
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun MarvelApp() {
+fun MarvelApp(widthSizeClass: WidthSizeClass) {
     val navController = rememberNavController()
     val navigationItems = listOf(
         Characters,
@@ -73,18 +80,20 @@ fun MarvelApp() {
 
     Scaffold(
         bottomBar = {
-            if (currentRoute(navController) in listOf(
-                    NavCharItem.Characters.destination,
-                    NavComicItem.Comics.route
-                )
-            ) {
-                BottomNavigationBar(
-                    navController = navController,
-                    navigationItems = navigationItems,
-                    onAppBack = {
-                        onAppBack(snackBarHostState, context, scope)
-                    }
-                )
+            if (widthSizeClass == WidthSizeClass.COMPACT) {
+                if (currentRoute(navController) in listOf(
+                        NavCharItem.Characters.destination,
+                        NavComicItem.Comics.route
+                    )
+                ) {
+                    BottomNavigationBar(
+                        navController = navController,
+                        navigationItems = navigationItems,
+                        onAppBack = {
+                            onAppBack(snackBarHostState, context, scope)
+                        }
+                    )
+                }
             }
         },
     ) { innerPadding ->
@@ -109,5 +118,17 @@ private fun onAppBack(
         scope.launch {
             snackBarHostState.showSnackbar(context.getString(R.string.double_tap_to_exit))
         }
+    }
+}
+
+enum class WidthSizeClass { COMPACT, MEDIUM, EXPANDED }
+
+@Composable
+fun Activity.rememberWidthSizeClass(): WidthSizeClass {
+    val configuration = LocalConfiguration.current
+    return when {
+        configuration.screenWidthDp < 600 -> WidthSizeClass.COMPACT
+        configuration.screenWidthDp < 840 -> WidthSizeClass.MEDIUM
+        else -> WidthSizeClass.EXPANDED
     }
 }

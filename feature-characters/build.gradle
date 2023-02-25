@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'shot'
     id 'com.dicedmelon.gradle.jacoco-android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.10'
 }
 
 android {
@@ -91,6 +92,8 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation:1.0.0"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_nav_compose"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
 
     testImplementation project(path: ':library-tests')
     testImplementation("androidx.arch.core:core-testing:2.2.0")

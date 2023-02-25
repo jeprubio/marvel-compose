@@ -12,5 +12,8 @@ interface NavigationCommand {
 sealed class DeepLinks(val route: String) {
     object Characters : DeepLinks("$DeepLinkUri/characters")
     object Comics : DeepLinks("$DeepLinkUri/comics")
-    object ComicDetails : DeepLinks("$DeepLinkUri/comic/{comicId}")
+    object ComicDetails : DeepLinks("$DeepLinkUri/comic/{id}") {
+        fun routeOfComic(comicId: Int): String =
+            "$DeepLinkUri/comic/$comicId"
+    }
 }

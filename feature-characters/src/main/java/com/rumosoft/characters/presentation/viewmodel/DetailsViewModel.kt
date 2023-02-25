@@ -1,8 +1,10 @@
 package com.rumosoft.characters.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
+import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.infrastructure.Resource
@@ -15,13 +17,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase,
 ) : ViewModel() {
+
+    val character: Character = savedStateHandle[NavCharItem.Details.navArgs[0].name]!!
     val detailsState: StateFlow<DetailsState> get() = _detailsState
     private val _detailsState =
         MutableStateFlow(initialDetailsState())
 
-    fun setHero(character: Character) {
+    init {
         viewModelScope.launch {
             _detailsState.emit(DetailsState.Success(character))
             loadComicThumbnails(character)

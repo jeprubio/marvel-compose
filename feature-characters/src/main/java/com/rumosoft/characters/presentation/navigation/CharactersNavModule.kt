@@ -14,7 +14,6 @@ import com.rumosoft.characters.presentation.screen.HeroListScreen
 import com.rumosoft.characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.commons.DeepLinks
-import com.rumosoft.commons.domain.model.Character
 
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
@@ -28,23 +27,15 @@ fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
             viewModel = viewModel,
             onCharacterSelected = { selectedCharacter ->
                 viewModel.resetSelectedCharacter()
-                navController.currentBackStackEntry?.arguments?.putParcelable(
-                    "character",
-                    selectedCharacter
-                )
-                navController.navigate(NavCharItem.Details.route)
+                navController.navigate(NavCharItem.Details.routeOfCharacter(selectedCharacter))
             }
         )
     }
     composable(
         route = NavCharItem.Details.route,
+        arguments = NavCharItem.Details.navArgs
     ) { navBackStackEntry ->
-        val character: Character? =
-            navController.previousBackStackEntry?.arguments?.getParcelable("character")
         val viewModel: DetailsViewModel = hiltViewModel(navBackStackEntry)
-        character?.let {
-            viewModel.setHero(it)
-        }
         DetailsScreen(
             viewModel = viewModel,
             onBackPressed = {
@@ -54,11 +45,7 @@ fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
                 )
             },
             onComicSelected = { comicId ->
-                navController.currentBackStackEntry?.arguments?.putInt(
-                    "comicId",
-                    comicId
-                )
-                navController.navigate(DeepLinks.ComicDetails.route.toUri())
+                navController.navigate(DeepLinks.ComicDetails.routeOfComic(comicId).toUri())
             },
         )
     }

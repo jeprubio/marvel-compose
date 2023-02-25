@@ -30,11 +30,7 @@ fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
             viewModel = viewModel,
             onComicSelected = { selectedComic ->
                 viewModel.resetSelectedComic()
-                navController.currentBackStackEntry?.arguments?.putInt(
-                    "comicId",
-                    selectedComic.id
-                )
-                navController.navigate(NavComicItem.Details.route)
+                navController.navigate(NavComicItem.Details.routeOfComic(selectedComic.id))
             }
         )
     }
@@ -42,12 +38,7 @@ fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
         NavComicItem.Details.route,
         deepLinks = listOf(navDeepLink { uriPattern = NavComicItem.Details.deepLink }),
     ) { navBackStackEntry ->
-        val comicId: Int? =
-            navController.previousBackStackEntry?.arguments?.getInt("comicId")
         val viewModel: ComicDetailsViewModel = hiltViewModel(navBackStackEntry)
-        comicId?.let {
-            viewModel.fetchComicData(comicId)
-        }
         ComicDetailsScreen(
             viewModel = viewModel,
             onBackPressed = {

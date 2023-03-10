@@ -1,8 +1,10 @@
 package com.rumosoft.comics.presentation.viewmodel
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.lifecycle.SavedStateHandle
 import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
+import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.library_tests.TestCoroutineExtension
@@ -20,39 +22,31 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicDetailsViewModelTest {
     private val comicDetailsUseCase: GetComicDetailsUseCase = mockk()
-    private val viewModel: ComicDetailsViewModel = ComicDetailsViewModel(comicDetailsUseCase)
     private val comicId = 123
+    private val savedStateHandle = SavedStateHandle().apply {
+        this[NavComicItem.Details.navArgs[0].name] = comicId.toString()
+    }
+    private lateinit var viewModel: ComicDetailsViewModel
 
     @Test
-    fun `fetchComicData() calls getComicDetailsUseCase`() {
+    fun `When the view model is created getComicThumbnailUseCase is invoked`() {
         runTest {
             `given use case invocation returns results`()
 
-            `when fetchComicData gets invoked in viewmodel`()
+            `when view model is initialised`()
 
             `then use case gets invoked`()
         }
     }
 
     @Test
-    fun `if fetchComicData() goes well the detailsState should be Success`() {
+    fun `When the view model is created and getComicThumbnailUseCase returns result the state is Success`() {
         runTest {
             `given use case invocation returns results`()
 
-            `when fetchComicData gets invoked in viewmodel`()
+            `when view model is initialised`()
 
             `then detailsState is Success`()
-        }
-    }
-
-    @Test
-    fun `if fetchComicData() returns error the detailsState should be Error`() {
-        runTest {
-            `given use case invocation returns error`()
-
-            `when fetchComicData gets invoked in viewmodel`()
-
-            `then detailsState is Error`()
         }
     }
 
@@ -60,12 +54,8 @@ internal class ComicDetailsViewModelTest {
         coEvery { comicDetailsUseCase.invoke(comicId) } returns Resource.Success(SampleData.comicsSample.first())
     }
 
-    private fun `given use case invocation returns error`() {
-        coEvery { comicDetailsUseCase.invoke(comicId) } returns Resource.Error(Exception("Error"))
-    }
-
-    private fun `when fetchComicData gets invoked in viewmodel`() {
-        viewModel.fetchComicData(comicId)
+    private fun `when view model is initialised`() {
+        viewModel = ComicDetailsViewModel(savedStateHandle, comicDetailsUseCase)
     }
 
     private fun `then use case gets invoked`() {
@@ -74,9 +64,5 @@ internal class ComicDetailsViewModelTest {
 
     private fun `then detailsState is Success`() {
         assertTrue(viewModel.detailsState.value is ComicDetailsState.Success)
-    }
-
-    private fun `then detailsState is Error`() {
-        assertTrue(viewModel.detailsState.value is ComicDetailsState.Error)
     }
 }

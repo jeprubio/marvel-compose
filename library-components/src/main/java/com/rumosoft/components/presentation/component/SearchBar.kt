@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusOrder
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalFocusManager
@@ -65,7 +65,7 @@ fun SearchBar(
             }
         },
         modifier = modifier
-            .focusOrder(textFieldFocus)
+            .focusRequester(textFieldFocus)
             .fillMaxWidth()
             .semantics { contentDescription = searchTextContentDescription },
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),

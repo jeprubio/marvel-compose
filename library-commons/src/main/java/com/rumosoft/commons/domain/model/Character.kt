@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.navigation.NavType
+import com.rumosoft.commons.infrastructure.extensions.parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -35,7 +36,7 @@ val CharacterNavType = object : NavType<Character>(isNullableAllowed = false) {
     }
 
     override fun get(bundle: Bundle, key: String): Character? {
-        return bundle.getParcelable(key) as Character?
+        return bundle.parcelable(key) as Character?
     }
 
     override fun parseValue(value: String): Character {

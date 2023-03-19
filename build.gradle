@@ -1,4 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: "com.diffplug.spotless"
+
 buildscript {
     ext {
         coil_version = "2.2.2"
@@ -30,9 +32,31 @@ buildscript {
         classpath "com.karumi:shot:$shot_version"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.5'
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath('com.diffplug.spotless:spotless-plugin-gradle:6.17.0')
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+spotless {
+    format 'misc', {
+        // define the files to apply `misc` to
+        target '**/*.gradle', '**/*.md', '**/.gitignore'
+
+        // define the steps to apply to those files
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlin {
+        target '**/*.kt'
+        ktlint()
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+}
+
+
+allprojects {
+    apply plugin: 'com.diffplug.spotless'
 }

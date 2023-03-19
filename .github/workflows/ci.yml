@@ -19,6 +19,8 @@ jobs:
         run: echo "MARVEL_PRIVATE_KEY=privateKey" >> local.properties
       - name: Update MARVEL_PUBLIC_KEY in local.properties
         run: echo "MARVEL_PUBLIC_KEY=publicKey" >> local.properties
+      - name: run Spotless
+        run: ./gradlew spotlessCheck
       - name: Setup JDK 11
         uses: actions/setup-java@v3
         with:

@@ -18,16 +18,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.window.layout.WindowMetricsCalculator
 import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -39,7 +35,6 @@ import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
@@ -83,7 +78,7 @@ fun MarvelApp(widthSizeClass: WidthSizeClass) {
             if (widthSizeClass == WidthSizeClass.COMPACT) {
                 if (currentRoute(navController) in listOf(
                         NavCharItem.Characters.destination,
-                        NavComicItem.Comics.route
+                        NavComicItem.Comics.route,
                     )
                 ) {
                     BottomNavigationBar(
@@ -91,7 +86,7 @@ fun MarvelApp(widthSizeClass: WidthSizeClass) {
                         navigationItems = navigationItems,
                         onAppBack = {
                             onAppBack(snackBarHostState, context, scope)
-                        }
+                        },
                     )
                 }
             }
@@ -110,7 +105,7 @@ private fun currentRoute(navController: NavHostController): String? {
 private fun onAppBack(
     snackBarHostState: SnackbarHostState,
     context: Context,
-    scope: CoroutineScope
+    scope: CoroutineScope,
 ) {
     if (snackBarHostState.currentSnackbarData != null) {
         (context as? Activity)?.finish()

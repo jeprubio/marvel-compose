@@ -14,7 +14,7 @@ class ComicsNetworkImpl @Inject constructor(
     override suspend fun searchComics(
         offset: Int,
         limit: Int,
-        titleStartsWith: String
+        titleStartsWith: String,
     ): Resource<ComicsResult> {
         return try {
             val result = marvelService.searchComics(
@@ -29,8 +29,8 @@ class ComicsNetworkImpl @Inject constructor(
                             current = data.offset?.div(20) ?: 1,
                             total = data.total?.div(20) ?: Int.MAX_VALUE,
                         ),
-                        comics = data.results?.map { it.toComic() }.orEmpty()
-                    )
+                        comics = data.results?.map { it.toComic() }.orEmpty(),
+                    ),
                 )
             } ?: run {
                 Timber.d("Error parsing results")
@@ -55,7 +55,7 @@ class ComicsNetworkImpl @Inject constructor(
 
 data class PaginationInfo(
     var current: Int,
-    var total: Int
+    var total: Int,
 )
 
 data class ComicsResult(val paginationInfo: PaginationInfo, val comics: List<Comic>?)

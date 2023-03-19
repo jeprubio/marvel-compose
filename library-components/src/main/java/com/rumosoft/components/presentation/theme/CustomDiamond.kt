@@ -13,7 +13,7 @@ class CustomDiamond(
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
-        density: Density
+        density: Density,
     ): Outline {
         val path = Path().apply {
             moveTo(displacement, 0f)

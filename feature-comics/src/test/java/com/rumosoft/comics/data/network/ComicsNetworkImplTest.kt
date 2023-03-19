@@ -7,7 +7,7 @@ import com.rumosoft.commons.data.network.apimodels.ComicResults
 import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.library_tests.TestCoroutineExtension
+import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -40,9 +40,9 @@ internal class ComicsNetworkImplTest {
                         "path",
                         "extension",
                     ),
-                )
-            )
-        )
+                ),
+            ),
+        ),
     )
     private val comicResultsNoData = ComicResults()
 

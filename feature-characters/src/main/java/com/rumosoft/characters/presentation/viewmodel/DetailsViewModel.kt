@@ -41,7 +41,7 @@ class DetailsViewModel @Inject constructor(
                     val currentHero = (_detailsState.value as DetailsState.Success).character
                     val updatedComics = currentHero.comics?.update(
                         index = index,
-                        item = comic.copy(thumbnail = response.data)
+                        item = comic.copy(thumbnail = response.data),
                     )
                     val updatedHero = character.copy(comics = updatedComics)
                     _detailsState.emit(DetailsState.Success(updatedHero))

@@ -10,7 +10,7 @@ class GetComicsUseCaseImpl @Inject constructor(
 ) : GetComicsUseCase {
     override suspend operator fun invoke(
         titleStart: String,
-        fromStart: Boolean
+        fromStart: Boolean,
     ): Resource<List<Comic>?> =
         repository.performSearch(titleStart, fromStart)
 }

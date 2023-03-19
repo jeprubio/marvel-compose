@@ -1,7 +1,7 @@
 package com.rumosoft.characters.infrastructure.sampleData
 
-import com.rumosoft.commons.domain.model.ComicSummary
 import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.commons.domain.model.ComicSummary
 import com.rumosoft.commons.domain.model.Link
 
 object SampleData {
@@ -40,7 +40,7 @@ object SampleData {
             thumbnail = "",
             comics = hero.comics?.map {
                 it.copy(thumbnail = "")
-            }
+            },
         )
     }
 }

@@ -1,7 +1,6 @@
 package com.rumosoft.comics.presentation.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -24,7 +23,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun ComicDetailsScreen(
     viewModel: ComicDetailsViewModel,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     val screenState by viewModel.detailsState.collectAsState()
     ComicDetailsScreenContent(screenState, onBackPressed)
@@ -43,10 +42,10 @@ fun ComicDetailsScreenContent(
                 leftIcon = painterResource(id = R.drawable.ic_arrow_back_24),
                 leftIconPressed = onBackPressed,
             )
-        }
+        },
     ) { padding ->
         screenState.BuildUI(
-            modifier = Modifier.padding(padding)
+            modifier = Modifier.padding(padding),
         )
     }
 }

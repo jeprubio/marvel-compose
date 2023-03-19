@@ -16,12 +16,12 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun SimpleMessage(
     message: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(
             text = message,

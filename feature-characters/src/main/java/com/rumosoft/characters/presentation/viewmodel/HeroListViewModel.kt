@@ -60,7 +60,7 @@ class HeroListViewModel @Inject constructor(
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.Eagerly,
-                initialValue = ""
+                initialValue = "",
             )
     }
 
@@ -93,8 +93,8 @@ class HeroListViewModel @Inject constructor(
                         result.data,
                         false,
                         ::characterClicked,
-                        ::onReachedEnd
-                    )
+                        ::onReachedEnd,
+                    ),
                 )
         }
     }
@@ -147,7 +147,7 @@ class HeroListViewModel @Inject constructor(
                     heroListState = HeroListState.Success(
                         characters = currentHeroes,
                         loadingMore = value,
-                    )
+                    ),
                 )
             }
         }

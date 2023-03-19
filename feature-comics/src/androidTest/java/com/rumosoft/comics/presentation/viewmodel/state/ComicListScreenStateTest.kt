@@ -36,8 +36,8 @@ internal class ComicListScreenStateTest : ScreenshotTest {
         composeTestRule.setContent {
             CompositionLocalProvider(
                 LocalLottieAnimationIterations provides LottieAnimationIterations(
-                    1
-                )
+                    1,
+                ),
             ) {
                 MarvelComposeTheme {
                     ComicListState.Loading.BuildUI()

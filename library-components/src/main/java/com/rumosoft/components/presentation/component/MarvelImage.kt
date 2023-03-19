@@ -38,7 +38,7 @@ fun MarvelImage(
                 .apply {
                     if (circular) {
                         transformations(
-                            CircleCropTransformation()
+                            CircleCropTransformation(),
                         )
                     }
                     if (originalSize) {
@@ -48,13 +48,13 @@ fun MarvelImage(
                 .build(),
             contentDescription = contentDescription,
             contentScale = contentScale,
-            modifier = modifier.testTag(MarvelImage)
+            modifier = modifier.testTag(MarvelImage),
         )
     } else if (noImage != null) {
         Image(
             painterResource(id = noImage),
             contentDescription = stringResource(id = R.string.no_image),
-            modifier = modifier.testTag(Placeholder)
+            modifier = modifier.testTag(Placeholder),
         )
     }
 }

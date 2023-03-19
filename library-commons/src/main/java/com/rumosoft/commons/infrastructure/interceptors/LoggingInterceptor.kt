@@ -16,16 +16,20 @@ class LoggingInterceptor : Interceptor {
         Timber.i(
             String.format(
                 "API Sending request %s on %s%n%s",
-                request.url, chain.connection(), request.headers
-            )
+                request.url,
+                chain.connection(),
+                request.headers,
+            ),
         )
         val response: Response = chain.proceed(request)
         val t2 = System.nanoTime()
         Timber.i(
             String.format(
                 "API Received response for %s in %.1fms%n%s",
-                response.request.url, (t2 - t1) / 1e6, response.headers
-            )
+                response.request.url,
+                (t2 - t1) / 1e6,
+                response.headers,
+            ),
         )
         val bodyString = response.body?.string()
 

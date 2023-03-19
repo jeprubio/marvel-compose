@@ -14,11 +14,11 @@ import dagger.hilt.components.SingletonComponent
 abstract class UseCasesModule {
     @Binds
     abstract fun bindSearchUseCase(
-        searchUseCase: SearchUseCaseImpl
+        searchUseCase: SearchUseCaseImpl,
     ): SearchUseCase
 
     @Binds
     abstract fun bindGetComicThumbnailUseCase(
-        getComicThumbnailUseCase: GetComicThumbnailUseCaseImpl
+        getComicThumbnailUseCase: GetComicThumbnailUseCaseImpl,
     ): GetComicThumbnailUseCase
 }

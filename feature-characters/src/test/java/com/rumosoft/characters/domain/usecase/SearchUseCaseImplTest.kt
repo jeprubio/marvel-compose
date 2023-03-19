@@ -3,7 +3,7 @@ package com.rumosoft.characters.domain.usecase
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.library_tests.TestCoroutineExtension
+import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

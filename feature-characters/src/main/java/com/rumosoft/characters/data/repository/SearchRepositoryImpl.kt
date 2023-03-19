@@ -23,7 +23,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun performSearch(
         nameStartsWith: String,
-        fromStart: Boolean
+        fromStart: Boolean,
     ): Resource<List<Character>?> {
         if (fromStart) currentPage = 1
         if (currentPage > maxPages) return Resource.Error(NoMoreResultsException("No more data"))
@@ -47,7 +47,7 @@ class SearchRepositoryImpl @Inject constructor(
 
     private suspend fun performNetworkSearch(
         nameStartsWith: String,
-        page: Int
+        page: Int,
     ): Resource<List<Character>?> {
         isRequestInProgress = true
         val offset = (page - 1) * LIMIT
@@ -55,8 +55,9 @@ class SearchRepositoryImpl @Inject constructor(
         isRequestInProgress = false
         return if (currentPage <= maxPages && networkResult is Resource.Success) {
             Resource.Success(parseNetworkResponse(networkResult.data.characters))
-        } else
+        } else {
             Resource.Error(NetworkErrorException("Network Error"))
+        }
     }
 
     private fun parseNetworkResponse(characters: List<Character>?): List<Character> {

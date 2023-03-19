@@ -29,7 +29,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 fun SectionTopBar(
     @StringRes sectionName: Int,
     icon: ImageVector? = null,
-    onIconClick: () -> Unit = {}
+    onIconClick: () -> Unit = {},
 ) {
     val marvelFont = Font(R.font.marvel_regular)
 

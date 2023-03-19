@@ -6,10 +6,10 @@ import com.rumosoft.commons.infrastructure.Resource
 interface ComicsRepository {
     suspend fun performSearch(
         titleStartsWith: String,
-        fromStart: Boolean = false
+        fromStart: Boolean = false,
     ): Resource<List<Comic>?>
 
     suspend fun getDetails(
-        comicId: Int
+        comicId: Int,
     ): Resource<Comic>
 }

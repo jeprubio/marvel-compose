@@ -14,6 +14,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindRepository(
-        searchRepository: SearchRepositoryImpl
+        searchRepository: SearchRepositoryImpl,
     ): SearchRepository
 }

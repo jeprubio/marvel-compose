@@ -18,7 +18,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 fun TopBar(
     apBarText: String,
     leftIcon: Painter,
-    leftIconPressed: () -> Unit = {}
+    leftIconPressed: () -> Unit = {},
 ) {
     TopAppBar(
         title = { Text(text = apBarText) },
@@ -41,7 +41,7 @@ fun TopBarPreview() {
     MarvelComposeTheme {
         TopBar(
             apBarText = "App Bar Text",
-            leftIcon = rememberAsyncImagePainter(R.drawable.ic_arrow_back_24)
+            leftIcon = rememberAsyncImagePainter(R.drawable.ic_arrow_back_24),
         )
     }
 }

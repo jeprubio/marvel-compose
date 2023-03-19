@@ -42,7 +42,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun ComicsScreen(
     viewModel: ComicListViewModel,
-    onComicSelected: (comic: Comic) -> Unit = {}
+    onComicSelected: (comic: Comic) -> Unit = {},
 ) {
     val comicsListScreenState by viewModel.comicsListScreenState.collectAsState()
     comicsListScreenState.selectedComic?.let {
@@ -93,17 +93,17 @@ private fun SearchableTitle(
     searchText: MutableState<TextFieldValue>,
     showSearchBar: Boolean,
     onValueChanged: (String) -> Unit,
-    onToggleSearchClick: () -> Unit
+    onToggleSearchClick: () -> Unit,
 ) {
     SectionTopBar(
         sectionName = R.string.comics,
         icon = Icons.Default.Search,
-        onIconClick = onToggleSearchClick
+        onIconClick = onToggleSearchClick,
     )
     AnimatedVisibility(
         showSearchBar,
         enter = fadeIn(),
-        exit = slideOutVertically() + fadeOut()
+        exit = slideOutVertically() + fadeOut(),
     ) {
         if (showSearchBar) {
             SearchBar(
@@ -121,7 +121,7 @@ private fun SearchableTitle(
 private fun ResultBox(comicsListState: ComicListState) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         comicsListState.BuildUI()
     }
@@ -144,7 +144,7 @@ fun ComicsScreenPreview() {
         ComicsScreenContent(
             comicListState = ComicListState.Success(comics),
             showSearchBar = false,
-            searchText = searchState
+            searchText = searchState,
         )
     }
 }

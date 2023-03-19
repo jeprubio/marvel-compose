@@ -29,5 +29,3 @@ data class CharacterUrls(
     val name: String,
     val resourceUri: String,
 ) : Parcelable
-
-

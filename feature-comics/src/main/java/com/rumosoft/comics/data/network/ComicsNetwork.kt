@@ -7,7 +7,7 @@ interface ComicsNetwork {
     suspend fun searchComics(
         offset: Int,
         limit: Int,
-        titleStartsWith: String
+        titleStartsWith: String,
     ): Resource<ComicsResult>
 
     suspend fun fetchComic(comicId: Int): Resource<Comic>

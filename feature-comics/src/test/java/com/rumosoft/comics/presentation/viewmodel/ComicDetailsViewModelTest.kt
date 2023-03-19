@@ -7,7 +7,7 @@ import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.library_tests.TestCoroutineExtension
+import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

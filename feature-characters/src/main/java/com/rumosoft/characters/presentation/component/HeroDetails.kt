@@ -45,7 +45,7 @@ import timber.log.Timber
 fun HeroDetails(
     character: Character,
     modifier: Modifier = Modifier,
-    onComicSelected: (Int) -> Unit = {}
+    onComicSelected: (Int) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -75,7 +75,7 @@ fun HeroDetails(
 fun HeroImage(
     thumbnail: String,
     contentDescription: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     MarvelImage(
         thumbnailUrl = thumbnail,
@@ -98,14 +98,14 @@ private fun HeroName(name: String) {
             .padding(
                 top = MarvelComposeTheme.paddings.defaultPadding,
                 bottom = MarvelComposeTheme.paddings.tinyPadding,
-            )
+            ),
     )
 }
 
 @Composable
 fun Links(links: List<Link>, modifier: Modifier = Modifier) {
     LazyRow(
-        modifier = modifier
+        modifier = modifier,
     ) {
         items(links) { url ->
             Urls(url)
@@ -130,7 +130,7 @@ fun Urls(link: Link) {
             modifier = Modifier.padding(
                 vertical = 2.dp,
                 horizontal = 8.dp,
-            )
+            ),
         )
     }
 }
@@ -142,7 +142,7 @@ fun Description(description: String) {
         text = description.takeIf { it.isNotEmpty() }
             ?: stringResource(id = R.string.no_description),
         color = MaterialTheme.colorScheme.onBackground,
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 
@@ -157,7 +157,7 @@ fun Comics(comics: List<ComicSummary>?, onComicSelected: (Int) -> Unit = {}) {
                         title = comic.title,
                         thumbnail = thumbnail,
                         url = comic.url,
-                        onComicSelected = onComicSelected
+                        onComicSelected = onComicSelected,
                     )
                     Timber.d("thumbnail: $thumbnail")
                 }
@@ -166,7 +166,7 @@ fun Comics(comics: List<ComicSummary>?, onComicSelected: (Int) -> Unit = {}) {
     } else {
         SimpleMessage(
             message = stringResource(id = R.string.no_comics_info),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -177,7 +177,7 @@ fun SectionTitle(section: String) {
         text = section,
         color = MarvelComposeTheme.colors.primary,
         style = MarvelComposeTheme.typography.titleMedium,
-        modifier = Modifier.padding(vertical = MarvelComposeTheme.paddings.medium)
+        modifier = Modifier.padding(vertical = MarvelComposeTheme.paddings.medium),
     )
 }
 

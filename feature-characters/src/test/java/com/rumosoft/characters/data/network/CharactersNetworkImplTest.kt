@@ -9,7 +9,7 @@ import com.rumosoft.commons.data.network.apimodels.HeroResults
 import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.data.network.apimodels.SearchData
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.library_tests.TestCoroutineExtension
+import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -101,9 +101,9 @@ internal class CharactersNetworkImplTest {
                                 "path",
                                 "extension",
                             ),
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             )
     }
 
@@ -124,9 +124,9 @@ internal class CharactersNetworkImplTest {
                                 "path",
                                 "extension",
                             ),
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             )
     }
 

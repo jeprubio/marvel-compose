@@ -17,12 +17,12 @@ fun CustomLoading() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.ironman_loader))
     val progress by animateLottieCompositionAsState(
         composition,
-        iterations = LocalLottieAnimationIterations.current.iterations
+        iterations = LocalLottieAnimationIterations.current.iterations,
     )
 
     LottieAnimation(
         composition,
         { progress },
-        modifier = Modifier.size(100.dp)
+        modifier = Modifier.size(100.dp),
     )
 }

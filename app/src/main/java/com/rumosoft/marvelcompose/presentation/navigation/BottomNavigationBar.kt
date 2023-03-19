@@ -11,8 +11,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.rumosoft.components.presentation.component.AnimatedIcon
-import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun BottomNavigationBar(
@@ -30,7 +28,7 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         painter = painterResource(id = tab.icon),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
                 label = { Text(tabTitle) },
@@ -38,7 +36,7 @@ fun BottomNavigationBar(
                 onClick = {
                     onTabClick(tab, navController)
                 },
-                alwaysShowLabel = true
+                alwaysShowLabel = true,
             )
         }
     }
@@ -50,7 +48,7 @@ fun BottomNavigationBar(
 
 private fun onTabClick(
     tab: Tabs,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     if (tab.route != navController.currentDestination?.route) {
         navController.navigate(tab.route) {

@@ -18,7 +18,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun ComicDetails(
     comic: Comic,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         item {

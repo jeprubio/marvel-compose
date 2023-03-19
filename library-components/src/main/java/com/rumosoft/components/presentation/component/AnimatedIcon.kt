@@ -42,15 +42,15 @@ fun AnimatedIcon(
         targetValue = scale,
         animationSpec = TweenSpec(
             durationMillis = animationDuration,
-            easing = FastOutSlowInEasing
-        )
+            easing = FastOutSlowInEasing,
+        ),
     )
     val animatedColor by animateColorAsState(
         targetValue = color,
         animationSpec = TweenSpec(
             durationMillis = animationDuration,
-            easing = FastOutSlowInEasing
-        )
+            easing = FastOutSlowInEasing,
+        ),
     )
 
     if (onClick != null) {
@@ -62,7 +62,7 @@ fun AnimatedIcon(
                 painter = painter,
                 contentDescription = contentDescription,
                 tint = animatedColor,
-                modifier = modifier.scale(animatedScale)
+                modifier = modifier.scale(animatedScale),
             )
         }
     } else {
@@ -70,7 +70,7 @@ fun AnimatedIcon(
             painter = painter,
             contentDescription = contentDescription,
             tint = animatedColor,
-            modifier = modifier.scale(animatedScale)
+            modifier = modifier.scale(animatedScale),
         )
     }
 }

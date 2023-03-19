@@ -19,7 +19,7 @@ fun ComicThumbnail(
     thumbnail: String,
     url: String,
     modifier: Modifier = Modifier,
-    onComicSelected: ((Int) -> Unit)? = null
+    onComicSelected: ((Int) -> Unit)? = null,
 ) {
     MarvelImage(
         thumbnailUrl = thumbnail,
@@ -33,7 +33,9 @@ fun ComicThumbnail(
                     Modifier.clickable {
                         onComicSelected.invoke(getComicId(url))
                     }
-                } else Modifier
+                } else {
+                    Modifier
+                },
             )
             .height(150.dp)
             .padding(end = MarvelComposeTheme.paddings.medium)

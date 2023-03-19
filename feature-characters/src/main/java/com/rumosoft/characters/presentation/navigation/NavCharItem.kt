@@ -27,7 +27,7 @@ sealed class NavCharItem(
     }
     object Details : NavCharItem(
         destination = "characterDetails",
-        navArgs = listOf(navArgument("character") { type = CharacterNavType })
+        navArgs = listOf(navArgument("character") { type = CharacterNavType }),
     ) {
         fun routeOfCharacter(character: Character): String =
             "$destination/${Uri.encode(Json.encodeToJsonElement(character).toString())}"

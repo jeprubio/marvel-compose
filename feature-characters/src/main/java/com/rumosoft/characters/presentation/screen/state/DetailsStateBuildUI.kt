@@ -20,14 +20,14 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun DetailsState.BuildUI(
     modifier: Modifier = Modifier,
-    onComicSelected: (Int) -> Unit
+    onComicSelected: (Int) -> Unit,
 ) {
     when (this) {
         is Loading -> BuildLoading()
         is Success -> HeroDetails(
             character = character,
             modifier = modifier,
-            onComicSelected = onComicSelected
+            onComicSelected = onComicSelected,
         )
     }
 }

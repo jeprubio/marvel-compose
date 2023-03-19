@@ -2,8 +2,8 @@ package com.rumosoft.characters.data.network
 
 import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.infrastructure.Resource
-import com.rumosoft.library_tests.FileReader
-import com.rumosoft.library_tests.TestCoroutineExtension
+import com.rumosoft.libraryTests.FileReader
+import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

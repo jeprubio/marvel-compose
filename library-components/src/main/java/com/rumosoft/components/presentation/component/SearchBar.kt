@@ -5,15 +5,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -60,7 +60,7 @@ fun SearchBar(
             if (hint != null) {
                 Text(
                     text = hint,
-                    style = TextStyle(fontSize = 18.sp)
+                    style = TextStyle(fontSize = 18.sp),
                 )
             }
         },
@@ -84,11 +84,11 @@ fun SearchBar(
             cursorColor = Color.White,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            disabledIndicatorColor = Color.Transparent,
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
-            onDone = { focusManager.clearFocus() }
+            onDone = { focusManager.clearFocus() },
         ),
     )
 }
@@ -113,28 +113,28 @@ private fun SearchBarLeadingIcon(onLeadingClicked: () -> Unit) {
 @Composable
 private fun SearchBarTrailingIcon(
     state: MutableState<TextFieldValue>,
-    onValueChanged: (String) -> Unit
+    onValueChanged: (String) -> Unit,
 ) {
     val clearContentDescription = stringResource(id = R.string.search_clear)
     IconButton(
         onClick = {
             onCrossIconPressed(state, onValueChanged)
         },
-        modifier = Modifier.semantics { contentDescription = clearContentDescription }
+        modifier = Modifier.semantics { contentDescription = clearContentDescription },
     ) {
         Icon(
             Icons.Default.Close,
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
-                .size(24.dp)
+                .size(24.dp),
         )
     }
 }
 
 private fun onCrossIconPressed(
     state: MutableState<TextFieldValue>,
-    onValueChanged: (String) -> Unit
+    onValueChanged: (String) -> Unit,
 ) {
     state.value =
         TextFieldValue("")

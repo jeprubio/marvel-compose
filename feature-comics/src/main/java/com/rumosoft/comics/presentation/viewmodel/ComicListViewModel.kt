@@ -61,7 +61,7 @@ class ComicListViewModel @Inject constructor(
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.Eagerly,
-                initialValue = ""
+                initialValue = "",
             )
     }
 
@@ -94,8 +94,8 @@ class ComicListViewModel @Inject constructor(
                         result.data,
                         false,
                         ::comicClicked,
-                        ::onReachedEnd
-                    )
+                        ::onReachedEnd,
+                    ),
                 )
         }
     }
@@ -148,7 +148,7 @@ class ComicListViewModel @Inject constructor(
                     comicListState = ComicListState.Success(
                         comics = currentComics,
                         loadingMore = value,
-                    )
+                    ),
                 )
             }
         }

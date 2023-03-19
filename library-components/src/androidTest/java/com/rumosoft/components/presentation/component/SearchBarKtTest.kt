@@ -97,7 +97,7 @@ internal class SearchBarKtTest : ScreenshotTest {
                 val textState = remember { mutableStateOf(TextFieldValue(initialText)) }
                 SearchBar(
                     state = textState,
-                    onValueChanged = onValueChanged
+                    onValueChanged = onValueChanged,
                 )
             }
         }
@@ -118,7 +118,7 @@ internal class SearchBarKtTest : ScreenshotTest {
                 val textState = remember { mutableStateOf(TextFieldValue("whatever")) }
                 SearchBar(
                     state = textState,
-                    onLeadingClicked = onLeadingClicked
+                    onLeadingClicked = onLeadingClicked,
                 )
             }
         }

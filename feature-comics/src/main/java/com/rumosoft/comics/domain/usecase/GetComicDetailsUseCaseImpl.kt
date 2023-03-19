@@ -9,7 +9,7 @@ class GetComicDetailsUseCaseImpl @Inject constructor(
     private val repository: ComicsRepository,
 ) : GetComicDetailsUseCase {
     override suspend operator fun invoke(
-        comicId: Int
+        comicId: Int,
     ): Resource<Comic> =
         repository.getDetails(comicId)
 }

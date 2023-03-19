@@ -14,6 +14,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindRepository(
-        comicsRepository: ComicsRepositoryImpl
+        comicsRepository: ComicsRepositoryImpl,
     ): ComicsRepository
 }

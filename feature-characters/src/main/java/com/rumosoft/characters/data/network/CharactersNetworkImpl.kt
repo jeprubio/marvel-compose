@@ -26,8 +26,8 @@ class CharactersNetworkImpl @Inject constructor(
                             current = data.offset?.div(20) ?: 1,
                             total = data.total?.div(20) ?: Int.MAX_VALUE,
                         ),
-                        characters = data.results?.map { it.toHero() }.orEmpty()
-                    )
+                        characters = data.results?.map { it.toHero() }.orEmpty(),
+                    ),
                 )
             } ?: run {
                 Timber.d("Error parsing results")
@@ -43,7 +43,7 @@ class CharactersNetworkImpl @Inject constructor(
         return try {
             val result = marvelService.searchComic(comicId)
             Resource.Success(
-                result.data?.results?.firstOrNull()?.getThumbnail().orEmpty()
+                result.data?.results?.firstOrNull()?.getThumbnail().orEmpty(),
             )
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
@@ -54,7 +54,7 @@ class CharactersNetworkImpl @Inject constructor(
 
 data class PaginationInfo(
     var current: Int,
-    var total: Int
+    var total: Int,
 )
 
 data class HeroesResult(val paginationInfo: PaginationInfo, val characters: List<Character>?)

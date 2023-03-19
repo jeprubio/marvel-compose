@@ -34,8 +34,8 @@ internal class CharacterListStateTest : ScreenshotTest {
         composeTestRule.setContent {
             CompositionLocalProvider(
                 LocalLottieAnimationIterations provides LottieAnimationIterations(
-                    1
-                )
+                    1,
+                ),
             ) {
                 MarvelComposeTheme {
                     HeroListState.Loading.BuildUI()

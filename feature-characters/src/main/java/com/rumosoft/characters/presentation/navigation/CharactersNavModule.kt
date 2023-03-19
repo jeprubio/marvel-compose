@@ -28,12 +28,12 @@ fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
             onCharacterSelected = { selectedCharacter ->
                 viewModel.resetSelectedCharacter()
                 navController.navigate(NavCharItem.Details.routeOfCharacter(selectedCharacter))
-            }
+            },
         )
     }
     composable(
         route = NavCharItem.Details.route,
-        arguments = NavCharItem.Details.navArgs
+        arguments = NavCharItem.Details.navArgs,
     ) { navBackStackEntry ->
         val viewModel: DetailsViewModel = hiltViewModel(navBackStackEntry)
         DetailsScreen(
@@ -41,7 +41,7 @@ fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
             onBackPressed = {
                 navController.popBackStack(
                     route = NavCharItem.Characters.route,
-                    inclusive = false
+                    inclusive = false,
                 )
             },
             onComicSelected = { comicId ->

@@ -45,11 +45,11 @@ private fun DetailsScreenContent(
                 leftIcon = painterResource(id = R.drawable.ic_arrow_back_24),
                 leftIconPressed = onBackPressed,
             )
-        }
+        },
     ) { padding ->
         detailsState.BuildUI(
             modifier = Modifier.padding(padding),
-            onComicSelected = onComicSelected
+            onComicSelected = onComicSelected,
         )
     }
 }

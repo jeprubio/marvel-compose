@@ -36,7 +36,6 @@ import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
-
 @Composable
 fun HeroResults(
     characters: List<Character>,
@@ -97,7 +96,7 @@ private fun HeroResult(
         modifier = Modifier
             .fillMaxSize()
             .clickable(
-                onClickLabel = stringResource(id = R.string.show_details)
+                onClickLabel = stringResource(id = R.string.show_details),
             ) {
                 onClick(character)
             }
@@ -114,7 +113,7 @@ private fun HeroResult(
 @Composable
 private fun HeroImage(
     character: Character,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     if (character.thumbnail.isNotEmpty()) {
         RemoteImage(character, modifier)
@@ -126,7 +125,7 @@ private fun HeroImage(
 @Composable
 private fun RemoteImage(
     character: Character,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     MarvelImage(
         thumbnailUrl = character.thumbnail,
@@ -138,7 +137,7 @@ private fun RemoteImage(
 @Composable
 private fun LocalImage(
     character: Character,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Image(
         painterResource(id = R.drawable.img_no_image),
@@ -163,7 +162,7 @@ private fun HeroName(character: Character) {
 private fun Loading() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         CircularProgressIndicator()
     }

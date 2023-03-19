@@ -31,7 +31,7 @@ fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
             onComicSelected = { selectedComic ->
                 viewModel.resetSelectedComic()
                 navController.navigate(NavComicItem.Details.routeOfComic(selectedComic.id))
-            }
+            },
         )
     }
     composable(
@@ -46,12 +46,12 @@ fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
                     navController.getBackStackEntry(NavComicItem.Comics.route)
                     navController.popBackStack(
                         route = NavComicItem.Comics.route,
-                        inclusive = false
+                        inclusive = false,
                     )
                 } catch (e: Exception) {
                     navController.navigate(DeepLinks.Comics.route.toUri())
                 }
-            }
+            },
         )
     }
 }

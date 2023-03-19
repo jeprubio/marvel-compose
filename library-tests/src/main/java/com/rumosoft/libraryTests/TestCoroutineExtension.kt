@@ -1,4 +1,4 @@
-package com.rumosoft.library_tests
+package com.rumosoft.libraryTests
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

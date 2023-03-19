@@ -24,7 +24,7 @@ sealed class NavComicItem(
 
     object Details : NavComicItem(
         destination = "comicDetails",
-        navArgs = listOf(navArgument("id") { type = NavType.IntType })
+        navArgs = listOf(navArgument("id") { type = NavType.IntType }),
     ) {
         val deepLink
             get() = DeepLinks.ComicDetails.route

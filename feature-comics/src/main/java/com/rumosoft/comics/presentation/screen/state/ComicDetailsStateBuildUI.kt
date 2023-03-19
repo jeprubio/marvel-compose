@@ -25,7 +25,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun ComicDetailsState.BuildUI(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     when (this) {
         is Loading -> BuildLoading()

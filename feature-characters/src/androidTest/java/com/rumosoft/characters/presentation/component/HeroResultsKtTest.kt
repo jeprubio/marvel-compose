@@ -26,7 +26,7 @@ internal class HeroResultsKtTest {
         fun deviceWidthParameters() = listOf(
             arrayOf(300, 1),
             arrayOf(600, 2),
-            arrayOf(800, 3)
+            arrayOf(800, 3),
         )
     }
 
@@ -36,10 +36,10 @@ internal class HeroResultsKtTest {
         composeTestRule.setContent {
             val mobileConfig = configWithScreenWidth(width)
             CompositionLocalProvider(
-                LocalConfiguration provides mobileConfig
+                LocalConfiguration provides mobileConfig,
             ) {
                 HeroResults(
-                    characters = getSampleCharacters()
+                    characters = getSampleCharacters(),
                 )
             }
         }
@@ -47,7 +47,6 @@ internal class HeroResultsKtTest {
         composeTestRule
             .onNode(SemanticsMatcher.expectValue(NumColumnsKey, expectedColumns))
             .assertExists()
-
     }
 
     @Composable
@@ -62,7 +61,7 @@ internal class HeroResultsKtTest {
                 description = "description $characterId",
                 thumbnail = "",
                 links = listOf(),
-                comics = listOf()
+                comics = listOf(),
             )
         }
 }

@@ -1,4 +1,4 @@
-package com.rumosoft.library_tests
+package com.rumosoft.libraryTests
 
 object FileReader {
     fun readFile(filePath: String): String? =

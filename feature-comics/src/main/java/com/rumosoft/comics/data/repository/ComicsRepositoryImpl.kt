@@ -13,7 +13,7 @@ import javax.inject.Inject
 private const val LIMIT = 20
 
 class ComicsRepositoryImpl @Inject constructor(
-    private val network: ComicsNetwork
+    private val network: ComicsNetwork,
 ) : ComicsRepository {
     private var maxPages = Long.MAX_VALUE
     private var currentPage = 1
@@ -23,7 +23,7 @@ class ComicsRepositoryImpl @Inject constructor(
 
     override suspend fun performSearch(
         titleStartsWith: String,
-        fromStart: Boolean
+        fromStart: Boolean,
     ): Resource<List<Comic>?> {
         if (fromStart) currentPage = 1
         if (currentPage > maxPages) return Resource.Error(NoMoreResultsException("No more data"))
@@ -47,7 +47,7 @@ class ComicsRepositoryImpl @Inject constructor(
 
     private suspend fun performNetworkSearch(
         titleStartsWith: String,
-        page: Int
+        page: Int,
     ): Resource<List<Comic>?> {
         isRequestInProgress = true
         val offset = (page - 1) * LIMIT
@@ -55,8 +55,9 @@ class ComicsRepositoryImpl @Inject constructor(
         isRequestInProgress = false
         return if (currentPage <= maxPages && networkResult is Resource.Success) {
             Resource.Success(parseNetworkResponse(networkResult.data.comics))
-        } else
+        } else {
             Resource.Error(NetworkErrorException("Network Error"))
+        }
     }
 
     private fun parseNetworkResponse(comics: List<Comic>?): List<Comic> {

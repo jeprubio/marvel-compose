@@ -40,7 +40,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun HeroListScreen(
     viewModel: HeroListViewModel,
-    onCharacterSelected: (character: Character) -> Unit = {}
+    onCharacterSelected: (character: Character) -> Unit = {},
 ) {
     val heroListScreenState by viewModel.heroListScreenState.collectAsState()
     heroListScreenState.selectedCharacter?.let {
@@ -90,12 +90,12 @@ private fun SearchableTitle(
     SectionTopBar(
         sectionName = R.string.characters,
         icon = Icons.Default.Search,
-        onIconClick = onToggleSearchClick
+        onIconClick = onToggleSearchClick,
     )
     AnimatedVisibility(
         showSearchBar,
         enter = fadeIn(),
-        exit = slideOutVertically() + fadeOut()
+        exit = slideOutVertically() + fadeOut(),
     ) {
         if (showSearchBar) {
             SearchBar(
@@ -112,7 +112,7 @@ private fun SearchableTitle(
 private fun ResultBox(heroListState: HeroListState) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         heroListState.BuildUI()
     }
@@ -134,7 +134,7 @@ fun HeroListScreenPreview() {
         HeroListScreenContent(
             heroListState = HeroListState.Success(heroes),
             showSearchBar = false,
-            searchText = searchState
+            searchText = searchState,
         )
     }
 }

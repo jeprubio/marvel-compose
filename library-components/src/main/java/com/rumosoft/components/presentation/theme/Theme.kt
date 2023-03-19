@@ -40,7 +40,7 @@ private val LightColorPalette = lightColorScheme(
 @Composable
 fun MarvelComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
@@ -49,13 +49,13 @@ fun MarvelComposeTheme(
     }
 
     CompositionLocalProvider(
-        LocalPaddings provides Paddings()
+        LocalPaddings provides Paddings(),
     ) {
         MaterialTheme(
             colorScheme = colors,
             typography = Typography,
             shapes = Shapes,
-            content = content
+            content = content,
         )
     }
 }

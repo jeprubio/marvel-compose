@@ -86,12 +86,12 @@ internal class ComicListViewModelTest {
     }
 
     private fun `given searchUseCase invocation returns results`() {
-        coEvery { comicsUseCase.invoke("", true) } returns
+        coEvery { comicsUseCase.invoke("", 1) } returns
             Resource.Success(SampleData.comicsSample)
     }
 
     private fun `given searchUseCase invocation returns error`() {
-        coEvery { comicsUseCase.invoke("", true) } returns
+        coEvery { comicsUseCase.invoke("", 1) } returns
             Resource.Error(Exception())
     }
 
@@ -125,7 +125,7 @@ internal class ComicListViewModelTest {
     }
 
     private fun `then searchUseCase gets invoked`() {
-        coVerify { comicsUseCase.invoke("", true) }
+        coVerify { comicsUseCase.invoke("", 1) }
     }
 
     private fun `then comicListState should be Success`() {

@@ -4,6 +4,6 @@ import com.rumosoft.commons.domain.model.Character
 import com.rumosoft.commons.infrastructure.Resource
 
 interface SearchRepository {
-    suspend fun performSearch(nameStartsWith: String, fromStart: Boolean = false): Resource<List<Character>?>
+    suspend fun performSearch(nameStartsWith: String, page: Int): Resource<List<Character>?>
     suspend fun getThumbnail(comicId: Int): Resource<String>
 }

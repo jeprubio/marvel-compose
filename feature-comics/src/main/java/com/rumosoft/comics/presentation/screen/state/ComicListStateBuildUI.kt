@@ -24,7 +24,6 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Error
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Loading
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Success
-import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -62,11 +61,7 @@ private fun Error.BuildError() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        val message = if (throwable is NoMoreResultsException) {
-            stringResource(id = R.string.no_more_results)
-        } else {
-            stringResource(id = R.string.error_data_message)
-        }
+        val message = stringResource(id = R.string.error_data_message)
         SimpleMessage(
             message = message,
             modifier = Modifier.fillMaxWidth(),

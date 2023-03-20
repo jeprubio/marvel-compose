@@ -18,7 +18,6 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState.Error
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState.Loading
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState.Success
-import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.component.ErrorMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -48,11 +47,7 @@ private fun BuildLoading() {
 
 @Composable
 private fun Error.BuildError() {
-    val message = if (throwable is NoMoreResultsException) {
-        stringResource(id = R.string.no_more_results)
-    } else {
-        stringResource(id = R.string.error_data_message)
-    }
+    val message = stringResource(id = R.string.error_data_message)
     ErrorMessage(
         message = message,
         modifier = Modifier.testTag(ComicDetailsErrorResult),

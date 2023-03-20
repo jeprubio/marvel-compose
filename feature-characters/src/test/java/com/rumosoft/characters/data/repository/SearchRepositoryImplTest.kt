@@ -43,17 +43,6 @@ internal class SearchRepositoryImplTest {
         }
 
     @Test
-    fun `searchHeroes is called twice when calling performSearch in the repository`() =
-        runTest {
-            `given searchHeroes invocation on network returns results`()
-            `given searchHeroes invocation on network returns results for the second page`()
-
-            `when performSearch on repo gets invoked`(2)
-
-            `then searchHeroes gets executed twice on network`()
-        }
-
-    @Test
     fun `getComicThumbnail is called when calling getThumbnail in the repository`() =
         runTest {
             `given getComicThumbnail invocation on network returns results`()
@@ -73,24 +62,14 @@ internal class SearchRepositoryImplTest {
             )
     }
 
-    private fun `given searchHeroes invocation on network returns results for the second page`() {
-        coEvery { marvelNetwork.searchHeroes(offset + limit, limit, "") } returns
-            Resource.Success(
-                HeroesResult(
-                    PaginationInfo(1, 1),
-                    SampleData.heroesSample,
-                ),
-            )
-    }
-
     private fun `given getComicThumbnail invocation on network returns results`() {
         coEvery { marvelNetwork.getComicThumbnail(comicId) } returns
             Resource.Success(thumbnailUrl)
     }
 
     private suspend fun `when performSearch on repo gets invoked`(times: Int = 1) {
-        for (i in 1..times) {
-            searchRepository.performSearch("")
+        repeat(times) {
+            searchRepository.performSearch("", 1)
         }
     }
 
@@ -100,11 +79,6 @@ internal class SearchRepositoryImplTest {
 
     private fun `then searchHeroes gets executed on network`() {
         coVerify { marvelNetwork.searchHeroes(offset, limit, "") }
-    }
-
-    private fun `then searchHeroes gets executed twice on network`() {
-        coVerify { marvelNetwork.searchHeroes(offset, limit, "") }
-        coVerify { marvelNetwork.searchHeroes(offset + limit, limit, "") }
     }
 
     private fun `then getComicThumbnail gets executed on network`() {

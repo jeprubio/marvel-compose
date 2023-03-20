@@ -8,6 +8,6 @@ import javax.inject.Inject
 class SearchUseCaseImpl @Inject constructor(
     private val repository: SearchRepository,
 ) : SearchUseCase {
-    override suspend operator fun invoke(nameStart: String, fromStart: Boolean): Resource<List<Character>?> =
-        repository.performSearch(nameStart, fromStart)
+    override suspend operator fun invoke(nameStart: String, page: Int): Resource<List<Character>?> =
+        repository.performSearch(nameStart, page)
 }

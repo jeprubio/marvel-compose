@@ -42,17 +42,6 @@ internal class ComicsRepositoryImplTest {
         }
 
     @Test
-    fun `searchComics is called twice when calling performSearch twice in the repository`() =
-        runTest {
-            `given searchComics invocation on network returns results`()
-            `given searchComics invocation on network returns results for the second page`()
-
-            `when performSearch on repo gets invoked`(2)
-
-            `then searchComics gets executed twice on network`()
-        }
-
-    @Test
     fun `searchComic is called when calling getDetails in the repository`() =
         runTest {
             `given fetchComic invocation on network returns results`()
@@ -72,16 +61,6 @@ internal class ComicsRepositoryImplTest {
             )
     }
 
-    private fun `given searchComics invocation on network returns results for the second page`() {
-        coEvery { comicsNetwork.searchComics(offset + limit, limit, "") } returns
-            Resource.Success(
-                ComicsResult(
-                    PaginationInfo(1, 1),
-                    SampleData.comicsSample,
-                ),
-            )
-    }
-
     private fun `given fetchComic invocation on network returns results`() {
         coEvery { comicsNetwork.fetchComic(comicId) } returns
             Resource.Success(
@@ -90,8 +69,8 @@ internal class ComicsRepositoryImplTest {
     }
 
     private suspend fun `when performSearch on repo gets invoked`(times: Int = 1) {
-        for (i in 1..times) {
-            comicsRepository.performSearch("")
+        repeat(times) {
+            comicsRepository.performSearch("", 1)
         }
     }
 
@@ -101,11 +80,6 @@ internal class ComicsRepositoryImplTest {
 
     private fun `then searchComics gets executed on network`() {
         coVerify { comicsNetwork.searchComics(offset, limit, "") }
-    }
-
-    private fun `then searchComics gets executed twice on network`() {
-        coVerify { comicsNetwork.searchComics(offset, limit, "") }
-        coVerify { comicsNetwork.searchComics(offset + limit, limit, "") }
     }
 
     private fun `then fetchComic gets executed on network`() {

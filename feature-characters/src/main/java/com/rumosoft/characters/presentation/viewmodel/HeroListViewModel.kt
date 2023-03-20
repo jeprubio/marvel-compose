@@ -33,6 +33,7 @@ class HeroListViewModel @Inject constructor(
     private val _heroListScreenState =
         MutableStateFlow(initialScreenState())
     private val textSearched = MutableStateFlow("")
+    private var currentPage = 1
 
     init {
         observeTextSearched()
@@ -67,8 +68,9 @@ class HeroListViewModel @Inject constructor(
     private fun performSearch(query: String = "", fromStart: Boolean) {
         try {
             Timber.d("Searching: $query")
+            currentPage = if (fromStart) 1 else currentPage + 1
             viewModelScope.launch {
-                when (val result = searchUseCase(query, fromStart)) {
+                when (val result = searchUseCase(query, currentPage)) {
                     is Resource.Success -> {
                         parseSuccessResponse(result)
                     }

@@ -5,7 +5,6 @@ import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.commons.domain.model.CallInProgressException
 import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.commons.domain.model.NetworkErrorException
-import com.rumosoft.commons.domain.model.NoMoreResultsException
 import com.rumosoft.commons.infrastructure.Resource
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,29 +14,24 @@ private const val LIMIT = 20
 class ComicsRepositoryImpl @Inject constructor(
     private val network: ComicsNetwork,
 ) : ComicsRepository {
-    private var maxPages = Long.MAX_VALUE
-    private var currentPage = 1
     private var isRequestInProgress = false
 
     private var currentHeroes: List<Comic> = emptyList()
 
     override suspend fun performSearch(
         titleStartsWith: String,
-        fromStart: Boolean,
+        page: Int,
     ): Resource<List<Comic>?> {
-        if (fromStart) currentPage = 1
-        if (currentPage > maxPages) return Resource.Error(NoMoreResultsException("No more data"))
         if (isRequestInProgress) {
-            Timber.d("Request is in progress current page: $currentPage")
+            Timber.d("Request is in progress current page: $page")
             return Resource.Error(CallInProgressException("Request is in progress"))
         }
         Timber.d("Performing Network Search")
-        val networkResult = performNetworkSearch(titleStartsWith, currentPage)
+        val networkResult = performNetworkSearch(titleStartsWith, page)
         if (networkResult is Resource.Success) {
-            currentPage++
             Timber.d("Returned results ${networkResult.data?.size}")
         }
-        Timber.d("Returned page ${currentPage - 1}")
+        Timber.d("Returned page ${page - 1}")
         return networkResult
     }
 
@@ -53,15 +47,18 @@ class ComicsRepositoryImpl @Inject constructor(
         val offset = (page - 1) * LIMIT
         val networkResult = network.searchComics(offset, LIMIT, titleStartsWith)
         isRequestInProgress = false
-        return if (currentPage <= maxPages && networkResult is Resource.Success) {
-            Resource.Success(parseNetworkResponse(networkResult.data.comics))
+        return if (networkResult is Resource.Success) {
+            Resource.Success(parseNetworkResponse(networkResult.data.comics, page))
         } else {
             Resource.Error(NetworkErrorException("Network Error"))
         }
     }
 
-    private fun parseNetworkResponse(comics: List<Comic>?): List<Comic> {
-        currentHeroes = if (currentPage > 1) {
+    private fun parseNetworkResponse(
+        comics: List<Comic>?,
+        page: Int,
+    ): List<Comic> {
+        currentHeroes = if (page > 1) {
             val newList = currentHeroes.toMutableList()
             comics?.let { newList.addAll(it) }
             newList.toList()

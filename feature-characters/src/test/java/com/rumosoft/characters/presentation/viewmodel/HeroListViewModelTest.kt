@@ -87,12 +87,12 @@ internal class HeroListViewModelTest {
     }
 
     private fun `given searchUseCase invocation returns results`() {
-        coEvery { searchUseCase.invoke("", true) } returns
+        coEvery { searchUseCase.invoke("", 1) } returns
             Resource.Success(SampleData.heroesSample)
     }
 
     private fun `given searchUseCase invocation returns error`() {
-        coEvery { searchUseCase.invoke("", true) } returns
+        coEvery { searchUseCase.invoke("", 1) } returns
             Resource.Error(Exception())
     }
 
@@ -126,7 +126,7 @@ internal class HeroListViewModelTest {
     }
 
     private fun `then searchUseCase gets invoked`() {
-        coVerify { searchUseCase.invoke("", true) }
+        coVerify { searchUseCase.invoke("", 1) }
     }
 
     private fun `then HeroListScreenSuccess should be Success`() {

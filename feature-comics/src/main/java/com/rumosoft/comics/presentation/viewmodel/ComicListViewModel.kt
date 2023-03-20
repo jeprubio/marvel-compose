@@ -33,6 +33,7 @@ class ComicListViewModel @Inject constructor(
     private val _comicsListScreenState =
         MutableStateFlow(initialScreenState())
     private val textSearched = MutableStateFlow("")
+    var currentPage = 1
 
     init {
         observeTextSearched()
@@ -68,8 +69,9 @@ class ComicListViewModel @Inject constructor(
     private fun performSearch(query: String = "", fromStart: Boolean) {
         try {
             Timber.d("Searching: $query")
+            currentPage = if (fromStart) 1 else currentPage + 1
             viewModelScope.launch {
-                when (val result = getComicsUseCase(query, fromStart)) {
+                when (val result = getComicsUseCase(query, currentPage)) {
                     is Resource.Success -> {
                         parseSuccessResponse(result)
                     }

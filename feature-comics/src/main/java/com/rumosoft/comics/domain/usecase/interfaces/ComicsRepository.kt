@@ -6,7 +6,7 @@ import com.rumosoft.commons.infrastructure.Resource
 interface ComicsRepository {
     suspend fun performSearch(
         titleStartsWith: String,
-        fromStart: Boolean = false,
+        page: Int,
     ): Resource<List<Comic>?>
 
     suspend fun getDetails(

@@ -37,15 +37,15 @@ internal class SearchUseCaseImplTest {
     }
 
     private fun `given performSearch invocation returns results`() {
-        coEvery { repo.performSearch("") } returns
+        coEvery { repo.performSearch("", 1) } returns
             Resource.Success(SampleData.heroesSample)
     }
 
     private suspend fun `when the use case gets invoked`() {
-        useCase.invoke("", false)
+        useCase.invoke("", 1)
     }
 
     private fun `then performSearch gets executed on repo`() {
-        coVerify { repo.performSearch("") }
+        coVerify { repo.performSearch("", 1) }
     }
 }

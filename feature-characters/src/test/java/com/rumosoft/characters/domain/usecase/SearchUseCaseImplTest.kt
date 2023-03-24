@@ -2,7 +2,6 @@ package com.rumosoft.characters.domain.usecase
 
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -38,7 +37,7 @@ internal class SearchUseCaseImplTest {
 
     private fun `given performSearch invocation returns results`() {
         coEvery { repo.performSearch("", 1) } returns
-            Resource.Success(SampleData.heroesSample)
+            Result.success(SampleData.heroesSample)
     }
 
     private suspend fun `when the use case gets invoked`() {

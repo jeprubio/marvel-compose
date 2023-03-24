@@ -2,7 +2,6 @@ package com.rumosoft.comics.data.network
 
 import com.rumosoft.commons.data.network.MarvelService
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.FileReader
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
@@ -13,6 +12,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import retrofit2.Retrofit
@@ -106,27 +106,24 @@ internal class ComicsNetworkImplIntegrationTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
     }
 
-    private suspend fun `when searchComics gets called on the network`(): Resource<ComicsResult> {
+    private suspend fun `when searchComics gets called on the network`(): Result<ComicsResult> {
         return comicsNetwork.searchComics(offset, limit, "")
     }
 
-    private suspend fun `when fetchComic gets called on the network`(): Resource<Comic> {
+    private suspend fun `when fetchComic gets called on the network`(): Result<Comic> {
         return comicsNetwork.fetchComic(comicId)
     }
 
-    private fun <T> `then the response should be of type Success`(response: Resource<T>) {
-        Assertions.assertTrue(response is Resource.Success)
+    private fun <T> `then the response should be of type Success`(response: Result<T>) {
+        Assertions.assertTrue(response.isSuccess)
     }
 
-    private fun `then there should be one element in the returned search data`(response: Resource<ComicsResult>) {
-        val data = when (response) {
-            is Resource.Success -> response.data
-            else -> null
-        }
-        Assertions.assertEquals(1, data!!.comics!!.size)
+    private fun `then there should be one element in the returned search data`(response: Result<ComicsResult>) {
+        `then the response should be of type Success`(response)
+        assertEquals(Result.success(1), response.map { it.comics!!.size })
     }
 
-    private fun <T> `then the response should be of type Error`(response: Resource<T>) {
-        Assertions.assertTrue(response is Resource.Error)
+    private fun <T> `then the response should be of type Error`(response: Result<T>) {
+        Assertions.assertTrue(response.isFailure)
     }
 }

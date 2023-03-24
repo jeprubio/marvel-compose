@@ -5,7 +5,6 @@ import com.rumosoft.characters.data.network.HeroesResult
 import com.rumosoft.characters.data.network.PaginationInfo
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -54,7 +53,7 @@ internal class SearchRepositoryImplTest {
 
     private fun `given searchHeroes invocation on network returns results`() {
         coEvery { marvelNetwork.searchHeroes(offset, limit, "") } returns
-            Resource.Success(
+            Result.success(
                 HeroesResult(
                     PaginationInfo(1, 1),
                     SampleData.heroesSample,
@@ -64,7 +63,7 @@ internal class SearchRepositoryImplTest {
 
     private fun `given getComicThumbnail invocation on network returns results`() {
         coEvery { marvelNetwork.getComicThumbnail(comicId) } returns
-            Resource.Success(thumbnailUrl)
+            Result.success(thumbnailUrl)
     }
 
     private suspend fun `when performSearch on repo gets invoked`(times: Int = 1) {

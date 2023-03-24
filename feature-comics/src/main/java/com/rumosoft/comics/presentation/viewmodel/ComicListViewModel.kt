@@ -6,7 +6,6 @@ import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListScreenState
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.infrastructure.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview
@@ -71,14 +70,14 @@ class ComicListViewModel @Inject constructor(
             Timber.d("Searching: $query")
             currentPage = if (fromStart) 1 else currentPage + 1
             viewModelScope.launch {
-                when (val result = getComicsUseCase(query, currentPage)) {
-                    is Resource.Success -> {
-                        parseSuccessResponse(result)
-                    }
-                    is Resource.Error -> {
-                        parseErrorResponse(result)
-                    }
-                }
+                getComicsUseCase(query, currentPage).fold(
+                    onSuccess = { comicsList ->
+                        parseSuccessResponse(comicsList)
+                    },
+                    onFailure = { throwable ->
+                        parseErrorResponse(throwable)
+                    },
+                )
             }
         } catch (exception: Exception) {
             if (exception !is CancellationException) {
@@ -87,13 +86,13 @@ class ComicListViewModel @Inject constructor(
         }
     }
 
-    private fun parseSuccessResponse(result: Resource.Success<List<Comic>?>) {
+    private fun parseSuccessResponse(comicsList: List<Comic>) {
         setLoadingMore(false)
         _comicsListScreenState.update {
             _comicsListScreenState.value
                 .copy(
                     comicListState = ComicListState.Success(
-                        result.data,
+                        comicsList,
                         false,
                         ::comicClicked,
                         ::onReachedEnd,
@@ -120,9 +119,9 @@ class ComicListViewModel @Inject constructor(
         }
     }
 
-    private fun parseErrorResponse(result: Resource.Error) {
+    private fun parseErrorResponse(throwable: Throwable) {
         _comicsListScreenState.update {
-            it.copy(comicListState = ComicListState.Error(result.throwable, ::retry))
+            it.copy(comicListState = ComicListState.Error(throwable, ::retry))
         }
     }
 

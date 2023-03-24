@@ -6,14 +6,14 @@ import com.rumosoft.commons.data.network.apimodels.ComicDto
 import com.rumosoft.commons.data.network.apimodels.ComicResults
 import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -120,27 +120,23 @@ internal class ComicsNetworkImplTest {
         coEvery { marvelService.searchComic(comicId) } throws Exception()
     }
 
-    private suspend fun `when searchComics gets called on the network`(): Resource<ComicsResult> {
+    private suspend fun `when searchComics gets called on the network`(): Result<ComicsResult> {
         return comicsNetwork.searchComics(offset, limit, "")
     }
 
-    private suspend fun `when fetchComic gets called on the network`(): Resource<Comic> {
+    private suspend fun `when fetchComic gets called on the network`(): Result<Comic> {
         return comicsNetwork.fetchComic(comicId)
     }
 
-    private fun <T> `then the response should be of type Success`(response: Resource<T>) {
-        Assertions.assertTrue(response is Resource.Success)
+    private fun <T> `then the response should be of type Success`(response: Result<T>) {
+        assertTrue(response.isSuccess)
     }
 
-    private fun `then there should be one element in the returned search data`(response: Resource<ComicsResult>) {
-        val data = when (response) {
-            is Resource.Success -> response.data
-            else -> null
-        }
-        Assertions.assertEquals(1, data!!.comics!!.size)
+    private fun `then there should be one element in the returned search data`(response: Result<ComicsResult>) {
+        assertEquals(Result.success(1), response.map { it.comics!!.size })
     }
 
-    private fun <T> `then the response should be of type Error`(response: Resource<T>) {
-        Assertions.assertTrue(response is Resource.Error)
+    private fun <T> `then the response should be of type Error`(response: Result<T>) {
+        assertTrue(response.isFailure)
     }
 }

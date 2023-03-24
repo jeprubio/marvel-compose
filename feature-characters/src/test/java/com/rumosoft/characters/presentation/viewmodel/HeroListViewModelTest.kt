@@ -4,7 +4,6 @@ import com.rumosoft.characters.domain.usecase.SearchUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel.Companion.DEBOUNCE_DELAY
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -88,12 +87,12 @@ internal class HeroListViewModelTest {
 
     private fun `given searchUseCase invocation returns results`() {
         coEvery { searchUseCase.invoke("", 1) } returns
-            Resource.Success(SampleData.heroesSample)
+            Result.success(SampleData.heroesSample)
     }
 
     private fun `given searchUseCase invocation returns error`() {
         coEvery { searchUseCase.invoke("", 1) } returns
-            Resource.Error(Exception())
+            Result.failure(Exception())
     }
 
     private fun `given the ViewModel is initialised`() {

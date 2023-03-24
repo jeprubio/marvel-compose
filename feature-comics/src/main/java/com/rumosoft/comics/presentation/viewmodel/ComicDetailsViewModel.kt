@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
 import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
-import com.rumosoft.commons.infrastructure.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,14 +26,14 @@ class ComicDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            when (val results = getComicDetailsUseCase(comicId)) {
-                is Resource.Success -> {
-                    _detailsState.emit(ComicDetailsState.Success(results.data))
-                }
-                is Resource.Error -> {
-                    _detailsState.emit(ComicDetailsState.Error(results.throwable))
-                }
-            }
+            getComicDetailsUseCase(comicId).fold(
+                onSuccess = { comic ->
+                    _detailsState.update { ComicDetailsState.Success(comic) }
+                },
+                onFailure = { throwable ->
+                    _detailsState.update { ComicDetailsState.Error(throwable) }
+                },
+            )
         }
     }
 }

@@ -5,7 +5,6 @@ import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -50,7 +49,7 @@ internal class DetailsViewModelTest {
 
     private fun `given getComicThumbnailUseCase invocation returns results`() {
         coEvery { getComicThumbnailUseCase.invoke(any()) } returns
-            Resource.Success("thumbnail")
+            Result.success("thumbnail")
     }
 
     private fun `when view model is initialised`() {

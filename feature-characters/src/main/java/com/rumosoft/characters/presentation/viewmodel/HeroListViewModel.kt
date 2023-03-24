@@ -6,7 +6,6 @@ import com.rumosoft.characters.domain.usecase.SearchUseCase
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListScreenState
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
 import com.rumosoft.commons.domain.model.Character
-import com.rumosoft.commons.infrastructure.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview
@@ -70,14 +69,12 @@ class HeroListViewModel @Inject constructor(
             Timber.d("Searching: $query")
             currentPage = if (fromStart) 1 else currentPage + 1
             viewModelScope.launch {
-                when (val result = searchUseCase(query, currentPage)) {
-                    is Resource.Success -> {
-                        parseSuccessResponse(result)
-                    }
-                    is Resource.Error -> {
-                        parseErrorResponse(result)
-                    }
-                }
+                searchUseCase(query, currentPage).fold(
+                    onSuccess = { charactersList ->
+                        parseSuccessResponse(charactersList)
+                    },
+                    onFailure = { parseErrorResponse(it) },
+                )
             }
         } catch (exception: Exception) {
             if (exception !is CancellationException) {
@@ -86,13 +83,13 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    private fun parseSuccessResponse(result: Resource.Success<List<Character>?>) {
+    private fun parseSuccessResponse(charactersList: List<Character>) {
         setLoadingMore(false)
         _heroListScreenState.update {
             _heroListScreenState.value
                 .copy(
                     heroListState = HeroListState.Success(
-                        result.data,
+                        charactersList,
                         false,
                         ::characterClicked,
                         ::onReachedEnd,
@@ -119,9 +116,9 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    private fun parseErrorResponse(result: Resource.Error) {
+    private fun parseErrorResponse(throwable: Throwable) {
         _heroListScreenState.update {
-            it.copy(heroListState = HeroListState.Error(result.throwable, ::retry))
+            it.copy(heroListState = HeroListState.Error(throwable, ::retry))
         }
     }
 

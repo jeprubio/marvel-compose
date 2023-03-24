@@ -6,7 +6,6 @@ import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -51,7 +50,7 @@ internal class ComicDetailsViewModelTest {
     }
 
     private fun `given use case invocation returns results`() {
-        coEvery { comicDetailsUseCase.invoke(comicId) } returns Resource.Success(SampleData.comicsSample.first())
+        coEvery { comicDetailsUseCase.invoke(comicId) } returns Result.success(SampleData.comicsSample.first())
     }
 
     private fun `when view model is initialised`() {

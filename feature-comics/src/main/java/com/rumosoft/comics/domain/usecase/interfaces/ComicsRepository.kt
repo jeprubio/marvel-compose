@@ -1,15 +1,14 @@
 package com.rumosoft.comics.domain.usecase.interfaces
 
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.infrastructure.Resource
 
 interface ComicsRepository {
     suspend fun performSearch(
         titleStartsWith: String,
         page: Int,
-    ): Resource<List<Comic>?>
+    ): Result<List<Comic>>
 
     suspend fun getDetails(
         comicId: Int,
-    ): Resource<Comic>
+    ): Result<Comic>
 }

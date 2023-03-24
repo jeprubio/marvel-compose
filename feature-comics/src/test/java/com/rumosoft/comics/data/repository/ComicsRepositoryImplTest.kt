@@ -5,7 +5,6 @@ import com.rumosoft.comics.data.network.ComicsResult
 import com.rumosoft.comics.data.network.PaginationInfo
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -53,7 +52,7 @@ internal class ComicsRepositoryImplTest {
 
     private fun `given searchComics invocation on network returns results`() {
         coEvery { comicsNetwork.searchComics(offset, limit, "") } returns
-            Resource.Success(
+            Result.success(
                 ComicsResult(
                     PaginationInfo(1, 1),
                     SampleData.comicsSample,
@@ -63,7 +62,7 @@ internal class ComicsRepositoryImplTest {
 
     private fun `given fetchComic invocation on network returns results`() {
         coEvery { comicsNetwork.fetchComic(comicId) } returns
-            Resource.Success(
+            Result.success(
                 SampleData.comicsSample.first(),
             )
     }

@@ -5,7 +5,6 @@ import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel.Companion.DEBOUNCE_DELAY
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -87,12 +86,12 @@ internal class ComicListViewModelTest {
 
     private fun `given searchUseCase invocation returns results`() {
         coEvery { comicsUseCase.invoke("", 1) } returns
-            Resource.Success(SampleData.comicsSample)
+            Result.success(SampleData.comicsSample)
     }
 
     private fun `given searchUseCase invocation returns error`() {
         coEvery { comicsUseCase.invoke("", 1) } returns
-            Resource.Error(Exception())
+            Result.failure(Exception())
     }
 
     private fun `given the ViewModel is initialised`() {

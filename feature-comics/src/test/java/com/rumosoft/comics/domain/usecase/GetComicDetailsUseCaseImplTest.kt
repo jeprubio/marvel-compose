@@ -2,7 +2,6 @@ package com.rumosoft.comics.domain.usecase
 
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -42,7 +41,7 @@ internal class GetComicDetailsUseCaseImplTest {
 
     private fun `given getDetails invocation returns results`() {
         coEvery { repo.getDetails(comicId) } returns
-            Resource.Success(comic)
+            Result.success(comic)
     }
 
     private suspend fun `when the use case gets invoked`() {

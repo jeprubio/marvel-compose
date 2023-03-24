@@ -1,7 +1,6 @@
 package com.rumosoft.characters.domain.usecase
 
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -39,7 +38,7 @@ internal class GetComicThumbnailUseCaseImplTest {
 
     private fun `given getThumbnail invocation returns results`() {
         coEvery { repo.getThumbnail(comicId) } returns
-            Resource.Success(thumbnailUrl)
+            Result.success(thumbnailUrl)
     }
 
     private suspend fun `when the use case gets invoked`() {

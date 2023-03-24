@@ -8,14 +8,14 @@ import com.rumosoft.commons.data.network.apimodels.HeroDto
 import com.rumosoft.commons.data.network.apimodels.HeroResults
 import com.rumosoft.commons.data.network.apimodels.ImageDto
 import com.rumosoft.commons.data.network.apimodels.SearchData
-import com.rumosoft.commons.infrastructure.Resource
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -138,43 +138,35 @@ internal class CharactersNetworkImplTest {
         coEvery { marvelService.searchComic(any()) } throws Exception()
     }
 
-    private suspend fun `when searchHeroes gets called on the network`(): Resource<HeroesResult> {
+    private suspend fun `when searchHeroes gets called on the network`(): Result<HeroesResult> {
         return charactersNetwork.searchHeroes(offset, limit, "")
     }
 
-    private suspend fun `when getComicThumbnail gets called on the network`(): Resource<String> {
+    private suspend fun `when getComicThumbnail gets called on the network`(): Result<String> {
         return charactersNetwork.getComicThumbnail(comicId)
     }
 
-    private fun `then the response should be of type Success`(response: Resource<HeroesResult>) {
-        Assertions.assertTrue(response is Resource.Success)
+    private fun `then the response should be of type Success`(response: Result<HeroesResult>) {
+        assertTrue(response.isSuccess)
     }
 
-    private fun `then the searchComic response should be of type Success`(response: Resource<String>) {
-        Assertions.assertTrue(response is Resource.Success)
+    private fun `then the searchComic response should be of type Success`(response: Result<String>) {
+        assertTrue(response.isSuccess)
     }
 
-    private fun `then there should be one element in the returned data`(response: Resource<HeroesResult>) {
-        val data = when (response) {
-            is Resource.Success -> response.data
-            else -> null
-        }
-        Assertions.assertEquals(1, data!!.characters!!.size)
+    private fun `then there should be one element in the returned data`(response: Result<HeroesResult>) {
+        assertEquals(Result.success(1), response.map { it.characters!!.size })
     }
 
-    private fun `then there should be one element in the returned data from searchComic`(response: Resource<String>) {
-        val data = when (response) {
-            is Resource.Success -> response.data
-            else -> null
-        }
-        Assertions.assertEquals("path.extension", data)
+    private fun `then there should be one element in the returned data from searchComic`(response: Result<String>) {
+        assertEquals(Result.success("path.extension"), response.map { it })
     }
 
-    private fun `then the response should be of type Error`(response: Resource<HeroesResult>) {
-        Assertions.assertTrue(response is Resource.Error)
+    private fun `then the response should be of type Error`(response: Result<HeroesResult>) {
+        assertTrue(response.isFailure)
     }
 
-    private fun `then the getComicThumbnail response should be of type Error`(response: Resource<String>) {
-        Assertions.assertTrue(response is Resource.Error)
+    private fun `then the getComicThumbnail response should be of type Error`(response: Result<String>) {
+        assertTrue(response.isFailure)
     }
 }

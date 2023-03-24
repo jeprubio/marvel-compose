@@ -5,14 +5,13 @@ import com.rumosoft.commons.data.network.apimodels.ErrorParsingException
 import com.rumosoft.commons.data.network.apimodels.getThumbnail
 import com.rumosoft.commons.data.network.apimodels.toHero
 import com.rumosoft.commons.domain.model.Character
-import com.rumosoft.commons.infrastructure.Resource
 import timber.log.Timber
 import javax.inject.Inject
 
 class CharactersNetworkImpl @Inject constructor(
     private val marvelService: MarvelService,
 ) : CharactersNetwork {
-    override suspend fun searchHeroes(offset: Int, limit: Int, nameStartsWith: String): Resource<HeroesResult> {
+    override suspend fun searchHeroes(offset: Int, limit: Int, nameStartsWith: String): Result<HeroesResult> {
         return try {
             val result = marvelService.searchHeroes(
                 offset = offset,
@@ -20,7 +19,7 @@ class CharactersNetworkImpl @Inject constructor(
                 nameStartsWith = nameStartsWith.takeIf { it.isNotEmpty() },
             )
             result.data?.let { data ->
-                Resource.Success(
+                Result.success(
                     HeroesResult(
                         paginationInfo = PaginationInfo(
                             current = data.offset?.div(20) ?: 1,
@@ -31,23 +30,23 @@ class CharactersNetworkImpl @Inject constructor(
                 )
             } ?: run {
                 Timber.d("Error parsing results")
-                Resource.Error(ErrorParsingException("No results"))
+                Result.failure(ErrorParsingException("No results"))
             }
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
-            Resource.Error(e)
+            Result.failure(e)
         }
     }
 
-    override suspend fun getComicThumbnail(comicId: Int): Resource<String> {
+    override suspend fun getComicThumbnail(comicId: Int): Result<String> {
         return try {
             val result = marvelService.searchComic(comicId)
-            Resource.Success(
+            Result.success(
                 result.data?.results?.firstOrNull()?.getThumbnail().orEmpty(),
             )
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
-            Resource.Error(e)
+            Result.failure(e)
         }
     }
 }

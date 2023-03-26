@@ -1,9 +1,7 @@
 package com.rumosoft.components.presentation.component
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
@@ -22,8 +20,6 @@ import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalMaterial3Api::class)
-@ExperimentalComposeUiApi
 internal class SearchBarKtTest : ScreenshotTest {
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -79,7 +75,8 @@ internal class SearchBarKtTest : ScreenshotTest {
 
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(clearContentDescription).performClick()
-        composeTestRule.onNodeWithContentDescription(searchTextContentDescription).assert(hasText(hint))
+        composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
+            .assert(hasText(hint))
 
         compareScreenshot(composeTestRule)
     }
@@ -102,7 +99,8 @@ internal class SearchBarKtTest : ScreenshotTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(searchTextContentDescription).performTextReplacement(newText)
+        composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
+            .performTextReplacement(newText)
 
         verify { onValueChanged(newText) }
     }

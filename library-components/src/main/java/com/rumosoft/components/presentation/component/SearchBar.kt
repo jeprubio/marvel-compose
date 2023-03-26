@@ -37,8 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     state: MutableState<TextFieldValue>,
@@ -141,8 +140,6 @@ private fun onCrossIconPressed(
     onValueChanged("")
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Composable
 fun SearchViewPreviewEmpty() {
@@ -152,8 +149,6 @@ fun SearchViewPreviewEmpty() {
     }
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Composable
 fun SearchViewPreviewWithText() {

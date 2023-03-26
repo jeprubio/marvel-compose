@@ -16,10 +16,12 @@ import com.rumosoft.comics.presentation.viewmodel.ComicDetailsViewModel
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.commons.DeepLinks
 
-@ExperimentalMaterial3Api
-@ExperimentalFoundationApi
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class,
+)
 fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
     composable(
         NavComicItem.Comics.route,

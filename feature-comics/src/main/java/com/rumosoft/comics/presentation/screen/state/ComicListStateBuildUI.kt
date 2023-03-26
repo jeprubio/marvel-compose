@@ -28,7 +28,6 @@ import com.rumosoft.components.presentation.component.CustomLoading
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalFoundationApi
 @Composable
 fun ComicListState.BuildUI() {
     when (this) {
@@ -38,7 +37,6 @@ fun ComicListState.BuildUI() {
     }
 }
 
-@ExperimentalFoundationApi
 @Composable
 private fun BuildLoading() {
     Box(
@@ -51,7 +49,6 @@ private fun BuildLoading() {
     }
 }
 
-@ExperimentalFoundationApi
 @Composable
 private fun Error.BuildError() {
     Column(
@@ -76,7 +73,7 @@ private fun Error.BuildError() {
     }
 }
 
-@ExperimentalFoundationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Success.BuildSuccess() {
     comics?.takeIf { it.isNotEmpty() }?.let {
@@ -97,7 +94,6 @@ private fun Success.BuildSuccess() {
     }
 }
 
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,
@@ -110,7 +106,6 @@ fun PreviewSearchSuccess() {
     }
 }
 
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,
@@ -123,7 +118,6 @@ fun PreviewSearchError() {
     }
 }
 
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchLoading() {

@@ -1,6 +1,5 @@
 package com.rumosoft.comics.presentation.viewmodel
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel.Companion.DEBOUNCE_DELAY
@@ -16,7 +15,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicListViewModelTest {

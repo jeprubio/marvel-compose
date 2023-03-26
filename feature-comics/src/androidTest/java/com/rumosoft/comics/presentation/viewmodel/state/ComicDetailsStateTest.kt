@@ -1,6 +1,5 @@
 package com.rumosoft.comics.presentation.viewmodel.state
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -21,7 +20,6 @@ import io.mockk.verify
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalFoundationApi
 internal class ComicDetailsStateTest : ScreenshotTest {
 
     @get:Rule

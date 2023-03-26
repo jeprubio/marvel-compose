@@ -19,7 +19,6 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.components.presentation.component.TopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalMaterial3Api
 @Composable
 fun ComicDetailsScreen(
     viewModel: ComicDetailsViewModel,
@@ -29,7 +28,7 @@ fun ComicDetailsScreen(
     ComicDetailsScreenContent(screenState, onBackPressed)
 }
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComicDetailsScreenContent(
     screenState: ComicDetailsState,
@@ -50,7 +49,6 @@ fun ComicDetailsScreenContent(
     }
 }
 
-@ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

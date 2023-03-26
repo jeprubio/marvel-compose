@@ -1,6 +1,5 @@
 package com.rumosoft.comics.presentation.viewmodel
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.SavedStateHandle
 import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
@@ -16,7 +15,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicDetailsViewModelTest {

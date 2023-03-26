@@ -1,7 +1,6 @@
 package com.rumosoft.comics.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +30,6 @@ import com.rumosoft.components.presentation.component.ComicThumbnail
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
-@ExperimentalFoundationApi
 @Composable
 fun ComicResults(
     comics: List<Comic>,
@@ -117,7 +115,6 @@ private fun Loading() {
     }
 }
 
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

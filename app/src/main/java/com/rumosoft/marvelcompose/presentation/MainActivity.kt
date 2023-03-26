@@ -5,21 +5,22 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
@@ -31,40 +32,35 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
+import com.rumosoft.marvelcompose.presentation.navigation.NavigationRailBar
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         installSplashScreen()
 
         setContent {
-            val widthSizeClass = rememberWidthSizeClass()
+            val windowSizeClass = calculateWindowSizeClass(this)
             MarvelComposeTheme {
                 Surface(color = MarvelComposeTheme.colors.background) {
-                    MarvelApp(widthSizeClass)
+                    MarvelApp(windowSizeClass)
                 }
             }
         }
     }
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalAnimationApi
-@ExperimentalComposeUiApi
-@ExperimentalFoundationApi
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MarvelApp(widthSizeClass: WidthSizeClass) {
+fun MarvelApp(widthSizeClass: WindowSizeClass) {
     val navController = rememberNavController()
     val navigationItems = listOf(
         Characters,
@@ -77,7 +73,7 @@ fun MarvelApp(widthSizeClass: WidthSizeClass) {
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
-            if (widthSizeClass == WidthSizeClass.COMPACT) {
+            if (widthSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
                 if (currentRoute(navController) in listOf(
                         NavCharItem.Characters.destination,
                         NavComicItem.Comics.route,
@@ -94,7 +90,20 @@ fun MarvelApp(widthSizeClass: WidthSizeClass) {
             }
         },
     ) { innerPadding ->
-        NavigationHost(navController, modifier = Modifier.padding(innerPadding))
+        if (widthSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
+            Row {
+                NavigationRailBar(
+                    navController = navController,
+                    navigationItems = navigationItems,
+                    onAppBack = {
+                        onAppBack(snackBarHostState, context, scope)
+                    },
+                )
+                NavigationHost(navController, modifier = Modifier.padding(innerPadding))
+            }
+        } else {
+            NavigationHost(navController, modifier = Modifier.padding(innerPadding))
+        }
     }
 }
 
@@ -115,17 +124,5 @@ private fun onAppBack(
         scope.launch {
             snackBarHostState.showSnackbar(context.getString(R.string.double_tap_to_exit))
         }
-    }
-}
-
-enum class WidthSizeClass { COMPACT, MEDIUM, EXPANDED }
-
-@Composable
-fun Activity.rememberWidthSizeClass(): WidthSizeClass {
-    val configuration = LocalConfiguration.current
-    return when {
-        configuration.screenWidthDp < 600 -> WidthSizeClass.COMPACT
-        configuration.screenWidthDp < 840 -> WidthSizeClass.MEDIUM
-        else -> WidthSizeClass.EXPANDED
     }
 }

@@ -35,10 +35,12 @@ import com.rumosoft.components.presentation.component.SearchBar
 import com.rumosoft.components.presentation.component.SectionTopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class,
+)
 @Composable
 fun ComicsScreen(
     viewModel: ComicListViewModel,
@@ -59,10 +61,6 @@ fun ComicsScreen(
     )
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
 @Composable
 fun ComicsScreenContent(
     comicListState: ComicListState,
@@ -85,9 +83,6 @@ fun ComicsScreenContent(
     }
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
 @Composable
 private fun SearchableTitle(
     searchText: MutableState<TextFieldValue>,
@@ -116,7 +111,6 @@ private fun SearchableTitle(
     }
 }
 
-@ExperimentalFoundationApi
 @Composable
 private fun ResultBox(comicsListState: ComicListState) {
     Box(
@@ -127,10 +121,6 @@ private fun ResultBox(comicsListState: ComicListState) {
     }
 }
 
-@ExperimentalMaterial3Api
-@ExperimentalAnimationApi
-@ExperimentalComposeUiApi
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

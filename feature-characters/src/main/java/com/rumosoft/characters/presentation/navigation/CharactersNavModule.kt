@@ -15,8 +15,11 @@ import com.rumosoft.characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel
 import com.rumosoft.commons.DeepLinks
 
-@ExperimentalMaterial3Api
-@OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalAnimationApi::class,
+    ExperimentalComposeUiApi::class,
+    ExperimentalMaterial3Api::class,
+)
 fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
     composable(
         route = NavCharItem.Characters.route,

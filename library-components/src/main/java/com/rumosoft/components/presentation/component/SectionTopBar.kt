@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SectionTopBar(
     @StringRes sectionName: Int,
@@ -63,7 +63,6 @@ fun SectionTopBar(
     )
 }
 
-@ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Preview(
     showBackground = true,

@@ -13,7 +13,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     apBarText: String,
@@ -34,7 +34,6 @@ fun TopBar(
     )
 }
 
-@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun TopBarPreview() {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -74,6 +75,7 @@ fun MarvelApp(widthSizeClass: WidthSizeClass) {
     val context = LocalContext.current
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
             if (widthSizeClass == WidthSizeClass.COMPACT) {
                 if (currentRoute(navController) in listOf(

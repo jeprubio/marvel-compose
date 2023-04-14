@@ -16,11 +16,7 @@ import com.rumosoft.components.presentation.component.RetryButton
 import com.rumosoft.components.presentation.theme.LocalLottieAnimationIterations
 import com.rumosoft.components.presentation.theme.LottieAnimationIterations
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -61,8 +57,8 @@ internal class CharacterListStateTest : ScreenshotTest {
 
     @Test
     fun heroListResult_error_tap_on_retry_executes_lambda() {
-        val retryFun: () -> Unit = mockk()
-        every { retryFun.invoke() } just Runs
+        var retried = false
+        val retryFun: () -> Unit = { retried = true }
         composeTestRule.setContent {
             MarvelComposeTheme {
                 HeroListState.Error(Exception("Error"), retryFun).BuildUI()
@@ -70,7 +66,7 @@ internal class CharacterListStateTest : ScreenshotTest {
         }
 
         composeTestRule.onNodeWithTag(RetryButton).performClick()
-        verify { retryFun.invoke() }
+        assertTrue(retried)
     }
 
     @Test

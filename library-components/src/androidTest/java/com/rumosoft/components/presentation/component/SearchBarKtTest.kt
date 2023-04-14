@@ -14,9 +14,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.karumi.shot.ScreenshotTest
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import io.mockk.justRun
-import io.mockk.mockk
-import io.mockk.verify
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -85,8 +83,10 @@ internal class SearchBarKtTest : ScreenshotTest {
     fun searchBar_onTextChanges_calls_lambda() {
         val initialText = "whatever"
         val newText = "something"
-        val onValueChanged: (String) -> Unit = mockk()
-        justRun { onValueChanged(any()) }
+        var onValueChangedInvoked = false
+        val onValueChanged: (String) -> Unit = { _ ->
+            onValueChangedInvoked = true
+        }
         lateinit var searchTextContentDescription: String
         composeTestRule.setContent {
             searchTextContentDescription = stringResource(id = R.string.search_text)
@@ -102,13 +102,13 @@ internal class SearchBarKtTest : ScreenshotTest {
         composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
             .performTextReplacement(newText)
 
-        verify { onValueChanged(newText) }
+        assertTrue(onValueChangedInvoked)
     }
 
     @Test
     fun searchBar_leading_icon_calls_lambda() {
-        val onLeadingClicked: () -> Unit = mockk()
-        justRun { onLeadingClicked() }
+        var onLeadingClickedInvoked = false
+        val onLeadingClicked: () -> Unit = { onLeadingClickedInvoked = true }
         lateinit var closeContentDescription: String
         composeTestRule.setContent {
             closeContentDescription = stringResource(id = R.string.search_close)
@@ -123,6 +123,7 @@ internal class SearchBarKtTest : ScreenshotTest {
 
         composeTestRule.onNodeWithContentDescription(closeContentDescription).assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(closeContentDescription).performClick()
-        verify { onLeadingClicked() }
+
+        assertTrue(onLeadingClickedInvoked)
     }
 }

@@ -16,11 +16,7 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion
 import com.rumosoft.components.presentation.theme.LocalLottieAnimationIterations
 import com.rumosoft.components.presentation.theme.LottieAnimationIterations
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.verify
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -61,8 +57,8 @@ internal class ComicListScreenStateTest : ScreenshotTest {
 
     @Test
     fun comicListState_error_tap_on_retry_executes_lambda() {
-        val retryFun: () -> Unit = mockk()
-        every { retryFun.invoke() } just Runs
+        var retried = false
+        val retryFun: () -> Unit = { retried = true }
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Error(Exception("Error"), retryFun).BuildUI()
@@ -70,7 +66,7 @@ internal class ComicListScreenStateTest : ScreenshotTest {
         }
 
         composeTestRule.onNodeWithTag(RetryTag).performClick()
-        verify { retryFun.invoke() }
+        assertTrue(retried)
     }
 
     @Test

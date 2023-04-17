@@ -11,13 +11,13 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("11"))
+        languageVersion.set(JavaLanguageVersion.of("17"))
     }
 }
 
@@ -93,7 +93,6 @@ dependencies {
 
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.hilt:hilt-navigation:1.0.0"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_nav_compose"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 

@@ -26,7 +26,6 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
@@ -70,7 +69,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.ui)
     implementation(libs.material3)
-    debugImplementation(libs.ui.tooling.preview)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.ui.tooling.preview)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
 
@@ -107,4 +107,8 @@ dependencies {
 
 shot {
     applicationId = "com.rumosoft.marvelcomposeshot"
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

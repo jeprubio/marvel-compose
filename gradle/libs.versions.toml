@@ -28,6 +28,7 @@ espresso = "3.5.1"
 junitparams = "1.1.1"
 logging-interceptor = "4.10.0"
 material = "1.8.0"
+lottie-compose = "5.2.0"
 
 [libraries]
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
@@ -70,6 +71,8 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie-compose" }
 
 junitparams = { group = "pl.pragmatists", name = "JUnitParams", version.ref = "junitparams" }
 

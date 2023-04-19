@@ -29,6 +29,10 @@ junitparams = "1.1.1"
 logging-interceptor = "4.10.0"
 material = "1.8.0"
 lottie-compose = "5.2.0"
+junit-jupiter = "5.9.1"
+mockk = "1.13.4"
+coroutines-test = "1.6.4"
+mockwebserver = "4.10.0"
 
 [libraries]
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
@@ -75,6 +79,11 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie-compose" }
 
 junitparams = { group = "pl.pragmatists", name = "JUnitParams", version.ref = "junitparams" }
+
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit-jupiter" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "com-android-application" }

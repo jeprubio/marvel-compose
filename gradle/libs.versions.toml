@@ -1,6 +1,7 @@
 [versions]
 appcompat = "1.6.1"
 com-android-application = "8.0.0"
+core-splashscreen = "1.0.0"
 core-testing = "2.2.0"
 kotlinx-serialization-json = "1.4.1"
 navigation-runtime-ktx = "2.5.3"
@@ -33,11 +34,14 @@ junit-jupiter = "5.9.1"
 mockk = "1.13.4"
 coroutines-test = "1.6.4"
 mockwebserver = "4.10.0"
+window = "1.0.0"
 
 [libraries]
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
 androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigation-runtime-ktx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-window = { module = "androidx.window:window", version.ref = "window" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }

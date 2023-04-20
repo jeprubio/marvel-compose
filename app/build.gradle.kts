@@ -1,12 +1,11 @@
 plugins {
-    id("com.android.library")
+    id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
-    id("shot")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.dicedmelon.gradle.jacoco-android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 java {
@@ -25,15 +24,20 @@ android {
     compileSdk = 33
 
     defaultConfig {
+        applicationId ="com.rumosoft.marvelcompose"
         minSdk = 21
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
 
-        testApplicationId = "com.rumosoft.marvelcomposetest"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -53,63 +57,63 @@ android {
     testOptions {
         unitTests {
             isReturnDefaultValues = true
-            isIncludeAndroidResources = true
         }
     }
-    namespace = "com.rumosoft.characters"
+    namespace = "com.rumosoft.marvelcompose"
 }
 
 dependencies {
     val composeBom = platform(libs.compose.bom)
-    implementation(project(":library-commons"))
-    implementation(project(":library-components"))
     implementation(composeBom)
+    implementation(libs.androidx.window)
+    implementation(project(":feature-characters"))
+    implementation(project(":feature-comics"))
+    implementation(project(":library-components"))
+    implementation(project(":library-commons"))
 
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.ui)
-    implementation(libs.material3)
-    debugImplementation(libs.ui.tooling)
-    implementation(libs.ui.tooling.preview)
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-unit")
+    implementation("androidx.compose.material3:material3")
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
+    implementation("androidx.compose.material3:material3-window-size-class")
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
 
-    // Gson + Retrofit (to perform API calls and parse the response)
-    implementation(libs.gson)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okio)
-    implementation(libs.okhttp)
-
-    implementation(libs.coil.compose)
-
     implementation(libs.timber)
 
-    implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.okhttp)
 
-    testImplementation(project(":library-tests"))
+    implementation(libs.androidx.core.splashscreen)
+
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.jupiter)
     testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.test.manifest)
-    androidTestImplementation(libs.junitparams)
 }
 
-shot {
-    applicationId = "com.rumosoft.marvelcomposeshot"
+jacoco {
+    toolVersion = "0.8.4"
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    configure<JacocoTaskExtension> {
+        isIncludeNoLocationClasses = true
+    }
 }

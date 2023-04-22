@@ -73,12 +73,11 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-unit")
-    implementation("androidx.compose.material3:material3")
+    implementation(libs.ui)
+    implementation(libs.material3)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
-    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation(libs.material3.window.size)
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)

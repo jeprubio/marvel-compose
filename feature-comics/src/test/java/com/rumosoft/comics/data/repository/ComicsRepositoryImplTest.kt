@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicsRepositoryImplTest {
     @MockK

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rumosoft.characters.R
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.screen.state.BuildUI
@@ -36,9 +38,11 @@ fun HeroListScreen(
     viewModel: HeroListViewModel,
     onCharacterSelected: (character: Character) -> Unit = {},
 ) {
-    val heroListScreenState by viewModel.heroListScreenState.collectAsState()
-    heroListScreenState.selectedCharacter?.let {
-        onCharacterSelected(it)
+    val heroListScreenState by viewModel.heroListScreenState.collectAsStateWithLifecycle()
+    LaunchedEffect(key1 = heroListScreenState) {
+        heroListScreenState.selectedCharacter?.let {
+            onCharacterSelected(it)
+        }
     }
     HeroListScreenContent(
         heroListState = heroListScreenState.heroListState,

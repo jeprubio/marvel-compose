@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rumosoft.characters.R
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.screen.state.BuildUI
@@ -26,7 +27,7 @@ fun DetailsScreen(
     onBackPressed: () -> Unit,
     onComicSelected: (Int) -> Unit,
 ) {
-    val screenState by viewModel.detailsState.collectAsState()
+    val screenState by viewModel.detailsState.collectAsStateWithLifecycle()
     DetailsScreenContent(screenState, onBackPressed, onComicSelected)
 }
 

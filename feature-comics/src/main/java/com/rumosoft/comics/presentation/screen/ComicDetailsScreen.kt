@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rumosoft.comics.R
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.screen.state.BuildUI
@@ -24,7 +25,7 @@ fun ComicDetailsScreen(
     viewModel: ComicDetailsViewModel,
     onBackPressed: () -> Unit,
 ) {
-    val screenState by viewModel.detailsState.collectAsState()
+    val screenState by viewModel.detailsState.collectAsStateWithLifecycle()
     ComicDetailsScreenContent(screenState, onBackPressed)
 }
 

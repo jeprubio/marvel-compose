@@ -73,7 +73,6 @@ private fun Error.BuildError() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Success.BuildSuccess() {
     comics?.takeIf { it.isNotEmpty() }?.let {

@@ -55,8 +55,8 @@ class HeroListViewModel @Inject constructor(
         textSearched
             .debounce(DEBOUNCE_DELAY)
             .onEach { searching ->
-                _heroListScreenState.update { it.copy(textSearched = searching) }
-                performSearch(searching, fromStart = true)
+                _heroListScreenState.update { it.copy(textSearched = searching.trim()) }
+                performSearch(searching.trim(), fromStart = true)
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.Eagerly,
@@ -71,7 +71,7 @@ class HeroListViewModel @Inject constructor(
             viewModelScope.launch {
                 searchUseCase(query, currentPage).fold(
                     onSuccess = { charactersList ->
-                        parseSuccessResponse(charactersList)
+                        parseSuccessResponse(charactersList, currentPage)
                     },
                     onFailure = { parseErrorResponse(it) },
                 )
@@ -83,13 +83,19 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    private fun parseSuccessResponse(charactersList: List<Character>) {
+    private fun parseSuccessResponse(charactersList: List<Character>, page: Int) {
         setLoadingMore(false)
         _heroListScreenState.update {
+            val previousList: List<Character> =
+                if (page > 1 && it.heroListState is HeroListState.Success) {
+                    it.heroListState.characters.orEmpty()
+                } else {
+                    emptyList()
+                }
             _heroListScreenState.value
                 .copy(
                     heroListState = HeroListState.Success(
-                        charactersList,
+                        previousList + charactersList,
                         false,
                         ::characterClicked,
                         ::onReachedEnd,

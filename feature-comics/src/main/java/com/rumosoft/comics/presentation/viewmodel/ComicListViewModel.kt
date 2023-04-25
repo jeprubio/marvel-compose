@@ -32,7 +32,7 @@ class ComicListViewModel @Inject constructor(
     private val _comicsListScreenState =
         MutableStateFlow(initialScreenState())
     private val textSearched = MutableStateFlow("")
-    var currentPage = 1
+    private var currentPage = 1
 
     init {
         observeTextSearched()
@@ -56,8 +56,8 @@ class ComicListViewModel @Inject constructor(
         textSearched
             .debounce(DEBOUNCE_DELAY)
             .onEach { searching ->
-                _comicsListScreenState.update { it.copy(textSearched = searching) }
-                performSearch(searching, fromStart = true)
+                _comicsListScreenState.update { it.copy(textSearched = searching.trim()) }
+                performSearch(searching.trim(), fromStart = true)
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.Eagerly,
@@ -72,7 +72,7 @@ class ComicListViewModel @Inject constructor(
             viewModelScope.launch {
                 getComicsUseCase(query, currentPage).fold(
                     onSuccess = { comicsList ->
-                        parseSuccessResponse(comicsList)
+                        parseSuccessResponse(comicsList, currentPage)
                     },
                     onFailure = { throwable ->
                         parseErrorResponse(throwable)
@@ -86,13 +86,19 @@ class ComicListViewModel @Inject constructor(
         }
     }
 
-    private fun parseSuccessResponse(comicsList: List<Comic>) {
+    private fun parseSuccessResponse(comicsList: List<Comic>, page: Int) {
         setLoadingMore(false)
         _comicsListScreenState.update {
+            val previousList: List<Comic> =
+                if (page > 1 && it.comicListState is ComicListState.Success) {
+                    it.comicListState.comics.orEmpty()
+                } else {
+                    emptyList()
+                }
             _comicsListScreenState.value
                 .copy(
                     comicListState = ComicListState.Success(
-                        comicsList,
+                        previousList + comicsList,
                         false,
                         ::comicClicked,
                         ::onReachedEnd,

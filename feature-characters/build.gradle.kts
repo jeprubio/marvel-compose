@@ -1,9 +1,9 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
     id("shot")
     id("com.dicedmelon.gradle.jacoco-android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"

@@ -1,8 +1,8 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
     id("kotlin-parcelize")
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.dicedmelon.gradle.jacoco-android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"

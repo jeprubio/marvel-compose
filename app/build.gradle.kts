@@ -44,6 +44,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
@@ -59,6 +60,7 @@ android {
             isReturnDefaultValues = true
         }
     }
+
     namespace = "com.rumosoft.marvelcompose"
 }
 

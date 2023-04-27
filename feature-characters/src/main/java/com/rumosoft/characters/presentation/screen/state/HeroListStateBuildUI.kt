@@ -48,7 +48,7 @@ private fun BuildLoading() {
 
 @Composable
 private fun Error.BuildError() {
-    val message = stringResource(id = R.string.error_data_message)
+    val message = stringResource(id = com.rumosoft.components.R.string.error_data_message)
     ErrorMessage(
         message = message,
         modifier = Modifier.testTag(HeroListErrorResult),
@@ -68,7 +68,7 @@ private fun Success.BuildSuccess() {
         )
     } ?: run {
         SimpleMessage(
-            message = stringResource(id = R.string.no_results),
+            message = stringResource(id = com.rumosoft.components.R.string.no_results),
             modifier = Modifier
                 .fillMaxSize()
                 .testTag(HeroListNoResults),

@@ -96,7 +96,7 @@ private fun HeroResult(
         modifier = Modifier
             .fillMaxSize()
             .clickable(
-                onClickLabel = stringResource(id = R.string.show_details),
+                onClickLabel = stringResource(id = com.rumosoft.components.R.string.show_details),
             ) {
                 onClick(character)
             }
@@ -140,7 +140,7 @@ private fun LocalImage(
     modifier: Modifier,
 ) {
     Image(
-        painterResource(id = R.drawable.img_no_image),
+        painterResource(id = com.rumosoft.components.R.drawable.img_no_image),
         contentDescription = character.name,
         modifier = modifier,
     )

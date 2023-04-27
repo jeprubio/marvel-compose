@@ -96,7 +96,7 @@ private fun SearchableTitle(
         if (showSearchBar) {
             SearchBar(
                 state = searchText,
-                hint = stringResource(id = R.string.search_hint),
+                hint = stringResource(id = com.rumosoft.components.R.string.search_hint),
                 onValueChanged = onValueChanged,
                 onLeadingClicked = onToggleSearchClick,
             )

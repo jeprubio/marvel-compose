@@ -38,7 +38,7 @@ fun ComicDetailsScreenContent(
         topBar = {
             TopBar(
                 apBarText = stringResource(R.string.comic_details),
-                leftIcon = painterResource(id = R.drawable.ic_arrow_back_24),
+                leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
                 leftIconPressed = onBackPressed,
             )
         },

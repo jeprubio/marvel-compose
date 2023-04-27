@@ -57,7 +57,7 @@ private fun Error.BuildError() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        val message = stringResource(id = R.string.error_data_message)
+        val message = stringResource(id = com.rumosoft.components.R.string.error_data_message)
         SimpleMessage(
             message = message,
             modifier = Modifier.fillMaxWidth(),
@@ -67,7 +67,7 @@ private fun Error.BuildError() {
             onClick = { retry.invoke() },
             modifier = Modifier.testTag(ComicListState.RetryTag),
         ) {
-            Text(text = stringResource(id = R.string.retry))
+            Text(text = stringResource(id = com.rumosoft.components.R.string.retry))
         }
     }
 }
@@ -84,7 +84,7 @@ private fun Success.BuildSuccess() {
         )
     } ?: run {
         SimpleMessage(
-            message = stringResource(id = R.string.no_results),
+            message = stringResource(id = com.rumosoft.components.R.string.no_results),
             modifier = Modifier
                 .fillMaxSize()
                 .testTag(ComicListState.NoResults),

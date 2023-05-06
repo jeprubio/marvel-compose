@@ -11,6 +11,15 @@ sealed class Tabs(
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
 ) {
-    object Characters : Tabs(NavCharItem.Characters.destination, R.string.characters, R.drawable.ic_characters)
-    object Comics : Tabs(NavComicItem.Comics.destination, R.string.comics, R.drawable.ic_comics)
+    object Characters : Tabs(
+        NavCharItem.Characters.destination,
+        com.rumosoft.characters.R.string.characters,
+        R.drawable.ic_characters,
+    )
+
+    object Comics : Tabs(
+        NavComicItem.Comics.destination,
+        com.rumosoft.comics.R.string.comics,
+        R.drawable.ic_comics,
+    )
 }

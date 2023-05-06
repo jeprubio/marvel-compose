@@ -74,7 +74,7 @@ private fun ComicResult(
         modifier = Modifier
             .padding(MarvelComposeTheme.paddings.smallPadding)
             .clickable(
-                onClickLabel = stringResource(id = R.string.show_details),
+                onClickLabel = stringResource(id = com.rumosoft.components.R.string.show_details),
             ) {
                 onClick(comic)
             }

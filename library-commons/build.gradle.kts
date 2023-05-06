@@ -5,7 +5,7 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.dicedmelon.gradle.jacoco-android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
 }
 
 java {
@@ -69,7 +69,6 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 

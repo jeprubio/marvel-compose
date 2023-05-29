@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -37,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     state: MutableState<TextFieldValue>,
@@ -67,7 +66,7 @@ fun SearchBar(
             .focusRequester(textFieldFocus)
             .fillMaxWidth()
             .semantics { contentDescription = searchTextContentDescription },
-        textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
+        textStyle = TextStyle(color = Color.Black, fontSize = 18.sp),
         leadingIcon = {
             SearchBarLeadingIcon(onLeadingClicked)
         },
@@ -78,9 +77,9 @@ fun SearchBar(
         },
         singleLine = true,
         shape = RectangleShape,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
-            cursorColor = Color.White,
+        colors = TextFieldDefaults.colors(
+            unfocusedTextColor = Color.Black,
+            cursorColor = Color.Black,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,

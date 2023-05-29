@@ -2,7 +2,6 @@ package com.rumosoft.characters.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +29,6 @@ fun DetailsScreen(
     DetailsScreenContent(screenState, onBackPressed, onComicSelected)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailsScreenContent(
     detailsState: DetailsState,

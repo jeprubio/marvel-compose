@@ -1,21 +1,8 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.kotlinAndroid)
     id("kotlin-parcelize")
     id("shot")
-    id("com.dicedmelon.gradle.jacoco-android")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("17"))
-    }
 }
 
 android {
@@ -53,6 +40,14 @@ android {
         }
     }
     namespace = "com.rumosoft.components"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {

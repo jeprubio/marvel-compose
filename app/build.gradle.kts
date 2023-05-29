@@ -1,23 +1,10 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
     id("kotlin-parcelize")
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt)
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    id("com.dicedmelon.gradle.jacoco-android")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("17"))
-    }
+    alias(libs.plugins.secrets.gradle.plugin)
 }
 
 android {
@@ -62,6 +49,14 @@ android {
     }
 
     namespace = "com.rumosoft.marvelcompose"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
@@ -107,13 +102,6 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 }
 
-jacoco {
-    toolVersion = "0.8.4"
-}
-
 tasks.withType<Test> {
     useJUnitPlatform()
-    configure<JacocoTaskExtension> {
-        isIncludeNoLocationClasses = true
-    }
 }

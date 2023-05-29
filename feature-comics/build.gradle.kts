@@ -1,24 +1,11 @@
 plugins {
     id("com.android.library")
+    alias(libs.plugins.kotlinAndroid)
     id("kotlin-parcelize")
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt)
     id("shot")
-    id("com.dicedmelon.gradle.jacoco-android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("17"))
-    }
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -58,6 +45,14 @@ android {
         }
     }
     namespace = "com.rumosoft.comics"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {

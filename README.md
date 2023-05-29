@@ -43,8 +43,6 @@ To record the screenshots test: `./gradlew executeScreenshotTests -Precord`
 
 To execute the screenshots test: `./gradlew executeScreenshotTests`
 
-To generate code coverage reports: `./gradlew clean build jacocoTestDebugUnitTestReport`
-
 ## Screenshots
 
 ![Characters List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/1-characters-list.jpg)

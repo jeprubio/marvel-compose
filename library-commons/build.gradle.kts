@@ -1,23 +1,10 @@
 plugins {
     id("com.android.library")
+    alias(libs.plugins.kotlinAndroid)
     id("kotlin-parcelize")
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    id("com.dicedmelon.gradle.jacoco-android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("17"))
-    }
+    alias(libs.plugins.secrets.gradle.plugin)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -46,6 +33,14 @@ android {
     }
 
     namespace = "com.rumosoft.commons"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {

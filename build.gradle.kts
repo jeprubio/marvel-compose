@@ -15,4 +15,5 @@ plugins {
     alias(libs.plugins.kotlin.kapt) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.secrets.gradle.plugin) apply false
+    alias(libs.plugins.gradle.versions.plugin) apply true
 }

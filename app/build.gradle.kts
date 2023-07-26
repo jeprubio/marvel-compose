@@ -60,8 +60,7 @@ android {
 }
 
 dependencies {
-    val composeBom = platform(libs.compose.bom)
-    implementation(composeBom)
+    implementation(platform(libs.compose.bom))
     implementation(libs.androidx.window)
     implementation(project(":feature-characters"))
     implementation(project(":feature-comics"))
@@ -95,7 +94,7 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
 
-    androidTestImplementation(composeBom)
+    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)

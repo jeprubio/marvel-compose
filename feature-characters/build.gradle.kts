@@ -56,10 +56,9 @@ android {
 }
 
 dependencies {
-    val composeBom = platform(libs.compose.bom)
     implementation(project(":library-commons"))
     implementation(project(":library-components"))
-    implementation(composeBom)
+    implementation(platform(libs.compose.bom))
 
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -94,7 +93,7 @@ dependencies {
     testImplementation(project(":library-tests"))
     testImplementation(libs.androidx.core.testing)
 
-    androidTestImplementation(composeBom)
+    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)

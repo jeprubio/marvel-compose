@@ -18,4 +18,5 @@ plugins {
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.secrets.gradle.plugin) apply false
     alias(libs.plugins.gradle.versions.plugin) apply true
+    alias(libs.plugins.kotlin.jvm) apply false
 }

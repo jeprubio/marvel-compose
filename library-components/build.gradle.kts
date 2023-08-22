@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
@@ -51,16 +51,14 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
-
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.activity.compose)
     implementation(libs.ui)
     implementation(libs.material3)
-    debugImplementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
     implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
 
     implementation(libs.coil.compose)
 
@@ -70,6 +68,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
+
+    debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
 

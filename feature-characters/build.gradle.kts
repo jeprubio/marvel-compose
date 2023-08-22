@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
@@ -36,6 +36,7 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/LICENSE*"
+            excludes += "META-INF/*"
         }
     }
     testOptions {
@@ -58,17 +59,16 @@ android {
 dependencies {
     implementation(project(":library-commons"))
     implementation(project(":library-components"))
-    implementation(platform(libs.compose.bom))
 
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.activity.compose)
     implementation(libs.ui)
-    implementation(libs.material3)
-    debugImplementation(libs.ui.tooling)
     implementation(libs.ui.tooling.preview)
+    implementation(libs.material3)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.runtime.compose)
-    implementation(libs.activity.compose)
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
@@ -97,8 +97,10 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.test.manifest)
     androidTestImplementation(libs.junitparams)
+
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }
 
 shot {

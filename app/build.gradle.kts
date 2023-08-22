@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId ="com.rumosoft.marvelcompose"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -60,20 +60,20 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
-    implementation(libs.androidx.window)
     implementation(project(":feature-characters"))
     implementation(project(":feature-comics"))
     implementation(project(":library-components"))
     implementation(project(":library-commons"))
 
     implementation(libs.core.ktx)
+    implementation(libs.androidx.window)
     implementation(libs.androidx.appcompat)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.activity.compose)
     implementation(libs.ui)
     implementation(libs.material3)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
     implementation(libs.material3.window.size)
+    implementation(libs.lifecycle.runtime.ktx)
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)

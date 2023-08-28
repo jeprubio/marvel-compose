@@ -2,6 +2,8 @@
 agp = "8.1.1"
 compose-bom = "2023.08.00"
 compose-compiler = "1.5.0"
+github-roborazzi = "1.4.0"
+junit = "4.13.2"
 kotlin = "1.9.0"
 appcompat = "1.6.1"
 core-splashscreen = "1.0.1"
@@ -14,10 +16,11 @@ retrofit = "2.9.0"
 hilt = "2.47"
 hilt-navigation-compose = "1.0.0"
 coil-compose = "2.4.0"
+roborazzi-compose = "1.4.0"
 window = "1.1.0"
-kotlinx-serialization-json = "1.5.1"
-navigation-runtime-ktx = "2.7.0"
-nav_compose = "2.7.0"
+kotlinx-serialization-json = "1.6.0"
+navigation-runtime-ktx = "2.7.1"
+nav_compose = "2.7.1"
 gson = "2.10.1"
 okio = "3.5.0"
 okhttp = "4.11.0"
@@ -35,6 +38,8 @@ mockwebserver = "4.11.0"
 secrets-gradle-plugin = "2.0.1"
 shot = "6.0.0"
 versions = "0.47.0"
+robolectric = "4.10.3"
+roborazzi = "1.4.0"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -44,6 +49,7 @@ androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-run
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-window = { module = "androidx.window:window", version.ref = "window" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 ui = { group = "androidx.compose.ui", name = "ui" }
@@ -83,6 +89,9 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "github-roborazzi" }
+roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi-compose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -95,6 +104,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets-gradle-plugin" }
 gradle-versions-plugin = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 
 [bundles]
 

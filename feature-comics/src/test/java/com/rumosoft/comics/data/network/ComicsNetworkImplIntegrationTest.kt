@@ -19,7 +19,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicsNetworkImplIntegrationTest {
     private val mockWebServer = MockWebServer()

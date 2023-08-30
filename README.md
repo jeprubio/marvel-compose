@@ -39,9 +39,13 @@ To run the unit tests: `./gradlew lint testDebug --continue`
 
 To run the UI tests: `./gradlew connectedDebugAndroidTest`
 
-To record the screenshots test: `./gradlew executeScreenshotTests -Precord`
+To record the screenshots test (Shot): `./gradlew executeScreenshotTests -Precord`
 
-To execute the screenshots test: `./gradlew executeScreenshotTests`
+To execute the screenshots test (Shot): `./gradlew executeScreenshotTests`
+
+To record the screenshots test (Roborazzi): `./gradlew recordRoborazziDebug`
+
+To execute the screenshots test (Roborazzi): `./gradlew verifyRoborazziDebug`
 
 ## Screenshots
 

@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.roborazzi)
-    id("shot")
 }
 
 android {
@@ -14,7 +13,6 @@ android {
         targetSdk = 34
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         vectorDrawables {
@@ -86,8 +84,4 @@ dependencies {
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
-}
-
-shot {
-    applicationId = "com.rumosoft.marvelcomposeshot"
 }

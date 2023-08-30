@@ -12,6 +12,9 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.text.input.TextFieldValue
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.InternalRoborazziApi
+import com.github.takahirom.roborazzi.RoborazziContext
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -30,6 +33,15 @@ internal class SearchBarKtTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    init {
+        setScreenshotFolder()
+    }
+
+    @OptIn(InternalRoborazziApi::class, ExperimentalRoborazziApi::class)
+    private fun setScreenshotFolder() {
+        RoborazziContext.setRuleOverrideOutputDirectory("screenshots")
+    }
+
     @Test
     fun searchBar_empty_does_not_display_clearIcon() {
         lateinit var clearContentDescription: String
@@ -41,9 +53,8 @@ internal class SearchBarKtTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(clearContentDescription).assertDoesNotExist()
-
         composeTestRule.onRoot().captureRoboImage()
+        composeTestRule.onNodeWithContentDescription(clearContentDescription).assertDoesNotExist()
     }
 
     @Test
@@ -57,9 +68,8 @@ internal class SearchBarKtTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
-
         composeTestRule.onRoot().captureRoboImage()
+        composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
     }
 
     @Test
@@ -81,10 +91,10 @@ internal class SearchBarKtTest {
 
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(clearContentDescription).performClick()
-        composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
-            .assert(hasText(hint))
 
         composeTestRule.onRoot().captureRoboImage()
+        composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
+            .assert(hasText(hint))
     }
 
     @Test

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicsNetworkImplTest {
     @MockK

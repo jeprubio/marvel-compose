@@ -70,6 +70,7 @@ dependencies {
 
     implementation(libs.lottie.compose)
 
+    testImplementation(project(":library-tests"))
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.roborazzi)

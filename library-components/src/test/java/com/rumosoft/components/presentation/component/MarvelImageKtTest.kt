@@ -3,12 +3,10 @@ package com.rumosoft.components.presentation.component
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
-import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
-import com.github.takahirom.roborazzi.InternalRoborazziApi
-import com.github.takahirom.roborazzi.RoborazziContext
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
+import com.rumosoft.libraryTests.ScreenshotUtils
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,29 +21,20 @@ internal class MarvelImageKtTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    init {
-        setScreenshotFolder()
-    }
-
-    @OptIn(InternalRoborazziApi::class, ExperimentalRoborazziApi::class)
-    private fun setScreenshotFolder() {
-        RoborazziContext.setRuleOverrideOutputDirectory("screenshots")
-    }
-
     @Test
-    fun marvelImage_placeholder_is_shown_if_empty_thumbnail() {
+    fun `marvelImage placeholder is shown if empty thumbnail`() {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 MarvelImage(thumbnailUrl = "", noImage = R.drawable.img_no_image)
             }
         }
 
-        composeTestRule.onRoot().captureRoboImage()
+        captureScreenshot()
         composeTestRule.onNodeWithTag(Placeholder).assertExists()
     }
 
     @Test
-    fun marvelImage_image_is_shown_if_non_empty_thumbnail() {
+    fun `marvelImage image is shown if non empty thumbnail`() {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 MarvelImage(thumbnailUrl = "whatever")
@@ -53,5 +42,9 @@ internal class MarvelImageKtTest {
         }
 
         composeTestRule.onNodeWithTag(MarvelImage).assertExists()
+    }
+
+    private fun captureScreenshot() {
+        composeTestRule.onRoot().captureRoboImage(ScreenshotUtils.getScreenshotName())
     }
 }

@@ -12,12 +12,10 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.text.input.TextFieldValue
-import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
-import com.github.takahirom.roborazzi.InternalRoborazziApi
-import com.github.takahirom.roborazzi.RoborazziContext
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
+import com.rumosoft.libraryTests.ScreenshotUtils
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -33,17 +31,8 @@ internal class SearchBarKtTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    init {
-        setScreenshotFolder()
-    }
-
-    @OptIn(InternalRoborazziApi::class, ExperimentalRoborazziApi::class)
-    private fun setScreenshotFolder() {
-        RoborazziContext.setRuleOverrideOutputDirectory("screenshots")
-    }
-
     @Test
-    fun searchBar_empty_does_not_display_clearIcon() {
+    fun `searchBar empty does not display clearIcon`() {
         lateinit var clearContentDescription: String
         composeTestRule.setContent {
             clearContentDescription = stringResource(id = R.string.search_clear)
@@ -53,12 +42,12 @@ internal class SearchBarKtTest {
             }
         }
 
-        composeTestRule.onRoot().captureRoboImage()
+        captureScreenshot()
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertDoesNotExist()
     }
 
     @Test
-    fun searchBar_not_empty_displays_clearIcon() {
+    fun `searchBar not empty displays clearIcon`() {
         lateinit var clearContentDescription: String
         composeTestRule.setContent {
             clearContentDescription = stringResource(id = R.string.search_clear)
@@ -68,12 +57,12 @@ internal class SearchBarKtTest {
             }
         }
 
-        composeTestRule.onRoot().captureRoboImage()
+        captureScreenshot()
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
     }
 
     @Test
-    fun searchBar_clear_icon_cleans_text() {
+    fun `searchBar clear icon cleans text`() {
         val hint = "hint"
         lateinit var clearContentDescription: String
         lateinit var searchTextContentDescription: String
@@ -92,13 +81,13 @@ internal class SearchBarKtTest {
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(clearContentDescription).performClick()
 
-        composeTestRule.onRoot().captureRoboImage()
+        captureScreenshot()
         composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
             .assert(hasText(hint))
     }
 
     @Test
-    fun searchBar_onTextChanges_calls_lambda() {
+    fun `searchBar onTextChanges calls lambda`() {
         val initialText = "whatever"
         val newText = "something"
         var onValueChangedInvoked = false
@@ -124,7 +113,7 @@ internal class SearchBarKtTest {
     }
 
     @Test
-    fun searchBar_leading_icon_calls_lambda() {
+    fun `searchBar leading icon calls lambda`() {
         var onLeadingClickedInvoked = false
         val onLeadingClicked: () -> Unit = { onLeadingClickedInvoked = true }
         lateinit var closeContentDescription: String
@@ -143,5 +132,9 @@ internal class SearchBarKtTest {
         composeTestRule.onNodeWithContentDescription(closeContentDescription).performClick()
 
         assertTrue(onLeadingClickedInvoked)
+    }
+
+    private fun captureScreenshot() {
+        composeTestRule.onRoot().captureRoboImage(ScreenshotUtils.getScreenshotName())
     }
 }

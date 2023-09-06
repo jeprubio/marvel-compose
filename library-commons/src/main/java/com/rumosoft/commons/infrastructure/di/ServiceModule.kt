@@ -16,8 +16,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ServiceModule {
-    @Provides
-    fun provideBaseUrl() = BuildConfig.BASE_URL
 
     @Provides
     @Singleton
@@ -32,9 +30,8 @@ object ServiceModule {
     @Singleton
     fun provideMarvelService(
         okHttpClient: OkHttpClient,
-        baseUrl: String,
     ): MarvelService =
-        Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
+        Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(MarvelService::class.java)
 }

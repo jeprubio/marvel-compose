@@ -30,7 +30,7 @@ class ComicListViewModel @Inject constructor(
 
     val comicsListScreenState: StateFlow<ComicListScreenState> get() = _comicsListScreenState
     private val _comicsListScreenState =
-        MutableStateFlow(initialScreenState())
+        MutableStateFlow(ComicListScreenState(ComicListState.Loading))
     private val textSearched = MutableStateFlow("")
     private var currentPage = 1
 
@@ -68,10 +68,13 @@ class ComicListViewModel @Inject constructor(
     private fun performSearch(query: String = "", fromStart: Boolean) {
         try {
             Timber.d("Searching: $query")
-            currentPage = if (fromStart) 1 else currentPage + 1
+            if (fromStart) {
+                currentPage = 1
+            }
             viewModelScope.launch {
                 getComicsUseCase(query, currentPage).fold(
                     onSuccess = { comicsList ->
+                        currentPage++
                         parseSuccessResponse(comicsList, currentPage)
                     },
                     onFailure = { throwable ->
@@ -79,10 +82,11 @@ class ComicListViewModel @Inject constructor(
                     },
                 )
             }
+        } catch (exception: CancellationException) {
+            throw exception
         } catch (exception: Exception) {
-            if (exception !is CancellationException) {
-                // TODO Do something?
-            }
+            Timber.e(exception, "Error performing comic search: $exception")
+            parseErrorResponse(exception)
         }
     }
 
@@ -160,7 +164,4 @@ class ComicListViewModel @Inject constructor(
             }
         }
     }
-
-    private fun initialScreenState(): ComicListScreenState =
-        ComicListScreenState(ComicListState.Loading)
 }

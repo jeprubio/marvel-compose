@@ -30,7 +30,7 @@ class HeroListViewModel @Inject constructor(
 
     val heroListScreenState: StateFlow<HeroListScreenState> get() = _heroListScreenState
     private val _heroListScreenState =
-        MutableStateFlow(initialScreenState())
+        MutableStateFlow(HeroListScreenState(HeroListState.Loading))
     private val textSearched = MutableStateFlow("")
     private var currentPage = 1
 
@@ -67,19 +67,23 @@ class HeroListViewModel @Inject constructor(
     private fun performSearch(query: String = "", fromStart: Boolean) {
         try {
             Timber.d("Searching: $query")
-            currentPage = if (fromStart) 1 else currentPage + 1
+            if (fromStart) {
+                currentPage = 1
+            }
             viewModelScope.launch {
                 searchUseCase(query, currentPage).fold(
                     onSuccess = { charactersList ->
+                        currentPage++
                         parseSuccessResponse(charactersList, currentPage)
                     },
                     onFailure = { parseErrorResponse(it) },
                 )
             }
+        } catch (exception: CancellationException) {
+            throw exception
         } catch (exception: Exception) {
-            if (exception !is CancellationException) {
-                // TODO Do something?
-            }
+            Timber.e(exception, "Error performing hero search: $exception")
+            parseErrorResponse(exception)
         }
     }
 
@@ -87,7 +91,7 @@ class HeroListViewModel @Inject constructor(
         setLoadingMore(false)
         _heroListScreenState.update {
             val previousList: List<Character> =
-                if (page > 1 && it.heroListState is HeroListState.Success) {
+                if (page > 0 && it.heroListState is HeroListState.Success) {
                     it.heroListState.characters.orEmpty()
                 } else {
                     emptyList()
@@ -157,7 +161,4 @@ class HeroListViewModel @Inject constructor(
             }
         }
     }
-
-    private fun initialScreenState(): HeroListScreenState =
-        HeroListScreenState(HeroListState.Loading)
 }

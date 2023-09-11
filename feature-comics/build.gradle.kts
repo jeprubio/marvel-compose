@@ -90,6 +90,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
+    testImplementation(libs.konsist)
     testImplementation(project(":library-tests"))
     testImplementation(libs.androidx.core.testing)
 

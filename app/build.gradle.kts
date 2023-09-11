@@ -88,6 +88,7 @@ dependencies {
 
     implementation(libs.androidx.core.splashscreen)
 
+    testImplementation(libs.konsist)
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.jupiter)
     testImplementation(libs.androidx.core.testing)

@@ -30,4 +30,4 @@ jobs:
       - name: Build app
         run: ./gradlew assemble
       - name: Run tests
-        uses: ./gradlew test
+        run: ./gradlew test

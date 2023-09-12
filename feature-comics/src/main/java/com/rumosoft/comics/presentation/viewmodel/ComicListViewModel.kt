@@ -74,8 +74,7 @@ class ComicListViewModel @Inject constructor(
             viewModelScope.launch {
                 getComicsUseCase(query, currentPage).fold(
                     onSuccess = { comicsList ->
-                        currentPage++
-                        parseSuccessResponse(comicsList, currentPage)
+                        parseSuccessResponse(comicsList, currentPage++)
                     },
                     onFailure = { throwable ->
                         parseErrorResponse(throwable)

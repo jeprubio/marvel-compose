@@ -73,8 +73,7 @@ class HeroListViewModel @Inject constructor(
             viewModelScope.launch {
                 searchUseCase(query, currentPage).fold(
                     onSuccess = { charactersList ->
-                        currentPage++
-                        parseSuccessResponse(charactersList, currentPage)
+                        parseSuccessResponse(charactersList, currentPage++)
                     },
                     onFailure = { parseErrorResponse(it) },
                 )
@@ -91,7 +90,7 @@ class HeroListViewModel @Inject constructor(
         setLoadingMore(false)
         _heroListScreenState.update {
             val previousList: List<Character> =
-                if (page > 0 && it.heroListState is HeroListState.Success) {
+                if (page > 1 && it.heroListState is HeroListState.Success) {
                     it.heroListState.characters.orEmpty()
                 } else {
                     emptyList()

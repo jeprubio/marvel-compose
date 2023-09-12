@@ -1,24 +1,23 @@
 package com.rumosoft.characters.domain.usecase
 
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
-import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
-internal class SearchUseCaseImplTest {
+internal class GetComicThumbnailUseCaseTest {
     @MockK
     val repo: SearchRepository = mockk()
-    private val useCase: SearchUseCase = SearchUseCaseImpl(repo)
+    private val useCase: GetComicThumbnailUseCase = GetComicThumbnailUseCase(repo)
+    private val comicId = 1
+    private val thumbnailUrl = "thumbnailUrl"
 
     init {
         MockKAnnotations.init(this)
@@ -27,24 +26,24 @@ internal class SearchUseCaseImplTest {
     @Test
     fun `useCase should call repo`() {
         runTest {
-            `given performSearch invocation returns results`()
+            `given getThumbnail invocation returns results`()
 
             `when the use case gets invoked`()
 
-            `then performSearch gets executed on repo`()
+            `then getThumbnail gets executed on repo`()
         }
     }
 
-    private fun `given performSearch invocation returns results`() {
-        coEvery { repo.performSearch("", 1) } returns
-            Result.success(SampleData.heroesSample)
+    private fun `given getThumbnail invocation returns results`() {
+        coEvery { repo.getThumbnail(comicId) } returns
+            Result.success(thumbnailUrl)
     }
 
     private suspend fun `when the use case gets invoked`() {
-        useCase.invoke("", 1)
+        useCase.invoke(comicId)
     }
 
-    private fun `then performSearch gets executed on repo`() {
-        coVerify { repo.performSearch("", 1) }
+    private fun `then getThumbnail gets executed on repo`() {
+        coVerify { repo.getThumbnail(comicId) }
     }
 }

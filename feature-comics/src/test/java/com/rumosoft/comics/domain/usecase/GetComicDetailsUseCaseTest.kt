@@ -8,17 +8,15 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
-internal class GetComicDetailsUseCaseImplTest {
+internal class GetComicDetailsUseCaseTest {
     @MockK
     val repo: ComicsRepository = mockk()
-    private val useCase: GetComicDetailsUseCase = GetComicDetailsUseCaseImpl(repo)
+    private val useCase: GetComicDetailsUseCase = GetComicDetailsUseCase(repo)
     private val comicId = 123
 
     @MockK

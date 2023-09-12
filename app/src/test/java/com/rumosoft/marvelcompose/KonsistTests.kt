@@ -25,7 +25,7 @@ class KonsistTests {
     fun `classes with 'UseCase' suffix should reside in 'usecase' package`() {
         Konsist.scopeFromProject()
             .classes()
-            .withNameEndingWith("UseCaseImpl")
+            .withNameEndingWith("UseCase")
             .assert { it.resideInPackage("..usecase..") }
     }
 
@@ -34,7 +34,7 @@ class KonsistTests {
         Konsist
             .scopeFromProject()
             .classes()
-            .withNameEndingWith("UseCaseImpl")
+            .withNameEndingWith("UseCase")
             .assert {
                 it.containsFunction { function ->
                     function.name == "invoke" && function.hasPublicOrDefaultModifier

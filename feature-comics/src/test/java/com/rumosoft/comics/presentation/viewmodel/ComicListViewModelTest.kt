@@ -8,14 +8,15 @@ import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import junit.framework.TestCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicListViewModelTest {
     private val comicsUseCase: GetComicsUseCase = mockk()
@@ -97,12 +98,12 @@ internal class ComicListViewModelTest {
     }
 
     private fun `given the screen state has no selected comic`() {
-        TestCase.assertNull(comicListViewModel.comicsListScreenState.value.selectedComic)
+        assertNull(comicListViewModel.comicsListScreenState.value.selectedComic)
     }
 
     private fun `given the screen state has a selected comic`() {
         comicListViewModel.comicClicked(comic)
-        TestCase.assertNotNull(comicListViewModel.comicsListScreenState.value.selectedComic)
+        assertNotNull(comicListViewModel.comicsListScreenState.value.selectedComic)
     }
 
     private fun `when initialising the ViewModel`() {
@@ -126,18 +127,18 @@ internal class ComicListViewModelTest {
     }
 
     private fun `then comicListState should be Success`() {
-        TestCase.assertTrue(comicListViewModel.comicsListScreenState.value.comicListState is ComicListState.Success)
+        assertTrue(comicListViewModel.comicsListScreenState.value.comicListState is ComicListState.Success)
     }
 
     private fun `then comicListState should be Error`() {
-        TestCase.assertTrue(comicListViewModel.comicsListScreenState.value.comicListState is ComicListState.Error)
+        assertTrue(comicListViewModel.comicsListScreenState.value.comicListState is ComicListState.Error)
     }
 
     private fun `then the screen state selected comic should have been updated`() {
-        TestCase.assertEquals(comic, comicListViewModel.comicsListScreenState.value.selectedComic)
+        assertEquals(comic, comicListViewModel.comicsListScreenState.value.selectedComic)
     }
 
     private fun `then the screen state selected comic should have been reset`() {
-        TestCase.assertNull(comicListViewModel.comicsListScreenState.value.selectedComic)
+        assertNull(comicListViewModel.comicsListScreenState.value.selectedComic)
     }
 }

@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsSuccessResult
-import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 

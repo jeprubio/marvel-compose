@@ -1,7 +1,7 @@
 package com.rumosoft.comics.domain.usecase
 
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
-import com.rumosoft.commons.domain.model.Comic
 import javax.inject.Inject
 
 class GetComicsUseCase @Inject constructor(

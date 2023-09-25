@@ -3,10 +3,10 @@ package com.rumosoft.characters.presentation.navigation
 import android.net.Uri
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.navArgument
-import com.rumosoft.commons.DeepLinks
-import com.rumosoft.commons.NavigationCommand
-import com.rumosoft.commons.domain.model.Character
-import com.rumosoft.commons.domain.model.CharacterNavType
+import com.rumosoft.characters.domain.model.Character
+import com.rumosoft.characters.domain.model.CharacterNavType
+import com.rumosoft.marvelapi.DeepLinks
+import com.rumosoft.marvelapi.NavigationCommand
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 

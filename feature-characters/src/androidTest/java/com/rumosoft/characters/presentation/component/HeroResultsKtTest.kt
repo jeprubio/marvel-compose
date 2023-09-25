@@ -6,8 +6,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.presentation.component.semantics.NumColumnsKey
-import com.rumosoft.commons.domain.model.Character
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
 import org.junit.Rule

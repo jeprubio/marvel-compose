@@ -3,8 +3,8 @@ package com.rumosoft.comics.presentation.navigation
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.rumosoft.commons.DeepLinks
-import com.rumosoft.commons.NavigationCommand
+import com.rumosoft.marvelapi.DeepLinks
+import com.rumosoft.marvelapi.NavigationCommand
 
 sealed class NavComicItem(
     final override val destination: String,

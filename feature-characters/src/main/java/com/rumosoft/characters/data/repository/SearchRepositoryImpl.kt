@@ -1,9 +1,10 @@
 package com.rumosoft.characters.data.repository
 
-import com.rumosoft.characters.data.network.CharactersNetwork
+import com.rumosoft.characters.data.mappers.toHero
+import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
-import com.rumosoft.commons.domain.model.CallInProgressException
-import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.marvelapi.data.network.CallInProgressException
+import com.rumosoft.marvelapi.data.network.CharactersNetwork
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,6 +44,8 @@ class SearchRepositoryImpl @Inject constructor(
         val offset = (page - 1) * LIMIT
         val networkResult = network.searchHeroes(offset, LIMIT, nameStartsWith)
         isRequestInProgress = false
-        return networkResult.mapCatching { it.characters.orEmpty() }
+        return networkResult.map { result ->
+            result.characters?.map { it.toHero() } ?: emptyList()
+        }
     }
 }

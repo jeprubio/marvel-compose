@@ -23,11 +23,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rumosoft.comics.R
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.screen.state.BuildUI
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
-import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.components.presentation.component.SearchBar
 import com.rumosoft.components.presentation.component.SectionTopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme

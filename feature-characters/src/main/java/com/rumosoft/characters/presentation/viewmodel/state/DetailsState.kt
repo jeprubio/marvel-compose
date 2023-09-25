@@ -1,6 +1,6 @@
 package com.rumosoft.characters.presentation.viewmodel.state
 
-import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.characters.domain.model.Character
 
 sealed class DetailsState {
     object Loading : DetailsState()

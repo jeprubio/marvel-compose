@@ -2,10 +2,10 @@ package com.rumosoft.characters.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.domain.usecase.SearchUseCase
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListScreenState
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
-import com.rumosoft.commons.domain.model.Character
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview

@@ -57,7 +57,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":library-commons"))
+    implementation(project(":library-marvelapi"))
     implementation(project(":library-components"))
 
     implementation(libs.core.ktx)

@@ -2,10 +2,10 @@ package com.rumosoft.comics.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListScreenState
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
-import com.rumosoft.commons.domain.model.Comic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.FlowPreview

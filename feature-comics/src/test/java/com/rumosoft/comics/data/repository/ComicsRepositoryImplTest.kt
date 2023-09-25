@@ -1,21 +1,19 @@
 package com.rumosoft.comics.data.repository
 
-import com.rumosoft.comics.data.network.ComicsNetwork
-import com.rumosoft.comics.data.network.ComicsResult
-import com.rumosoft.comics.data.network.PaginationInfo
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
+import com.rumosoft.marvelapi.data.network.ComicsNetwork
+import com.rumosoft.marvelapi.data.network.ComicsResult
+import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
 internal class ComicsRepositoryImplTest {
     @MockK
@@ -55,7 +53,7 @@ internal class ComicsRepositoryImplTest {
             Result.success(
                 ComicsResult(
                     PaginationInfo(1, 1),
-                    SampleData.comicsSample,
+                    SampleData.comicsDtoSample,
                 ),
             )
     }
@@ -63,7 +61,7 @@ internal class ComicsRepositoryImplTest {
     private fun `given fetchComic invocation on network returns results`() {
         coEvery { comicsNetwork.fetchComic(comicId) } returns
             Result.success(
-                SampleData.comicsSample.first(),
+                SampleData.comicsDtoSample.first(),
             )
     }
 

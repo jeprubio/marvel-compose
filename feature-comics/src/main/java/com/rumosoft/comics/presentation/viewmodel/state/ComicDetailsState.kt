@@ -1,6 +1,6 @@
 package com.rumosoft.comics.presentation.viewmodel.state
 
-import com.rumosoft.commons.domain.model.Comic
+import com.rumosoft.comics.domain.model.Comic
 
 const val ComicDetailsProgressIndicator = "comicDetailsProgressIndicator"
 const val ComicDetailsErrorResult = "comicDetailsErrorResult"

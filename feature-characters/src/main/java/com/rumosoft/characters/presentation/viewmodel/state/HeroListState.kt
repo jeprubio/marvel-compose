@@ -1,6 +1,6 @@
 package com.rumosoft.characters.presentation.viewmodel.state
 
-import com.rumosoft.commons.domain.model.Character
+import com.rumosoft.characters.domain.model.Character
 
 const val HeroListProgressIndicator = "progressIndicator"
 const val HeroListErrorResult = "errorResult"

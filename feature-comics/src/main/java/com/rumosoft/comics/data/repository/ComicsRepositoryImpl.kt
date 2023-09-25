@@ -1,9 +1,10 @@
 package com.rumosoft.comics.data.repository
 
-import com.rumosoft.comics.data.network.ComicsNetwork
+import com.rumosoft.comics.data.mappers.toComic
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
-import com.rumosoft.commons.domain.model.CallInProgressException
-import com.rumosoft.commons.domain.model.Comic
+import com.rumosoft.marvelapi.data.network.CallInProgressException
+import com.rumosoft.marvelapi.data.network.ComicsNetwork
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ class ComicsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDetails(comicId: Int): Result<Comic> {
-        return network.fetchComic(comicId)
+        return network.fetchComic(comicId).map { it.toComic() }
     }
 
     private suspend fun performNetworkSearch(
@@ -43,6 +44,8 @@ class ComicsRepositoryImpl @Inject constructor(
         val offset = (page - 1) * LIMIT
         val networkResult = network.searchComics(offset, LIMIT, titleStartsWith)
         isRequestInProgress = false
-        return networkResult.mapCatching { it.comics.orEmpty() }
+        return networkResult.map { result ->
+            result.comics?.map { it.toComic() } ?: emptyList()
+        }
     }
 }

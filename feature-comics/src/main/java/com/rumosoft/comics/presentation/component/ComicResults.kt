@@ -23,9 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rumosoft.comics.R
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
-import com.rumosoft.commons.domain.model.Comic
 import com.rumosoft.components.presentation.component.ComicThumbnail
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber

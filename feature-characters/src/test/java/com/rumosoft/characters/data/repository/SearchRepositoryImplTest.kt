@@ -1,21 +1,19 @@
 package com.rumosoft.characters.data.repository
 
-import com.rumosoft.characters.data.network.CharactersNetwork
-import com.rumosoft.characters.data.network.HeroesResult
-import com.rumosoft.characters.data.network.PaginationInfo
 import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
+import com.rumosoft.marvelapi.data.network.CharactersNetwork
+import com.rumosoft.marvelapi.data.network.HeroesResult
+import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(TestCoroutineExtension::class)
 internal class SearchRepositoryImplTest {
     @MockK
@@ -56,7 +54,7 @@ internal class SearchRepositoryImplTest {
             Result.success(
                 HeroesResult(
                     PaginationInfo(1, 1),
-                    SampleData.heroesSample,
+                    SampleData.heroesDtoSample,
                 ),
             )
     }

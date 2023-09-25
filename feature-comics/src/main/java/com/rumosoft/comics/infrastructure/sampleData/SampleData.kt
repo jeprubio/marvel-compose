@@ -1,27 +1,23 @@
 package com.rumosoft.comics.infrastructure.sampleData
 
-import com.rumosoft.commons.domain.model.Comic
-import com.rumosoft.commons.domain.model.ComicSummary
+import com.rumosoft.comics.data.mappers.toComic
+import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
+import com.rumosoft.marvelapi.data.network.apimodels.ImageDto
 
 object SampleData {
-    val comicSummariesSample = (1..10).map {
-        ComicSummary(
-            title = "comic $it",
-            url = "url/comic/$it",
-            thumbnail = "",
-        )
-    }
-
-    val comicsSample = (1..10).map {
-        Comic(
+    val comicsDtoSample = (1..10).map {
+        ComicDto(
             id = 0,
             digitalId = 0,
             title = "comic $it",
             description = "description",
-            thumbnail = "",
+            thumbnail = ImageDto(
+                path = "path",
+                extension = "extension",
+            ),
             pageCount = 0,
-            urls = listOf("url/comic/$it"),
-            characters = listOf(),
         )
     }
+
+    val comicsSample = comicsDtoSample.map { it.toComic() }
 }

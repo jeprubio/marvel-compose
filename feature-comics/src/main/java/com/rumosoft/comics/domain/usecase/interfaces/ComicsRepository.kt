@@ -1,6 +1,6 @@
 package com.rumosoft.comics.domain.usecase.interfaces
 
-import com.rumosoft.commons.domain.model.Comic
+import com.rumosoft.comics.domain.model.Comic
 
 interface ComicsRepository {
     suspend fun performSearch(

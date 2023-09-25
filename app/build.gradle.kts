@@ -63,7 +63,7 @@ dependencies {
     implementation(project(":feature-characters"))
     implementation(project(":feature-comics"))
     implementation(project(":library-components"))
-    implementation(project(":library-commons"))
+    implementation(project(":library-marvelapi"))
 
     implementation(libs.core.ktx)
     implementation(libs.androidx.window)

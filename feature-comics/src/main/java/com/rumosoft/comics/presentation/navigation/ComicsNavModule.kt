@@ -10,8 +10,7 @@ import com.rumosoft.comics.presentation.screen.ComicDetailsScreen
 import com.rumosoft.comics.presentation.screen.ComicsScreen
 import com.rumosoft.comics.presentation.viewmodel.ComicDetailsViewModel
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
-import com.rumosoft.commons.DeepLinks
-
+import com.rumosoft.marvelapi.DeepLinks
 
 fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
     composable(

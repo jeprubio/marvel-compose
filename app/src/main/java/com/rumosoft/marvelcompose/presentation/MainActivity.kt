@@ -71,24 +71,18 @@ fun MarvelApp(widthSizeClass: WindowSizeClass) {
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
-            if (widthSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
-                if (currentRoute(navController) in listOf(
-                        NavCharItem.Characters.destination,
-                        NavComicItem.Comics.route,
-                    )
-                ) {
-                    BottomNavigationBar(
-                        navController = navController,
-                        navigationItems = navigationItems,
-                        onAppBack = {
-                            onAppBack(snackBarHostState, context, scope)
-                        },
-                    )
-                }
+            if (shouldShowBottomBar(widthSizeClass, navController)) {
+                BottomNavigationBar(
+                    navController = navController,
+                    navigationItems = navigationItems,
+                    onAppBack = {
+                        onAppBack(snackBarHostState, context, scope)
+                    },
+                )
             }
         },
     ) { innerPadding ->
-        if (widthSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
+        if (shouldShowNavigationRail(widthSizeClass)) {
             Row {
                 NavigationRailBar(
                     navController = navController,
@@ -104,6 +98,23 @@ fun MarvelApp(widthSizeClass: WindowSizeClass) {
         }
     }
 }
+
+@Composable
+private fun shouldShowBottomBar(
+    widthSizeClass: WindowSizeClass,
+    navController: NavHostController
+) = isWindowCompact(widthSizeClass) && currentRoute(navController) in listOf(
+    NavCharItem.Characters.destination,
+    NavComicItem.Comics.route,
+)
+
+@Composable
+private fun shouldShowNavigationRail(widthSizeClass: WindowSizeClass) =
+    !isWindowCompact(widthSizeClass)
+
+@Composable
+private fun isWindowCompact(widthSizeClass: WindowSizeClass) =
+    widthSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
 
 @Composable
 private fun currentRoute(navController: NavHostController): String? {
@@ -124,3 +135,4 @@ private fun onAppBack(
         }
     }
 }
+

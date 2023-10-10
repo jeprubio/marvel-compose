@@ -41,6 +41,8 @@ import com.rumosoft.components.presentation.theme.CustomDiamond
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
+private const val COMIC_SHAPE_DISPLACEMENT = 10f
+
 @Composable
 fun HeroDetails(
     character: Character,
@@ -120,7 +122,7 @@ fun Urls(link: Link) {
     Surface(
         color = MarvelComposeTheme.colors.surface,
         border = BorderStroke(1.dp, MarvelComposeTheme.colors.onSecondary),
-        shape = CustomDiamond(10f),
+        shape = CustomDiamond(COMIC_SHAPE_DISPLACEMENT),
         modifier = Modifier
             .clickable { context.startActivity(intent) }
             .padding(end = MarvelComposeTheme.paddings.smallPadding),

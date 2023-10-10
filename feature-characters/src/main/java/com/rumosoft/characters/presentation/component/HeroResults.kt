@@ -35,6 +35,12 @@ import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
+private const val EXPANDED_SCREEN_WIDTH = 800
+private const val MEDIUM_SCREEN_WIDTH = 600
+private const val EXPANDED_SCREEN_COLUMNS = 3
+private const val MEDIUM_SCREEN_COLUMNS = 2
+private const val COMPACT_SCREEN_COLUMNS = 1
+
 @Composable
 fun HeroResults(
     characters: List<Character>,
@@ -71,12 +77,12 @@ fun HeroResults(
 @Composable
 private fun getDeviceColumns(): Int {
     val screenWidth = LocalConfiguration.current.screenWidthDp
-    return if (screenWidth >= 800) {
-        3
-    } else if (screenWidth >= 600) {
-        2
+    return if (screenWidth >= EXPANDED_SCREEN_WIDTH) {
+        EXPANDED_SCREEN_COLUMNS
+    } else if (screenWidth >= MEDIUM_SCREEN_WIDTH) {
+        MEDIUM_SCREEN_COLUMNS
     } else {
-        1
+        COMPACT_SCREEN_COLUMNS
     }
 }
 

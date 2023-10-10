@@ -41,6 +41,7 @@ captures/
 .idea/deploymentTargetDropDown.xml
 .idea/misc.xml
 .idea/sonarlint
+.idea/detekt.xml
 .idea/inspectionProfiles
 .idea/workspace.xml
 .idea/tasks.xml

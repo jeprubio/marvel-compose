@@ -90,3 +90,5 @@ lint/tmp/
 # lint/reports/
 
 codecov
+
+.idea/androidTestResultsUserPreferences.xml

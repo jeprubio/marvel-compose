@@ -7,8 +7,8 @@ import com.lemonappdev.konsist.api.ext.list.imports
 import com.lemonappdev.konsist.api.ext.list.withAllParentsOf
 import com.lemonappdev.konsist.api.ext.list.withNameContaining
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
-import com.lemonappdev.konsist.api.verify.assert
-import com.lemonappdev.konsist.api.verify.assertNot
+import com.lemonappdev.konsist.api.verify.assertFalse
+import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.jupiter.api.Test
 
 class KonsistTests {
@@ -18,7 +18,7 @@ class KonsistTests {
         Konsist.scopeFromProject()
             .classes()
             .withAllParentsOf(ViewModel::class)
-            .assert { it.name.endsWith("ViewModel") }
+            .assertTrue { it.name.endsWith("ViewModel") }
     }
 
     @Test
@@ -26,7 +26,7 @@ class KonsistTests {
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("UseCase")
-            .assert { it.resideInPackage("..usecase..") }
+            .assertTrue { it.resideInPackage("..usecase..") }
     }
 
     @Test
@@ -35,8 +35,8 @@ class KonsistTests {
             .scopeFromProject()
             .classes()
             .withNameEndingWith("UseCase")
-            .assert {
-                it.containsFunction { function ->
+            .assertTrue {
+                it.hasFunction { function ->
                     function.name == "invoke" && function.hasPublicOrDefaultModifier
                 }
             }
@@ -48,7 +48,7 @@ class KonsistTests {
             .scopeFromProject()
             .classes()
             .withNameEndingWith("RepositoryImpl")
-            .assert { it.resideInPackage("..data..") }
+            .assertTrue { it.resideInPackage("..data..") }
     }
 
     @Test
@@ -58,6 +58,6 @@ class KonsistTests {
             .withNameContaining("UseCase")
             .containingFiles
             .imports
-            .assertNot { it.hasNameContaining("android") }
+            .assertFalse { it.hasNameContaining("android") }
     }
 }

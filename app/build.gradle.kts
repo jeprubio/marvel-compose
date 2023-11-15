@@ -94,6 +94,7 @@ dependencies {
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
+    testImplementation(libs.androidx.ui.tooling.preview.android)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)

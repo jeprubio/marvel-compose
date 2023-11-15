@@ -1,10 +1,12 @@
 package com.rumosoft.marvelcompose
 
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import com.lemonappdev.konsist.api.Konsist
 import com.lemonappdev.konsist.api.ext.list.containingFiles
 import com.lemonappdev.konsist.api.ext.list.imports
 import com.lemonappdev.konsist.api.ext.list.withAllParentsOf
+import com.lemonappdev.konsist.api.ext.list.withAnnotationOf
 import com.lemonappdev.konsist.api.ext.list.withNameContaining
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
 import com.lemonappdev.konsist.api.verify.assertFalse
@@ -59,5 +61,16 @@ class KonsistTests {
             .containingFiles
             .imports
             .assertFalse { it.hasNameContaining("android") }
+    }
+
+    @Test
+    fun `All JetPack Compose previews contain 'Preview' in method name`() {
+        Konsist
+            .scopeFromProject()
+            .functions()
+            .withAnnotationOf(Preview::class)
+            .assertTrue {
+                it.name.contains("Preview")
+            }
     }
 }

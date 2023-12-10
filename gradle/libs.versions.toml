@@ -1,5 +1,5 @@
 [versions]
-agp = "8.1.4"
+agp = "8.2.0"
 compose-bom = "2023.10.01"
 # @keep this version
 compose-compiler = "1.5.4"

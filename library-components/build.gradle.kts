@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
+        testOptions.targetSdk = 34
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.ui)
     implementation(libs.material3)
+    implementation(libs.material3.window.size)
     implementation(libs.ui.tooling.preview)
     implementation(libs.lifecycle.runtime.ktx)
 

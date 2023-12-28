@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
+        testOptions.targetSdk = 34
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"

@@ -6,7 +6,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.rumosoft.characters.domain.model.Character
+import com.rumosoft.characters.presentation.FakeCharacters
 import com.rumosoft.characters.presentation.component.semantics.NumColumnsKey
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
@@ -32,14 +32,14 @@ internal class HeroResultsKtTest {
 
     @Test
     @Parameters(method = "deviceWidthParameters")
-    fun columns_depending_on_width(width: Int, expectedColumns: Int) {
+    fun columnsDependingOnWidth(width: Int, expectedColumns: Int) {
         composeTestRule.setContent {
             val mobileConfig = configWithScreenWidth(width)
             CompositionLocalProvider(
                 LocalConfiguration provides mobileConfig,
             ) {
                 HeroResults(
-                    characters = getSampleCharacters(),
+                    characters = FakeCharacters.getSampleCharacters(),
                 )
             }
         }
@@ -53,15 +53,4 @@ internal class HeroResultsKtTest {
     private fun configWithScreenWidth(width: Int) = Configuration().apply {
         screenWidthDp = width
     }
-
-    private fun getSampleCharacters(): List<Character> =
-        (1..5).map { characterId ->
-            Character(
-                name = "character $characterId",
-                description = "description $characterId",
-                thumbnail = "",
-                links = listOf(),
-                comics = listOf(),
-            )
-        }
 }

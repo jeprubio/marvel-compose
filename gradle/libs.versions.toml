@@ -38,7 +38,8 @@ secrets-gradle-plugin = "2.0.1"
 shot = "6.0.0"
 versions = "0.50.0"
 ksp = "1.9.22-1.0.17"
-ui-tooling-preview-android = "1.6.0"
+ui-tooling-preview-android = "1.6.1"
+test-core = "1.5.0"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -78,7 +79,9 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "test-core" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "test-core" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 junitparams = { group = "pl.pragmatists", name = "JUnitParams", version.ref = "junitparams" }

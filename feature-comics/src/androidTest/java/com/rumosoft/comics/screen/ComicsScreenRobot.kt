@@ -1,4 +1,4 @@
-package com.rumosoft.characters.presentation.screen
+package com.rumosoft.comics.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -16,16 +16,16 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.test.platform.app.InstrumentationRegistry
-import com.rumosoft.characters.presentation.FakeCharacters
-import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
+import com.rumosoft.comics.presentation.screen.ComicsScreenContent
+import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-fun heroListRobot(composeTestRule: ComposeContentTestRule, func: HeroListRobot.() -> Unit) =
-    HeroListRobot(composeTestRule).apply { func() }
+fun comicsScreenRobot(composeTestRule: ComposeContentTestRule, func: ComicsScreenRobot.() -> Unit) =
+    ComicsScreenRobot(composeTestRule).apply { func() }
 
 private const val END_REACHED_TEXT = "End Reached"
-class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
+class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
     private lateinit var searchContentDescription: String
     private lateinit var searchTextContentDescription: String
 
@@ -40,9 +40,9 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
                 if (endReached) {
                     Text(END_REACHED_TEXT)
                 }
-                HeroListScreenContent(
-                    heroListState = HeroListState.Success(
-                        characters = FakeCharacters.getSampleCharacters(10),
+                ComicsScreenContent(
+                    comicListState = ComicListState.Success(
+                        comics = FakeComics.getSampleComics(20),
                         onEndReached = { endReached = true }
                     ),
                     showSearchBar = showSearchBar,
@@ -57,7 +57,7 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
         composeTestRule.onRoot().performTouchInput { swipeUp() }
     }
 
-    fun onCharacterSearched(searchText: String) {
+    fun onComicSearched(searchText: String) {
         onMagnifierTapped()
         composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
             .performClick()
@@ -68,12 +68,12 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
         composeTestRule.onNodeWithContentDescription(searchContentDescription).performClick()
     }
 
-    infix fun verify(func: HeroListResultRobot.() -> Unit) =
-        HeroListResultRobot(composeTestRule).apply { func() }
+    infix fun verify(func: ComicsScreenResultRobot.() -> Unit) =
+        ComicsScreenResultRobot(composeTestRule).apply { func() }
 }
 
-class HeroListResultRobot(private val composeTestRule: ComposeContentTestRule) {
-    fun characterIsDisplayed(name: String) {
+class ComicsScreenResultRobot(private val composeTestRule: ComposeContentTestRule) {
+    fun comicIsDisplayed(name: String) {
         composeTestRule.onNodeWithText(name).assertExists()
     }
 

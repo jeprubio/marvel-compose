@@ -11,4 +11,5 @@
     <string name="search_text">Text to search</string>
     <string name="search_close">Close search</string>
     <string name="search_clear">Clear search</string>
+    <string name="go_back">Go Back</string>
 </resources>

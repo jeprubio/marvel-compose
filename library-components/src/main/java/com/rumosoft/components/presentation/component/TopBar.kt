@@ -18,6 +18,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 fun TopBar(
     apBarText: String,
     leftIcon: Painter,
+    leftIconContentDescription: String? = null,
     leftIconPressed: () -> Unit = {},
 ) {
     TopAppBar(
@@ -26,7 +27,7 @@ fun TopBar(
             IconButton(onClick = { leftIconPressed.invoke() }) {
                 Icon(
                     leftIcon,
-                    contentDescription = "Menu Button",
+                    contentDescription = leftIconContentDescription,
                     tint = Color.White,
                 )
             }

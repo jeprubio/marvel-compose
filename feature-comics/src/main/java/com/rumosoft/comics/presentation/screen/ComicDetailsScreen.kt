@@ -28,7 +28,7 @@ fun ComicDetailsScreen(
 }
 
 @Composable
-fun ComicDetailsScreenContent(
+internal fun ComicDetailsScreenContent(
     screenState: ComicDetailsState,
     onBackPressed: () -> Unit = {},
 ) {
@@ -37,6 +37,7 @@ fun ComicDetailsScreenContent(
             TopBar(
                 apBarText = stringResource(R.string.comic_details),
                 leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
+                leftIconContentDescription = stringResource(com.rumosoft.components.R.string.go_back),
                 leftIconPressed = onBackPressed,
             )
         },

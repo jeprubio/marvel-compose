@@ -30,7 +30,7 @@ fun DetailsScreen(
 }
 
 @Composable
-private fun DetailsScreenContent(
+internal fun DetailsScreenContent(
     detailsState: DetailsState,
     onBackPressed: () -> Unit = {},
     onComicSelected: (Int) -> Unit = {},
@@ -40,6 +40,7 @@ private fun DetailsScreenContent(
             TopBar(
                 apBarText = stringResource(R.string.details),
                 leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
+                leftIconContentDescription = stringResource(com.rumosoft.components.R.string.go_back),
                 leftIconPressed = onBackPressed,
             )
         },

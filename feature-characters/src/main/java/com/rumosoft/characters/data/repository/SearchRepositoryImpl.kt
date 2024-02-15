@@ -8,7 +8,7 @@ import com.rumosoft.marvelapi.data.network.CharactersNetwork
 import timber.log.Timber
 import javax.inject.Inject
 
-private const val LIMIT = 20
+const val CHARACTERS_SEARCH_LIMIT = 20
 
 class SearchRepositoryImpl @Inject constructor(
     private val network: CharactersNetwork,
@@ -41,8 +41,8 @@ class SearchRepositoryImpl @Inject constructor(
         page: Int,
     ): Result<List<Character>> {
         isRequestInProgress = true
-        val offset = (page - 1) * LIMIT
-        val networkResult = network.searchHeroes(offset, LIMIT, nameStartsWith)
+        val offset = (page - 1) * CHARACTERS_SEARCH_LIMIT
+        val networkResult = network.searchHeroes(offset, CHARACTERS_SEARCH_LIMIT, nameStartsWith)
         isRequestInProgress = false
         return networkResult.map { result ->
             result.characters?.map { it.toHero() } ?: emptyList()

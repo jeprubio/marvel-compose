@@ -17,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.rumosoft.marvelcompose.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -97,9 +97,15 @@ dependencies {
     testImplementation(libs.androidx.ui.tooling.preview.android)
 
     androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
+
+    kspAndroidTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
+
     debugImplementation(libs.ui.test.manifest)
 }
 

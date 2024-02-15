@@ -1,0 +1,37 @@
+package com.rumosoft.marvelcompose.data
+
+import com.rumosoft.characters.data.repository.CHARACTERS_SEARCH_LIMIT
+import com.rumosoft.marvelapi.data.network.CharactersNetwork
+import com.rumosoft.marvelapi.data.network.HeroesResult
+import com.rumosoft.marvelapi.data.network.apimodels.HeroDto
+import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
+import javax.inject.Inject
+
+class FakeCharactersNetwork @Inject constructor(): CharactersNetwork {
+    override suspend fun searchHeroes(
+        offset: Int,
+        limit: Int,
+        nameStartsWith: String
+    ): Result<HeroesResult> {
+        val heroesResult = HeroesResult(
+            paginationInfo = PaginationInfo(
+                current = 0,
+                total = 0,
+            ),
+            characters = (offset .. offset + CHARACTERS_SEARCH_LIMIT).map {
+                HeroDto(
+                    id = it,
+                    name = "character $it",
+                    description = "description $it",
+                    thumbnail = null,
+                    urls = emptyList(),
+                    comics = null,
+                )
+            }
+        )
+        return Result.success(heroesResult)
+    }
+
+    override suspend fun getComicThumbnail(comicId: Int): Result<String> =
+        Result.success("thumbnail")
+}

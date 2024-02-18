@@ -1,6 +1,7 @@
 package com.rumosoft.comics.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -10,7 +11,7 @@ import com.rumosoft.comics.presentation.screen.ComicDetailsScreenContent
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import org.junit.Assert
+import org.junit.Assert.assertTrue
 
 fun comicDetailsScreenRobot(
     composeTestRule: ComposeContentTestRule,
@@ -47,11 +48,11 @@ class DetailsScreenResult(
     private val backPressed: Boolean,
 ) {
     fun comicIsDisplayed(name: String) {
-        composeTestRule.onNodeWithText(name).assertExists()
+        composeTestRule.onNodeWithText(name).assertIsDisplayed()
     }
 
     fun backWasPressed() {
-        Assert.assertTrue(backPressed)
+        assertTrue(backPressed)
     }
 }
 

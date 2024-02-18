@@ -1,6 +1,7 @@
 package com.rumosoft.characters.presentation.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -47,7 +48,7 @@ class DetailsScreenResult(
     private val backPressed: Boolean,
 ) {
     fun characterIsDisplayed(name: String) {
-        composeTestRule.onNodeWithText(name).assertExists()
+        composeTestRule.onNodeWithText(name).assertIsDisplayed()
     }
 
     fun backWasPressed() {

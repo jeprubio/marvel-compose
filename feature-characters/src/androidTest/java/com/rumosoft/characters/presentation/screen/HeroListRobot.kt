@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -71,19 +72,19 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
 
 class HeroListResultRobot(private val composeTestRule: ComposeContentTestRule) {
     fun characterIsDisplayed(name: String) {
-        composeTestRule.onNodeWithText(name).assertExists()
+        composeTestRule.onNodeWithText(name).assertIsDisplayed()
     }
 
     fun searchIsDisplayed() {
-        composeTestRule.onNodeWithContentDescription(getString(R.string.search_text)).assertExists()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.search_text)).assertIsDisplayed()
     }
 
     fun textIsSearched(name: String) {
-        composeTestRule.onNodeWithText(name).assertExists()
+        composeTestRule.onNodeWithText(name).assertIsDisplayed()
     }
 
     fun endIsReached() {
-        composeTestRule.onNodeWithText(END_REACHED_TEXT).assertExists()
+        composeTestRule.onNodeWithText(END_REACHED_TEXT).assertIsDisplayed()
     }
 
     fun endIsNotReached() {

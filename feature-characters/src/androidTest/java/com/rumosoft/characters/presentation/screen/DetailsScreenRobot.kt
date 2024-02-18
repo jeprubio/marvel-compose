@@ -1,26 +1,28 @@
 package com.rumosoft.characters.presentation.screen
 
-import androidx.compose.ui.res.stringResource
+import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import com.rumosoft.characters.presentation.FakeCharacters
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
+import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import org.junit.Assert.assertTrue
 
-fun detailsScreenRobot(composeTestRule: ComposeContentTestRule, func: DetailsScreenRobot.() -> Unit) =
+fun detailsScreenRobot(
+    composeTestRule: ComposeContentTestRule,
+    func: DetailsScreenRobot.() -> Unit
+) =
     DetailsScreenRobot(composeTestRule).apply { func() }
 
 class DetailsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
-    
-    private lateinit var backContentDescription: String
     private var backPressed = false
 
     init {
         composeTestRule.setContent {
-            backContentDescription = stringResource(id = com.rumosoft.components.R.string.go_back)
             MarvelComposeTheme {
                 DetailsScreenContent(
                     detailsState = DetailsState.Success(
@@ -33,7 +35,7 @@ class DetailsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
     }
 
     fun onBackPressed() {
-        composeTestRule.onNodeWithContentDescription(backContentDescription).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.go_back)).performClick()
     }
 
     infix fun verify(func: DetailsScreenResult.() -> Unit) =
@@ -52,3 +54,6 @@ class DetailsScreenResult(
         assertTrue(backPressed)
     }
 }
+
+private fun getString(@StringRes stringResource: Int) =
+    InstrumentationRegistry.getInstrumentation().targetContext.getString(stringResource)

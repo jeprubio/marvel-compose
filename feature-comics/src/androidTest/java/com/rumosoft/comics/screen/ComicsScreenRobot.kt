@@ -1,11 +1,11 @@
 package com.rumosoft.comics.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -25,9 +25,8 @@ fun comicsScreenRobot(composeTestRule: ComposeContentTestRule, func: ComicsScree
     ComicsScreenRobot(composeTestRule).apply { func() }
 
 private const val END_REACHED_TEXT = "End Reached"
+
 class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
-    private lateinit var searchContentDescription: String
-    private lateinit var searchTextContentDescription: String
 
     init {
         composeTestRule.setContent {
@@ -35,8 +34,6 @@ class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
                 val searchState = remember { mutableStateOf(TextFieldValue("")) }
                 var showSearchBar by remember { mutableStateOf(false) }
                 var endReached by remember { mutableStateOf(false) }
-                searchContentDescription = stringResource(id = R.string.search)
-                searchTextContentDescription = stringResource(id = R.string.search_text)
                 if (endReached) {
                     Text(END_REACHED_TEXT)
                 }
@@ -59,13 +56,13 @@ class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
 
     fun onComicSearched(searchText: String) {
         onMagnifierTapped()
-        composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
+        composeTestRule.onNodeWithContentDescription(getString(R.string.search_text))
             .performClick()
             .performTextInput(searchText)
     }
 
     fun onMagnifierTapped() {
-        composeTestRule.onNodeWithContentDescription(searchContentDescription).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.search)).performClick()
     }
 
     infix fun verify(func: ComicsScreenResultRobot.() -> Unit) =
@@ -78,9 +75,7 @@ class ComicsScreenResultRobot(private val composeTestRule: ComposeContentTestRul
     }
 
     fun searchIsDisplayed() {
-        val searchTextContentDescription =
-            InstrumentationRegistry.getInstrumentation().targetContext.getString(R.string.search_text)
-        composeTestRule.onNodeWithContentDescription(searchTextContentDescription).assertExists()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.search_text)).assertExists()
     }
 
     fun textIsSearched(name: String) {
@@ -95,3 +90,6 @@ class ComicsScreenResultRobot(private val composeTestRule: ComposeContentTestRul
         composeTestRule.onNodeWithText(END_REACHED_TEXT).assertDoesNotExist()
     }
 }
+
+private fun getString(@StringRes stringResource: Int) =
+    InstrumentationRegistry.getInstrumentation().targetContext.getString(stringResource)

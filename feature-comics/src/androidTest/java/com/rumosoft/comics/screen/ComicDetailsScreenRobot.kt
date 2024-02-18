@@ -1,26 +1,28 @@
 package com.rumosoft.comics.screen
 
-import androidx.compose.ui.res.stringResource
+import androidx.annotation.StringRes
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import com.rumosoft.comics.presentation.screen.ComicDetailsScreenContent
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import org.junit.Assert
 
-fun comicDetailsScreenRobot(composeTestRule: ComposeContentTestRule, func: ComicDetailsScreenRobot.() -> Unit) =
+fun comicDetailsScreenRobot(
+    composeTestRule: ComposeContentTestRule,
+    func: ComicDetailsScreenRobot.() -> Unit
+) =
     ComicDetailsScreenRobot(composeTestRule).apply { func() }
 
 class ComicDetailsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
-    private lateinit var backContentDescription: String
     private var backPressed = false
 
     init {
         composeTestRule.setContent {
-            backContentDescription = stringResource(id = R.string.go_back)
             MarvelComposeTheme {
                 ComicDetailsScreenContent(
                     screenState = ComicDetailsState.Success(
@@ -33,7 +35,7 @@ class ComicDetailsScreenRobot(private val composeTestRule: ComposeContentTestRul
     }
 
     fun onBackPressed() {
-        composeTestRule.onNodeWithContentDescription(backContentDescription).performClick()
+        composeTestRule.onNodeWithContentDescription(getString(R.string.go_back)).performClick()
     }
 
     infix fun verify(func: DetailsScreenResult.() -> Unit) =
@@ -52,3 +54,6 @@ class DetailsScreenResult(
         Assert.assertTrue(backPressed)
     }
 }
+
+private fun getString(@StringRes stringResource: Int) =
+    InstrumentationRegistry.getInstrumentation().targetContext.getString(stringResource)

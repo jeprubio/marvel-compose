@@ -45,10 +45,10 @@ To execute the screenshots test: `./gradlew executeScreenshotTests`
 
 ## Screenshots
 
-![Characters List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/1-characters-list.jpg)
-![Character Details](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/2-character-details.jpg)
-![Comics List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/3-comics-list.jpg)
-![Comic Details](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/4-comic-details.jpg)
+![Characters List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/1-characters-list.webp)
+![Character Details](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/2-character-details.webp)
+![Comics List](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/3-comics-list.webp)
+![Comic Details](https://raw.github.com/jeprubio/marvel-compose/main/screenshots/readme/4-comic-details.webp)
 
 ## Libraries Used
 

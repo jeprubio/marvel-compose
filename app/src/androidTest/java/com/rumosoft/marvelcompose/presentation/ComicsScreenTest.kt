@@ -20,7 +20,7 @@ class ComicsScreenTest {
 
     @Test
     fun checkComicsScreenShowsComicsTitle() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
         } verify {
             comicsAreDisplayed()
         }
@@ -28,7 +28,7 @@ class ComicsScreenTest {
 
     @Test
     fun checkComicsScreenShowsComics() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
         } verify {
             comicIsDisplayed("comic 1")
             Thread.sleep(5000)

@@ -6,7 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -22,7 +25,7 @@ import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-fun heroListRobot(composeTestRule: ComposeContentTestRule, func: HeroListRobot.() -> Unit) =
+fun HeroListScreenTest.heroListRobot(func: HeroListRobot.() -> Unit) =
     HeroListRobot(composeTestRule).apply { func() }
 
 private const val END_REACHED_TEXT = "End Reached"
@@ -55,8 +58,10 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
         composeTestRule.onRoot().performTouchInput { swipeUp() }
     }
 
+    @OptIn(ExperimentalTestApi::class)
     fun onCharacterSearched(searchText: String) {
         onMagnifierTapped()
+        composeTestRule.waitUntilExactlyOneExists(hasContentDescription(getString(R.string.search_text)))
         composeTestRule.onNodeWithContentDescription(getString(R.string.search_text))
             .performClick()
             .performTextInput(searchText)
@@ -72,15 +77,15 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
 
 class HeroListResultRobot(private val composeTestRule: ComposeContentTestRule) {
     fun characterIsDisplayed(name: String) {
-        composeTestRule.onNodeWithText(name).assertIsDisplayed()
+        textIsDisplayed(name)
     }
 
     fun searchIsDisplayed() {
-        composeTestRule.onNodeWithContentDescription(getString(R.string.search_text)).assertIsDisplayed()
+        contentDescriptionIsDisplayed(getString(R.string.search_text))
     }
 
     fun textIsSearched(name: String) {
-        composeTestRule.onNodeWithText(name).assertIsDisplayed()
+        textIsDisplayed(name)
     }
 
     fun endIsReached() {
@@ -89,6 +94,18 @@ class HeroListResultRobot(private val composeTestRule: ComposeContentTestRule) {
 
     fun endIsNotReached() {
         composeTestRule.onNodeWithText(END_REACHED_TEXT).assertDoesNotExist()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun textIsDisplayed(text: String) {
+        composeTestRule.waitUntilExactlyOneExists(hasText(text))
+        composeTestRule.onNodeWithText(text).assertIsDisplayed()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun contentDescriptionIsDisplayed(contentDescription: String) {
+        composeTestRule.waitUntilExactlyOneExists(hasContentDescription(contentDescription))
+        composeTestRule.onNodeWithContentDescription(contentDescription).assertIsDisplayed()
     }
 }
 

@@ -10,7 +10,7 @@ class HeroListScreenTest {
 
     @Test
     fun whenScreenIsLoadedItShouldShowTheListOfCharacters() {
-        heroListRobot(composeTestRule) {
+        heroListRobot {
         } verify {
             characterIsDisplayed("character 1")
         }
@@ -18,7 +18,7 @@ class HeroListScreenTest {
 
     @Test
     fun whenMagnifierTappedItShowsSearchTextInput() {
-        heroListRobot(composeTestRule) {
+        heroListRobot {
             onMagnifierTapped()
         } verify {
             searchIsDisplayed()
@@ -27,7 +27,7 @@ class HeroListScreenTest {
 
     @Test
     fun whenCharacterIsSearchedItsShownInSearchTextInput() {
-        heroListRobot(composeTestRule) {
+        heroListRobot {
             onCharacterSearched("searchText")
         } verify {
             textIsSearched("searchText")
@@ -36,7 +36,7 @@ class HeroListScreenTest {
 
     @Test
     fun withoutASwipeUpEndReachedIsNotInvoked() {
-        heroListRobot(composeTestRule) {
+        heroListRobot {
         } verify {
             endIsNotReached()
         }
@@ -44,7 +44,7 @@ class HeroListScreenTest {
 
     @Test
     fun whenASwipeUpIsPerformedEndReachedIsInvoked() {
-        heroListRobot(composeTestRule) {
+        heroListRobot {
             scrollBottom()
         } verify {
             endIsReached()

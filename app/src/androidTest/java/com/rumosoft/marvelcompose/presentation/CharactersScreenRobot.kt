@@ -2,6 +2,7 @@ package com.rumosoft.marvelcompose.presentation
 
 import androidx.compose.ui.test.ComposeTimeoutException
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -12,7 +13,7 @@ import androidx.compose.ui.test.swipeUp
 import androidx.test.core.app.launchActivity
 import com.rumosoft.marvelcompose.presentation.navigation.NAVIGATION_HOST_TEST_TAG
 
-fun charactersScreenRobot(composeTestRule: ComposeContentTestRule, func: CharactersScreenRobot.() -> Unit) =
+fun CharactersScreenTest.charactersScreenRobot(func: CharactersScreenRobot.() -> Unit) =
     CharactersScreenRobot(composeTestRule).apply { func() }
 
 class CharactersScreenRobot(private val composeTestRule: ComposeContentTestRule) {
@@ -69,5 +70,6 @@ class CharactersScreenResult(
     @OptIn(ExperimentalTestApi::class)
     fun textIsDisplayed(text: String) {
         composeTestRule.waitUntilExactlyOneExists(hasText(text))
+        composeTestRule.onNodeWithText(text).assertIsDisplayed()
     }
 }

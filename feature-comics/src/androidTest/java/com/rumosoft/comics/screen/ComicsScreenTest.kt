@@ -10,7 +10,7 @@ class ComicsScreenTest {
 
     @Test
     fun whenScreenIsLoadedItShouldShowTheListOfComics() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
         } verify {
             comicIsDisplayed("comic 1")
         }
@@ -18,7 +18,7 @@ class ComicsScreenTest {
 
     @Test
     fun whenMagnifierTappedItShowsSearchTextInput() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
             onMagnifierTapped()
         } verify {
             searchIsDisplayed()
@@ -27,7 +27,7 @@ class ComicsScreenTest {
 
     @Test
     fun whenComicIsSearchedItsShownInSearchTextInput() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
             onComicSearched("searchText")
         } verify {
             textIsSearched("searchText")
@@ -36,7 +36,7 @@ class ComicsScreenTest {
 
     @Test
     fun withoutASwipeUpEndReachedIsNotInvoked() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
         } verify {
             endIsNotReached()
         }
@@ -44,7 +44,7 @@ class ComicsScreenTest {
 
     @Test
     fun whenASwipeUpIsPerformedEndReachedIsInvoked() {
-        comicsScreenRobot(composeTestRule) {
+        comicsScreenRobot {
             scrollBottom()
         } verify {
             endIsReached()

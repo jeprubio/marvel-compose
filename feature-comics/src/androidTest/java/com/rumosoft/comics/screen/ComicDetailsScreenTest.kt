@@ -10,7 +10,7 @@ class ComicDetailsScreenTest {
 
     @Test
     fun whenScreenIsLoadedItShouldShowTheCharacterName() {
-        comicDetailsScreenRobot(composeTestRule) {
+        comicDetailsScreenRobot {
         } verify {
             comicIsDisplayed("comic 1")
         }
@@ -18,7 +18,7 @@ class ComicDetailsScreenTest {
 
     @Test
     fun whenBackIsPressedItShouldInvokeBackPressed() {
-        comicDetailsScreenRobot(composeTestRule) {
+        comicDetailsScreenRobot {
             onBackPressed()
         } verify {
             backWasPressed()

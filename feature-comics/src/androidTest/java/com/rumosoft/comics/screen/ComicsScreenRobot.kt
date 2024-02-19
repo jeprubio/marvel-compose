@@ -6,7 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -22,7 +25,7 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-fun comicsScreenRobot(composeTestRule: ComposeContentTestRule, func: ComicsScreenRobot.() -> Unit) =
+fun ComicsScreenTest.comicsScreenRobot(func: ComicsScreenRobot.() -> Unit) =
     ComicsScreenRobot(composeTestRule).apply { func() }
 
 private const val END_REACHED_TEXT = "End Reached"
@@ -72,15 +75,15 @@ class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
 
 class ComicsScreenResultRobot(private val composeTestRule: ComposeContentTestRule) {
     fun comicIsDisplayed(name: String) {
-        composeTestRule.onNodeWithText(name).assertIsDisplayed()
+        textIsDisplayed(name)
     }
 
     fun searchIsDisplayed() {
-        composeTestRule.onNodeWithContentDescription(getString(R.string.search_text)).assertIsDisplayed()
+        contentDescriptionIsDisplayed(getString(R.string.search_text))
     }
 
     fun textIsSearched(name: String) {
-        composeTestRule.onNodeWithText(name).assertIsDisplayed()
+        textIsDisplayed(name)
     }
 
     fun endIsReached() {
@@ -89,6 +92,18 @@ class ComicsScreenResultRobot(private val composeTestRule: ComposeContentTestRul
 
     fun endIsNotReached() {
         composeTestRule.onNodeWithText(END_REACHED_TEXT).assertDoesNotExist()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun textIsDisplayed(text: String) {
+        composeTestRule.waitUntilExactlyOneExists(hasText(text))
+        composeTestRule.onNodeWithText(text).assertIsDisplayed()
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun contentDescriptionIsDisplayed(contentDescription: String) {
+        composeTestRule.waitUntilExactlyOneExists(hasContentDescription(contentDescription))
+        composeTestRule.onNodeWithContentDescription(contentDescription).assertIsDisplayed()
     }
 }
 

@@ -20,7 +20,7 @@ class CharactersScreenTest {
 
     @Test
     fun checkCharactersScreenShowsCharactersTitle() {
-        charactersScreenRobot(composeTestRule) {
+        charactersScreenRobot {
         } verify {
             charactersAreDisplayed()
         }
@@ -28,7 +28,7 @@ class CharactersScreenTest {
 
     @Test
     fun checkCharactersScreenShowsCharacters() {
-        charactersScreenRobot(composeTestRule) {
+        charactersScreenRobot {
         } verify {
             characterIsDisplayed("character 1")
         }
@@ -36,7 +36,7 @@ class CharactersScreenTest {
 
     @Test
     fun checkCharactersScreenLoadsMoreResultsOnScroll() {
-        charactersScreenRobot(composeTestRule) {
+        charactersScreenRobot {
             scrollBottom()
         } verify {
             moreCharactersLoaded()
@@ -45,7 +45,7 @@ class CharactersScreenTest {
 
     @Test
     fun checkCharactersDetailsAreDisplayedAfterOneIsSelected() {
-        charactersScreenRobot(composeTestRule) {
+        charactersScreenRobot {
             clickOnCharacter("character 1")
         } verify {
             characterDetailsAreDisplayed("character 1")

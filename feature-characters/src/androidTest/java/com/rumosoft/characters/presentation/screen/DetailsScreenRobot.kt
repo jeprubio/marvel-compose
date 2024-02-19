@@ -1,7 +1,9 @@
 package com.rumosoft.characters.presentation.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -13,8 +15,7 @@ import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import org.junit.Assert.assertTrue
 
-fun detailsScreenRobot(
-    composeTestRule: ComposeContentTestRule,
+fun DetailsScreenTest.detailsScreenRobot(
     func: DetailsScreenRobot.() -> Unit
 ) =
     DetailsScreenRobot(composeTestRule).apply { func() }
@@ -48,11 +49,17 @@ class DetailsScreenResult(
     private val backPressed: Boolean,
 ) {
     fun characterIsDisplayed(name: String) {
-        composeTestRule.onNodeWithText(name).assertIsDisplayed()
+        textIsDisplayed(name)
     }
 
     fun backWasPressed() {
         assertTrue(backPressed)
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    fun textIsDisplayed(text: String) {
+        composeTestRule.waitUntilExactlyOneExists(hasText(text))
+        composeTestRule.onNodeWithText(text).assertIsDisplayed()
     }
 }
 

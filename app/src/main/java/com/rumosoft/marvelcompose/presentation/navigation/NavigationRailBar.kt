@@ -1,6 +1,5 @@
 package com.rumosoft.marvelcompose.presentation.navigation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
@@ -8,24 +7,21 @@ import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun NavigationRailBar(
-    navController: NavHostController,
     navigationItems: List<Tabs>,
-    onAppBack: () -> Unit = {},
+    currentRoute: String?,
+    onTabClick: (Tabs) -> Unit = {},
 ) {
     NavigationRail {
         Spacer(modifier = Modifier.height(8.dp))
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
         navigationItems.forEach { tab ->
             val tabTitle = stringResource(id = tab.title)
             val selected = currentRoute == tab.route
@@ -38,15 +34,23 @@ fun NavigationRailBar(
                 },
                 label = { Text(tabTitle) },
                 selected = selected,
-                onClick = {
-                    onTabClick(tab, navController)
-                },
+                onClick = { onTabClick(tab) },
                 alwaysShowLabel = true,
             )
         }
     }
+}
 
-    BackHandler {
-        onAppBack()
+@Preview
+@Composable
+fun PreviewNavigationRailBar() {
+    MarvelComposeTheme {
+        NavigationRailBar(
+            currentRoute = Tabs.Characters.route,
+            navigationItems = listOf(
+                Tabs.Characters,
+                Tabs.Comics,
+            )
+        )
     }
 }

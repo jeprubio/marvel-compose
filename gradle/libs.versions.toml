@@ -38,7 +38,7 @@ secrets-gradle-plugin = "2.0.1"
 shot = "6.0.0"
 versions = "0.50.0"
 ksp = "1.9.22-1.0.17"
-ui-tooling-preview-android = "1.6.1"
+ui-tooling-preview-android = "1.6.2"
 test-core = "1.5.0"
 
 [libraries]

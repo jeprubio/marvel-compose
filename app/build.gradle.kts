@@ -87,14 +87,13 @@ dependencies {
     implementation(libs.okhttp)
 
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.ui.tooling.preview.android)
 
     testImplementation(libs.konsist)
     testImplementation(libs.junit.jupiter)
-    testRuntimeOnly(libs.junit.jupiter)
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
-    testImplementation(libs.androidx.ui.tooling.preview.android)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.core)
@@ -103,9 +102,10 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
 
-    kspAndroidTest(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
 
+    debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
 

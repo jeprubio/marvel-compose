@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -31,6 +32,7 @@ import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationRailBar
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
+import com.rumosoft.marvelcompose.presentation.navigation.onTabClick
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -63,28 +65,27 @@ fun MarvelApp() {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+    BackHandler { onAppBack(snackBarHostState, context, scope) }
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
             if (shouldShowBottomBar(navController)) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
                 BottomNavigationBar(
-                    navController = navController,
                     navigationItems = navigationItems,
-                    onAppBack = {
-                        onAppBack(snackBarHostState, context, scope)
-                    },
+                    currentRoute = navBackStackEntry?.destination?.route,
+                    onTabClick = { onTabClick(it, navController) },
                 )
             }
         },
     ) { innerPadding ->
         if (shouldShowNavigationRail()) {
             Row {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
                 NavigationRailBar(
-                    navController = navController,
                     navigationItems = navigationItems,
-                    onAppBack = {
-                        onAppBack(snackBarHostState, context, scope)
-                    },
+                    currentRoute = navBackStackEntry?.destination?.route,
+                    onTabClick = { onTabClick(it, navController) },
                 )
                 NavigationHost(navController, modifier = Modifier.padding(innerPadding))
             }
@@ -103,8 +104,7 @@ private fun shouldShowBottomBar(
 )
 
 @Composable
-private fun shouldShowNavigationRail() =
-    !isWindowCompact()
+private fun shouldShowNavigationRail() = !isWindowCompact()
 
 @Composable
 private fun currentRoute(navController: NavHostController): String? {

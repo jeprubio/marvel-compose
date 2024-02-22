@@ -1,26 +1,22 @@
 package com.rumosoft.marvelcompose.presentation.navigation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavHostController,
     navigationItems: List<Tabs>,
-    onAppBack: () -> Unit = {},
+    currentRoute: String?,
+    onTabClick: (Tabs) -> Unit = {},
 ) {
     NavigationBar {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
         navigationItems.forEach { tab ->
             val tabTitle = stringResource(id = tab.title)
             val selected = currentRoute == tab.route
@@ -33,33 +29,23 @@ fun BottomNavigationBar(
                 },
                 label = { Text(tabTitle) },
                 selected = selected,
-                onClick = {
-                    onTabClick(tab, navController)
-                },
+                onClick = { onTabClick(tab) },
                 alwaysShowLabel = true,
             )
         }
     }
-
-    BackHandler {
-        onAppBack()
-    }
 }
 
-fun onTabClick(
-    tab: Tabs,
-    navController: NavHostController,
-) {
-    if (tab.route != navController.currentDestination?.route) {
-        navController.navigate(tab.route) {
-            navController.currentDestination?.route?.let {
-                popUpTo(it) {
-                    saveState = true
-                    inclusive = true
-                }
-            }
-
-            launchSingleTop = true
-        }
+@Preview
+@Composable
+fun PreviewBottomNavigationBar() {
+    MarvelComposeTheme {
+        BottomNavigationBar(
+            currentRoute = Tabs.Characters.route,
+            navigationItems = listOf(
+                Tabs.Characters,
+                Tabs.Comics,
+            ),
+        )
     }
 }

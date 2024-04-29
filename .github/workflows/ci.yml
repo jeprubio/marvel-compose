@@ -16,9 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Update MARVEL_PRIVATE_KEY in local.properties
-        run: echo "MARVEL_PRIVATE_KEY=privateKey" >> local.properties
+        env:
+          MV_PRIVATE_KEY: ${{ secrets.MARVEL_PRIVATE_KEY }}
+        run: |
+          echo MARVEL_PRIVATE_KEY="$MV_PRIVATE_KEY" >> local.properties
       - name: Update MARVEL_PUBLIC_KEY in local.properties
-        run: echo "MARVEL_PUBLIC_KEY=publicKey" >> local.properties
+        env:
+          MV_PUBLIC_KEY: ${{ secrets.MARVEL_PUBLIC_KEY }}
+        run: |
+          echo MARVEL_PUBLIC_KEY="$MV_PUBLIC_KEY" >> local.properties
       - name: Setup JDK 17
         uses: actions/setup-java@v3
         with:

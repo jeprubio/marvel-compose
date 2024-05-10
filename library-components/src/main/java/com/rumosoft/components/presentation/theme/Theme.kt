@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColorScheme(
+val DarkColorPalette = darkColorScheme(
     primary = Ribbon500,
     secondary = Ribbon700,
     tertiary = Skin400,
@@ -23,7 +23,7 @@ private val DarkColorPalette = darkColorScheme(
     onSurface = Color.White,
 )
 
-private val LightColorPalette = lightColorScheme(
+val LightColorPalette = lightColorScheme(
     primary = Ribbon500,
     secondary = Ribbon700,
     tertiary = Skin200,

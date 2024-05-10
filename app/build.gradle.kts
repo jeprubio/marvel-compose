@@ -89,6 +89,9 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.ui.tooling.preview.android)
 
+    implementation(libs.glance.widget)
+    implementation(libs.glance.material3)
+
     testImplementation(libs.konsist)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.androidx.core.testing)

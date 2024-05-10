@@ -38,6 +38,7 @@ secrets-gradle-plugin = "2.0.1"
 shot = "6.1.0"
 versions = "0.51.0"
 ksp = "1.9.23-1.0.20"
+glance = "1.0.0"
 ui-tooling-preview-android = "1.6.7"
 test-core = "1.5.0"
 
@@ -71,6 +72,9 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie-compose" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
+
+glance-widget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
+glance-material3 = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }

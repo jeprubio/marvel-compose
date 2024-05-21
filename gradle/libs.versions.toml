@@ -1,10 +1,8 @@
 [versions]
-agp = "8.4.0"
+agp = "8.4.1"
 compose-bom = "2024.05.00"
-# @keep this version
-compose-compiler = "1.5.12"
 konsist = "0.15.1"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 appcompat = "1.6.1"
 core-splashscreen = "1.0.1"
 core-ktx = "1.13.1"
@@ -20,7 +18,7 @@ window = "1.2.0"
 kotlinx-serialization-json = "1.6.3"
 navigation-runtime-ktx = "2.7.7"
 nav_compose = "2.7.7"
-gson = "2.10.1"
+gson = "2.11.0"
 okio = "3.9.0"
 okhttp = "4.12.0"
 logging-interceptor = "4.12.0"
@@ -31,13 +29,13 @@ androidx-test-ext-junit = "1.1.5"
 espresso = "3.5.1"
 junitparams = "1.1.1"
 junit-jupiter = "5.10.2"
-mockk = "1.13.10"
-coroutines-test = "1.8.0"
+mockk = "1.13.11"
+coroutines-test = "1.8.1"
 mockwebserver = "4.12.0"
 secrets-gradle-plugin = "2.0.1"
 shot = "6.1.0"
 versions = "0.51.0"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.21"
 ui-tooling-preview-android = "1.6.7"
 test-core = "1.5.0"
 
@@ -98,6 +96,7 @@ androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "u
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

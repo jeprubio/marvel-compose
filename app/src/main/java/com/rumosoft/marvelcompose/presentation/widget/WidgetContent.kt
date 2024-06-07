@@ -74,7 +74,7 @@ class OpenComicsAction : ActionCallback {
 private fun openDeepLink(context: Context, deepLink: String) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
         setPackage(context.packageName)
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
     context.startActivity(intent)
 }

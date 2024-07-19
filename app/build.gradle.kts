@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId ="com.rumosoft.marvelcompose"
-        minSdk = 21
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -106,8 +106,15 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
 
+    androidTestImplementation(libs.glance.testing)
+    androidTestImplementation(libs.glance.appwidget.testing)
+
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    debugImplementation(libs.glance.preview)
+    debugImplementation(libs.glance.appwidget.preview)
+    debugImplementation(libs.glance.appwidget.host)
 }
 
 tasks.withType<Test> {

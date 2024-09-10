@@ -21,6 +21,8 @@ val DarkColorPalette = darkColorScheme(
     onSecondary = Color.White,
     onBackground = Color.White,
     onSurface = Color.White,
+    surfaceContainer = Ribbon500,
+    onPrimaryContainer = Color.LightGray,
 )
 
 val LightColorPalette = lightColorScheme(
@@ -35,6 +37,8 @@ val LightColorPalette = lightColorScheme(
     onBackground = MineShaft,
     onSurface = Color.White,
     onError = Color.White,
+    surfaceContainer = Ribbon500,
+    onPrimaryContainer = Color.LightGray,
 )
 
 @Composable

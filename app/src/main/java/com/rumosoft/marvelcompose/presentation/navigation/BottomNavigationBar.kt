@@ -3,6 +3,7 @@ package com.rumosoft.marvelcompose.presentation.navigation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
@@ -31,6 +32,13 @@ fun BottomNavigationBar(
                 selected = selected,
                 onClick = { onTabClick(tab) },
                 alwaysShowLabel = true,
+                colors = NavigationBarItemDefaults.colors().copy(
+                    selectedIconColor = MarvelComposeTheme.colors.primary,
+                    selectedIndicatorColor = MarvelComposeTheme.colors.onPrimary,
+                    selectedTextColor = MarvelComposeTheme.colors.onPrimary,
+                    unselectedIconColor = MarvelComposeTheme.colors.onPrimaryContainer,
+                    unselectedTextColor = MarvelComposeTheme.colors.onPrimaryContainer,
+                ),
             )
         }
     }

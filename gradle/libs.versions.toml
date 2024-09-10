@@ -1,30 +1,29 @@
 [versions]
-agp = "8.5.2"
-compose-bom = "2024.08.00"
-konsist = "0.15.1"
+agp = "8.6.0"
+compose-bom = "2024.09.00"
+konsist = "0.16.1"
 kotlin = "2.0.20"
 appcompat = "1.7.0"
 core-splashscreen = "1.0.1"
 core-ktx = "1.13.1"
 core-testing = "2.2.0"
-lifecycle-runtime-ktx = "2.8.4"
-lifecycle-compose = "2.8.4"
-activity-compose = "1.9.1"
+lifecycle-runtime-ktx = "2.8.5"
+lifecycle-compose = "2.8.5"
+activity-compose = "1.9.2"
 retrofit = "2.11.0"
 hilt = "2.52"
 hilt-navigation-compose = "1.2.0"
 coil-compose = "2.7.0"
 window = "1.3.0"
-kotlinx-serialization-json = "1.7.1"
-navigation-runtime-ktx = "2.7.7"
-nav_compose = "2.7.7"
+kotlinx-serialization-json = "1.7.2"
+nav-compose = "2.8.0"
 gson = "2.11.0"
 okio = "3.9.0"
 okhttp = "4.12.0"
 logging-interceptor = "4.12.0"
 timber = "5.0.1"
 material = "1.12.0"
-lottie-compose = "6.5.0"
+lottie-compose = "6.5.2"
 androidx-test-ext-junit = "1.2.1"
 espresso = "3.6.1"
 junitparams = "1.1.1"
@@ -35,17 +34,17 @@ mockwebserver = "4.12.0"
 secrets-gradle-plugin = "2.0.1"
 shot = "6.1.0"
 versions = "0.51.0"
-ksp = "2.0.20-1.0.24"
+ksp = "2.0.20-1.0.25"
 glance = "1.1.0"
 glance-experimental = "0.2.2"
-ui-tooling-preview-android = "1.6.8"
+ui-tooling-preview-android = "1.7.0"
 test-core = "1.6.1"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
-androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigation-runtime-ktx" }
+androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "nav-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-window = { module = "androidx.window:window", version.ref = "window" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -57,7 +56,7 @@ ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
-navigation-compose = { group = "androidx.navigation", name ="navigation-compose", version.ref = "nav_compose" }
+navigation-compose = { group = "androidx.navigation", name ="navigation-compose", version.ref = "nav-compose" }
 material = { group = "com.google.android.material", name ="material", version.ref = "material" }
 
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle-compose" }

@@ -21,14 +21,9 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
-import androidx.glance.material3.ColorProviders
-import androidx.glance.preview.ExperimentalGlancePreviewApi
-import androidx.glance.preview.Preview
 import androidx.glance.text.Text
 import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.comics.presentation.navigation.NavComicItem
-import com.rumosoft.components.presentation.theme.DarkColorPalette
-import com.rumosoft.components.presentation.theme.LightColorPalette
 
 @Composable
 internal fun WidgetContent() {
@@ -82,18 +77,4 @@ private fun openDeepLink(context: Context, deepLink: String) {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
     context.startActivity(intent)
-}
-
-@OptIn(ExperimentalGlancePreviewApi::class)
-@Preview(widthDp = 260, heightDp = 100)
-@Composable
-private fun WidgetContentPreview() {
-    GlanceTheme(
-        colors = ColorProviders(
-            light = LightColorPalette,
-            dark = DarkColorPalette,
-        ),
-    ) {
-        WidgetContent()
-    }
 }

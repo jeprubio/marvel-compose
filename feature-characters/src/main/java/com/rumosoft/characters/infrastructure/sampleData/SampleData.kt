@@ -10,7 +10,7 @@ import com.rumosoft.marvelapi.data.network.apimodels.UrlDto
 object SampleData {
     val heroesDtoSample = (1..10).map {
         HeroDto(
-            id = it,
+            id = it.toLong(),
             name = "Hero$it",
             description = "Description hero $it",
             thumbnail = ImageDto(

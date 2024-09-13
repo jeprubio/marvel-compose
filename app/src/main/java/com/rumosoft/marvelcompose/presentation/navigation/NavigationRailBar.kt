@@ -12,19 +12,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
+import com.rumosoft.components.presentation.deeplinks.Screen
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun NavigationRailBar(
     navigationItems: List<Tabs>,
-    currentRoute: String?,
+    currentScreen: Screen,
     onTabClick: (Tabs) -> Unit = {},
 ) {
     NavigationRail {
         Spacer(modifier = Modifier.height(8.dp))
         navigationItems.forEach { tab ->
             val tabTitle = stringResource(id = tab.title)
-            val selected = currentRoute == tab.route
+            val selected = currentScreen == tab.screen
             NavigationRailItem(
                 icon = {
                     Icon(
@@ -46,7 +48,7 @@ fun NavigationRailBar(
 fun PreviewNavigationRailBar() {
     MarvelComposeTheme {
         NavigationRailBar(
-            currentRoute = Tabs.Characters.route,
+            currentScreen = CharactersScreen,
             navigationItems = listOf(
                 Tabs.Characters,
                 Tabs.Comics,

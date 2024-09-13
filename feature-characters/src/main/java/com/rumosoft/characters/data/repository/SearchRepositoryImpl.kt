@@ -32,6 +32,14 @@ class SearchRepositoryImpl @Inject constructor(
         return networkResult
     }
 
+    override suspend fun getCharacterDetails(heroId: Long): Result<Character?> {
+        val heroDetails = network.getHeroDetails(heroId)
+        if (heroDetails.isSuccess) {
+            Timber.d("Returned hero details")
+        }
+        return network.getHeroDetails(heroId).map { it?.toHero() }
+    }
+
     override suspend fun getThumbnail(comicId: Int): Result<String> {
         return network.getComicThumbnail(comicId)
     }

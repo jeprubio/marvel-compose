@@ -2,23 +2,24 @@ package com.rumosoft.marvelcompose.presentation.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.rumosoft.characters.presentation.navigation.NavCharItem
-import com.rumosoft.comics.presentation.navigation.NavComicItem
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
+import com.rumosoft.components.presentation.deeplinks.ComicsScreen
+import com.rumosoft.components.presentation.deeplinks.Screen
 import com.rumosoft.marvelcompose.R
 
 sealed class Tabs(
-    val route: String,
+    val screen: Screen,
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
 ) {
-    object Characters : Tabs(
-        NavCharItem.Characters.destination,
+    data object Characters : Tabs(
+        CharactersScreen,
         com.rumosoft.characters.R.string.characters,
         R.drawable.ic_characters,
     )
 
-    object Comics : Tabs(
-        NavComicItem.Comics.destination,
+    data object Comics : Tabs(
+        ComicsScreen,
         com.rumosoft.comics.R.string.comics,
         R.drawable.ic_comics,
     )

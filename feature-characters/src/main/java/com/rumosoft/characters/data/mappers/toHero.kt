@@ -10,6 +10,7 @@ import com.rumosoft.marvelapi.data.network.apimodels.toThumbnailUrl
 
 fun HeroDto.toHero(): Character {
     return Character(
+        id = id,
         name = name.orEmpty(),
         description = description.orEmpty(),
         thumbnail = thumbnail?.toThumbnailUrl().orEmpty(),

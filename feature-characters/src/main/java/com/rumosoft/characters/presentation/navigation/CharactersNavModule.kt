@@ -1,46 +1,52 @@
 package com.rumosoft.characters.presentation.navigation
 
-import androidx.core.net.toUri
+import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import androidx.navigation.toRoute
 import com.rumosoft.characters.presentation.screen.DetailsScreen
 import com.rumosoft.characters.presentation.screen.HeroListScreen
 import com.rumosoft.characters.presentation.viewmodel.DetailsViewModel
 import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel
-import com.rumosoft.marvelapi.DeepLinks
+import com.rumosoft.components.presentation.deeplinks.CharacterDetails
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
+import com.rumosoft.components.presentation.deeplinks.ComicDetails
+import com.rumosoft.components.presentation.deeplinks.DEEP_LINKS_BASE_PATH
 
 fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
-    composable(
-        route = NavCharItem.Characters.route,
-        deepLinks = listOf(navDeepLink { uriPattern = NavCharItem.Characters.deepLink }),
+    composable<CharactersScreen>(
+        deepLinks = listOf(navDeepLink<CharactersScreen>(basePath = "$DEEP_LINKS_BASE_PATH/characters")),
     ) { navBackStackEntry ->
         val viewModel: HeroListViewModel = hiltViewModel(navBackStackEntry)
         HeroListScreen(
             viewModel = viewModel,
             onCharacterSelected = { selectedCharacter ->
                 viewModel.resetSelectedCharacter()
-                navController.navigate(NavCharItem.Details.routeOfCharacter(selectedCharacter))
+                navController.navigate(CharacterDetails(selectedCharacter.id))
             },
         )
     }
-    composable(
-        route = NavCharItem.Details.route,
-        arguments = NavCharItem.Details.navArgs,
+    composable<CharacterDetails>(
+        deepLinks = listOf(navDeepLink<CharacterDetails>(basePath = "$DEEP_LINKS_BASE_PATH/characters")),
     ) { navBackStackEntry ->
-        val viewModel: DetailsViewModel = hiltViewModel(navBackStackEntry)
+        val viewModel: DetailsViewModel = hiltViewModel()
+        LaunchedEffect(Unit) {
+            val characterId = navBackStackEntry.toRoute<CharacterDetails>().characterId
+            viewModel.setCharacter(characterId)
+        }
         DetailsScreen(
             viewModel = viewModel,
             onBackPressed = {
                 navController.popBackStack(
-                    route = NavCharItem.Characters.route,
+                    route = CharactersScreen,
                     inclusive = false,
                 )
             },
             onComicSelected = { comicId ->
-                navController.navigate(DeepLinks.ComicDetails.routeOfComic(comicId).toUri())
+                navController.navigate(ComicDetails(comicId))
             },
         )
     }

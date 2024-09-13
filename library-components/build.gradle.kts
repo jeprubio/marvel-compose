@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
     id("shot")
 }
 
@@ -62,6 +63,8 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.lottie.compose)
+
+    implementation(libs.kotlinx.serialization.json)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)

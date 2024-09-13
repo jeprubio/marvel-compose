@@ -2,9 +2,9 @@ package com.rumosoft.marvelcompose.presentation.widget
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -22,8 +22,11 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
 import androidx.glance.text.Text
-import com.rumosoft.characters.presentation.navigation.NavCharItem
-import com.rumosoft.comics.presentation.navigation.NavComicItem
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
+import com.rumosoft.components.presentation.deeplinks.ComicsScreen
+import com.rumosoft.components.presentation.deeplinks.DEEP_LINKS_BASE_PATH
+import com.rumosoft.components.presentation.deeplinks.Screen
+import com.rumosoft.marvelcompose.presentation.MainActivity
 
 @Composable
 internal fun WidgetContent() {
@@ -57,7 +60,7 @@ class OpenCharactersAction : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        openDeepLink(context, NavCharItem.Characters.deepLink)
+        openDeepLink(context, CharactersScreen)
     }
 }
 
@@ -67,13 +70,17 @@ class OpenComicsAction : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        openDeepLink(context, NavComicItem.Comics.deepLink)
+        openDeepLink(context, ComicsScreen)
     }
 }
 
-private fun openDeepLink(context: Context, deepLink: String) {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)).apply {
-        setPackage(context.packageName)
+private fun openDeepLink(context: Context, screen: Screen) {
+    val intent = Intent(context, MainActivity::class.java).apply {
+        if (screen is CharactersScreen) {
+            data = "$DEEP_LINKS_BASE_PATH/characters".toUri()
+        } else {
+            data = "$DEEP_LINKS_BASE_PATH/comics".toUri()
+        }
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
     context.startActivity(intent)

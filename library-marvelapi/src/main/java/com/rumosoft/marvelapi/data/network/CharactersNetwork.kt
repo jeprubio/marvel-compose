@@ -6,6 +6,8 @@ import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 interface CharactersNetwork {
     suspend fun searchHeroes(offset: Int, limit: Int, nameStartsWith: String): Result<HeroesResult>
 
+    suspend fun getHeroDetails(heroId: Long): Result<HeroDto?>
+
     suspend fun getComicThumbnail(comicId: Int): Result<String>
 }
 

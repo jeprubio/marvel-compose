@@ -22,9 +22,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.rumosoft.characters.presentation.navigation.NavCharItem
-import com.rumosoft.comics.presentation.navigation.NavComicItem
 import com.rumosoft.components.presentation.component.isWindowCompact
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
+import com.rumosoft.components.presentation.deeplinks.ComicsScreen
+import com.rumosoft.components.presentation.deeplinks.Screen
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
@@ -70,10 +71,9 @@ fun MarvelApp() {
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
             if (shouldShowBottomBar(navController)) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
                 BottomNavigationBar(
                     navigationItems = navigationItems,
-                    currentRoute = navBackStackEntry?.destination?.route,
+                    currentScreen = getCurrentScreen(navController),
                     onTabClick = { onTabClick(it, navController) },
                 )
             }
@@ -81,10 +81,9 @@ fun MarvelApp() {
     ) { innerPadding ->
         if (shouldShowNavigationRail()) {
             Row {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
                 NavigationRailBar(
                     navigationItems = navigationItems,
-                    currentRoute = navBackStackEntry?.destination?.route,
+                    currentScreen = getCurrentScreen(navController),
                     onTabClick = { onTabClick(it, navController) },
                 )
                 NavigationHost(navController, modifier = Modifier.padding(innerPadding))
@@ -98,10 +97,23 @@ fun MarvelApp() {
 @Composable
 private fun shouldShowBottomBar(
     navController: NavHostController
-) = isWindowCompact() && currentRoute(navController) in listOf(
-    NavCharItem.Characters.destination,
-    NavComicItem.Comics.route,
-)
+): Boolean {
+    println("isWindowCompact: ${isWindowCompact()}")
+    println("currentRoute: ${currentRoute(navController)}")
+    return isWindowCompact() && (
+            currentRoute(navController)?.contains("CharactersScreen") == true ||
+                    currentRoute(navController)?.contains("ComicsScreen") == true)
+}
+
+@Composable
+private fun getCurrentScreen(navController: NavHostController): Screen {
+    val route = navController.currentBackStackEntryAsState().value?.destination?.route
+    return when {
+        route?.contains("CharactersScreen") == true -> CharactersScreen
+        route?.contains("ComicsScreen") == true -> ComicsScreen
+        else -> CharactersScreen
+    }
+}
 
 @Composable
 private fun shouldShowNavigationRail() = !isWindowCompact()

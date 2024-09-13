@@ -14,6 +14,7 @@ import kotlinx.serialization.json.Json
 @Parcelize
 @Serializable
 data class Character(
+    val id: Long,
     val name: String,
     val description: String,
     val thumbnail: String,

@@ -3,7 +3,7 @@ package com.rumosoft.marvelapi.data.network.apimodels
 import com.google.gson.annotations.SerializedName
 
 data class HeroDto(
-    val id: Int? = null,
+    val id: Long,
     val name: String?,
     val description: String? = null,
     val modified: String? = null,

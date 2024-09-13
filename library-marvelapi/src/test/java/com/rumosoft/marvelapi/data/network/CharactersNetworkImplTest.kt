@@ -93,6 +93,7 @@ internal class CharactersNetworkImplTest {
                     count = 1,
                     results = listOf(
                         HeroDto(
+                            id = 0,
                             name = "Batman",
                             thumbnail = ImageDto(
                                 "path",

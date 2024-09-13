@@ -6,16 +6,11 @@ fun onTabClick(
     tab: Tabs,
     navController: NavHostController,
 ) {
-    if (tab.route != navController.currentDestination?.route) {
-        navController.navigate(tab.route) {
-            navController.currentDestination?.route?.let {
-                popUpTo(it) {
-                    saveState = true
-                    inclusive = true
-                }
-            }
-
-            launchSingleTop = true
+    navController.navigate(tab.screen) {
+        popUpTo(tab.screen) {
+            saveState = true
+            inclusive = true
         }
+        launchSingleTop = true
     }
 }

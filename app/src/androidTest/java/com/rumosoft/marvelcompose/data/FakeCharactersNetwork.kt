@@ -20,7 +20,7 @@ class FakeCharactersNetwork @Inject constructor(): CharactersNetwork {
             ),
             characters = (offset .. offset + CHARACTERS_SEARCH_LIMIT).map {
                 HeroDto(
-                    id = it,
+                    id = it.toLong(),
                     name = "character $it",
                     description = "description $it",
                     thumbnail = null,
@@ -30,6 +30,13 @@ class FakeCharactersNetwork @Inject constructor(): CharactersNetwork {
             }
         )
         return Result.success(heroesResult)
+    }
+
+    override suspend fun getHeroDetails(heroId: Long): Result<HeroDto?> {
+        val hero = searchHeroes(0, 0, "").getOrNull()?.characters?.find { it.id == heroId }
+        return hero?.let {
+            Result.success(it)
+        } ?: Result.failure(Exception("Hero not found"))
     }
 
     override suspend fun getComicThumbnail(comicId: Int): Result<String> =

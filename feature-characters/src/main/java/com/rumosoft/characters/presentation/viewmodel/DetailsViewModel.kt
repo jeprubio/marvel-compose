@@ -1,34 +1,37 @@
 package com.rumosoft.characters.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.characters.domain.model.Character
+import com.rumosoft.characters.domain.usecase.GetCharacterDetailsUseCase
 import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
-import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.marvelapi.infrastructure.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase,
+    private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
 ) : ViewModel() {
-
-    val character: Character = savedStateHandle[NavCharItem.Details.navArgs[0].name]!!
     val detailsState: StateFlow<DetailsState> get() = _detailsState
     private val _detailsState =
         MutableStateFlow(initialDetailsState())
 
-    init {
+    fun setCharacter(characterId: Long) {
         viewModelScope.launch {
-            _detailsState.emit(DetailsState.Success(character))
-            loadComicThumbnails(character)
+            Timber.d("characterId: $characterId")
+            val character = getCharacterDetailsUseCase(characterId).getOrNull()
+            if (character != null) {
+                _detailsState.emit(DetailsState.Success(character))
+                loadComicThumbnails(character)
+                return@launch
+            }
         }
     }
 

@@ -9,18 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
+import com.rumosoft.components.presentation.deeplinks.Screen
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun BottomNavigationBar(
     navigationItems: List<Tabs>,
-    currentRoute: String?,
+    currentScreen: Screen,
     onTabClick: (Tabs) -> Unit = {},
 ) {
     NavigationBar {
         navigationItems.forEach { tab ->
             val tabTitle = stringResource(id = tab.title)
-            val selected = currentRoute == tab.route
+            val selected = currentScreen == tab.screen
             NavigationBarItem(
                 icon = {
                     Icon(
@@ -49,7 +51,7 @@ fun BottomNavigationBar(
 fun PreviewBottomNavigationBar() {
     MarvelComposeTheme {
         BottomNavigationBar(
-            currentRoute = Tabs.Characters.route,
+            currentScreen = CharactersScreen,
             navigationItems = listOf(
                 Tabs.Characters,
                 Tabs.Comics,

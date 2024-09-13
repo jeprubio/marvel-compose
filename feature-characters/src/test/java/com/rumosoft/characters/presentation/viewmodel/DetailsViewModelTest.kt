@@ -1,9 +1,8 @@
 package com.rumosoft.characters.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
+import com.rumosoft.characters.domain.usecase.GetCharacterDetailsUseCase
 import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
-import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
@@ -17,16 +16,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestCoroutineExtension::class)
 internal class DetailsViewModelTest {
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase = mockk()
+    private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase = mockk()
     private lateinit var detailsViewModel: DetailsViewModel
     private val hero = SampleData.heroesSampleWithoutImages.first()
-    private val savedStateHandle = SavedStateHandle().apply {
-        this[NavCharItem.Details.navArgs[0].name] = hero
-    }
 
     @Test
     fun `When the view model is created getComicThumbnailUseCase is invoked`() {
         runTest {
             `given getComicThumbnailUseCase invocation returns results`()
+            `given getCharacterDetailsUseCase invocation returns results`()
 
             `when view model is initialised`()
 
@@ -38,6 +36,7 @@ internal class DetailsViewModelTest {
     fun `When the view model is created and getComicThumbnailUseCase returns result the state is Success`() {
         runTest {
             `given getComicThumbnailUseCase invocation returns results`()
+            `given getCharacterDetailsUseCase invocation returns results`()
 
             `when view model is initialised`()
 
@@ -50,8 +49,16 @@ internal class DetailsViewModelTest {
             Result.success("thumbnail")
     }
 
+    private fun `given getCharacterDetailsUseCase invocation returns results`() {
+        coEvery { getCharacterDetailsUseCase.invoke(hero.id) } returns Result.success(hero)
+    }
+
     private fun `when view model is initialised`() {
-        detailsViewModel = DetailsViewModel(savedStateHandle, getComicThumbnailUseCase)
+        detailsViewModel = DetailsViewModel(
+            getComicThumbnailUseCase,
+            getCharacterDetailsUseCase,
+        )
+        detailsViewModel.setCharacter(hero.id)
     }
 
     private fun `then the state is Success`() {

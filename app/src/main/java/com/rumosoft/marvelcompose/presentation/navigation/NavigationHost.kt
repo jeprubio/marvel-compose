@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.rumosoft.characters.presentation.navigation.NavCharItem
 import com.rumosoft.characters.presentation.navigation.charactersGraph
 import com.rumosoft.comics.presentation.navigation.comicsGraph
+import com.rumosoft.components.presentation.deeplinks.CharactersScreen
 
 const val NAVIGATION_HOST_TEST_TAG = "NavigationHost"
 
@@ -15,7 +15,7 @@ const val NAVIGATION_HOST_TEST_TAG = "NavigationHost"
 fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController,
-        startDestination = NavCharItem.Characters.route,
+        startDestination = CharactersScreen,
         modifier = modifier.testTag(NAVIGATION_HOST_TEST_TAG)
     ) {
         charactersGraph(navController)

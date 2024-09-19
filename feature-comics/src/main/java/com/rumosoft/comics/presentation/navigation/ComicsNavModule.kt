@@ -1,12 +1,10 @@
 package com.rumosoft.comics.presentation.navigation
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import androidx.navigation.toRoute
 import com.rumosoft.comics.presentation.screen.ComicDetailsScreen
 import com.rumosoft.comics.presentation.screen.ComicsScreen
 import com.rumosoft.comics.presentation.viewmodel.ComicDetailsViewModel
@@ -32,10 +30,6 @@ fun NavGraphBuilder.comicsGraph(navController: NavHostController) {
         deepLinks = listOf(navDeepLink<ComicDetails>(basePath = "$DEEP_LINKS_BASE_PATH/comics")),
     ) { navBackStackEntry ->
         val viewModel: ComicDetailsViewModel = hiltViewModel(navBackStackEntry)
-        LaunchedEffect(Unit) {
-            val comicId: Int = navBackStackEntry.toRoute<ComicDetails>().comicId
-            viewModel.setComic(comicId)
-        }
         ComicDetailsScreen(
             viewModel = viewModel,
             onBackPressed = {

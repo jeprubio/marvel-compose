@@ -1,12 +1,10 @@
 package com.rumosoft.characters.presentation.navigation
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import androidx.navigation.toRoute
 import com.rumosoft.characters.presentation.screen.DetailsScreen
 import com.rumosoft.characters.presentation.screen.HeroListScreen
 import com.rumosoft.characters.presentation.viewmodel.DetailsViewModel
@@ -32,11 +30,7 @@ fun NavGraphBuilder.charactersGraph(navController: NavHostController) {
     composable<CharacterDetails>(
         deepLinks = listOf(navDeepLink<CharacterDetails>(basePath = "$DEEP_LINKS_BASE_PATH/characters")),
     ) { navBackStackEntry ->
-        val viewModel: DetailsViewModel = hiltViewModel()
-        LaunchedEffect(Unit) {
-            val characterId = navBackStackEntry.toRoute<CharacterDetails>().characterId
-            viewModel.setCharacter(characterId)
-        }
+        val viewModel: DetailsViewModel = hiltViewModel(navBackStackEntry)
         DetailsScreen(
             viewModel = viewModel,
             onBackPressed = {

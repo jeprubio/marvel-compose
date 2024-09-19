@@ -1,5 +1,6 @@
 package com.rumosoft.characters.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.characters.domain.model.Character
@@ -16,14 +17,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase,
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
 ) : ViewModel() {
+    private val characterId: Long = savedStateHandle["characterId"]!!
+
     val detailsState: StateFlow<DetailsState> get() = _detailsState
     private val _detailsState =
         MutableStateFlow(initialDetailsState())
 
-    fun setCharacter(characterId: Long) {
+    init {
+        setCharacter(characterId)
+    }
+
+    private fun setCharacter(characterId: Long) {
         viewModelScope.launch {
             Timber.d("characterId: $characterId")
             val character = getCharacterDetailsUseCase(characterId).getOrNull()

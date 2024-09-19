@@ -11,6 +11,7 @@ import com.rumosoft.marvelapi.infrastructure.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class DetailsViewModel @Inject constructor(
             Timber.d("characterId: $characterId")
             val character = getCharacterDetailsUseCase(characterId).getOrNull()
             if (character != null) {
-                _detailsState.emit(DetailsState.Success(character))
+                _detailsState.update { DetailsState.Success(character) }
                 loadComicThumbnails(character)
                 return@launch
             }
@@ -48,13 +49,15 @@ class DetailsViewModel @Inject constructor(
             val comicId = comic.url.split("/").last().toInt()
             getComicThumbnailUseCase(comicId).fold(
                 onSuccess = { thumb ->
-                    val currentHero = (_detailsState.value as DetailsState.Success).character
-                    val updatedComics = currentHero.comics?.update(
-                        index = index,
-                        item = comic.copy(thumbnail = thumb),
-                    )
-                    val updatedHero = character.copy(comics = updatedComics)
-                    _detailsState.emit(DetailsState.Success(updatedHero))
+                    _detailsState.update {
+                        val currentHero = (_detailsState.value as DetailsState.Success).character
+                        val updatedComics = currentHero.comics?.update(
+                            index = index,
+                            item = comic.copy(thumbnail = thumb),
+                        )
+                        val updatedHero = character.copy(comics = updatedComics)
+                        DetailsState.Success(updatedHero)
+                    }
                 },
                 onFailure = {
                     /* Do nothing */

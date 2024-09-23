@@ -14,10 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -36,18 +36,23 @@ import androidx.compose.ui.unit.sp
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     state: MutableState<TextFieldValue>,
     modifier: Modifier = Modifier,
     hint: String? = null,
+    requestFocus: Boolean = false,
     onValueChanged: (String) -> Unit = {},
     onLeadingClicked: () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
-    val (textFieldFocus) = FocusRequester.createRefs()
+    val focusRequester = remember { FocusRequester() }
     val searchTextContentDescription = stringResource(R.string.search_text)
+    LaunchedEffect(requestFocus) {
+        if (requestFocus) {
+            focusRequester.requestFocus()
+        }
+    }
     TextField(
         value = state.value,
         onValueChange = { value ->
@@ -63,7 +68,7 @@ fun SearchBar(
             }
         },
         modifier = modifier
-            .focusRequester(textFieldFocus)
+            .focusRequester(focusRequester)
             .fillMaxWidth()
             .semantics { contentDescription = searchTextContentDescription },
         textStyle = TextStyle(color = Color.Black, fontSize = 18.sp),

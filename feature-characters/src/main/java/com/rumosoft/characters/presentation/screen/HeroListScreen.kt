@@ -7,9 +7,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsIgnoringVisibility
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -54,6 +59,7 @@ fun HeroListScreen(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HeroListScreenContent(
     heroListState: HeroListState,
@@ -66,8 +72,14 @@ fun HeroListScreenContent(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SearchableTitle(searchText, showSearchBar, onToggleSearchClick, onValueChanged)
-        ResultBox(heroListState)
+        Scaffold(
+            contentWindowInsets = WindowInsets.systemBarsIgnoringVisibility,
+            topBar =  {
+                SearchableTitle(searchText, showSearchBar, onToggleSearchClick, onValueChanged)
+            }
+        ) { contentPadding ->
+            ResultBox(heroListState, modifier = Modifier.padding(contentPadding))
+        }
     }
 }
 
@@ -78,32 +90,37 @@ private fun SearchableTitle(
     onToggleSearchClick: () -> Unit = {},
     onValueChanged: (String) -> Unit = {},
 ) {
-    SectionTopBar(
-        sectionName = R.string.characters,
-        icon = Icons.Default.Search,
-        onIconClick = onToggleSearchClick,
-    )
-    AnimatedVisibility(
-        showSearchBar,
-        enter = fadeIn(),
-        exit = slideOutVertically() + fadeOut(),
-    ) {
-        if (showSearchBar) {
-            SearchBar(
-                state = searchText,
-                hint = stringResource(id = com.rumosoft.components.R.string.search_hint),
-                requestFocus = true,
-                onValueChanged = onValueChanged,
-                onLeadingClicked = onToggleSearchClick,
-            )
+    Column {
+        SectionTopBar(
+            sectionName = R.string.characters,
+            icon = Icons.Default.Search,
+            onIconClick = onToggleSearchClick,
+        )
+        AnimatedVisibility(
+            showSearchBar,
+            enter = fadeIn(),
+            exit = slideOutVertically() + fadeOut(),
+        ) {
+            if (showSearchBar) {
+                SearchBar(
+                    state = searchText,
+                    hint = stringResource(id = com.rumosoft.components.R.string.search_hint),
+                    requestFocus = true,
+                    onValueChanged = onValueChanged,
+                    onLeadingClicked = onToggleSearchClick,
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun ResultBox(heroListState: HeroListState) {
+private fun ResultBox(
+    heroListState: HeroListState,
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
     ) {
         heroListState.BuildUI()

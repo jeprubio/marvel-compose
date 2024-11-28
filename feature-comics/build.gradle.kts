@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
-        testOptions.targetSdk = 34
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        testOptions.targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"

@@ -2,7 +2,6 @@ package com.rumosoft.components.presentation.component
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -38,7 +36,7 @@ fun SectionTopBar(
             Text(
                 text = stringResource(id = sectionName).uppercase(),
                 color = Color.White,
-                fontSize = 70.sp,
+                fontSize = 42.sp,
                 fontFamily = FontFamily(marvelFont),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -59,7 +57,6 @@ fun SectionTopBar(
                 }
             }
         },
-        modifier = Modifier.height(100.dp),
     )
 }
 

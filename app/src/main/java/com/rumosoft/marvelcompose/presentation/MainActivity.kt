@@ -6,8 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -41,13 +43,17 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         installSplashScreen()
+        super.onCreate(savedInstanceState)
+        actionBar?.hide()
 
         setContent {
             MarvelComposeTheme {
-                Surface(color = MarvelComposeTheme.colors.background) {
+                Surface(
+                    color = MarvelComposeTheme.colors.background,
+                    modifier = Modifier.safeDrawingPadding(),
+                ) {
                     MarvelApp()
                 }
             }

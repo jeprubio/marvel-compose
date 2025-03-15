@@ -2,7 +2,6 @@
     <style name="Theme.MarvelCompose" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorAccent">@color/secondary</item>
-        <item name="android:statusBarColor">@color/ribbon_700</item>
     </style>
 
     <style name="Theme.MarvelCompose.NoActionBar"  parent="Theme.AppCompat.DayNight.NoActionBar">

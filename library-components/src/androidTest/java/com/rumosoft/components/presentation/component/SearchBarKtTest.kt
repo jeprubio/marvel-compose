@@ -1,16 +1,11 @@
 package com.rumosoft.components.presentation.component
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
-import androidx.compose.ui.text.input.TextFieldValue
 import com.karumi.shot.ScreenshotTest
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -28,8 +23,7 @@ internal class SearchBarKtTest : ScreenshotTest {
         composeTestRule.setContent {
             clearContentDescription = stringResource(id = R.string.search_clear)
             MarvelComposeTheme {
-                val textState = remember { mutableStateOf(TextFieldValue("")) }
-                SearchBar(state = textState)
+                SearchBar(search = "")
             }
         }
 
@@ -44,37 +38,11 @@ internal class SearchBarKtTest : ScreenshotTest {
         composeTestRule.setContent {
             clearContentDescription = stringResource(id = R.string.search_clear)
             MarvelComposeTheme {
-                val textState = remember { mutableStateOf(TextFieldValue("whatever")) }
-                SearchBar(state = textState)
+                SearchBar(search = "whatever")
             }
         }
 
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
-
-        compareScreenshot(composeTestRule)
-    }
-
-    @Test
-    fun searchBar_clear_icon_cleans_text() {
-        val hint = "hint"
-        lateinit var clearContentDescription: String
-        lateinit var searchTextContentDescription: String
-        composeTestRule.setContent {
-            clearContentDescription = stringResource(id = R.string.search_clear)
-            searchTextContentDescription = stringResource(id = R.string.search_text)
-            MarvelComposeTheme {
-                val textState = remember { mutableStateOf(TextFieldValue("whatever")) }
-                SearchBar(
-                    state = textState,
-                    hint = hint,
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription(clearContentDescription).performClick()
-        composeTestRule.onNodeWithContentDescription(searchTextContentDescription)
-            .assert(hasText(hint))
 
         compareScreenshot(composeTestRule)
     }
@@ -91,9 +59,8 @@ internal class SearchBarKtTest : ScreenshotTest {
         composeTestRule.setContent {
             searchTextContentDescription = stringResource(id = R.string.search_text)
             MarvelComposeTheme {
-                val textState = remember { mutableStateOf(TextFieldValue(initialText)) }
                 SearchBar(
-                    state = textState,
+                    search = initialText,
                     onValueChanged = onValueChanged,
                 )
             }
@@ -113,9 +80,8 @@ internal class SearchBarKtTest : ScreenshotTest {
         composeTestRule.setContent {
             closeContentDescription = stringResource(id = R.string.search_close)
             MarvelComposeTheme {
-                val textState = remember { mutableStateOf(TextFieldValue("whatever")) }
                 SearchBar(
-                    state = textState,
+                    search = "whatever",
                     onLeadingClicked = onLeadingClicked,
                 )
             }

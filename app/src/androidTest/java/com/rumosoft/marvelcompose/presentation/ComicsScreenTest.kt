@@ -31,7 +31,6 @@ class ComicsScreenTest {
         comicsScreenRobot {
         } verify {
             comicIsDisplayed("comic 1")
-            Thread.sleep(5000)
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.rumosoft.components.presentation.component
 
 import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -8,11 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun isExpandedDisplay(activity: Activity = LocalContext.current as Activity): Boolean {
+fun isExpandedDisplay(activity: Activity? = LocalActivity.current): Boolean {
+    if (activity == null) return false
+
     val windowSizeClass = calculateWindowSizeClass(activity = activity)
     val isExpandedDisplay: Boolean by remember {
         derivedStateOf {
@@ -24,7 +26,9 @@ fun isExpandedDisplay(activity: Activity = LocalContext.current as Activity): Bo
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun isWindowCompact(activity: Activity = LocalContext.current as Activity): Boolean {
+fun isWindowCompact(activity: Activity? = LocalActivity.current): Boolean {
+    if (activity == null) return true
+
     val windowSizeClass = calculateWindowSizeClass(activity = activity)
     val isWindowCompact: Boolean by remember {
         derivedStateOf {

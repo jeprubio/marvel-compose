@@ -12,13 +12,17 @@ import com.rumosoft.components.presentation.deeplinks.CharactersScreen
 const val NAVIGATION_HOST_TEST_TAG = "NavigationHost"
 
 @Composable
-fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifier) {
+fun NavigationHost(
+    navController: NavHostController,
+    setTopBarContent: (@Composable () -> Unit) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     NavHost(
         navController,
         startDestination = CharactersScreen,
         modifier = modifier.testTag(NAVIGATION_HOST_TEST_TAG)
     ) {
-        charactersGraph(navController)
-        comicsGraph(navController)
+        charactersGraph(navController, setTopBarContent)
+        comicsGraph(navController, setTopBarContent)
     }
 }

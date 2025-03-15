@@ -15,8 +15,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -29,7 +27,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +35,7 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun SearchBar(
-    state: MutableState<TextFieldValue>,
+    search: String,
     modifier: Modifier = Modifier,
     hint: String? = null,
     requestFocus: Boolean = false,
@@ -54,10 +51,9 @@ fun SearchBar(
         }
     }
     TextField(
-        value = state.value,
-        onValueChange = { value ->
-            state.value = value
-            onValueChanged(value.text)
+        value = search,
+        onValueChange = { newValue: String ->
+            onValueChanged(newValue)
         },
         placeholder = {
             if (hint != null) {
@@ -76,8 +72,8 @@ fun SearchBar(
             SearchBarLeadingIcon(onLeadingClicked)
         },
         trailingIcon = {
-            if (state.value.text != "") {
-                SearchBarTrailingIcon(state, onValueChanged)
+            if (search != "") {
+                SearchBarTrailingIcon(onValueChanged)
             }
         },
         singleLine = true,
@@ -115,13 +111,12 @@ private fun SearchBarLeadingIcon(onLeadingClicked: () -> Unit) {
 
 @Composable
 private fun SearchBarTrailingIcon(
-    state: MutableState<TextFieldValue>,
     onValueChanged: (String) -> Unit,
 ) {
     val clearContentDescription = stringResource(id = R.string.search_clear)
     IconButton(
         onClick = {
-            onCrossIconPressed(state, onValueChanged)
+            onCrossIconPressed(onValueChanged)
         },
         modifier = Modifier.semantics { contentDescription = clearContentDescription },
     ) {
@@ -136,28 +131,23 @@ private fun SearchBarTrailingIcon(
 }
 
 private fun onCrossIconPressed(
-    state: MutableState<TextFieldValue>,
     onValueChanged: (String) -> Unit,
 ) {
-    state.value =
-        TextFieldValue("")
     onValueChanged("")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SearchViewPreviewEmpty() {
-    val textState = remember { mutableStateOf(TextFieldValue("")) }
     MarvelComposeTheme {
-        SearchBar(textState)
+        SearchBar("")
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SearchViewPreviewWithText() {
-    val textState = remember { mutableStateOf(TextFieldValue("Spider")) }
     MarvelComposeTheme {
-        SearchBar(textState)
+        SearchBar("spider")
     }
 }

@@ -1,6 +1,10 @@
 package com.rumosoft.characters.presentation.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
@@ -26,12 +30,20 @@ class DetailsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
     init {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                DetailsScreenContent(
-                    detailsState = DetailsState.Success(
-                        character = FakeCharacters.getSampleCharacters(1).first(),
-                    ),
-                    onBackPressed = { backPressed = true },
-                )
+                Scaffold(
+                    topBar = {
+                        CharacterDetailsTopBar(
+                            onBackPressed = { backPressed = true },
+                        )
+                    },
+                ) { innerPadding ->
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        DetailsScreenContent(
+                            detailsState = DetailsState.Success(FakeCharacters.getSampleCharacters().first()),
+                            onComicSelected = {},
+                        )
+                    }
+                }
             }
         }
     }

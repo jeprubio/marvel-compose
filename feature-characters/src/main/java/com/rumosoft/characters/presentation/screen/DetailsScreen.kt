@@ -1,8 +1,6 @@
 package com.rumosoft.characters.presentation.screen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -20,36 +18,34 @@ import com.rumosoft.components.presentation.component.TopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
+fun CharacterDetailsTopBar(
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TopBar(
+        apBarText = stringResource(R.string.details),
+        leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
+        leftIconContentDescription = stringResource(com.rumosoft.components.R.string.go_back),
+        leftIconPressed = onBackPressed,
+        modifier = modifier,
+    )
+}
+
+@Composable
 fun DetailsScreen(
     viewModel: DetailsViewModel,
-    onBackPressed: () -> Unit,
     onComicSelected: (Int) -> Unit,
 ) {
     val screenState by viewModel.detailsState.collectAsStateWithLifecycle()
-    DetailsScreenContent(screenState, onBackPressed, onComicSelected)
+    DetailsScreenContent(screenState, onComicSelected)
 }
 
 @Composable
 internal fun DetailsScreenContent(
     detailsState: DetailsState,
-    onBackPressed: () -> Unit = {},
     onComicSelected: (Int) -> Unit = {},
 ) {
-    Scaffold(
-        topBar = {
-            TopBar(
-                apBarText = stringResource(R.string.details),
-                leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
-                leftIconContentDescription = stringResource(com.rumosoft.components.R.string.go_back),
-                leftIconPressed = onBackPressed,
-            )
-        },
-    ) { padding ->
-        detailsState.BuildUI(
-            modifier = Modifier.padding(padding),
-            onComicSelected = onComicSelected,
-        )
-    }
+    detailsState.BuildUI(onComicSelected)
 }
 
 @Preview(showBackground = true)

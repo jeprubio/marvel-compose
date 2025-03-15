@@ -6,6 +6,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,21 +18,25 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun TopBar(
     apBarText: String,
-    leftIcon: Painter,
+    modifier: Modifier = Modifier,
+    leftIcon: Painter? = null,
     leftIconContentDescription: String? = null,
     leftIconPressed: () -> Unit = {},
 ) {
     TopAppBar(
         title = { Text(text = apBarText) },
         navigationIcon = {
-            IconButton(onClick = { leftIconPressed.invoke() }) {
-                Icon(
-                    leftIcon,
-                    contentDescription = leftIconContentDescription,
-                    tint = Color.White,
-                )
+            leftIcon?.let {
+                IconButton(onClick = { leftIconPressed.invoke() }) {
+                    Icon(
+                        leftIcon,
+                        contentDescription = leftIconContentDescription,
+                        tint = Color.White,
+                    )
+                }
             }
         },
+        modifier = modifier,
     )
 }
 

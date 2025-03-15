@@ -19,33 +19,32 @@ import com.rumosoft.components.presentation.component.TopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
+fun ComicDetailsTopBar(
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TopBar(
+        apBarText = stringResource(R.string.comic_details),
+        leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
+        leftIconContentDescription = stringResource(com.rumosoft.components.R.string.go_back),
+        leftIconPressed = onBackPressed,
+        modifier = modifier,
+    )
+}
+
+@Composable
 fun ComicDetailsScreen(
     viewModel: ComicDetailsViewModel,
-    onBackPressed: () -> Unit,
 ) {
     val screenState by viewModel.detailsState.collectAsStateWithLifecycle()
-    ComicDetailsScreenContent(screenState, onBackPressed)
+    ComicDetailsScreenContent(screenState)
 }
 
 @Composable
 internal fun ComicDetailsScreenContent(
     screenState: ComicDetailsState,
-    onBackPressed: () -> Unit = {},
 ) {
-    Scaffold(
-        topBar = {
-            TopBar(
-                apBarText = stringResource(R.string.comic_details),
-                leftIcon = painterResource(id = com.rumosoft.components.R.drawable.ic_arrow_back_24),
-                leftIconContentDescription = stringResource(com.rumosoft.components.R.string.go_back),
-                leftIconPressed = onBackPressed,
-            )
-        },
-    ) { padding ->
-        screenState.BuildUI(
-            modifier = Modifier.padding(padding),
-        )
-    }
+    screenState.BuildUI()
 }
 
 @Preview(showBackground = true)

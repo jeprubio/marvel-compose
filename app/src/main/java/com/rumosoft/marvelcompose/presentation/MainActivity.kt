@@ -9,15 +9,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -52,7 +53,6 @@ class MainActivity : ComponentActivity() {
             MarvelComposeTheme {
                 Surface(
                     color = MarvelComposeTheme.colors.background,
-                    modifier = Modifier.safeDrawingPadding(),
                 ) {
                     MarvelApp()
                 }
@@ -71,9 +71,11 @@ fun MarvelApp() {
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    var topBarContent by remember { mutableStateOf<@Composable () -> Unit>({}) }
 
     BackHandler { onAppBack(snackBarHostState, context, scope) }
     Scaffold(
+        topBar = { topBarContent() },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
             if (shouldShowBottomBar(navController)) {
@@ -92,10 +94,18 @@ fun MarvelApp() {
                     currentScreen = getCurrentScreen(navController),
                     onTabClick = { onTabClick(it, navController) },
                 )
-                NavigationHost(navController, modifier = Modifier.padding(innerPadding))
+                NavigationHost(
+                    navController,
+                    setTopBarContent = { topBarContent = it },
+                    modifier = Modifier.padding(innerPadding),
+                )
             }
         } else {
-            NavigationHost(navController, modifier = Modifier.padding(innerPadding))
+            NavigationHost(
+                navController,
+                setTopBarContent = { topBarContent = it },
+                modifier = Modifier.padding(innerPadding),
+            )
         }
     }
 }

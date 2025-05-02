@@ -90,11 +90,8 @@ dependencies {
     implementation(libs.glance.widget)
     implementation(libs.glance.material3)
 
-    testImplementation(libs.konsist)
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.mockk)
-    testImplementation(libs.coroutines.test)
+    testImplementation(project(":library-tests"))
+    testImplementation(libs.bundles.test.utilities)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.core)

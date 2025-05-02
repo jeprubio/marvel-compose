@@ -16,6 +16,7 @@ kotlin {
 }
 
 dependencies {
+    api(platform(libs.junit.bom))
     api(libs.junit.jupiter)
     api(libs.mockk)
     api(libs.coroutines.test)

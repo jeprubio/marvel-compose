@@ -67,8 +67,8 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(libs.konsist)
     testImplementation(project(":library-tests"))
+    testImplementation(libs.konsist)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

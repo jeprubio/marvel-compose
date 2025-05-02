@@ -35,7 +35,7 @@ MARVEL_PUBLIC_KEY=abcdefghijklmnopqrstuvwxyz123456
 
 Wait until gradle finishes and press the play button.
 
-To run the unit tests: `./gradlew lint testDebug --continue`
+To run the unit tests: `./gradlew lint testDebug --continue --rerun-tasks`
 
 To run the UI tests: `./gradlew connectedDebugAndroidTest`
 

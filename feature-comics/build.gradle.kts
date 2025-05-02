@@ -88,9 +88,8 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(libs.konsist)
     testImplementation(project(":library-tests"))
-    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.bundles.test.utilities)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)

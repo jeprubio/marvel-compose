@@ -6,6 +6,7 @@ import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.IOException
 import timber.log.Timber
+import java.util.Locale
 
 class LoggingInterceptor : Interceptor {
     @Throws(IOException::class)
@@ -15,6 +16,7 @@ class LoggingInterceptor : Interceptor {
         val t1 = System.nanoTime()
         Timber.i(
             String.format(
+                Locale.US,
                 "API Sending request %s on %s%n%s",
                 request.url,
                 chain.connection(),
@@ -25,18 +27,19 @@ class LoggingInterceptor : Interceptor {
         val t2 = System.nanoTime()
         Timber.i(
             String.format(
+                Locale.US,
                 "API Received response for %s in %.1fms%n%s",
                 response.request.url,
                 (t2 - t1) / 1e6,
                 response.headers,
             ),
         )
-        val bodyString = response.body?.string()
+        val bodyString = response.body.string()
 
         Timber.d("API response: $bodyString")
 
         return response.newBuilder()
-            .body(bodyString?.toResponseBody(response.body?.contentType()))
+            .body(bodyString.toResponseBody(response.body.contentType()))
             .build()
     }
 }

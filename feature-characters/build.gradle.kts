@@ -67,29 +67,27 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.runtime.compose)
-
     implementation(libs.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
-
-    // Gson + Retrofit (to perform API calls and parse the response)
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okio)
     implementation(libs.okhttp)
-
     implementation(libs.coil.compose)
-
     implementation(libs.timber)
-
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(project(":library-tests"))
     testImplementation(libs.bundles.test.utilities)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.konsist)
+    testImplementation(libs.junitparams)
+    testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.platform.engine)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.core)
@@ -107,6 +105,7 @@ shot {
     applicationId = "com.rumosoft.marvelcomposeshot"
 }
 
+// Ensure JUnit Jupiter tests are run
 tasks.withType<Test> {
     useJUnitPlatform()
 }

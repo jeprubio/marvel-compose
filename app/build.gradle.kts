@@ -92,6 +92,11 @@ dependencies {
 
     testImplementation(project(":library-tests"))
     testImplementation(libs.bundles.test.utilities)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.konsist)
+    testImplementation(libs.junitparams)
+    testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.platform.engine)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.core)

@@ -1,6 +1,6 @@
 [versions]
-agp = "8.12.1"
-compose-bom = "2025.08.00"
+agp = "8.12.2"
+compose-bom = "2025.08.01"
 android-compileSdk = "36"
 android-minSdk = "26"
 android-targetSdk = "36"
@@ -11,8 +11,8 @@ appcompat = "1.7.1"
 core-splashscreen = "1.0.1"
 core-ktx = "1.17.0"
 core-testing = "2.2.0"
-lifecycle-runtime-ktx = "2.9.2"
-lifecycle-compose = "2.9.2"
+lifecycle-runtime-ktx = "2.9.3"
+lifecycle-compose = "2.9.3"
 activity-compose = "1.10.1"
 retrofit = "3.0.0"
 hilt = "2.57.1"
@@ -42,6 +42,7 @@ glance = "1.1.1"
 glance-experimental = "0.2.2"
 ui-tooling-preview-android = "1.9.0"
 test-core = "1.7.0"
+junit-platform = "1.13.4"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -106,6 +107,8 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "ui-tooling-preview-android" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
+junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit-platform" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

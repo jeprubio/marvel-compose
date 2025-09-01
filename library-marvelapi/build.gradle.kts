@@ -69,6 +69,10 @@ dependencies {
 
     testImplementation(project(":library-tests"))
     testImplementation(libs.konsist)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junitparams)
+    testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.platform.engine)
 
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

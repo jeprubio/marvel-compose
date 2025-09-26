@@ -1,5 +1,8 @@
 package com.rumosoft.marvelapi.data.network.apimodels
 
+import androidx.annotation.Keep
+
+@Keep
 data class ComicResults(
     val code: Int? = null,
     val status: String? = null,
@@ -9,6 +12,7 @@ data class ComicResults(
     val data: ComicDataContainer? = null,
 )
 
+@Keep
 data class ComicDataContainer(
     val offset: Int? = null,
     val limit: Int? = null,

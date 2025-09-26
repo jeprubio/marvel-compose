@@ -8,17 +8,18 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.comics.R
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.screen.state.BuildUI
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
+import com.rumosoft.components.R as Rcomponents
 import com.rumosoft.components.presentation.component.SearchBar
 import com.rumosoft.components.presentation.component.SectionTopBar
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -55,7 +56,7 @@ private fun SearchableTitle(
     Column {
         SectionTopBar(
             sectionName = R.string.comics,
-            icon = Icons.Default.Search,
+            icon = ImageVector.vectorResource(Rcomponents.drawable.ic_search),
             onIconClick = onToggleSearchClick,
         )
         AnimatedVisibility(
@@ -66,7 +67,7 @@ private fun SearchableTitle(
             if (showSearchBar) {
                 SearchBar(
                     search = searchText,
-                    hint = stringResource(id = com.rumosoft.components.R.string.search_hint),
+                    hint = stringResource(id = Rcomponents.string.search_hint),
                     requestFocus = true,
                     onValueChanged = onValueChanged,
                     onLeadingClicked = onToggleSearchClick,

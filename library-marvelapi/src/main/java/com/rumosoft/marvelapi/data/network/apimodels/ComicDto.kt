@@ -1,5 +1,8 @@
 package com.rumosoft.marvelapi.data.network.apimodels
 
+import androidx.annotation.Keep
+
+@Keep
 data class ComicDto(
     val id: Int,
     val digitalId: Int? = null,

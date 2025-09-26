@@ -1,7 +1,9 @@
 package com.rumosoft.marvelapi.data.network.apimodels
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class HeroDto(
     val id: Long,
     val name: String?,
@@ -14,11 +16,13 @@ data class HeroDto(
     val comics: ComicsDto? = null,
 )
 
+@Keep
 data class UrlDto(
     val type: String? = null,
     val url: String? = null,
 )
 
+@Keep
 data class ComicsDto(
     val available: Int?,
     val returned: Int?,
@@ -27,6 +31,7 @@ data class ComicsDto(
     val items: List<ComicSummaryDto>? = null,
 )
 
+@Keep
 data class ComicSummaryDto(
     @SerializedName("resourceURI")
     val resourceUri: String? = null,

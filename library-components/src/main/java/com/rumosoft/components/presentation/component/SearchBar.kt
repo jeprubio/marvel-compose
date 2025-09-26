@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -21,8 +18,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -100,7 +100,7 @@ private fun SearchBarLeadingIcon(onLeadingClicked: () -> Unit) {
         modifier = Modifier.semantics { contentDescription = closeContentDescription },
     ) {
         Icon(
-            Icons.Default.KeyboardArrowUp,
+            imageVector = ImageVector.vectorResource(R.drawable.ic_keyboard_arrow_up),
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
@@ -121,7 +121,7 @@ private fun SearchBarTrailingIcon(
         modifier = Modifier.semantics { contentDescription = clearContentDescription },
     ) {
         Icon(
-            Icons.Default.Close,
+            imageVector = ImageVector.vectorResource(R.drawable.ic_close),
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)

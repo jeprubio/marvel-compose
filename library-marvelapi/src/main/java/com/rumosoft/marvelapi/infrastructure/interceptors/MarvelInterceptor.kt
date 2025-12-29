@@ -1,6 +1,5 @@
 package com.rumosoft.marvelapi.infrastructure.interceptors
 
-import com.rumosoft.maverlapi.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.IOException
@@ -8,7 +7,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 
 class MarvelInterceptor : Interceptor {
-    private val apiKey = BuildConfig.MARVEL_PUBLIC_KEY
+    private val apiKey = ""
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -26,7 +25,7 @@ class MarvelInterceptor : Interceptor {
 
     fun hash(ts: String): String {
         val md = MessageDigest.getInstance("MD5")
-        val input = ts + BuildConfig.MARVEL_PRIVATE_KEY + apiKey
+        val input = ts + "" + apiKey
 
         return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
     }

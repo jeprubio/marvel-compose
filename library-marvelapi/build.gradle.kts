@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.secrets.gradle.plugin)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -18,7 +17,7 @@ android {
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        buildConfigField("String", "BASE_URL", "\"https://gateway.marvel.com:443/\"")
+        buildConfigField("String", "BASE_URL", "\"https://marvel.antonioleiva.com/\"")
     }
 
     buildTypes {
@@ -37,9 +36,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
 }
 

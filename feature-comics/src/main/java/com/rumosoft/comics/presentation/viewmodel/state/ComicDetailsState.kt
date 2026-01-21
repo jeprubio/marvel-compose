@@ -9,10 +9,9 @@ const val ComicDetailsSuccessResult = "comicDetailsSuccessResult"
 sealed class ComicDetailsState {
     object Loading : ComicDetailsState()
 
-    class Error(
+    data class Error(
         val throwable: Throwable,
-        val retry: () -> Unit = {},
     ) : ComicDetailsState()
 
-    class Success(val comic: Comic) : ComicDetailsState()
+    data class Success(val comic: Comic) : ComicDetailsState()
 }

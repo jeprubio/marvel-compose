@@ -30,25 +30,26 @@ class ComicListViewModel @Inject constructor(
     }
 
     private fun loadComics(fromStart: Boolean = true) {
-        try {
-            if (fromStart) {
-                currentPage = 1
-            }
-            viewModelScope.launch {
+        if (fromStart) {
+            currentPage = 1
+        }
+        viewModelScope.launch {
+            try {
                 getComicsUseCase(currentPage).fold(
                     onSuccess = { comicsList ->
-                        parseSuccessResponse(comicsList, currentPage++)
+                        parseSuccessResponse(comicsList, currentPage)
+                        currentPage++
                     },
                     onFailure = { throwable ->
                         parseErrorResponse(throwable)
                     },
                 )
+            } catch (exception: CancellationException) {
+                throw exception
+            } catch (exception: Exception) {
+                Timber.e(exception, "Error loading comics: $exception")
+                parseErrorResponse(exception)
             }
-        } catch (exception: CancellationException) {
-            throw exception
-        } catch (exception: Exception) {
-            Timber.e(exception, "Error loading comics: $exception")
-            parseErrorResponse(exception)
         }
     }
 
@@ -64,10 +65,8 @@ class ComicListViewModel @Inject constructor(
             _comicsListScreenState.value
                 .copy(
                     comicListState = ComicListState.Success(
-                        previousList + comicsList,
-                        false,
-                        ::comicClicked,
-                        ::onReachedEnd,
+                        comics = previousList + comicsList,
+                        loadingMore = false,
                     ),
                 )
         }
@@ -93,19 +92,19 @@ class ComicListViewModel @Inject constructor(
 
     private fun parseErrorResponse(throwable: Throwable) {
         _comicsListScreenState.update {
-            it.copy(comicListState = ComicListState.Error(throwable, ::retry))
+            it.copy(comicListState = ComicListState.Error(throwable))
         }
     }
 
-    private fun onReachedEnd() {
+    fun onReachedEnd() {
         loadMoreData()
     }
 
-    private fun retry() {
+    fun retry() {
         loadMoreData()
     }
 
-    private fun loadMoreData() {
+    fun loadMoreData() {
         viewModelScope.launch {
             setLoadingMore(true)
         }

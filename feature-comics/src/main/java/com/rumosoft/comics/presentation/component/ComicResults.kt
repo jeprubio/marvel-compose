@@ -45,7 +45,7 @@ fun ComicResults(
     ) {
         itemsIndexed(comics) { index, comic ->
             if (lastIndex == index) {
-                LaunchedEffect(Unit) {
+                LaunchedEffect(lastIndex) {
                     onLastElementReached(onEndReached)
                 }
             }

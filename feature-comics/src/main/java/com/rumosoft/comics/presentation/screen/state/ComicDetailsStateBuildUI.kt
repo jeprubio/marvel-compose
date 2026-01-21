@@ -24,10 +24,11 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 @Composable
 fun ComicDetailsState.BuildUI(
     modifier: Modifier = Modifier,
+    onRetry: () -> Unit = {},
 ) {
     when (this) {
         is Loading -> BuildLoading()
-        is Error -> BuildError()
+        is Error -> BuildError(onRetry)
         is Success -> ComicDetails(comic, modifier)
     }
 }
@@ -45,12 +46,12 @@ private fun BuildLoading() {
 }
 
 @Composable
-private fun Error.BuildError() {
+private fun Error.BuildError(onRetry: () -> Unit) {
     val message = stringResource(id = com.rumosoft.components.R.string.error_data_message)
     ErrorMessage(
         message = message,
         modifier = Modifier.testTag(ComicDetailsErrorResult),
-        onRetry = retry,
+        onRetry = onRetry,
     )
 }
 

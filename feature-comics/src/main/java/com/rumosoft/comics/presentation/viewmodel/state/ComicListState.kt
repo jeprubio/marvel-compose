@@ -18,15 +18,13 @@ sealed class ComicListState {
 
     object Loading : ComicListState()
 
-    class Error(
+    data class Error(
         val throwable: Throwable,
-        val retry: () -> Unit = {},
     ) : ComicListState()
 
-    class Success(
+    data class Success(
         val comics: List<Comic>?,
         val loadingMore: Boolean = false,
-        val onClick: (Comic) -> Unit = {},
-        val onEndReached: () -> Unit = {},
+        val hasMorePages: Boolean = true,
     ) : ComicListState()
 }

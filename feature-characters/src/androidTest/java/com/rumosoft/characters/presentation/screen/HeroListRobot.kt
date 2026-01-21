@@ -45,8 +45,10 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
                         HeroListScreenContent(
                             heroListState = HeroListState.Success(
                                 characters = FakeCharacters.getSampleCharacters(15),
-                                onEndReached = { endReached = true }
-                            )
+                            ),
+                            onCharacterClick = {},
+                            onEndReached = { endReached = true },
+                            onRetry = {}
                         )
                     }
                 }

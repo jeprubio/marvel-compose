@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.component.ComicResults
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -27,11 +28,15 @@ import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
-fun ComicListState.BuildUI() {
+fun ComicListState.BuildUI(
+    onComicClick: (Comic) -> Unit = {},
+    onEndReached: () -> Unit = {},
+    onRetry: () -> Unit = {},
+) {
     when (this) {
         is Loading -> BuildLoading()
-        is Error -> BuildError()
-        is Success -> BuildSuccess()
+        is Error -> BuildError(onRetry)
+        is Success -> BuildSuccess(onComicClick, onEndReached)
     }
 }
 
@@ -48,7 +53,7 @@ private fun BuildLoading() {
 }
 
 @Composable
-private fun Error.BuildError() {
+private fun Error.BuildError(onRetry: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +68,7 @@ private fun Error.BuildError() {
         )
         Spacer(modifier = Modifier.padding(top = MarvelComposeTheme.paddings.defaultPadding))
         Button(
-            onClick = { retry.invoke() },
+            onClick = { onRetry.invoke() },
             modifier = Modifier.testTag(ComicListState.RetryTag),
         ) {
             Text(text = stringResource(id = com.rumosoft.components.R.string.retry))
@@ -72,13 +77,16 @@ private fun Error.BuildError() {
 }
 
 @Composable
-private fun Success.BuildSuccess() {
+private fun Success.BuildSuccess(
+    onComicClick: (Comic) -> Unit,
+    onEndReached: () -> Unit,
+) {
     comics?.takeIf { it.isNotEmpty() }?.let {
         ComicResults(
             comics = comics,
             loadingMore = loadingMore,
             modifier = Modifier.testTag(ComicListState.SuccessResult),
-            onClick = onClick,
+            onClick = onComicClick,
             onEndReached = onEndReached,
         )
     } ?: run {

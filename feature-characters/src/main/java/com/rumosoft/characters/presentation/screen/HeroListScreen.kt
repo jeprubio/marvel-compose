@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.characters.R
+import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.screen.state.BuildUI
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
@@ -23,12 +24,20 @@ fun CharactersTopBar() {
 @Composable
 fun HeroListScreenContent(
     heroListState: HeroListState,
+    onCharacterClick: (Character) -> Unit = {},
+    onEndReached: () -> Unit = {},
+    onRetry: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        ResultBox(heroListState)
+        ResultBox(
+            heroListState = heroListState,
+            onCharacterClick = onCharacterClick,
+            onEndReached = onEndReached,
+            onRetry = onRetry,
+        )
     }
 }
 
@@ -36,13 +45,20 @@ fun HeroListScreenContent(
 @Composable
 private fun ResultBox(
     heroListState: HeroListState,
+    onCharacterClick: (Character) -> Unit,
+    onEndReached: () -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize(),
     ) {
-        heroListState.BuildUI()
+        heroListState.BuildUI(
+            onCharacterClick = onCharacterClick,
+            onEndReached = onEndReached,
+            onRetry = onRetry,
+        )
     }
 }
 

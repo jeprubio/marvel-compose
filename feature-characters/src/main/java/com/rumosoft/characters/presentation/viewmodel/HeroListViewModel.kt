@@ -30,23 +30,24 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun loadCharacters(fromStart: Boolean = true) {
-        try {
-            if (fromStart) {
-                currentPage = 1
-            }
-            viewModelScope.launch {
+        if (fromStart) {
+            currentPage = 1
+        }
+        viewModelScope.launch {
+            try {
                 getCharactersUseCase(currentPage).fold(
                     onSuccess = { charactersList ->
-                        parseSuccessResponse(charactersList, currentPage++)
+                        parseSuccessResponse(charactersList, currentPage)
+                        currentPage++
                     },
                     onFailure = { parseErrorResponse(it) },
                 )
+            } catch (exception: CancellationException) {
+                throw exception
+            } catch (exception: Exception) {
+                Timber.e(exception, "Error loading characters: $exception")
+                parseErrorResponse(exception)
             }
-        } catch (exception: CancellationException) {
-            throw exception
-        } catch (exception: Exception) {
-            Timber.e(exception, "Error loading characters: $exception")
-            parseErrorResponse(exception)
         }
     }
 
@@ -62,10 +63,8 @@ class HeroListViewModel @Inject constructor(
             _heroListScreenState.value
                 .copy(
                     heroListState = HeroListState.Success(
-                        previousList + charactersList,
-                        false,
-                        ::characterClicked,
-                        ::onReachedEnd,
+                        characters = previousList + charactersList,
+                        loadingMore = false,
                     ),
                 )
         }
@@ -91,19 +90,19 @@ class HeroListViewModel @Inject constructor(
 
     private fun parseErrorResponse(throwable: Throwable) {
         _heroListScreenState.update {
-            it.copy(heroListState = HeroListState.Error(throwable, ::retry))
+            it.copy(heroListState = HeroListState.Error(throwable))
         }
     }
 
-    private fun onReachedEnd() {
+    fun onReachedEnd() {
         loadMoreData()
     }
 
-    private fun retry() {
+    fun retry() {
         loadMoreData()
     }
 
-    private fun loadMoreData() {
+    fun loadMoreData() {
         viewModelScope.launch {
             setLoadingMore(true)
         }

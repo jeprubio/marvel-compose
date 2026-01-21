@@ -46,7 +46,9 @@ internal class ComicListScreenStateTest : ScreenshotTest {
     fun comicListState_error_shows_error_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicListState.Error(Exception("Error")).BuildUI()
+                ComicListState.Error(Exception("Error")).BuildUI(
+                    onRetry = {}
+                )
             }
         }
 
@@ -61,7 +63,9 @@ internal class ComicListScreenStateTest : ScreenshotTest {
         val retryFun: () -> Unit = { retried = true }
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicListState.Error(Exception("Error"), retryFun).BuildUI()
+                ComicListState.Error(Exception("Error")).BuildUI(
+                    onRetry = retryFun
+                )
             }
         }
 
@@ -73,7 +77,10 @@ internal class ComicListScreenStateTest : ScreenshotTest {
     fun comicListState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicListState.Success(SampleData.comicsSample).BuildUI()
+                ComicListState.Success(SampleData.comicsSample).BuildUI(
+                    onComicClick = {},
+                    onEndReached = {}
+                )
             }
         }
 
@@ -86,7 +93,10 @@ internal class ComicListScreenStateTest : ScreenshotTest {
     fun comicListState_success_with_no_data_shows_no_results() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicListState.Success(emptyList()).BuildUI()
+                ComicListState.Success(emptyList()).BuildUI(
+                    onComicClick = {},
+                    onEndReached = {}
+                )
             }
         }
 

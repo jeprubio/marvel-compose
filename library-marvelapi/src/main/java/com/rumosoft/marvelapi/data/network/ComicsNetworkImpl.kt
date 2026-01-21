@@ -3,6 +3,7 @@ package com.rumosoft.marvelapi.data.network
 import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
 import com.rumosoft.marvelapi.data.network.apimodels.ErrorParsingException
 import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
+import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,8 +23,8 @@ class ComicsNetworkImpl @Inject constructor(
                 Result.success(
                     ComicsResult(
                         paginationInfo = PaginationInfo(
-                            current = data.offset?.div(20) ?: 1,
-                            total = data.total?.div(20) ?: Int.MAX_VALUE,
+                            current = data.offset?.div(limit) ?: 1,
+                            total = data.total?.div(limit) ?: Int.MAX_VALUE,
                         ),
                         comics = data.results.orEmpty(),
                     ),
@@ -32,6 +33,8 @@ class ComicsNetworkImpl @Inject constructor(
                 Timber.d("Error parsing results")
                 Result.failure(ErrorParsingException("No results"))
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
             Result.failure(e)
@@ -41,7 +44,11 @@ class ComicsNetworkImpl @Inject constructor(
     override suspend fun fetchComic(comicId: Int): Result<ComicDto> {
         return try {
             val result = marvelService.searchComic(comicId)
-            Result.success(result.data?.results?.first()!!)
+            result.data?.results?.firstOrNull()?.let {
+                Result.success(it)
+            } ?: Result.failure(ErrorParsingException("Comic not found"))
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.d("Something went wrong: $e")
             Result.failure(e)

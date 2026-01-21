@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.component.HeroResults
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListErrorResult
@@ -25,11 +26,15 @@ import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
-fun HeroListState.BuildUI() {
+fun HeroListState.BuildUI(
+    onCharacterClick: (Character) -> Unit = {},
+    onEndReached: () -> Unit = {},
+    onRetry: () -> Unit = {},
+) {
     when (this) {
         is Loading -> BuildLoading()
-        is Error -> BuildError()
-        is Success -> BuildSuccess()
+        is Error -> BuildError(onRetry)
+        is Success -> BuildSuccess(onCharacterClick, onEndReached)
     }
 }
 
@@ -46,23 +51,26 @@ private fun BuildLoading() {
 }
 
 @Composable
-private fun Error.BuildError() {
+private fun BuildError(onRetry: () -> Unit) {
     val message = stringResource(id = com.rumosoft.components.R.string.error_data_message)
     ErrorMessage(
         message = message,
         modifier = Modifier.testTag(HeroListErrorResult),
-        onRetry = retry,
+        onRetry = onRetry,
     )
 }
 
 @Composable
-private fun Success.BuildSuccess() {
+private fun Success.BuildSuccess(
+    onCharacterClick: (Character) -> Unit,
+    onEndReached: () -> Unit,
+) {
     characters?.takeIf { it.isNotEmpty() }?.let {
         HeroResults(
             characters = characters,
             loadingMore = loadingMore,
             modifier = Modifier.testTag(HeroListSuccessResult),
-            onClick = onClick,
+            onClick = onCharacterClick,
             onEndReached = onEndReached,
         )
     } ?: run {

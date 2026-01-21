@@ -36,7 +36,7 @@ class CharactersRepositoryImpl @Inject constructor(
         if (heroDetails.isSuccess) {
             Timber.d("Returned hero details")
         }
-        return network.getHeroDetails(heroId).map { it?.toHero() }
+        return heroDetails.map { it?.toHero() }
     }
 
     override suspend fun getThumbnail(comicId: Int): Result<String> {

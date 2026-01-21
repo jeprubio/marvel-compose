@@ -46,7 +46,9 @@ internal class CharacterListStateTest : ScreenshotTest {
     fun heroListResult_error_shows_error_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Error(Exception("Error")).BuildUI()
+                HeroListState.Error(Exception("Error")).BuildUI(
+                    onRetry = {}
+                )
             }
         }
 
@@ -61,7 +63,9 @@ internal class CharacterListStateTest : ScreenshotTest {
         val retryFun: () -> Unit = { retried = true }
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Error(Exception("Error"), retryFun).BuildUI()
+                HeroListState.Error(Exception("Error")).BuildUI(
+                    onRetry = retryFun
+                )
             }
         }
 
@@ -73,7 +77,10 @@ internal class CharacterListStateTest : ScreenshotTest {
     fun heroListResult_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Success(SampleData.heroesSampleWithoutImages).BuildUI()
+                HeroListState.Success(SampleData.heroesSampleWithoutImages).BuildUI(
+                    onCharacterClick = {},
+                    onEndReached = {}
+                )
             }
         }
 
@@ -86,7 +93,10 @@ internal class CharacterListStateTest : ScreenshotTest {
     fun heroListResult_success_with_no_data_shows_no_results() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Success(emptyList()).BuildUI()
+                HeroListState.Success(emptyList()).BuildUI(
+                    onCharacterClick = {},
+                    onEndReached = {}
+                )
             }
         }
 

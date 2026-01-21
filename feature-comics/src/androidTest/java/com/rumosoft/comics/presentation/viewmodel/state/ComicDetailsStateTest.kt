@@ -38,7 +38,9 @@ internal class ComicDetailsStateTest : ScreenshotTest {
     fun comicDetailsState_error_shows_error_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicDetailsState.Error(Exception("Error")).BuildUI()
+                ComicDetailsState.Error(Exception("Error")).BuildUI(
+                    onRetry = {}
+                )
             }
         }
 
@@ -53,7 +55,9 @@ internal class ComicDetailsStateTest : ScreenshotTest {
         val retryFun: () -> Unit = { retried = true }
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicDetailsState.Error(Exception("Error"), retryFun).BuildUI()
+                ComicDetailsState.Error(Exception("Error")).BuildUI(
+                    onRetry = retryFun
+                )
             }
         }
 

@@ -47,8 +47,10 @@ class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
                         ComicsScreenContent(
                             comicListState = ComicListState.Success(
                                 comics = FakeComics.getSampleComics(20),
-                                onEndReached = { endReached = true }
                             ),
+                            onComicClick = {},
+                            onEndReached = { endReached = true },
+                            onRetry = {}
                         )
                     }
                 }

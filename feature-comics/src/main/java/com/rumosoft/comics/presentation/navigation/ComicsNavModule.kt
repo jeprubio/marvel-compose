@@ -39,6 +39,9 @@ fun NavGraphBuilder.comicsGraph(
         }
         ComicsScreenContent(
             comicListState = comicsScreenState.comicListState,
+            onComicClick = viewModel::comicClicked,
+            onEndReached = viewModel::onReachedEnd,
+            onRetry = viewModel::retry,
         )
     }
     composable<ComicDetails>(

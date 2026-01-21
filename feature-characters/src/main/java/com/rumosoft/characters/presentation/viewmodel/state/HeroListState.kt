@@ -15,15 +15,13 @@ data class HeroListScreenState(
 sealed class HeroListState {
     object Loading : HeroListState()
 
-    class Error(
+    data class Error(
         val throwable: Throwable,
-        val retry: () -> Unit = {},
     ) : HeroListState()
 
-    class Success(
+    data class Success(
         val characters: List<Character>?,
         val loadingMore: Boolean = false,
-        val onClick: (Character) -> Unit = {},
-        val onEndReached: () -> Unit = {},
+        val hasMorePages: Boolean = true,
     ) : HeroListState()
 }

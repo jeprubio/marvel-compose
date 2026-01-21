@@ -1,6 +1,8 @@
 # Marvel Compose App
 
-App created in compose that displays Marvel heroes using the [marvel api](https://developer.marvel.com/docs)
+App created in compose that displays Marvel heroes using a [Marvel API clone](https://gateway.marvel.com:443/docs)
+
+> **Note**: This app originally used the official Marvel API, but after its closure, it has been migrated to use an alternative Marvel API clone.
 
 This app uses MVVM but trying to follow the [Recommended app architecture](https://developer.android.com/jetpack/guide#recommended-app-arch)
 at the same time.

@@ -60,7 +60,7 @@ fun HeroResults(
     ) {
         itemsIndexed(characters) { index, hero ->
             if (lastIndex == index) {
-                LaunchedEffect(Unit) {
+                LaunchedEffect(lastIndex) {
                     onLastElementReached(onEndReached)
                 }
             }

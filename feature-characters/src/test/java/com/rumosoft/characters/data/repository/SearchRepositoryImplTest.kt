@@ -1,6 +1,6 @@
 package com.rumosoft.characters.data.repository
 
-import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import com.rumosoft.marvelapi.data.network.CharactersNetwork
@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestCoroutineExtension::class)
-internal class SearchRepositoryImplTest {
+internal class CharactersRepositoryImplTest {
     @MockK
     lateinit var marvelNetwork: CharactersNetwork
-    private val searchRepository: SearchRepository
+    private val charactersRepository: CharactersRepository
     private val comicId = 1
     private val thumbnailUrl = "thumbnailUrl"
     private val offset = 0
@@ -26,17 +26,17 @@ internal class SearchRepositoryImplTest {
 
     init {
         MockKAnnotations.init(this)
-        searchRepository = SearchRepositoryImpl(marvelNetwork)
+        charactersRepository = CharactersRepositoryImpl(marvelNetwork)
     }
 
     @Test
-    fun `searchHeroes is called when calling performSearch in the repository`() =
+    fun `getHeroes is called when calling getCharacters in the repository`() =
         runTest {
-            `given searchHeroes invocation on network returns results`()
+            `given getHeroes invocation on network returns results`()
 
-            `when performSearch on repo gets invoked`()
+            `when getCharacters on repo gets invoked`()
 
-            `then searchHeroes gets executed on network`()
+            `then getHeroes gets executed on network`()
         }
 
     @Test
@@ -49,8 +49,8 @@ internal class SearchRepositoryImplTest {
             `then getComicThumbnail gets executed on network`()
         }
 
-    private fun `given searchHeroes invocation on network returns results`() {
-        coEvery { marvelNetwork.searchHeroes(offset, limit, "") } returns
+    private fun `given getHeroes invocation on network returns results`() {
+        coEvery { marvelNetwork.getHeroes(offset, limit) } returns
             Result.success(
                 HeroesResult(
                     PaginationInfo(1, 1),
@@ -64,18 +64,18 @@ internal class SearchRepositoryImplTest {
             Result.success(thumbnailUrl)
     }
 
-    private suspend fun `when performSearch on repo gets invoked`(times: Int = 1) {
+    private suspend fun `when getCharacters on repo gets invoked`(times: Int = 1) {
         repeat(times) {
-            searchRepository.performSearch("", 1)
+            charactersRepository.getCharacters(1)
         }
     }
 
     private suspend fun `when getThumbnail on repo gets invoked`() {
-        searchRepository.getThumbnail(comicId)
+        charactersRepository.getThumbnail(comicId)
     }
 
-    private fun `then searchHeroes gets executed on network`() {
-        coVerify { marvelNetwork.searchHeroes(offset, limit, "") }
+    private fun `then getHeroes gets executed on network`() {
+        coVerify { marvelNetwork.getHeroes(offset, limit) }
     }
 
     private fun `then getComicThumbnail gets executed on network`() {

@@ -3,10 +3,7 @@ package com.rumosoft.comics.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -37,21 +34,8 @@ fun NavGraphBuilder.comicsGraph(
                 navController.navigate(ComicDetails(selectedComic.id))
             }
         }
-        var search by remember { mutableStateOf("") }
-        val onToggleSearchClick = {
-            viewModel.onToggleSearchClick()
-        }
-        val onValueChanged = { value: String ->
-            search = value
-            viewModel.onQueryChanged(value)
-        }
         setTopBarContent {
-            ComicsTopBar(
-                search,
-                comicsScreenState.showingSearchBar,
-                onToggleSearchClick,
-                onValueChanged
-            )
+            ComicsTopBar()
         }
         ComicsScreenContent(
             comicListState = comicsScreenState.comicListState,

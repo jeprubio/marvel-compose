@@ -44,10 +44,6 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-
-    implementation(libs.navigation.compose)
-    implementation(libs.androidx.navigation.runtime.ktx)
-
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -59,10 +55,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.hilt.navigation.compose)
-
     implementation(libs.kotlinx.serialization.json)
-
     testImplementation(project(":library-tests"))
     testImplementation(libs.konsist)
     testImplementation(libs.junit.jupiter)

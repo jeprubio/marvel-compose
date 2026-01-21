@@ -47,20 +47,20 @@ internal class ComicsNetworkImplIntegrationTest {
     }
 
     @Test
-    fun `Successful response performing search returns Success`() =
+    fun `Successful response performing getComics returns Success`() =
         runTest {
-            `given a response is returned when searchComics gets called on the service`()
-            val response = `when searchComics gets called on the network`()
+            `given a response is returned when getComics gets called on the service`()
+            val response = `when getComics gets called on the network`()
 
             `then the response should be of type Success`(response)
-            `then there should be one element in the returned search data`(response)
+            `then there should be one element in the returned data`(response)
         }
 
     @Test
-    fun `Error performing search returns Error`() =
+    fun `Error performing getComics returns Error`() =
         runTest {
-            `given an exception is thrown when searchComics gets called on the service`()
-            val response = `when searchComics gets called on the network`()
+            `given an exception is thrown when getComics gets called on the service`()
+            val response = `when getComics gets called on the network`()
 
             `then the response should be of type Error`(response)
         }
@@ -83,7 +83,7 @@ internal class ComicsNetworkImplIntegrationTest {
             `then the response should be of type Error`(response)
         }
 
-    private fun `given a response is returned when searchComics gets called on the service`() {
+    private fun `given a response is returned when getComics gets called on the service`() {
         FileReader.readFile("search_comics.json")?.also {
             mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(it))
         }
@@ -95,7 +95,7 @@ internal class ComicsNetworkImplIntegrationTest {
         }
     }
 
-    private fun `given an exception is thrown when searchComics gets called on the service`() {
+    private fun `given an exception is thrown when getComics gets called on the service`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
     }
 
@@ -103,8 +103,8 @@ internal class ComicsNetworkImplIntegrationTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
     }
 
-    private suspend fun `when searchComics gets called on the network`(): Result<ComicsResult> {
-        return comicsNetwork.searchComics(offset, limit, "")
+    private suspend fun `when getComics gets called on the network`(): Result<ComicsResult> {
+        return comicsNetwork.getComics(offset, limit)
     }
 
     private suspend fun `when fetchComic gets called on the network`(): Result<ComicDto> {
@@ -115,7 +115,7 @@ internal class ComicsNetworkImplIntegrationTest {
         Assertions.assertTrue(response.isSuccess)
     }
 
-    private fun `then there should be one element in the returned search data`(response: Result<ComicsResult>) {
+    private fun `then there should be one element in the returned data`(response: Result<ComicsResult>) {
         `then the response should be of type Success`(response)
         assertEquals(Result.success(1), response.map { it.comics!!.size })
     }

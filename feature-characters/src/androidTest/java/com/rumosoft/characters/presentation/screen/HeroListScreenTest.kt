@@ -16,23 +16,6 @@ class HeroListScreenTest {
         }
     }
 
-    @Test
-    fun whenMagnifierTappedItShowsSearchTextInput() {
-        heroListRobot {
-            onMagnifierTapped()
-        } verify {
-            searchIsDisplayed()
-        }
-    }
-
-    @Test
-    fun whenCharacterIsSearchedItsShownInSearchTextInput() {
-        heroListRobot {
-            onCharacterSearched("searchText")
-        } verify {
-            textIsSearched("searchText")
-        }
-    }
 
     @Test
     fun withoutASwipeUpEndReachedIsNotInvoked() {

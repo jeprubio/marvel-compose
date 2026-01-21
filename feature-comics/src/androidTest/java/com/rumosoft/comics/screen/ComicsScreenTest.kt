@@ -16,23 +16,6 @@ class ComicsScreenTest {
         }
     }
 
-    @Test
-    fun whenMagnifierTappedItShowsSearchTextInput() {
-        comicsScreenRobot {
-            onMagnifierTapped()
-        } verify {
-            searchIsDisplayed()
-        }
-    }
-
-    @Test
-    fun whenComicIsSearchedItsShownInSearchTextInput() {
-        comicsScreenRobot {
-            onComicSearched("searchText")
-        } verify {
-            textIsSearched("searchText")
-        }
-    }
 
     @Test
     fun withoutASwipeUpEndReachedIsNotInvoked() {

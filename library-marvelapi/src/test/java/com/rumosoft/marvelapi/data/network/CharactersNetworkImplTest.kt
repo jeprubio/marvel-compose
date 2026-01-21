@@ -32,32 +32,32 @@ internal class CharactersNetworkImplTest {
     }
 
     @Test
-    fun `Successful response performing search returns Success`() =
+    fun `Successful response performing getHeroes returns Success`() =
         runTest {
-            `given a response is returned when searchHeroes gets called on the service`()
+            `given a response is returned when getHeroes gets called on the service`()
 
-            val response = `when searchHeroes gets called on the network`()
+            val response = `when getHeroes gets called on the network`()
 
             `then the response should be of type Success`(response)
             `then there should be one element in the returned data`(response)
         }
 
     @Test
-    fun `Response without data performing search returns Error`() =
+    fun `Response without data performing getHeroes returns Error`() =
         runTest {
-            `given a response with no data is returned when searchHeroes gets called on the service`()
+            `given a response with no data is returned when getHeroes gets called on the service`()
 
-            val response = `when searchHeroes gets called on the network`()
+            val response = `when getHeroes gets called on the network`()
 
             `then the response should be of type Error`(response)
         }
 
     @Test
-    fun `Error performing search returns Error`() =
+    fun `Error performing getHeroes returns Error`() =
         runTest {
-            `given an exception is thrown when searchHeroes gets called on the service`()
+            `given an exception is thrown when getHeroes gets called on the service`()
 
-            val response = `when searchHeroes gets called on the network`()
+            val response = `when getHeroes gets called on the network`()
 
             `then the response should be of type Error`(response)
         }
@@ -83,8 +83,8 @@ internal class CharactersNetworkImplTest {
             `then the getComicThumbnail response should be of type Error`(response)
         }
 
-    private fun `given a response is returned when searchHeroes gets called on the service`() {
-        coEvery { marvelService.searchHeroes(offset = offset, limit = limit) } returns
+    private fun `given a response is returned when getHeroes gets called on the service`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
             HeroResults(
                 data = SearchData(
                     offset = 0,
@@ -105,8 +105,8 @@ internal class CharactersNetworkImplTest {
             )
     }
 
-    private fun `given a response with no data is returned when searchHeroes gets called on the service`() {
-        coEvery { marvelService.searchHeroes(offset = offset, limit = limit) } returns
+    private fun `given a response with no data is returned when getHeroes gets called on the service`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
             HeroResults()
     }
 
@@ -128,16 +128,16 @@ internal class CharactersNetworkImplTest {
             )
     }
 
-    private fun `given an exception is thrown when searchHeroes gets called on the service`() {
-        coEvery { marvelService.searchHeroes() } throws Exception()
+    private fun `given an exception is thrown when getHeroes gets called on the service`() {
+        coEvery { marvelService.getHeroes() } throws Exception()
     }
 
     private fun `given an exception is thrown when searchComic gets called on the service`() {
         coEvery { marvelService.searchComic(any()) } throws Exception()
     }
 
-    private suspend fun `when searchHeroes gets called on the network`(): Result<HeroesResult> {
-        return charactersNetwork.searchHeroes(offset, limit, "")
+    private suspend fun `when getHeroes gets called on the network`(): Result<HeroesResult> {
+        return charactersNetwork.getHeroes(offset, limit)
     }
 
     private suspend fun `when getComicThumbnail gets called on the network`(): Result<String> {

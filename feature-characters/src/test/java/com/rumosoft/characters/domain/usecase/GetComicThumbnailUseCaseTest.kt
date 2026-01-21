@@ -1,6 +1,6 @@
 package com.rumosoft.characters.domain.usecase
 
-import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestCoroutineExtension::class)
 internal class GetComicThumbnailUseCaseTest {
     @MockK
-    val repo: SearchRepository = mockk()
+    val repo: CharactersRepository = mockk()
     private val useCase: GetComicThumbnailUseCase = GetComicThumbnailUseCase(repo)
     private val comicId = 1
     private val thumbnailUrl = "thumbnailUrl"

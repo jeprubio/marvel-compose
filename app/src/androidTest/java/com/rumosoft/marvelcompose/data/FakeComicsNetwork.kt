@@ -1,6 +1,5 @@
 package com.rumosoft.marvelcompose.data
 
-import com.rumosoft.characters.data.repository.CHARACTERS_SEARCH_LIMIT
 import com.rumosoft.marvelapi.data.network.ComicsNetwork
 import com.rumosoft.marvelapi.data.network.ComicsResult
 import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
@@ -8,17 +7,16 @@ import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 import javax.inject.Inject
 
 class FakeComicsNetwork @Inject constructor(): ComicsNetwork {
-    override suspend fun searchComics(
+    override suspend fun getComics(
         offset: Int,
         limit: Int,
-        titleStartsWith: String
     ): Result<ComicsResult> {
         val comicsResult = ComicsResult(
             paginationInfo = PaginationInfo(
                 current = 0,
                 total = 0,
             ),
-            comics = (offset..offset + CHARACTERS_SEARCH_LIMIT).map {
+            comics = (offset..offset + limit).map {
                 ComicDto(
                     id = it,
                     title = "comic $it",

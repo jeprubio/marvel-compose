@@ -15,16 +15,13 @@ class ComicsRepositoryImpl @Inject constructor(
 ) : ComicsRepository {
     private var isRequestInProgress = false
 
-    override suspend fun performSearch(
-        titleStartsWith: String,
-        page: Int,
-    ): Result<List<Comic>> {
+    override suspend fun getComics(page: Int): Result<List<Comic>> {
         if (isRequestInProgress) {
             Timber.d("Request is in progress current page: $page")
             return Result.failure(CallInProgressException("Request is in progress"))
         }
-        Timber.d("Performing Network Search")
-        val networkResult = performNetworkSearch(titleStartsWith, page)
+        Timber.d("Fetching comics")
+        val networkResult = performNetworkFetch(page)
         if (networkResult.isSuccess) {
             Timber.d("Returned result")
         }
@@ -36,13 +33,10 @@ class ComicsRepositoryImpl @Inject constructor(
         return network.fetchComic(comicId).map { it.toComic() }
     }
 
-    private suspend fun performNetworkSearch(
-        titleStartsWith: String,
-        page: Int,
-    ): Result<List<Comic>> {
+    private suspend fun performNetworkFetch(page: Int): Result<List<Comic>> {
         isRequestInProgress = true
         val offset = (page - 1) * LIMIT
-        val networkResult = network.searchComics(offset, LIMIT, titleStartsWith)
+        val networkResult = network.getComics(offset, LIMIT)
         isRequestInProgress = false
         return networkResult.map { result ->
             result.comics?.map { it.toComic() } ?: emptyList()

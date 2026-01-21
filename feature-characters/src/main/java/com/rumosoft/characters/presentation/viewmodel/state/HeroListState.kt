@@ -9,9 +9,7 @@ const val HeroListNoResults = "noResults"
 
 data class HeroListScreenState(
     val heroListState: HeroListState,
-    val showingSearchBar: Boolean = false,
     val selectedCharacter: Character? = null,
-    val textSearched: String = "",
 )
 
 sealed class HeroListState {

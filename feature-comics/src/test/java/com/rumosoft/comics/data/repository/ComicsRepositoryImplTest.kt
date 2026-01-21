@@ -29,17 +29,17 @@ internal class ComicsRepositoryImplTest {
     }
 
     @Test
-    fun `searchComics is called when calling performSearch in the repository`() =
+    fun `getComics is called when calling getComics in the repository`() =
         runTest {
-            `given searchComics invocation on network returns results`()
+            `given getComics invocation on network returns results`()
 
-            `when performSearch on repo gets invoked`()
+            `when getComics on repo gets invoked`()
 
-            `then searchComics gets executed on network`()
+            `then getComics gets executed on network`()
         }
 
     @Test
-    fun `searchComic is called when calling getDetails in the repository`() =
+    fun `fetchComic is called when calling getDetails in the repository`() =
         runTest {
             `given fetchComic invocation on network returns results`()
 
@@ -48,8 +48,8 @@ internal class ComicsRepositoryImplTest {
             `then fetchComic gets executed on network`()
         }
 
-    private fun `given searchComics invocation on network returns results`() {
-        coEvery { comicsNetwork.searchComics(offset, limit, "") } returns
+    private fun `given getComics invocation on network returns results`() {
+        coEvery { comicsNetwork.getComics(offset, limit) } returns
             Result.success(
                 ComicsResult(
                     PaginationInfo(1, 1),
@@ -65,9 +65,9 @@ internal class ComicsRepositoryImplTest {
             )
     }
 
-    private suspend fun `when performSearch on repo gets invoked`(times: Int = 1) {
+    private suspend fun `when getComics on repo gets invoked`(times: Int = 1) {
         repeat(times) {
-            comicsRepository.performSearch("", 1)
+            comicsRepository.getComics(1)
         }
     }
 
@@ -75,8 +75,8 @@ internal class ComicsRepositoryImplTest {
         comicsRepository.getDetails(comicId)
     }
 
-    private fun `then searchComics gets executed on network`() {
-        coVerify { comicsNetwork.searchComics(offset, limit, "") }
+    private fun `then getComics gets executed on network`() {
+        coVerify { comicsNetwork.getComics(offset, limit) }
     }
 
     private fun `then fetchComic gets executed on network`() {

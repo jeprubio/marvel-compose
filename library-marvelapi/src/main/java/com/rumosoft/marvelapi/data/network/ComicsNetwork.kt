@@ -4,10 +4,9 @@ import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
 import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 
 interface ComicsNetwork {
-    suspend fun searchComics(
+    suspend fun getComics(
         offset: Int,
         limit: Int,
-        titleStartsWith: String,
     ): Result<ComicsResult>
 
     suspend fun fetchComic(comicId: Int): Result<ComicDto>

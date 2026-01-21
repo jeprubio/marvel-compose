@@ -9,16 +9,14 @@ import javax.inject.Inject
 class ComicsNetworkImpl @Inject constructor(
     private val marvelService: MarvelService,
 ) : ComicsNetwork {
-    override suspend fun searchComics(
+    override suspend fun getComics(
         offset: Int,
         limit: Int,
-        titleStartsWith: String,
     ): Result<ComicsResult> {
         return try {
-            val result = marvelService.searchComics(
+            val result = marvelService.getComics(
                 offset = offset,
                 limit = limit,
-                titleStartsWith = titleStartsWith.takeIf { it.isNotEmpty() },
             )
             result.data?.let { data ->
                 Result.success(

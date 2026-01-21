@@ -28,24 +28,24 @@ internal class GetComicsUseCaseTest {
     @Test
     fun `useCase should call repo`() {
         runTest {
-            `given performSearch invocation returns results`()
+            `given getComics invocation returns results`()
 
             `when the use case gets invoked`()
 
-            `then performSearch gets executed on repo`()
+            `then getComics gets executed on repo`()
         }
     }
 
-    private fun `given performSearch invocation returns results`() {
-        coEvery { repo.performSearch("", 1) } returns
+    private fun `given getComics invocation returns results`() {
+        coEvery { repo.getComics(1) } returns
             Result.success(comicsList)
     }
 
     private suspend fun `when the use case gets invoked`() {
-        useCase.invoke("", 1)
+        useCase.invoke(1)
     }
 
-    private fun `then performSearch gets executed on repo`() {
-        coVerify { repo.performSearch("", 1) }
+    private fun `then getComics gets executed on repo`() {
+        coVerify { repo.getComics(1) }
     }
 }

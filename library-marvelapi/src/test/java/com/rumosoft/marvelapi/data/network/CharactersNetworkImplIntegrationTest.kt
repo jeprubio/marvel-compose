@@ -48,9 +48,9 @@ internal class CharactersNetworkImplIntegrationTest {
     @Test
     fun `Successful response performing search returns Success`() =
         runTest {
-            `given a response is returned when searchHeroes gets called on the service`()
+            `given a response is returned when getHeroes gets called on the service`()
 
-            val response = `when searchHeroes gets called on the network`()
+            val response = `when getHeroes gets called on the network`()
 
             `then the response should be of type Success`(response)
             `then there should be one element in the returned data`(response)
@@ -59,9 +59,9 @@ internal class CharactersNetworkImplIntegrationTest {
     @Test
     fun `Error performing search returns Error`() =
         runTest {
-            `given an exception is thrown when searchHeroes gets called on the service`()
+            `given an exception is thrown when getHeroes gets called on the service`()
 
-            val response = `when searchHeroes gets called on the network`()
+            val response = `when getHeroes gets called on the network`()
 
             `then the response should be of type Error`(response)
         }
@@ -87,7 +87,7 @@ internal class CharactersNetworkImplIntegrationTest {
             `then the getComicThumbnail response should be of type Error`(response)
         }
 
-    private fun `given a response is returned when searchHeroes gets called on the service`() {
+    private fun `given a response is returned when getHeroes gets called on the service`() {
         FileReader.readFile("characters_list.json")?.also {
             mockWebServer.enqueue(MockResponse().setResponseCode(200).setBody(it))
         }
@@ -99,7 +99,7 @@ internal class CharactersNetworkImplIntegrationTest {
         }
     }
 
-    private fun `given an exception is thrown when searchHeroes gets called on the service`() {
+    private fun `given an exception is thrown when getHeroes gets called on the service`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
     }
 
@@ -107,8 +107,8 @@ internal class CharactersNetworkImplIntegrationTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
     }
 
-    private suspend fun `when searchHeroes gets called on the network`(): Result<HeroesResult> {
-        return charactersNetwork.searchHeroes(offset, limit, "")
+    private suspend fun `when getHeroes gets called on the network`(): Result<HeroesResult> {
+        return charactersNetwork.getHeroes(offset, limit)
     }
 
     private suspend fun `when getComicThumbnail gets called on the network`(): Result<String> {

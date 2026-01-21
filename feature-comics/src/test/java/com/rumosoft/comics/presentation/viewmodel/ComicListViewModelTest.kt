@@ -2,13 +2,11 @@ package com.rumosoft.comics.presentation.viewmodel
 
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
-import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel.Companion.DEBOUNCE_DELAY
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -29,7 +27,6 @@ internal class ComicListViewModelTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
-            `when delay time has passed`()
 
             `then searchUseCase gets invoked`()
         }
@@ -41,7 +38,6 @@ internal class ComicListViewModelTest {
             `given searchUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
-            `when delay time has passed`()
 
             `then comicListState should be Success`()
         }
@@ -52,7 +48,6 @@ internal class ComicListViewModelTest {
             `given searchUseCase invocation returns error`()
 
             `when initialising the ViewModel`()
-            `when delay time has passed`()
 
             `then comicListState should be Error`()
         }
@@ -84,12 +79,12 @@ internal class ComicListViewModelTest {
     }
 
     private fun `given searchUseCase invocation returns results`() {
-        coEvery { comicsUseCase.invoke("", 1) } returns
+        coEvery { comicsUseCase.invoke(1) } returns
             Result.success(SampleData.comicsSample)
     }
 
     private fun `given searchUseCase invocation returns error`() {
-        coEvery { comicsUseCase.invoke("", 1) } returns
+        coEvery { comicsUseCase.invoke(1) } returns
             Result.failure(Exception())
     }
 
@@ -110,10 +105,6 @@ internal class ComicListViewModelTest {
         comicListViewModel = ComicListViewModel(comicsUseCase)
     }
 
-    private suspend fun `when delay time has passed`() {
-        delay(DEBOUNCE_DELAY)
-    }
-
     private fun `when a comic gets selected`() {
         comicListViewModel.comicClicked(comic)
     }
@@ -123,7 +114,7 @@ internal class ComicListViewModelTest {
     }
 
     private fun `then searchUseCase gets invoked`() {
-        coVerify { comicsUseCase.invoke("", 1) }
+        coVerify { comicsUseCase.invoke(1) }
     }
 
     private fun `then comicListState should be Success`() {

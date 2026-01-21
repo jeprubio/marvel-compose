@@ -4,9 +4,7 @@ import com.rumosoft.comics.domain.model.Comic
 
 data class ComicListScreenState(
     val comicListState: ComicListState,
-    val showingSearchBar: Boolean = false,
     val selectedComic: Comic? = null,
-    val textSearched: String = "",
 )
 
 sealed class ComicListState {

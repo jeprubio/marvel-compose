@@ -4,7 +4,7 @@ import com.rumosoft.marvelapi.data.network.apimodels.HeroDto
 import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 
 interface CharactersNetwork {
-    suspend fun searchHeroes(offset: Int, limit: Int, nameStartsWith: String): Result<HeroesResult>
+    suspend fun getHeroes(offset: Int, limit: Int): Result<HeroesResult>
 
     suspend fun getHeroDetails(heroId: Long): Result<HeroDto?>
 

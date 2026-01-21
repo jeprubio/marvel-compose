@@ -11,16 +11,14 @@ import javax.inject.Inject
 class CharactersNetworkImpl @Inject constructor(
     private val marvelService: MarvelService,
 ) : CharactersNetwork {
-    override suspend fun searchHeroes(
+    override suspend fun getHeroes(
         offset: Int,
         limit: Int,
-        nameStartsWith: String
     ): Result<HeroesResult> {
         return try {
-            val result = marvelService.searchHeroes(
+            val result = marvelService.getHeroes(
                 offset = offset,
                 limit = limit,
-                nameStartsWith = nameStartsWith.takeIf { it.isNotEmpty() },
             )
             result.data?.let { data ->
                 Result.success(

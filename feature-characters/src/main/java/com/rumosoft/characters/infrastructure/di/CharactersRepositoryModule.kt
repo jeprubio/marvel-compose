@@ -1,7 +1,7 @@
 package com.rumosoft.characters.infrastructure.di
 
-import com.rumosoft.characters.data.repository.SearchRepositoryImpl
-import com.rumosoft.characters.domain.usecase.interfaces.SearchRepository
+import com.rumosoft.characters.data.repository.CharactersRepositoryImpl
+import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 abstract class CharactersRepositoryModule {
     @Binds
     abstract fun bindCharacterRepository(
-        searchRepository: SearchRepositoryImpl,
-    ): SearchRepository
+        charactersRepository: CharactersRepositoryImpl,
+    ): CharactersRepository
 }

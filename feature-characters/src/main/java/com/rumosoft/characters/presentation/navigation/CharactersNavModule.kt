@@ -3,9 +3,6 @@ package com.rumosoft.characters.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -38,21 +35,8 @@ fun NavGraphBuilder.charactersGraph(
                 navController.navigate(CharacterDetails(selectedCharacter.id))
             }
         }
-        var search by remember { mutableStateOf("") }
-        val onToggleSearchClick = {
-            viewModel.onToggleSearchClick()
-        }
-        val onValueChanged = { value: String ->
-            search = value
-            viewModel.onQueryChanged(value)
-        }
         setTopBarContent {
-            CharactersTopBar(
-                search,
-                heroListScreenState.showingSearchBar,
-                onToggleSearchClick,
-                onValueChanged,
-            )
+            CharactersTopBar()
         }
         HeroListScreenContent(
             heroListState = heroListScreenState.heroListState,

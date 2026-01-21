@@ -1,14 +1,12 @@
 package com.rumosoft.characters.presentation.viewmodel
 
-import com.rumosoft.characters.domain.usecase.SearchUseCase
+import com.rumosoft.characters.domain.usecase.GetCharactersUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
-import com.rumosoft.characters.presentation.viewmodel.HeroListViewModel.Companion.DEBOUNCE_DELAY
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -19,17 +17,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestCoroutineExtension::class)
 internal class HeroListViewModelTest {
-    private val searchUseCase: SearchUseCase = mockk()
+    private val getCharactersUseCase: GetCharactersUseCase = mockk()
     private lateinit var heroListViewModel: HeroListViewModel
     private val hero = SampleData.heroesSample.first()
 
     @Test
     fun `performSearch() calls searchUseCase`() {
         runTest {
-            `given searchUseCase invocation returns results`()
+            `given getCharactersUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
-            `when delay time has passed`()
 
             `then searchUseCase gets invoked`()
         }
@@ -38,10 +35,9 @@ internal class HeroListViewModelTest {
     @Test
     fun `If performSearch() goes well the HeroListScreenState will be Success`() =
         runTest {
-            `given searchUseCase invocation returns results`()
+            `given getCharactersUseCase invocation returns results`()
 
             `when initialising the ViewModel`()
-            `when delay time has passed`()
 
             `then HeroListScreenSuccess should be Success`()
         }
@@ -49,10 +45,9 @@ internal class HeroListViewModelTest {
     @Test
     fun `If performSearch() returns error the HeroListScreenState will be Error`() =
         runTest {
-            `given searchUseCase invocation returns error`()
+            `given getCharactersUseCase invocation returns error`()
 
             `when initialising the ViewModel`()
-            `when delay time has passed`()
 
             `then HeroListScreenSuccess should be Error`()
         }
@@ -60,7 +55,7 @@ internal class HeroListViewModelTest {
     @Test
     fun `If a hero is selected the screen state must change`() {
         runTest {
-            `given searchUseCase invocation returns results`()
+            `given getCharactersUseCase invocation returns results`()
             `given the ViewModel is initialised`()
             `given the screen state has no selected hero`()
 
@@ -73,7 +68,7 @@ internal class HeroListViewModelTest {
     @Test
     fun `If the selected hero is reset the screen state must change`() {
         runTest {
-            `given searchUseCase invocation returns results`()
+            `given getCharactersUseCase invocation returns results`()
             `given the ViewModel is initialised`()
             `given the screen state has a selected hero`()
 
@@ -83,18 +78,18 @@ internal class HeroListViewModelTest {
         }
     }
 
-    private fun `given searchUseCase invocation returns results`() {
-        coEvery { searchUseCase.invoke("", 1) } returns
+    private fun `given getCharactersUseCase invocation returns results`() {
+        coEvery { getCharactersUseCase.invoke(1) } returns
             Result.success(SampleData.heroesSample)
     }
 
-    private fun `given searchUseCase invocation returns error`() {
-        coEvery { searchUseCase.invoke("", 1) } returns
+    private fun `given getCharactersUseCase invocation returns error`() {
+        coEvery { getCharactersUseCase.invoke(1) } returns
             Result.failure(Exception())
     }
 
     private fun `given the ViewModel is initialised`() {
-        heroListViewModel = HeroListViewModel(searchUseCase)
+        heroListViewModel = HeroListViewModel(getCharactersUseCase)
     }
 
     private fun `given the screen state has no selected hero`() {
@@ -107,11 +102,7 @@ internal class HeroListViewModelTest {
     }
 
     private fun `when initialising the ViewModel`() {
-        heroListViewModel = HeroListViewModel(searchUseCase)
-    }
-
-    private suspend fun `when delay time has passed`() {
-        delay(DEBOUNCE_DELAY)
+        heroListViewModel = HeroListViewModel(getCharactersUseCase)
     }
 
     private fun `when a hero gets selected`() {
@@ -123,7 +114,7 @@ internal class HeroListViewModelTest {
     }
 
     private fun `then searchUseCase gets invoked`() {
-        coVerify { searchUseCase.invoke("", 1) }
+        coVerify { getCharactersUseCase.invoke(1) }
     }
 
     private fun `then HeroListScreenSuccess should be Success`() {

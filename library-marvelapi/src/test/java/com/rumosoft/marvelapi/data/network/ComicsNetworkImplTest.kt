@@ -48,29 +48,29 @@ internal class ComicsNetworkImplTest {
     }
 
     @Test
-    fun `Successful response performing search returns Success`() =
+    fun `Successful response performing getComics returns Success`() =
         runTest {
-            `given a response is returned when searchComics gets called on the service`()
-            val response = `when searchComics gets called on the network`()
+            `given a response is returned when getComics gets called on the service`()
+            val response = `when getComics gets called on the network`()
 
             `then the response should be of type Success`(response)
-            `then there should be one element in the returned search data`(response)
+            `then there should be one element in the returned data`(response)
         }
 
     @Test
-    fun `Response without data performing search returns Error`() =
+    fun `Response without data performing getComics returns Error`() =
         runTest {
-            `given a response with no data is returned when searchComics gets called on the service`()
-            val response = `when searchComics gets called on the network`()
+            `given a response with no data is returned when getComics gets called on the service`()
+            val response = `when getComics gets called on the network`()
 
             `then the response should be of type Error`(response)
         }
 
     @Test
-    fun `Error performing search returns Error`() =
+    fun `Error performing getComics returns Error`() =
         runTest {
-            `given an exception is thrown when searchComics gets called on the service`()
-            val response = `when searchComics gets called on the network`()
+            `given an exception is thrown when getComics gets called on the service`()
+            val response = `when getComics gets called on the network`()
 
             `then the response should be of type Error`(response)
         }
@@ -93,13 +93,13 @@ internal class ComicsNetworkImplTest {
             `then the response should be of type Error`(response)
         }
 
-    private fun `given a response is returned when searchComics gets called on the service`() {
-        coEvery { marvelService.searchComics(offset = offset, limit = limit) } returns
+    private fun `given a response is returned when getComics gets called on the service`() {
+        coEvery { marvelService.getComics(offset = offset, limit = limit) } returns
             comicResults
     }
 
-    private fun `given a response with no data is returned when searchComics gets called on the service`() {
-        coEvery { marvelService.searchComics(offset = offset, limit = limit) } returns
+    private fun `given a response with no data is returned when getComics gets called on the service`() {
+        coEvery { marvelService.getComics(offset = offset, limit = limit) } returns
             comicResultsNoData
     }
 
@@ -108,16 +108,16 @@ internal class ComicsNetworkImplTest {
             comicResults
     }
 
-    private fun `given an exception is thrown when searchComics gets called on the service`() {
-        coEvery { marvelService.searchComics() } throws Exception()
+    private fun `given an exception is thrown when getComics gets called on the service`() {
+        coEvery { marvelService.getComics() } throws Exception()
     }
 
     private fun `given an exception is thrown when searchComic gets called on the service`() {
         coEvery { marvelService.searchComic(comicId) } throws Exception()
     }
 
-    private suspend fun `when searchComics gets called on the network`(): Result<ComicsResult> {
-        return comicsNetwork.searchComics(offset, limit, "")
+    private suspend fun `when getComics gets called on the network`(): Result<ComicsResult> {
+        return comicsNetwork.getComics(offset, limit)
     }
 
     private suspend fun `when fetchComic gets called on the network`(): Result<ComicDto> {
@@ -128,7 +128,7 @@ internal class ComicsNetworkImplTest {
         assertTrue(response.isSuccess)
     }
 
-    private fun `then there should be one element in the returned search data`(response: Result<ComicsResult>) {
+    private fun `then there should be one element in the returned data`(response: Result<ComicsResult>) {
         assertEquals(Result.success(1), response.map { it.comics!!.size })
     }
 

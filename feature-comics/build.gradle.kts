@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    id("shot")
+    alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -16,7 +16,7 @@ android {
         testOptions.targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -40,6 +40,9 @@ android {
         unitTests {
             isReturnDefaultValues = true
             isIncludeAndroidResources = true
+            all {
+                it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+            }
         }
     }
     namespace = "com.rumosoft.comics"
@@ -91,6 +94,15 @@ dependencies {
     testImplementation(libs.junitparams)
     testImplementation(libs.junit.platform.launcher)
     testImplementation(libs.junit.platform.engine)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.rule)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.ui.test.junit4)
+    testImplementation(libs.androidx.test.ext.junit)
+
+    // JUnit Vintage Engine to run JUnit 4 tests on JUnit 5 platform
+    testImplementation(libs.junit.vintage.engine)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -101,10 +113,10 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 }
 
-shot {
-    applicationId = "com.rumosoft.marvelcomposeshot"
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+roborazzi {
+    outputDir.set(file("screenshots"))
 }

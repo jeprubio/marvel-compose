@@ -13,7 +13,7 @@ android {
         testOptions.targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         buildConfigField("String", "BASE_URL", "\"https://marvel.antonioleiva.com/\"")

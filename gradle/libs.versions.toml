@@ -38,7 +38,8 @@ junit-jupiter = "5.13.4"
 mockk = "1.14.7"
 coroutines-test = "1.10.2"
 mockwebserver = "5.3.2"
-shot = "6.1.0"
+roborazzi = "1.57.0"
+robolectric = "4.15"
 versions = "0.53.0"
 glance = "1.1.1"
 glance-experimental = "0.2.2"
@@ -106,10 +107,14 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
-shot = { module = "com.karumi:shot", version.ref = "shot" }
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit-platform" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit-jupiter" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -121,6 +126,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 gradle-versions-plugin = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 [bundles]
 test-utilities = [
     "androidx-core-testing",

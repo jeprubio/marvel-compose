@@ -33,11 +33,11 @@ Wait until gradle finishes and press the play button.
 
 To run the unit tests: `./gradlew lint testDebug --continue --rerun-tasks`
 
-To run the UI tests: `./gradlew connectedDebugAndroidTest`
+To run instrumented tests: `./gradlew connectedDebugAndroidTest`
 
-To record the screenshots test: `./gradlew executeScreenshotTests -Precord`
+To record the screenshots test: `./gradlew recordRoborazziDebug`
 
-To execute the screenshots test: `./gradlew executeScreenshotTests`
+To execute the screenshots test: `./gradlew verifyRoborazziDebug`
 
 ## Screenshots
 
@@ -70,4 +70,4 @@ To execute the screenshots test: `./gradlew executeScreenshotTests`
 
 - [Compose UI testing](https://developer.android.com/jetpack/compose/testing) - Compose UI tests 
 
-- [Shot](https://github.com/pedrovgs/Shot) - Screenshot tests
+- [Roborazzi](https://github.com/takahirom/roborazzi) - Screenshot tests

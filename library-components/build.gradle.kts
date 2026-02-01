@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
-    id("shot")
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -14,7 +14,7 @@ android {
         testOptions.targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         vectorDrawables {
@@ -37,6 +37,17 @@ android {
             excludes += "META-INF/LICENSE*"
         }
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all {
+                it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+            }
+        }
+    }
+
     namespace = "com.rumosoft.components"
 
     compileOptions {
@@ -62,6 +73,14 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
 
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.rule)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.ui.test.junit4)
+    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.junit.vintage.engine)
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -71,6 +90,6 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 }
 
-shot {
-    applicationId = "com.rumosoft.marvelcomposeshot"
+roborazzi {
+    outputDir.set(file("screenshots"))
 }

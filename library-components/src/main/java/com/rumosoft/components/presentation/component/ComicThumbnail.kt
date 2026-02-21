@@ -25,7 +25,6 @@ fun ComicThumbnail(
         thumbnailUrl = thumbnail,
         contentScale = ContentScale.Fit,
         contentDescription = title,
-        originalSize = true,
         noImage = R.drawable.img_no_image,
         modifier = modifier
             .then(

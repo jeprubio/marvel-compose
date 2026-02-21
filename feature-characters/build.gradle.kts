@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.okio)
     implementation(libs.okhttp)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.timber)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

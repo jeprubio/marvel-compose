@@ -82,7 +82,6 @@ fun HeroImage(
     MarvelImage(
         thumbnailUrl = thumbnail,
         contentDescription = contentDescription,
-        circular = true,
         noImage = com.rumosoft.components.R.drawable.img_no_image,
         modifier = modifier,
     )

@@ -93,3 +93,5 @@ lint/tmp/
 codecov
 
 .idea/androidTestResultsUserPreferences.xml
+
+gradle/gradle-daemon-jvm.properties

@@ -30,6 +30,12 @@ android {
         buildConfig = true
     }
 
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
+
     namespace = "com.rumosoft.maverlapi"
 
     compileOptions {

@@ -2,6 +2,7 @@ package com.rumosoft.comics.domain.usecase
 
 import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
+import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -18,8 +19,7 @@ internal class GetComicsUseCaseTest {
     val repo: ComicsRepository = mockk()
     private val useCase: GetComicsUseCase = GetComicsUseCase(repo)
 
-    @MockK
-    val comicsList: List<Comic> = mockk()
+    private val comicsList: List<Comic> = SampleData.comicsSample
 
     init {
         MockKAnnotations.init(this)

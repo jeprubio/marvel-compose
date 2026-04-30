@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -55,6 +57,18 @@ class MainActivity : ComponentActivity() {
         actionBar?.hide()
 
         setContent {
+            val darkTheme = isSystemInDarkTheme()
+            LaunchedEffect(darkTheme) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(
+                        android.graphics.Color.TRANSPARENT,
+                    ),
+                    navigationBarStyle = SystemBarStyle.auto(
+                        android.graphics.Color.TRANSPARENT,
+                        android.graphics.Color.TRANSPARENT,
+                    ) { darkTheme },
+                )
+            }
             MarvelComposeTheme {
                 Surface(
                     color = MarvelComposeTheme.colors.background,

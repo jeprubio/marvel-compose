@@ -64,8 +64,8 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.runtime.compose)
 
-    implementation(libs.navigation.compose)
-    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
 
     // Gson + Retrofit (to perform API calls and parse the response)
     implementation(libs.gson)

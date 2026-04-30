@@ -2,9 +2,11 @@ package com.rumosoft.marvelcompose.presentation
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
@@ -14,6 +16,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,21 +25,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.NavKey
 import com.rumosoft.components.presentation.component.isWindowCompact
 import com.rumosoft.components.presentation.deeplinks.CharactersScreen
 import com.rumosoft.components.presentation.deeplinks.ComicsScreen
+import com.rumosoft.components.presentation.deeplinks.DEEP_LINKS_BASE_PATH
 import com.rumosoft.components.presentation.deeplinks.Screen
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationHost
 import com.rumosoft.marvelcompose.presentation.navigation.NavigationRailBar
+import com.rumosoft.marvelcompose.presentation.navigation.NavigationState
+import com.rumosoft.marvelcompose.presentation.navigation.Navigator
+import com.rumosoft.marvelcompose.presentation.navigation.Tabs
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Characters
 import com.rumosoft.marvelcompose.presentation.navigation.Tabs.Comics
-import com.rumosoft.marvelcompose.presentation.navigation.onTabClick
+import com.rumosoft.marvelcompose.presentation.navigation.rememberNavigationState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -63,7 +68,20 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MarvelApp() {
-    val navController = rememberNavController()
+    val navigationState = rememberNavigationState(
+        startRoute = CharactersScreen,
+        topLevelRoutes = setOf<NavKey>(CharactersScreen, ComicsScreen)
+    )
+    val navigator = remember { Navigator(navigationState) }
+
+    // Handle deep links from intent
+    val activity = LocalActivity.current
+    LaunchedEffect(Unit) {
+        activity?.intent?.let { intent ->
+            handleDeepLink(intent, navigator)
+        }
+    }
+
     val navigationItems = listOf(
         Characters,
         Comics,
@@ -78,11 +96,11 @@ fun MarvelApp() {
         topBar = { topBarContent() },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
-            if (shouldShowBottomBar(navController)) {
+            if (shouldShowBottomBar(navigationState)) {
                 BottomNavigationBar(
                     navigationItems = navigationItems,
-                    currentScreen = getCurrentScreen(navController),
-                    onTabClick = { onTabClick(it, navController) },
+                    currentScreen = getCurrentScreen(navigationState),
+                    onTabClick = { onTabClick(it, navigator) },
                 )
             }
         },
@@ -91,18 +109,20 @@ fun MarvelApp() {
             Row {
                 NavigationRailBar(
                     navigationItems = navigationItems,
-                    currentScreen = getCurrentScreen(navController),
-                    onTabClick = { onTabClick(it, navController) },
+                    currentScreen = getCurrentScreen(navigationState),
+                    onTabClick = { onTabClick(it, navigator) },
                 )
                 NavigationHost(
-                    navController,
+                    navigationState = navigationState,
+                    navigator = navigator,
                     setTopBarContent = { topBarContent = it },
                     modifier = Modifier.padding(innerPadding),
                 )
             }
         } else {
             NavigationHost(
-                navController,
+                navigationState = navigationState,
+                navigator = navigator,
                 setTopBarContent = { topBarContent = it },
                 modifier = Modifier.padding(innerPadding),
             )
@@ -112,21 +132,18 @@ fun MarvelApp() {
 
 @Composable
 private fun shouldShowBottomBar(
-    navController: NavHostController
+    navigationState: NavigationState
 ): Boolean {
-    println("isWindowCompact: ${isWindowCompact()}")
-    println("currentRoute: ${currentRoute(navController)}")
-    return isWindowCompact() && (
-            currentRoute(navController)?.contains("CharactersScreen") == true ||
-                    currentRoute(navController)?.contains("ComicsScreen") == true)
+    val isOnTopLevel = navigationState.backStacks[navigationState.topLevelRoute]?.let {
+        it.size == 1
+    } ?: true
+    return isWindowCompact() && isOnTopLevel
 }
 
 @Composable
-private fun getCurrentScreen(navController: NavHostController): Screen {
-    val route = navController.currentBackStackEntryAsState().value?.destination?.route
-    return when {
-        route?.contains("CharactersScreen") == true -> CharactersScreen
-        route?.contains("ComicsScreen") == true -> ComicsScreen
+private fun getCurrentScreen(navigationState: NavigationState): Screen {
+    return when (navigationState.topLevelRoute) {
+        is ComicsScreen -> ComicsScreen
         else -> CharactersScreen
     }
 }
@@ -134,10 +151,8 @@ private fun getCurrentScreen(navController: NavHostController): Screen {
 @Composable
 private fun shouldShowNavigationRail() = !isWindowCompact()
 
-@Composable
-private fun currentRoute(navController: NavHostController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route
+private fun onTabClick(tab: Tabs, navigator: Navigator) {
+    navigator.navigate(tab.screen as NavKey)
 }
 
 private fun onAppBack(
@@ -151,6 +166,15 @@ private fun onAppBack(
         scope.launch {
             snackBarHostState.showSnackbar(context.getString(R.string.double_tap_to_exit))
         }
+    }
+}
+
+private fun handleDeepLink(intent: Intent, navigator: Navigator) {
+    val uri = intent.data ?: return
+    val path = uri.toString().removePrefix(DEEP_LINKS_BASE_PATH)
+    when {
+        path.startsWith("/comics") -> navigator.navigate(ComicsScreen as NavKey)
+        path.startsWith("/characters") -> navigator.navigate(CharactersScreen as NavKey)
     }
 }
 

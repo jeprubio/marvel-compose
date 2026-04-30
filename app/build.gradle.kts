@@ -68,14 +68,14 @@ dependencies {
     implementation(libs.material3.window.size)
     implementation(libs.lifecycle.runtime.ktx)
 
-    implementation(libs.navigation.compose)
-    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     implementation(libs.timber)
 
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
 
     implementation(libs.okhttp)
 

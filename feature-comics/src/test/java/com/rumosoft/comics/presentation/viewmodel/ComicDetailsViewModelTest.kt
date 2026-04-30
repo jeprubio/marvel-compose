@@ -1,6 +1,5 @@
 package com.rumosoft.comics.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
@@ -17,9 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class ComicDetailsViewModelTest {
     private val comicDetailsUseCase: GetComicDetailsUseCase = mockk()
     private val comicId = 123
-    private val savedStateHandle = SavedStateHandle().apply {
-        this["comicId"] = comicId
-    }
     private lateinit var viewModel: ComicDetailsViewModel
 
     @Test
@@ -49,7 +45,8 @@ internal class ComicDetailsViewModelTest {
     }
 
     private fun `when view model is initialised`() {
-        viewModel = ComicDetailsViewModel(savedStateHandle, comicDetailsUseCase)
+        viewModel = ComicDetailsViewModel(comicDetailsUseCase)
+        viewModel.initialize(comicId)
     }
 
     private fun `then use case gets invoked`() {

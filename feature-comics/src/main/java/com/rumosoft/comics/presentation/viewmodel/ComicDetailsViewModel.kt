@@ -1,6 +1,5 @@
 package com.rumosoft.comics.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.comics.domain.usecase.GetComicDetailsUseCase
@@ -14,17 +13,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ComicDetailsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val getComicDetailsUseCase: GetComicDetailsUseCase,
 ) : ViewModel() {
-    private val comicId: Int = savedStateHandle["comicId"]!!
-
     val detailsState: StateFlow<ComicDetailsState> get() = _detailsState
     private val _detailsState =
         MutableStateFlow<ComicDetailsState>(ComicDetailsState.Loading)
 
-    init {
-        setComic(comicId)
+    private var initialized = false
+
+    fun initialize(comicId: Int) {
+        if (!initialized) {
+            initialized = true
+            setComic(comicId)
+        }
     }
 
     private fun setComic(comicId: Int) {

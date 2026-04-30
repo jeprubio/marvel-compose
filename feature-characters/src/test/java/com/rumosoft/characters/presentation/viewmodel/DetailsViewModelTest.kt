@@ -1,6 +1,5 @@
 package com.rumosoft.characters.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import com.rumosoft.characters.domain.usecase.GetCharacterDetailsUseCase
 import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
@@ -20,9 +19,6 @@ internal class DetailsViewModelTest {
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase = mockk()
     private lateinit var detailsViewModel: DetailsViewModel
     private val hero = SampleData.heroesSampleWithoutImages.first()
-    private val savedStateHandle = SavedStateHandle().apply {
-        this["characterId"] = hero.id
-    }
 
     @Test
     fun `When the view model is created getComicThumbnailUseCase is invoked`() {
@@ -59,10 +55,10 @@ internal class DetailsViewModelTest {
 
     private fun `when view model is initialised`() {
         detailsViewModel = DetailsViewModel(
-            savedStateHandle,
             getComicThumbnailUseCase,
             getCharacterDetailsUseCase,
         )
+        detailsViewModel.initialize(hero.id)
     }
 
     private fun `then the state is Success`() {

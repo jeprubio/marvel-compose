@@ -1,14 +1,11 @@
 package com.rumosoft.comics.presentation.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.rumosoft.comics.presentation.screen.ComicDetailsScreenContent
 import com.rumosoft.comics.presentation.screen.ComicDetailsTopBar
 import com.rumosoft.comics.presentation.screen.ComicsScreenContent
@@ -17,21 +14,19 @@ import com.rumosoft.comics.presentation.viewmodel.ComicDetailsViewModel
 import com.rumosoft.comics.presentation.viewmodel.ComicListViewModel
 import com.rumosoft.components.presentation.deeplinks.ComicDetails
 import com.rumosoft.components.presentation.deeplinks.ComicsScreen
-import com.rumosoft.components.presentation.deeplinks.DEEP_LINKS_BASE_PATH
 
-fun NavGraphBuilder.comicsGraph(
-    navController: NavHostController,
-    setTopBarContent: (@Composable () -> Unit) -> Unit,
+fun EntryProviderScope<NavKey>.comicsGraph(
+    navigate: (NavKey) -> Unit,
+    goBack: () -> Unit,
+    setTopBarContent: (@androidx.compose.runtime.Composable () -> Unit) -> Unit,
 ) {
-    composable<ComicsScreen>(
-        deepLinks = listOf(navDeepLink<ComicsScreen>(basePath = "$DEEP_LINKS_BASE_PATH/comics")),
-    ) { navBackStackEntry ->
-        val viewModel: ComicListViewModel = hiltViewModel(navBackStackEntry)
+    entry<ComicsScreen> {
+        val viewModel: ComicListViewModel = hiltViewModel()
         val comicsScreenState by viewModel.comicsListScreenState.collectAsStateWithLifecycle()
         LaunchedEffect(key1 = comicsScreenState) {
             comicsScreenState.selectedComic?.let { selectedComic ->
                 viewModel.resetSelectedComic()
-                navController.navigate(ComicDetails(selectedComic.id))
+                navigate(ComicDetails(selectedComic.id))
             }
         }
         setTopBarContent {
@@ -44,22 +39,13 @@ fun NavGraphBuilder.comicsGraph(
             onRetry = viewModel::retry,
         )
     }
-    composable<ComicDetails>(
-        deepLinks = listOf(navDeepLink<ComicDetails>(basePath = "$DEEP_LINKS_BASE_PATH/comics")),
-    ) { navBackStackEntry ->
-        val viewModel: ComicDetailsViewModel = hiltViewModel(navBackStackEntry)
+    entry<ComicDetails> { key ->
+        val viewModel: ComicDetailsViewModel = hiltViewModel()
+        viewModel.initialize(key.comicId)
         val screenState by viewModel.detailsState.collectAsStateWithLifecycle()
         setTopBarContent {
             ComicDetailsTopBar(
-                onBackPressed = {
-                    val navigatedToComics = navController.popBackStack(
-                        route = ComicsScreen,
-                        inclusive = false,
-                    )
-                    if (!navigatedToComics) {
-                        navController.navigate(ComicsScreen)
-                    }
-                }
+                onBackPressed = { goBack() }
             )
         }
         ComicDetailsScreenContent(

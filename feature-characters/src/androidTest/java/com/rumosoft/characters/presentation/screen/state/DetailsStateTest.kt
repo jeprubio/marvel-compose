@@ -28,7 +28,7 @@ internal class DetailsStateTest : ScreenshotTest {
                 ),
             ) {
                 MarvelComposeTheme {
-                    DetailsState.Loading.BuildUI {}
+                    DetailsState.Loading.BuildUI(onComicSelected = {})
                 }
             }
         }
@@ -40,7 +40,7 @@ internal class DetailsStateTest : ScreenshotTest {
     fun detailsState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                DetailsState.Success(SampleData.heroesSampleWithoutImages.first()).BuildUI {}
+                DetailsState.Success(SampleData.heroesSampleWithoutImages.first()).BuildUI(onComicSelected = {})
             }
         }
 

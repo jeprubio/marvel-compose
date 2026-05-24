@@ -21,13 +21,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rumosoft.components.presentation.component.isExpandedDisplay
+import com.rumosoft.components.presentation.component.isWindowCompact
 import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.component.semantics.numColumns
@@ -35,8 +36,6 @@ import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
-private const val EXPANDED_SCREEN_WIDTH = 800
-private const val MEDIUM_SCREEN_WIDTH = 600
 private const val EXPANDED_SCREEN_COLUMNS = 3
 private const val MEDIUM_SCREEN_COLUMNS = 2
 private const val COMPACT_SCREEN_COLUMNS = 1
@@ -75,15 +74,10 @@ fun HeroResults(
 }
 
 @Composable
-private fun getDeviceColumns(): Int {
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    return if (screenWidth >= EXPANDED_SCREEN_WIDTH) {
-        EXPANDED_SCREEN_COLUMNS
-    } else if (screenWidth >= MEDIUM_SCREEN_WIDTH) {
-        MEDIUM_SCREEN_COLUMNS
-    } else {
-        COMPACT_SCREEN_COLUMNS
-    }
+private fun getDeviceColumns(): Int = when {
+    isExpandedDisplay() -> EXPANDED_SCREEN_COLUMNS
+    !isWindowCompact() -> MEDIUM_SCREEN_COLUMNS
+    else -> COMPACT_SCREEN_COLUMNS
 }
 
 private fun onLastElementReached(onEndReached: () -> Unit) {

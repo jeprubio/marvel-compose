@@ -5,6 +5,7 @@ import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import com.rumosoft.marvelapi.data.network.CallInProgressException
 import com.rumosoft.marvelapi.data.network.CharactersNetwork
+import kotlinx.coroutines.sync.Mutex
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -13,22 +14,26 @@ const val CHARACTERS_LIMIT = 20
 class CharactersRepositoryImpl @Inject constructor(
     private val network: CharactersNetwork,
 ) : CharactersRepository {
-    private var isRequestInProgress = false
+    private val mutex = Mutex()
 
     override suspend fun getCharacters(
         page: Int,
     ): Result<List<Character>> {
-        if (isRequestInProgress) {
+        if (!mutex.tryLock()) {
             Timber.d("Request is in progress")
             return Result.failure(CallInProgressException("Request is in progress"))
         }
-        Timber.d("Fetching characters")
-        val networkResult = performNetworkFetch(page)
-        if (networkResult.isSuccess) {
-            Timber.d("Returned results")
+        return try {
+            Timber.d("Fetching characters")
+            val networkResult = performNetworkFetch(page)
+            if (networkResult.isSuccess) {
+                Timber.d("Returned results")
+            }
+            Timber.d("Returned page ${page - 1}")
+            networkResult
+        } finally {
+            mutex.unlock()
         }
-        Timber.d("Returned page ${page - 1}")
-        return networkResult
     }
 
     override suspend fun getCharacterDetails(heroId: Long): Result<Character?> {
@@ -46,10 +51,8 @@ class CharactersRepositoryImpl @Inject constructor(
     private suspend fun performNetworkFetch(
         page: Int,
     ): Result<List<Character>> {
-        isRequestInProgress = true
         val offset = (page - 1) * CHARACTERS_LIMIT
         val networkResult = network.getHeroes(offset, CHARACTERS_LIMIT)
-        isRequestInProgress = false
         return networkResult.map { result ->
             result.characters?.map { it.toHero() } ?: emptyList()
         }

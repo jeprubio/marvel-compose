@@ -62,32 +62,23 @@ class ComicListViewModel @Inject constructor(
                 } else {
                     emptyList()
                 }
-            _comicsListScreenState.value
-                .copy(
-                    comicListState = ComicListState.Success(
-                        comics = previousList + comicsList,
-                        loadingMore = false,
-                    ),
-                )
+            it.copy(
+                comicListState = ComicListState.Success(
+                    comics = previousList + comicsList,
+                    loadingMore = false,
+                ),
+            )
         }
     }
 
     internal fun comicClicked(comic: Comic) {
         Timber.d("On comic clicked: $comic")
-        viewModelScope.launch {
-            _comicsListScreenState.update {
-                it.copy(selectedComic = comic)
-            }
-        }
+        _comicsListScreenState.update { it.copy(selectedComic = comic) }
     }
 
     fun resetSelectedComic() {
         Timber.d("Reset selected comic")
-        viewModelScope.launch {
-            _comicsListScreenState.update {
-                it.copy(selectedComic = null)
-            }
-        }
+        _comicsListScreenState.update { it.copy(selectedComic = null) }
     }
 
     private fun parseErrorResponse(throwable: Throwable) {
@@ -105,24 +96,15 @@ class ComicListViewModel @Inject constructor(
     }
 
     fun loadMoreData() {
-        viewModelScope.launch {
-            setLoadingMore(true)
-        }
+        setLoadingMore(true)
         loadComics(fromStart = false)
     }
 
     private fun setLoadingMore(value: Boolean) {
-        val currentComics =
-            (_comicsListScreenState.value.comicListState as? ComicListState.Success)?.comics
-        if (currentComics != null) {
-            _comicsListScreenState.update {
-                it.copy(
-                    comicListState = ComicListState.Success(
-                        comics = currentComics,
-                        loadingMore = value,
-                    ),
-                )
-            }
+        _comicsListScreenState.update { current ->
+            val successState = current.comicListState as? ComicListState.Success
+                ?: return@update current
+            current.copy(comicListState = successState.copy(loadingMore = value))
         }
     }
 }

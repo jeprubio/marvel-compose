@@ -60,32 +60,23 @@ class HeroListViewModel @Inject constructor(
                 } else {
                     emptyList()
                 }
-            _heroListScreenState.value
-                .copy(
-                    heroListState = HeroListState.Success(
-                        characters = previousList + charactersList,
-                        loadingMore = false,
-                    ),
-                )
+            it.copy(
+                heroListState = HeroListState.Success(
+                    characters = previousList + charactersList,
+                    loadingMore = false,
+                ),
+            )
         }
     }
 
     internal fun characterClicked(character: Character) {
         Timber.d("On hero clicked: $character")
-        viewModelScope.launch {
-            _heroListScreenState.update {
-                it.copy(selectedCharacter = character)
-            }
-        }
+        _heroListScreenState.update { it.copy(selectedCharacter = character) }
     }
 
     fun resetSelectedCharacter() {
         Timber.d("Reset selected character")
-        viewModelScope.launch {
-            _heroListScreenState.update {
-                it.copy(selectedCharacter = null)
-            }
-        }
+        _heroListScreenState.update { it.copy(selectedCharacter = null) }
     }
 
     private fun parseErrorResponse(throwable: Throwable) {
@@ -103,24 +94,15 @@ class HeroListViewModel @Inject constructor(
     }
 
     fun loadMoreData() {
-        viewModelScope.launch {
-            setLoadingMore(true)
-        }
+        setLoadingMore(true)
         loadCharacters(fromStart = false)
     }
 
     private fun setLoadingMore(value: Boolean) {
-        val currentHeroes =
-            (_heroListScreenState.value.heroListState as? HeroListState.Success)?.characters
-        if (currentHeroes != null) {
-            _heroListScreenState.update {
-                it.copy(
-                    heroListState = HeroListState.Success(
-                        characters = currentHeroes,
-                        loadingMore = value,
-                    ),
-                )
-            }
+        _heroListScreenState.update { current ->
+            val successState = current.heroListState as? HeroListState.Success
+                ?: return@update current
+            current.copy(heroListState = successState.copy(loadingMore = value))
         }
     }
 }

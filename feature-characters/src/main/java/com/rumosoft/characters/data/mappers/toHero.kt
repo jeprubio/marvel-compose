@@ -14,8 +14,8 @@ fun HeroDto.toHero(): Character {
         name = name.orEmpty(),
         description = description.orEmpty(),
         thumbnail = thumbnail?.toThumbnailUrl().orEmpty(),
-        links = urls?.map { it.toUrl() }.orEmpty(),
-        comics = comics?.items?.map { it.toComicSummary() }.orEmpty(),
+        links = urls?.map { it.toUrl() } ?: emptyList(),
+        comics = comics?.items?.map { it.toComicSummary() } ?: emptyList(),
     )
 }
 

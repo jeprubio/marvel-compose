@@ -46,13 +46,13 @@ class DetailsViewModel @Inject constructor(
     }
 
     private suspend fun loadComicThumbnails(character: Character) {
-        character.comics?.filter { it.thumbnail.isNullOrEmpty() }?.forEachIndexed { index, comic ->
+        character.comics.filter { it.thumbnail.isNullOrEmpty() }.forEachIndexed { index, comic ->
             val comicId = comic.url.split("/").last().toInt()
             getComicThumbnailUseCase(comicId).fold(
                 onSuccess = { thumb ->
                     _detailsState.update {
                         val currentHero = (_detailsState.value as DetailsState.Success).character
-                        val updatedComics = currentHero.comics?.update(
+                        val updatedComics = currentHero.comics.update(
                             index = index,
                             item = comic.copy(thumbnail = thumb),
                         )

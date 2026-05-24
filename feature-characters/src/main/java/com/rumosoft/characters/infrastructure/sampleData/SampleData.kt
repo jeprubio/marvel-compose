@@ -51,7 +51,7 @@ object SampleData {
     val heroesSampleWithoutImages = heroesSample.map { hero ->
         hero.copy(
             thumbnail = "",
-            comics = hero.comics?.map {
+            comics = hero.comics.map {
                 it.copy(thumbnail = "")
             },
         )

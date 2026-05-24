@@ -64,8 +64,8 @@ fun HeroDetails(
             .clip(CircleShape)
         HeroImage(character.thumbnail, character.name, avatarModifier)
         HeroName(character.name)
-        character.links?.let { links ->
-            Links(links, Modifier.align(alignment = Alignment.CenterHorizontally))
+        if (character.links.isNotEmpty()) {
+            Links(character.links, Modifier.align(alignment = Alignment.CenterHorizontally))
         }
         Description(character.description)
         Comics(character.comics, onComicSelected)
@@ -147,9 +147,9 @@ fun Description(description: String) {
 }
 
 @Composable
-fun Comics(comics: List<ComicSummary>?, onComicSelected: (Int) -> Unit = {}) {
+fun Comics(comics: List<ComicSummary>, onComicSelected: (Int) -> Unit = {}) {
     SectionTitle(stringResource(id = R.string.comics))
-    if (!comics.isNullOrEmpty()) {
+    if (comics.isNotEmpty()) {
         LazyRow {
             items(comics) { comic ->
                 comic.thumbnail?.takeIf { it.isNotEmpty() }?.let { thumbnail ->

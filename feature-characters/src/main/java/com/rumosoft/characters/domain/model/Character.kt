@@ -13,8 +13,8 @@ data class Character(
     val name: String,
     val description: String,
     val thumbnail: String,
-    val links: List<Link>? = null,
-    val comics: List<ComicSummary>? = null,
+    val links: List<Link> = emptyList(),
+    val comics: List<ComicSummary> = emptyList(),
 ) : Parcelable
 
 @Keep

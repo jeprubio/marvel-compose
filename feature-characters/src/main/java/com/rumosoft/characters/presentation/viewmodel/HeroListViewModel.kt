@@ -86,15 +86,12 @@ class HeroListViewModel @Inject constructor(
     }
 
     fun onReachedEnd() {
-        loadMoreData()
+        setLoadingMore(true)
+        loadCharacters(fromStart = false)
     }
 
     fun retry() {
-        loadMoreData()
-    }
-
-    fun loadMoreData() {
-        setLoadingMore(true)
+        _heroListScreenState.update { it.copy(heroListState = HeroListState.Loading) }
         loadCharacters(fromStart = false)
     }
 

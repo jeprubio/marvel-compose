@@ -88,15 +88,12 @@ class ComicListViewModel @Inject constructor(
     }
 
     fun onReachedEnd() {
-        loadMoreData()
+        setLoadingMore(true)
+        loadComics(fromStart = false)
     }
 
     fun retry() {
-        loadMoreData()
-    }
-
-    fun loadMoreData() {
-        setLoadingMore(true)
+        _comicsListScreenState.update { it.copy(comicListState = ComicListState.Loading) }
         loadComics(fromStart = false)
     }
 

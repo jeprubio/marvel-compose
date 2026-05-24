@@ -11,5 +11,5 @@ import kotlinx.serialization.Serializable
 data class ComicSummary(
     val title: String,
     val url: String,
-    var thumbnail: String? = null,
+    val thumbnail: String? = null,
 ) : Parcelable

@@ -13,7 +13,7 @@ data class HeroListScreenState(
 )
 
 sealed class HeroListState {
-    object Loading : HeroListState()
+    data object Loading : HeroListState()
 
     data class Error(
         val throwable: Throwable,

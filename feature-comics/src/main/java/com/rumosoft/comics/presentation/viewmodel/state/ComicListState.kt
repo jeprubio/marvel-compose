@@ -16,7 +16,7 @@ sealed class ComicListState {
         const val RetryTag = "retry"
     }
 
-    object Loading : ComicListState()
+    data object Loading : ComicListState()
 
     data class Error(
         val throwable: Throwable,

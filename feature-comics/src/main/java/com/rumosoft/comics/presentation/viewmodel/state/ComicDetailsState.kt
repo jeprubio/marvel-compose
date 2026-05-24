@@ -7,7 +7,7 @@ const val ComicDetailsErrorResult = "comicDetailsErrorResult"
 const val ComicDetailsSuccessResult = "comicDetailsSuccessResult"
 
 sealed class ComicDetailsState {
-    object Loading : ComicDetailsState()
+    data object Loading : ComicDetailsState()
 
     data class Error(
         val throwable: Throwable,

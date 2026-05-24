@@ -7,29 +7,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.component.HeroDetails
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
+import com.rumosoft.characters.presentation.viewmodel.state.DetailsState.Error
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState.Loading
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState.Success
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListProgressIndicator
 import com.rumosoft.components.presentation.component.CustomLoading
+import com.rumosoft.components.presentation.component.ErrorMessage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
 @Composable
 fun DetailsState.BuildUI(
     modifier: Modifier = Modifier,
     onComicSelected: (Int) -> Unit,
+    onRetry: () -> Unit = {},
 ) {
     when (this) {
         is Loading -> BuildLoading()
+        is Error -> BuildError(onRetry)
         is Success -> HeroDetails(
             character = character,
             modifier = modifier,
             onComicSelected = onComicSelected,
         )
     }
+}
+
+@Composable
+private fun BuildError(onRetry: () -> Unit) {
+    val message = stringResource(id = com.rumosoft.components.R.string.error_data_message)
+    ErrorMessage(
+        message = message,
+        modifier = Modifier.fillMaxSize(),
+        onRetry = onRetry,
+    )
 }
 
 @Composable
@@ -52,7 +67,7 @@ private fun BuildLoading() {
 @Composable
 fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
-        Success(SampleData.heroesSample.first()).BuildUI {}
+        Success(SampleData.heroesSample.first()).BuildUI(onComicSelected = {})
     }
 }
 
@@ -60,6 +75,6 @@ fun PreviewDetailsSuccess() {
 @Composable
 fun PreviewDetailsLoading() {
     MarvelComposeTheme {
-        Loading
+        Loading.BuildUI(onComicSelected = {})
     }
 }

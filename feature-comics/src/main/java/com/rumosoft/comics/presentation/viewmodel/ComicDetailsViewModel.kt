@@ -20,12 +20,19 @@ class ComicDetailsViewModel @Inject constructor(
         MutableStateFlow<ComicDetailsState>(ComicDetailsState.Loading)
 
     private var initialized = false
+    private var comicId: Int = -1
 
     fun initialize(comicId: Int) {
         if (!initialized) {
             initialized = true
+            this.comicId = comicId
             setComic(comicId)
         }
+    }
+
+    fun retry() {
+        _detailsState.update { ComicDetailsState.Loading }
+        setComic(comicId)
     }
 
     private fun setComic(comicId: Int) {

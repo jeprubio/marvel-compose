@@ -30,8 +30,9 @@ fun ComicDetailsTopBar(
 @Composable
 internal fun ComicDetailsScreenContent(
     screenState: ComicDetailsState,
+    onRetry: () -> Unit = {},
 ) {
-    screenState.BuildUI()
+    screenState.BuildUI(onRetry = onRetry)
 }
 
 @Preview(showBackground = true)
@@ -45,3 +46,16 @@ fun ComicDetailsScreenPreview() {
         ComicDetailsScreenContent(ComicDetailsState.Success(SampleData.comicsSample.first()))
     }
 }
+
+@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+fun ComicDetailsScreenErrorPreview() {
+    MarvelComposeTheme {
+        ComicDetailsScreenContent(ComicDetailsState.Error(Exception("Something went wrong")))
+    }
+}
+

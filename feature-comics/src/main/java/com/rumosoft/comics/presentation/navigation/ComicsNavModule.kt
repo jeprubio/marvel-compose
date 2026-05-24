@@ -50,6 +50,7 @@ fun EntryProviderScope<NavKey>.comicsGraph(
         }
         ComicDetailsScreenContent(
             screenState = screenState,
+            onRetry = viewModel::retry,
         )
     }
 }

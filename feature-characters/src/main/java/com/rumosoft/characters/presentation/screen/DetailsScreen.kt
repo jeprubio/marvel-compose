@@ -35,8 +35,9 @@ fun CharacterDetailsTopBar(
 internal fun DetailsScreenContent(
     detailsState: DetailsState,
     onComicSelected: (Int) -> Unit = {},
+    onRetry: () -> Unit = {},
 ) {
-    detailsState.BuildUI(onComicSelected = onComicSelected)
+    detailsState.BuildUI(onComicSelected = onComicSelected, onRetry = onRetry)
 }
 
 @Preview(showBackground = true)
@@ -56,6 +57,18 @@ fun DetailsPreviewSuccess() {
 fun DetailsPreviewLoading() {
     MarvelComposeTheme {
         DetailsScreenContent(DetailsState.Loading)
+    }
+}
+
+@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+)
+@Composable
+fun DetailsPreviewError() {
+    MarvelComposeTheme {
+        DetailsScreenContent(DetailsState.Error(Exception("Something went wrong")))
     }
 }
 

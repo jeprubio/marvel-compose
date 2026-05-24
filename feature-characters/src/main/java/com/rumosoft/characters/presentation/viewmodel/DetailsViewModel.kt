@@ -25,23 +25,37 @@ class DetailsViewModel @Inject constructor(
         MutableStateFlow(initialDetailsState())
 
     private var initialized = false
+    private var characterId: Long = -1
 
     fun initialize(characterId: Long) {
         if (!initialized) {
             initialized = true
+            this.characterId = characterId
             setCharacter(characterId)
         }
+    }
+
+    fun retry() {
+        _detailsState.update { DetailsState.Loading }
+        setCharacter(characterId)
     }
 
     private fun setCharacter(characterId: Long) {
         viewModelScope.launch {
             Timber.d("characterId: $characterId")
-            val character = getCharacterDetailsUseCase(characterId).getOrNull()
-            if (character != null) {
-                _detailsState.update { DetailsState.Success(character) }
-                loadComicThumbnails(character)
-                return@launch
-            }
+            getCharacterDetailsUseCase(characterId).fold(
+                onSuccess = { character ->
+                    if (character != null) {
+                        _detailsState.update { DetailsState.Success(character) }
+                        loadComicThumbnails(character)
+                    } else {
+                        _detailsState.update { DetailsState.Error(Exception("Character not found")) }
+                    }
+                },
+                onFailure = { throwable ->
+                    _detailsState.update { DetailsState.Error(throwable) }
+                },
+            )
         }
     }
 

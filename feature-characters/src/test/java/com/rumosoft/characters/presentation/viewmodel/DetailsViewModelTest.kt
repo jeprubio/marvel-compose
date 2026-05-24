@@ -44,6 +44,57 @@ internal class DetailsViewModelTest {
         }
     }
 
+    @Test
+    fun `When getCharacterDetailsUseCase returns failure the state is Error`() {
+        runTest {
+            `given getCharacterDetailsUseCase invocation returns failure`()
+
+            `when view model is initialised`()
+
+            `then the state is Error`()
+        }
+    }
+
+    @Test
+    fun `When getCharacterDetailsUseCase returns null the state is Error`() {
+        runTest {
+            coEvery { getCharacterDetailsUseCase.invoke(hero.id) } returns Result.success(null)
+
+            `when view model is initialised`()
+
+            `then the state is Error`()
+        }
+    }
+
+    @Test
+    fun `When retry is called after error and succeeds the state is Success`() {
+        runTest {
+            `given getCharacterDetailsUseCase invocation returns failure`()
+            `when view model is initialised`()
+            `then the state is Error`()
+
+            `given getComicThumbnailUseCase invocation returns results`()
+            `given getCharacterDetailsUseCase invocation returns results`()
+            detailsViewModel.retry()
+
+            `then the state is Success`()
+        }
+    }
+
+    @Test
+    fun `When retry is called after error getCharacterDetailsUseCase is invoked again`() {
+        runTest {
+            `given getCharacterDetailsUseCase invocation returns failure`()
+            `when view model is initialised`()
+
+            `given getComicThumbnailUseCase invocation returns results`()
+            `given getCharacterDetailsUseCase invocation returns results`()
+            detailsViewModel.retry()
+
+            coVerify(exactly = 2) { getCharacterDetailsUseCase.invoke(hero.id) }
+        }
+    }
+
     private fun `given getComicThumbnailUseCase invocation returns results`() {
         coEvery { getComicThumbnailUseCase.invoke(any()) } returns
             Result.success("thumbnail")
@@ -51,6 +102,11 @@ internal class DetailsViewModelTest {
 
     private fun `given getCharacterDetailsUseCase invocation returns results`() {
         coEvery { getCharacterDetailsUseCase.invoke(hero.id) } returns Result.success(hero)
+    }
+
+    private fun `given getCharacterDetailsUseCase invocation returns failure`() {
+        coEvery { getCharacterDetailsUseCase.invoke(hero.id) } returns
+            Result.failure(Exception("Network error"))
     }
 
     private fun `when view model is initialised`() {
@@ -63,6 +119,10 @@ internal class DetailsViewModelTest {
 
     private fun `then the state is Success`() {
         assertTrue(detailsViewModel.detailsState.value is DetailsState.Success)
+    }
+
+    private fun `then the state is Error`() {
+        assertTrue(detailsViewModel.detailsState.value is DetailsState.Error)
     }
 
     private fun `then getComicThumbnailUseCase should be invoked`() {

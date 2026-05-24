@@ -54,6 +54,7 @@ fun EntryProviderScope<NavKey>.charactersGraph(
             onComicSelected = { comicId ->
                 onComicSelected(comicId)
             },
+            onRetry = viewModel::retry,
         )
     }
 }

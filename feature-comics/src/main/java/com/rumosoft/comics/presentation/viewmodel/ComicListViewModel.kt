@@ -58,7 +58,7 @@ class ComicListViewModel @Inject constructor(
         _comicsListScreenState.update {
             val previousList: List<Comic> =
                 if (page > 1 && it.comicListState is ComicListState.Success) {
-                    it.comicListState.comics.orEmpty()
+                    it.comicListState.comics
                 } else {
                     emptyList()
                 }

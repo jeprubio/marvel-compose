@@ -65,7 +65,7 @@ private fun Success.BuildSuccess(
     onCharacterClick: (Character) -> Unit,
     onEndReached: () -> Unit,
 ) {
-    characters?.takeIf { it.isNotEmpty() }?.let {
+    characters.takeIf { it.isNotEmpty() }?.let {
         HeroResults(
             characters = characters,
             loadingMore = loadingMore,

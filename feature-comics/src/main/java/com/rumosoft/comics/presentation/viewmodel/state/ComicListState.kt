@@ -23,7 +23,7 @@ sealed class ComicListState {
     ) : ComicListState()
 
     data class Success(
-        val comics: List<Comic>?,
+        val comics: List<Comic>,
         val loadingMore: Boolean = false,
         val hasMorePages: Boolean = true,
     ) : ComicListState()

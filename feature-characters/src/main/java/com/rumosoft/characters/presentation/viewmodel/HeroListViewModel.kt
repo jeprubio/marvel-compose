@@ -56,7 +56,7 @@ class HeroListViewModel @Inject constructor(
         _heroListScreenState.update {
             val previousList: List<Character> =
                 if (page > 1 && it.heroListState is HeroListState.Success) {
-                    it.heroListState.characters.orEmpty()
+                    it.heroListState.characters
                 } else {
                     emptyList()
                 }

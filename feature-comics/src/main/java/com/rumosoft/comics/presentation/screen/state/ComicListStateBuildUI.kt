@@ -81,7 +81,7 @@ private fun Success.BuildSuccess(
     onComicClick: (Comic) -> Unit,
     onEndReached: () -> Unit,
 ) {
-    comics?.takeIf { it.isNotEmpty() }?.let {
+    comics.takeIf { it.isNotEmpty() }?.let {
         ComicResults(
             comics = comics,
             loadingMore = loadingMore,

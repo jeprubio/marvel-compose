@@ -20,7 +20,7 @@ sealed class HeroListState {
     ) : HeroListState()
 
     data class Success(
-        val characters: List<Character>?,
+        val characters: List<Character>,
         val loadingMore: Boolean = false,
         val hasMorePages: Boolean = true,
     ) : HeroListState()

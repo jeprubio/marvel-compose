@@ -39,7 +39,6 @@ import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.component.SimpleMessage
 import com.rumosoft.components.presentation.theme.CustomDiamond
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
-import timber.log.Timber
 
 private const val COMIC_SHAPE_DISPLACEMENT = 10f
 
@@ -160,7 +159,6 @@ fun Comics(comics: List<ComicSummary>?, onComicSelected: (Int) -> Unit = {}) {
                         url = comic.url,
                         onComicSelected = onComicSelected,
                     )
-                    Timber.d("thumbnail: $thumbnail")
                 }
             }
         }

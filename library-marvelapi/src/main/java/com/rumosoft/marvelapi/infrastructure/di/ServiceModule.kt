@@ -1,7 +1,6 @@
 package com.rumosoft.marvelapi.infrastructure.di
 
 import com.rumosoft.marvelapi.data.network.MarvelService
-import com.rumosoft.marvelapi.infrastructure.interceptors.MarvelInterceptor
 import com.rumosoft.maverlapi.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -20,7 +19,6 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideOkHttpClient() = OkHttpClient().newBuilder().apply {
-        addInterceptor(MarvelInterceptor())
         if (BuildConfig.DEBUG) {
             addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         }

@@ -4,8 +4,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import com.karumi.shot.ScreenshotTest
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
+import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.screen.state.BuildUI
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.ErrorResult
@@ -19,8 +21,15 @@ import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
 
-internal class ComicListScreenStateTest : ScreenshotTest {
+@RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(qualifiers = RobolectricDeviceQualifiers.Pixel5)
+internal class ComicListScreenStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -54,7 +63,7 @@ internal class ComicListScreenStateTest : ScreenshotTest {
 
         composeTestRule.onNodeWithTag(ErrorResult).assertIsDisplayed()
 
-        compareScreenshot(composeTestRule)
+        composeTestRule.onRoot().captureRoboImage()
     }
 
     @Test
@@ -86,7 +95,7 @@ internal class ComicListScreenStateTest : ScreenshotTest {
 
         composeTestRule.onNodeWithTag(SuccessResult).assertIsDisplayed()
 
-        compareScreenshot(composeTestRule)
+        composeTestRule.onRoot().captureRoboImage()
     }
 
     @Test
@@ -102,6 +111,6 @@ internal class ComicListScreenStateTest : ScreenshotTest {
 
         composeTestRule.onNodeWithTag(NoResults).assertIsDisplayed()
 
-        compareScreenshot(composeTestRule)
+        composeTestRule.onRoot().captureRoboImage()
     }
 }

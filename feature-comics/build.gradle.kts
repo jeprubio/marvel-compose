@@ -4,9 +4,10 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    id("shot")
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.roborazzi)
 }
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
@@ -97,6 +98,14 @@ dependencies {
     testImplementation(libs.junitparams)
     testImplementation(libs.junit.platform.launcher)
     testImplementation(libs.junit.platform.engine)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.junit.rule)
+    testImplementation(libs.junit.vintage.engine)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.ui.test.junit4)
+    testImplementation(libs.ui.tooling)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -105,10 +114,14 @@ dependencies {
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.junit.rule)
 }
 
-shot {
-    applicationId = "com.rumosoft.marvelcomposeshot"
+roborazzi {
+    outputDir.set(file("screenshots/roborazzi"))
 }
 
 tasks.withType<Test> {

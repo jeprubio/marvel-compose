@@ -7,6 +7,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.roborazzi)
 }
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
 
 android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -45,8 +50,8 @@ android {
     namespace = "com.rumosoft.characters"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

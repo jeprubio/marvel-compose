@@ -2,9 +2,11 @@ package com.rumosoft.characters.presentation.screen.state
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.karumi.shot.ScreenshotTest
+import androidx.compose.ui.test.onRoot
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
+import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListProgressIndicator
@@ -14,8 +16,15 @@ import com.rumosoft.components.presentation.theme.LottieAnimationIterations
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
 
-internal class DetailsStateTest : ScreenshotTest {
+@RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(qualifiers = RobolectricDeviceQualifiers.Pixel5)
+internal class DetailsStateTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -46,6 +55,6 @@ internal class DetailsStateTest : ScreenshotTest {
 
         composeTestRule.onNodeWithTag(HeroListSuccessResult).assertIsDisplayed()
 
-        compareScreenshot(composeTestRule)
+        composeTestRule.onRoot().captureRoboImage()
     }
 }

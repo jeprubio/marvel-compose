@@ -35,6 +35,7 @@ import com.rumosoft.characters.presentation.component.semantics.numColumns
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
+import androidx.compose.ui.platform.LocalConfiguration
 
 private const val EXPANDED_SCREEN_COLUMNS = 3
 private const val MEDIUM_SCREEN_COLUMNS = 2
@@ -47,8 +48,9 @@ fun HeroResults(
     loadingMore: Boolean = false,
     onClick: (Character) -> Unit = {},
     onEndReached: () -> Unit = {},
+    columnsProvider: (() -> Int)? = null,
 ) {
-    val columns = getDeviceColumns()
+    val columns = columnsProvider?.invoke() ?: getDeviceColumns()
     val lastIndex = characters.lastIndex
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
@@ -74,11 +76,10 @@ fun HeroResults(
 }
 
 @Composable
-private fun getDeviceColumns(): Int = when {
-    isExpandedDisplay() -> EXPANDED_SCREEN_COLUMNS
-    !isWindowCompact() -> MEDIUM_SCREEN_COLUMNS
-    else -> COMPACT_SCREEN_COLUMNS
-}
+private fun getDeviceColumns(): Int = calculateColumnsForWindowSize(
+    isExpanded = isExpandedDisplay(),
+    isCompact = isWindowCompact(),
+)
 
 private fun onLastElementReached(onEndReached: () -> Unit) {
     Timber.d("End element reached")
@@ -177,5 +178,14 @@ fun HeroResultPreview() {
     val heroes = remember { listOf(SampleData.heroesSample.first()) }
     MarvelComposeTheme {
         HeroResults(heroes)
+    }
+}
+
+@Composable
+private fun calculateColumnsForWindowSize(isExpanded: Boolean, isCompact: Boolean): Int {
+    return when {
+        isExpanded -> EXPANDED_SCREEN_COLUMNS
+        isCompact -> COMPACT_SCREEN_COLUMNS
+        else -> MEDIUM_SCREEN_COLUMNS
     }
 }

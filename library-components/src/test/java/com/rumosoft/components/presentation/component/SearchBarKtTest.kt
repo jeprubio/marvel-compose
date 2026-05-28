@@ -2,18 +2,28 @@ package com.rumosoft.components.presentation.component
 
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
+
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
-import com.karumi.shot.ScreenshotTest
+import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
+import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.annotation.GraphicsMode
 
-internal class SearchBarKtTest : ScreenshotTest {
+@RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(qualifiers = RobolectricDeviceQualifiers.Pixel5)
+internal class SearchBarKtTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -29,7 +39,7 @@ internal class SearchBarKtTest : ScreenshotTest {
 
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertDoesNotExist()
 
-        compareScreenshot(composeTestRule)
+        composeTestRule.onRoot().captureRoboImage()
     }
 
     @Test
@@ -44,7 +54,7 @@ internal class SearchBarKtTest : ScreenshotTest {
 
         composeTestRule.onNodeWithContentDescription(clearContentDescription).assertIsDisplayed()
 
-        compareScreenshot(composeTestRule)
+        composeTestRule.onRoot().captureRoboImage()
     }
 
     @Test

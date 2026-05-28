@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
-    id("shot")
+    alias(libs.plugins.roborazzi)
 }
 java {
     toolchain {
@@ -19,7 +19,7 @@ android {
         testOptions.targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         testApplicationId = "com.rumosoft.marvelcomposetest"
-        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         vectorDrawables {
@@ -40,6 +40,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/LICENSE*"
+        }
+    }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+            isIncludeAndroidResources = true
         }
     }
     namespace = "com.rumosoft.components"
@@ -69,6 +75,22 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.navigation3.runtime)
 
+    testImplementation(project(":library-tests"))
+    testImplementation(libs.bundles.test.utilities)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.konsist)
+    testImplementation(libs.junitparams)
+    testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.platform.engine)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.junit.rule)
+    testImplementation(libs.junit.vintage.engine)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.ui.test.junit4)
+    testImplementation(libs.ui.tooling)
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -78,6 +100,10 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 }
 
-shot {
-    applicationId = "com.rumosoft.marvelcomposeshot"
+roborazzi {
+    outputDir.set(file("screenshots/roborazzi"))
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

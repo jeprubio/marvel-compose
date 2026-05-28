@@ -1,16 +1,10 @@
-name: Android CI
+name: Record Screenshot Baseline
 
 on:
-  push:
-    branches:
-      - feature/*
-      - develop
-      - master
-  pull_request:
-    branches: [ "develop", "master" ]
+  workflow_dispatch:
 
 jobs:
-  build:
+  roborazzi:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +16,6 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Build app
-        run: ./gradlew assemble
-      - name: Run tests
-        run: ./gradlew test
+      - name: Record Roborazzi screenshots baseline
+        run: ./gradlew recordRoborazziDebug
+

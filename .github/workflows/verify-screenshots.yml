@@ -1,6 +1,7 @@
-name: Android CI
+name: Verify Screenshot Tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - feature/*
@@ -10,7 +11,7 @@ on:
     branches: [ "develop", "master" ]
 
 jobs:
-  build:
+  roborazzi:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +23,6 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Build app
-        run: ./gradlew assemble
-      - name: Run tests
-        run: ./gradlew test
+      - name: Verify Roborazzi screenshots
+        run: ./gradlew verifyRoborazziDebug
+

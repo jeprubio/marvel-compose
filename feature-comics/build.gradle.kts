@@ -73,9 +73,6 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
 
-    implementation(libs.okio)
-    implementation(libs.okhttp)
-
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 

@@ -41,7 +41,7 @@ android {
         }
     }
 
-    namespace = "com.rumosoft.maverlapi"
+    namespace = "com.rumosoft.marvelapi"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21

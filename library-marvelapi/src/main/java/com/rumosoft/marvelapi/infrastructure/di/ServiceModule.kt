@@ -1,7 +1,7 @@
 package com.rumosoft.marvelapi.infrastructure.di
 
 import com.rumosoft.marvelapi.data.network.MarvelService
-import com.rumosoft.maverlapi.BuildConfig
+import com.rumosoft.marvelapi.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

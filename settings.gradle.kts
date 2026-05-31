@@ -6,20 +6,21 @@ pluginManagement {
     }
 }
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 rootProject.name = "MarvelCompose"
-include ':app'
-include ':library-components'
-include ':feature-characters'
-include ':feature-comics'
-include ':library-marvelapi'
-include ':library-tests'
+include(":app")
+include(":library-components")
+include(":feature-characters")
+include(":feature-comics")
+include(":library-marvelapi")
+include(":library-tests")
+

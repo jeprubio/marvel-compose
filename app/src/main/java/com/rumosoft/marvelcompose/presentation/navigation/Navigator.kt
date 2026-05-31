@@ -24,6 +24,18 @@ class Navigator(val state: NavigationState) {
         state.backStacks[tab]?.add(route)
     }
 
+    /**
+     * Atomically pops the current entry, switches to the target tab,
+     * and pushes a route there. Avoids the visual glitch of two separate
+     * state changes (goBack + navigateOnTab) in the same frame.
+     */
+    fun switchTabAndNavigate(tab: NavKey, route: NavKey) {
+        val currentStack = state.backStacks[state.topLevelRoute]
+        currentStack?.removeLastOrNull()
+        state.topLevelRoute = tab
+        state.backStacks[tab]?.add(route)
+    }
+
     fun goBack() {
         val currentStack = state.backStacks[state.topLevelRoute]
             ?: error("Stack for ${state.topLevelRoute} not found")

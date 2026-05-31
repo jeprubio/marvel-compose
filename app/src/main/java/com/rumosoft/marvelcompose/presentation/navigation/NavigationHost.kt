@@ -25,8 +25,7 @@ fun NavigationHost(
         charactersGraph(
             navigate = navigator::navigate,
             onComicSelected = { comicId ->
-                navigator.goBack()
-                navigator.navigateOnTab(ComicsScreen, ComicDetails(comicId))
+                navigator.switchTabAndNavigate(ComicsScreen, ComicDetails(comicId))
             },
             goBack = navigator::goBack,
             setTopBarContent = setTopBarContent,

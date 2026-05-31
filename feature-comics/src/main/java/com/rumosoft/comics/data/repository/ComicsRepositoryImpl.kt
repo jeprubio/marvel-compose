@@ -3,7 +3,7 @@ package com.rumosoft.comics.data.repository
 import com.rumosoft.comics.data.mappers.toComic
 import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
-import com.rumosoft.marvelapi.data.network.CallInProgressException
+import com.rumosoft.comics.domain.model.RequestInProgressException
 import com.rumosoft.marvelapi.data.network.ComicsNetwork
 import kotlinx.coroutines.sync.Mutex
 import timber.log.Timber
@@ -19,7 +19,7 @@ class ComicsRepositoryImpl @Inject constructor(
     override suspend fun getComics(page: Int): Result<List<Comic>> {
         if (!mutex.tryLock()) {
             Timber.d("Request is in progress current page: $page")
-            return Result.failure(CallInProgressException("Request is in progress"))
+            return Result.failure(RequestInProgressException("Request is in progress"))
         }
         return try {
             Timber.d("Fetching comics")

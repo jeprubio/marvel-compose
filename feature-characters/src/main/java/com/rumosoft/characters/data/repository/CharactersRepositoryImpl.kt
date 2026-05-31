@@ -3,7 +3,7 @@ package com.rumosoft.characters.data.repository
 import com.rumosoft.characters.data.mappers.toHero
 import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
-import com.rumosoft.marvelapi.data.network.CallInProgressException
+import com.rumosoft.characters.domain.model.RequestInProgressException
 import com.rumosoft.marvelapi.data.network.CharactersNetwork
 import kotlinx.coroutines.sync.Mutex
 import timber.log.Timber
@@ -21,7 +21,7 @@ class CharactersRepositoryImpl @Inject constructor(
     ): Result<List<Character>> {
         if (!mutex.tryLock()) {
             Timber.d("Request is in progress")
-            return Result.failure(CallInProgressException("Request is in progress"))
+            return Result.failure(RequestInProgressException("Request is in progress"))
         }
         return try {
             Timber.d("Fetching characters")

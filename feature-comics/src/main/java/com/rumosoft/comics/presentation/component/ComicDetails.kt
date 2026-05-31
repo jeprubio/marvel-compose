@@ -36,6 +36,7 @@ fun ComicDetails(
                     modifier = Modifier
                         .height(570.dp)
                         .fillMaxWidth(),
+                    contentDescription = comic.title,
                     contentScale = imageContentScale,
                 )
             }

@@ -8,6 +8,9 @@ import com.rumosoft.characters.domain.usecase.GetComicThumbnailUseCase
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.marvelapi.infrastructure.extensions.update
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -60,24 +63,27 @@ class DetailsViewModel @Inject constructor(
     }
 
     private suspend fun loadComicThumbnails(character: Character) {
-        character.comics.filter { it.thumbnail.isNullOrEmpty() }.forEachIndexed { index, comic ->
-            val comicId = comic.url.split("/").lastOrNull()?.toIntOrNull() ?: return@forEachIndexed
-            getComicThumbnailUseCase(comicId).fold(
-                onSuccess = { thumb ->
-                    _detailsState.update { currentState ->
-                        val currentHero = (currentState as? DetailsState.Success)?.character
-                            ?: return@update currentState
-                        val updatedComics = currentHero.comics.update(
-                            index = index,
-                            item = comic.copy(thumbnail = thumb),
-                        )
-                        DetailsState.Success(currentHero.copy(comics = updatedComics))
+        coroutineScope {
+            character.comics
+                .filter { it.thumbnail.isNullOrEmpty() }
+                .mapIndexed { index, comic ->
+                    async {
+                        val comicId = comic.url.split("/").lastOrNull()?.toIntOrNull()
+                            ?: return@async
+                        getComicThumbnailUseCase(comicId).onSuccess { thumb ->
+                            _detailsState.update { currentState ->
+                                val currentHero = (currentState as? DetailsState.Success)?.character
+                                    ?: return@update currentState
+                                val updatedComics = currentHero.comics.update(
+                                    index = index,
+                                    item = comic.copy(thumbnail = thumb),
+                                )
+                                DetailsState.Success(currentHero.copy(comics = updatedComics))
+                            }
+                        }
                     }
-                },
-                onFailure = {
-                    /* Do nothing */
-                },
-            )
+                }
+                .awaitAll()
         }
     }
 

@@ -4,6 +4,8 @@ import com.rumosoft.libraryTests.FileReader
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -13,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 
 @ExtendWith(TestCoroutineExtension::class)
@@ -24,10 +26,16 @@ internal class CharactersNetworkImplIntegrationTest {
         .readTimeout(1, TimeUnit.SECONDS)
         .writeTimeout(1, TimeUnit.SECONDS)
         .build()
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = false
+    }
+
     private val marvelService: MarvelService = Retrofit.Builder()
         .baseUrl(mockWebServer.url("/"))
         .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
         .create(MarvelService::class.java)
     private val charactersNetwork: CharactersNetwork

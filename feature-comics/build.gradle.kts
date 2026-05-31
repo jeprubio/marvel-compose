@@ -73,10 +73,6 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
 
-    // Gson + Retrofit (to perform API calls and parse the response)
-    implementation(libs.gson)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
     implementation(libs.okio)
     implementation(libs.okhttp)
 

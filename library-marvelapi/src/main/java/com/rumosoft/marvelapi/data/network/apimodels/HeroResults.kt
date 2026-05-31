@@ -1,8 +1,10 @@
 package com.rumosoft.marvelapi.data.network.apimodels
 
 import androidx.annotation.Keep
+import kotlinx.serialization.Serializable
 
 @Keep
+@Serializable
 data class HeroResults(
     val code: Int? = null,
     val status: String? = null,
@@ -13,6 +15,7 @@ data class HeroResults(
 )
 
 @Keep
+@Serializable
 data class SearchData(
     val offset: Int? = null,
     val limit: Int? = null,

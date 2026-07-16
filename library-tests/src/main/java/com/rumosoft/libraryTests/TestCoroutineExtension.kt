@@ -13,11 +13,11 @@ import org.junit.jupiter.api.extension.ExtensionContext
 class TestCoroutineExtension : BeforeAllCallback, AfterAllCallback {
     private val dispatcher = UnconfinedTestDispatcher()
 
-    override fun beforeAll(context: ExtensionContext?) {
+    override fun beforeAll(context: ExtensionContext) {
         Dispatchers.setMain(dispatcher)
     }
 
-    override fun afterAll(context: ExtensionContext?) {
+    override fun afterAll(context: ExtensionContext) {
         Dispatchers.resetMain()
     }
 }

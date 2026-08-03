@@ -11,6 +11,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -48,6 +50,28 @@ internal class ComicsRepositoryImplTest {
             `then fetchComic gets executed on network`()
         }
 
+    @Test
+    fun `getComics propagates hasMorePages false when the network signals the last page`() =
+        runTest {
+            `given the network getComics returns a result with no more pages`()
+
+            val result = comicsRepository.getComics(1)
+
+            assertTrue(result.isSuccess)
+            assertEquals(false, result.getOrThrow().hasMorePages)
+        }
+
+    @Test
+    fun `getComics propagates hasMorePages true when the network signals more pages exist`() =
+        runTest {
+            `given the network getComics returns a result with more pages`()
+
+            val result = comicsRepository.getComics(1)
+
+            assertTrue(result.isSuccess)
+            assertEquals(true, result.getOrThrow().hasMorePages)
+        }
+
     private fun `given getComics invocation on network returns results`() {
         coEvery { comicsNetwork.getComics(offset, limit) } returns
             Result.success(
@@ -81,5 +105,25 @@ internal class ComicsRepositoryImplTest {
 
     private fun `then fetchComic gets executed on network`() {
         coVerify { comicsNetwork.fetchComic(comicId) }
+    }
+
+    private fun `given the network getComics returns a result with no more pages`() {
+        coEvery { comicsNetwork.getComics(any(), any()) } returns
+            Result.success(
+                ComicsResult(
+                    paginationInfo = PaginationInfo(current = 1, total = 1, hasMorePages = false),
+                    comics = emptyList(),
+                ),
+            )
+    }
+
+    private fun `given the network getComics returns a result with more pages`() {
+        coEvery { comicsNetwork.getComics(any(), any()) } returns
+            Result.success(
+                ComicsResult(
+                    paginationInfo = PaginationInfo(current = 1, total = 5, hasMorePages = true),
+                    comics = emptyList(),
+                ),
+            )
     }
 }

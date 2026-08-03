@@ -128,12 +128,87 @@ internal class CharactersNetworkImplTest {
             )
     }
 
+    @Test
+    fun `getHeroes returns hasMorePages false when offset plus result count equals total`() =
+        runTest {
+            `given a response where offset plus count equals total`()
+
+            val response = `when getHeroes gets called on the network`()
+
+            `then hasMorePages should be false`(response)
+        }
+
+    @Test
+    fun `getHeroes returns hasMorePages true when more pages remain`() =
+        runTest {
+            `given a response where offset plus count is less than total`()
+
+            val response = `when getHeroes gets called on the network`()
+
+            `then hasMorePages should be true`(response)
+        }
+
+    @Test
+    fun `getHeroes returns hasMorePages true when total is null`() =
+        runTest {
+            `given a response where total is null`()
+
+            val response = `when getHeroes gets called on the network`()
+
+            `then hasMorePages should be true`(response)
+        }
+
     private fun `given an exception is thrown when getHeroes gets called on the service`() {
         coEvery { marvelService.getHeroes() } throws Exception()
     }
 
     private fun `given an exception is thrown when searchComic gets called on the service`() {
         coEvery { marvelService.searchComic(any()) } throws Exception()
+    }
+
+    private fun `given a response where offset plus count equals total`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 0,
+                    limit = limit,
+                    total = 1,
+                    count = 1,
+                    results = listOf(
+                        HeroDto(id = 0, name = "Hero", thumbnail = ImageDto("path", "jpg")),
+                    ),
+                ),
+            )
+    }
+
+    private fun `given a response where offset plus count is less than total`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 0,
+                    limit = limit,
+                    total = 100,
+                    count = limit,
+                    results = (1..limit).map {
+                        HeroDto(id = it.toLong(), name = "Hero$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response where total is null`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 0,
+                    limit = limit,
+                    total = null,
+                    count = 1,
+                    results = listOf(
+                        HeroDto(id = 0, name = "Hero", thumbnail = ImageDto("path", "jpg")),
+                    ),
+                ),
+            )
     }
 
     private suspend fun `when getHeroes gets called on the network`(): Result<HeroesResult> {
@@ -166,5 +241,15 @@ internal class CharactersNetworkImplTest {
 
     private fun `then the getComicThumbnail response should be of type Error`(response: Result<String>) {
         assertTrue(response.isFailure)
+    }
+
+    private fun `then hasMorePages should be false`(response: Result<HeroesResult>) {
+        assertTrue(response.isSuccess)
+        assertEquals(false, response.getOrThrow().paginationInfo.hasMorePages)
+    }
+
+    private fun `then hasMorePages should be true`(response: Result<HeroesResult>) {
+        assertTrue(response.isSuccess)
+        assertEquals(true, response.getOrThrow().paginationInfo.hasMorePages)
     }
 }

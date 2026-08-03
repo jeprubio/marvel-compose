@@ -1,5 +1,6 @@
 package com.rumosoft.characters.data.repository
 
+import com.rumosoft.characters.domain.model.CharactersPage
 import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
@@ -11,6 +12,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -81,4 +84,38 @@ internal class CharactersRepositoryImplTest {
     private fun `then getComicThumbnail gets executed on network`() {
         coVerify { marvelNetwork.getComicThumbnail(comicId) }
     }
+
+    @Test
+    fun `getCharacters propagates hasMorePages false when the network signals the last page`() =
+        runTest {
+            coEvery { marvelNetwork.getHeroes(any(), any()) } returns
+                Result.success(
+                    HeroesResult(
+                        paginationInfo = PaginationInfo(current = 1, total = 1, hasMorePages = false),
+                        characters = emptyList(),
+                    ),
+                )
+
+            val result: Result<CharactersPage> = charactersRepository.getCharacters(1)
+
+            assertTrue(result.isSuccess)
+            assertEquals(false, result.getOrThrow().hasMorePages)
+        }
+
+    @Test
+    fun `getCharacters propagates hasMorePages true when the network signals more pages exist`() =
+        runTest {
+            coEvery { marvelNetwork.getHeroes(any(), any()) } returns
+                Result.success(
+                    HeroesResult(
+                        paginationInfo = PaginationInfo(current = 1, total = 5, hasMorePages = true),
+                        characters = emptyList(),
+                    ),
+                )
+
+            val result: Result<CharactersPage> = charactersRepository.getCharacters(1)
+
+            assertTrue(result.isSuccess)
+            assertEquals(true, result.getOrThrow().hasMorePages)
+        }
 }

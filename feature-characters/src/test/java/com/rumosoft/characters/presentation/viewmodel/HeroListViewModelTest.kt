@@ -8,6 +8,7 @@ import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -112,6 +113,35 @@ internal class HeroListViewModelTest {
             `then the use case is invoked for page 2`()
         }
 
+    @Test
+    fun `onReachedEnd does not trigger a second fetch while one is already in progress`() =
+        runTest {
+            val deferred = CompletableDeferred<Result<CharactersPage>>()
+            `given getCharactersUseCase invocation returns results`()
+            coEvery { getCharactersUseCase.invoke(2) } coAnswers { deferred.await() }
+            `when initialising the ViewModel`()
+
+            heroListViewModel.onReachedEnd()
+            heroListViewModel.onReachedEnd()
+
+            coVerify(exactly = 1) { getCharactersUseCase.invoke(2) }
+
+            deferred.complete(Result.success(CharactersPage(emptyList(), hasMorePages = false)))
+        }
+
+    @Test
+    fun `characters from all loaded pages are accumulated in the state`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results`()
+            coEvery { getCharactersUseCase.invoke(2) } returns
+                Result.success(CharactersPage(listOf(hero), hasMorePages = false))
+            `when initialising the ViewModel`()
+
+            heroListViewModel.onReachedEnd()
+
+            `then the accumulated character list contains items from both pages`()
+        }
+
     private fun `given getCharactersUseCase invocation returns results`() {
         coEvery { getCharactersUseCase.invoke(1) } returns
             Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
@@ -189,5 +219,10 @@ internal class HeroListViewModelTest {
 
     private fun `then the use case is invoked for page 2`() {
         coVerify { getCharactersUseCase.invoke(2) }
+    }
+
+    private fun `then the accumulated character list contains items from both pages`() {
+        val state = heroListViewModel.heroListScreenState.value.heroListState as HeroListState.Success
+        assertEquals(SampleData.heroesSample.size + 1, state.characters.size)
     }
 }

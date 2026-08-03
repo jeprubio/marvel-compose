@@ -8,6 +8,7 @@ import com.rumosoft.libraryTests.TestCoroutineExtension
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -112,6 +113,35 @@ internal class ComicListViewModelTest {
             `then the use case is invoked for page 2`()
         }
 
+    @Test
+    fun `onReachedEnd does not trigger a second fetch while one is already in progress`() =
+        runTest {
+            val deferred = CompletableDeferred<Result<ComicsPage>>()
+            `given searchUseCase invocation returns results`()
+            coEvery { comicsUseCase.invoke(2) } coAnswers { deferred.await() }
+            `when initialising the ViewModel`()
+
+            comicListViewModel.onReachedEnd()
+            comicListViewModel.onReachedEnd()
+
+            coVerify(exactly = 1) { comicsUseCase.invoke(2) }
+
+            deferred.complete(Result.success(ComicsPage(emptyList(), hasMorePages = false)))
+        }
+
+    @Test
+    fun `comics from all loaded pages are accumulated in the state`() =
+        runTest {
+            `given searchUseCase invocation returns results`()
+            coEvery { comicsUseCase.invoke(2) } returns
+                Result.success(ComicsPage(listOf(comic), hasMorePages = false))
+            `when initialising the ViewModel`()
+
+            comicListViewModel.onReachedEnd()
+
+            `then the accumulated comic list contains items from both pages`()
+        }
+
     private fun `given searchUseCase invocation returns results`() {
         coEvery { comicsUseCase.invoke(1) } returns
             Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = true))
@@ -189,5 +219,10 @@ internal class ComicListViewModelTest {
 
     private fun `then the use case is invoked for page 2`() {
         coVerify { comicsUseCase.invoke(2) }
+    }
+
+    private fun `then the accumulated comic list contains items from both pages`() {
+        val state = comicListViewModel.comicsListScreenState.value.comicListState as ComicListState.Success
+        assertEquals(SampleData.comicsSample.size + 1, state.comics.size)
     }
 }

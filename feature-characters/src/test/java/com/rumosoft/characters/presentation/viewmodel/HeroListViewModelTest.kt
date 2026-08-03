@@ -1,5 +1,6 @@
 package com.rumosoft.characters.presentation.viewmodel
 
+import com.rumosoft.characters.domain.model.CharactersPage
 import com.rumosoft.characters.domain.usecase.GetCharactersUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
@@ -78,14 +79,57 @@ internal class HeroListViewModelTest {
         }
     }
 
+    @Test
+    fun `Success state propagates hasMorePages when the page reports no more pages`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results without more pages`()
+
+            `when initialising the ViewModel`()
+
+            `then the Success state reports hasMorePages as false`()
+        }
+
+    @Test
+    fun `onReachedEnd does not fetch the next page when hasMorePages is false`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results without more pages`()
+            `when initialising the ViewModel`()
+
+            heroListViewModel.onReachedEnd()
+
+            `then the use case is invoked only once`()
+        }
+
+    @Test
+    fun `onReachedEnd fetches the next page when hasMorePages is true`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results`()
+            `given getCharactersUseCase invocation for page 2 returns results without more pages`()
+            `when initialising the ViewModel`()
+
+            heroListViewModel.onReachedEnd()
+
+            `then the use case is invoked for page 2`()
+        }
+
     private fun `given getCharactersUseCase invocation returns results`() {
         coEvery { getCharactersUseCase.invoke(1) } returns
-            Result.success(SampleData.heroesSample)
+            Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
     }
 
     private fun `given getCharactersUseCase invocation returns error`() {
         coEvery { getCharactersUseCase.invoke(1) } returns
             Result.failure(Exception())
+    }
+
+    private fun `given getCharactersUseCase invocation returns results without more pages`() {
+        coEvery { getCharactersUseCase.invoke(1) } returns
+            Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = false))
+    }
+
+    private fun `given getCharactersUseCase invocation for page 2 returns results without more pages`() {
+        coEvery { getCharactersUseCase.invoke(2) } returns
+            Result.success(CharactersPage(emptyList(), hasMorePages = false))
     }
 
     private fun `given the ViewModel is initialised`() {
@@ -131,5 +175,19 @@ internal class HeroListViewModelTest {
 
     private fun `then the screen state selected hero should have been reset`() {
         assertNull(heroListViewModel.heroListScreenState.value.selectedCharacter)
+    }
+
+    private fun `then the Success state reports hasMorePages as false`() {
+        val state = heroListViewModel.heroListScreenState.value.heroListState
+        assertTrue(state is HeroListState.Success)
+        assertEquals(false, (state as HeroListState.Success).hasMorePages)
+    }
+
+    private fun `then the use case is invoked only once`() {
+        coVerify(exactly = 1) { getCharactersUseCase.invoke(any()) }
+    }
+
+    private fun `then the use case is invoked for page 2`() {
+        coVerify { getCharactersUseCase.invoke(2) }
     }
 }

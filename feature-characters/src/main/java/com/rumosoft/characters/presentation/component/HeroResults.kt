@@ -48,6 +48,7 @@ fun HeroResults(
     loadingMore: Boolean = false,
     onClick: (Character) -> Unit = {},
     onEndReached: () -> Unit = {},
+    hasMorePages: Boolean = true,
     columnsProvider: (() -> Int)? = null,
 ) {
     val columns = columnsProvider?.invoke() ?: getDeviceColumns()
@@ -60,7 +61,7 @@ fun HeroResults(
             .semantics { numColumns = columns },
     ) {
         itemsIndexed(characters) { index, hero ->
-            if (lastIndex == index) {
+            if (hasMorePages && lastIndex == index) {
                 LaunchedEffect(lastIndex) {
                     onLastElementReached(onEndReached)
                 }

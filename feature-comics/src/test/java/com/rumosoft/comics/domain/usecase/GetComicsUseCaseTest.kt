@@ -1,6 +1,7 @@
 package com.rumosoft.comics.domain.usecase
 
 import com.rumosoft.comics.domain.model.Comic
+import com.rumosoft.comics.domain.model.ComicsPage
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
@@ -38,7 +39,7 @@ internal class GetComicsUseCaseTest {
 
     private fun `given getComics invocation returns results`() {
         coEvery { repo.getComics(1) } returns
-            Result.success(comicsList)
+            Result.success(ComicsPage(comicsList, hasMorePages = true))
     }
 
     private suspend fun `when the use case gets invoked`() {

@@ -88,6 +88,7 @@ private fun Success.BuildSuccess(
             modifier = Modifier.testTag(ComicListState.SuccessResult),
             onClick = onComicClick,
             onEndReached = onEndReached,
+            hasMorePages = hasMorePages,
         )
     } ?: run {
         SimpleMessage(

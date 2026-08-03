@@ -20,13 +20,16 @@ class ComicsNetworkImpl @Inject constructor(
                 limit = limit,
             )
             result.data?.let { data ->
+                val results = data.results.orEmpty()
+                val total = data.total ?: Int.MAX_VALUE
                 Result.success(
                     ComicsResult(
                         paginationInfo = PaginationInfo(
                             current = data.offset?.div(limit) ?: 1,
-                            total = data.total?.div(limit) ?: Int.MAX_VALUE,
+                            total = total.div(limit),
+                            hasMorePages = (data.offset ?: 0) + results.size < total,
                         ),
-                        comics = data.results.orEmpty(),
+                        comics = results,
                     ),
                 )
             } ?: run {

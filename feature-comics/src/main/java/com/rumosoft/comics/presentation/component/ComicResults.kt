@@ -36,6 +36,7 @@ fun ComicResults(
     loadingMore: Boolean = false,
     onClick: (Comic) -> Unit = {},
     onEndReached: () -> Unit = {},
+    hasMorePages: Boolean = true,
 ) {
     val lastIndex = comics.lastIndex
     LazyVerticalGrid(
@@ -44,7 +45,7 @@ fun ComicResults(
         modifier = modifier.fillMaxWidth(),
     ) {
         itemsIndexed(comics) { index, comic ->
-            if (lastIndex == index) {
+            if (hasMorePages && lastIndex == index) {
                 LaunchedEffect(lastIndex) {
                     onLastElementReached(onEndReached)
                 }

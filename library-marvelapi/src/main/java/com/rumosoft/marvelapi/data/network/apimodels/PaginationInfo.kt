@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class PaginationInfo(
-    var current: Int,
-    var total: Int,
+    val current: Int,
+    val total: Int,
+    val hasMorePages: Boolean = true,
 )
+

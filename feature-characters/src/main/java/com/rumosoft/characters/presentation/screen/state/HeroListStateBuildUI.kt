@@ -72,6 +72,7 @@ private fun Success.BuildSuccess(
             modifier = Modifier.testTag(HeroListSuccessResult),
             onClick = onCharacterClick,
             onEndReached = onEndReached,
+            hasMorePages = hasMorePages,
         )
     } ?: run {
         SimpleMessage(

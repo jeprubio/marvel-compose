@@ -1,5 +1,6 @@
 package com.rumosoft.characters.domain.usecase
 
+import com.rumosoft.characters.domain.model.CharactersPage
 import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.libraryTests.TestCoroutineExtension
@@ -35,7 +36,7 @@ internal class GetCharactersUseCaseTest {
 
     private fun `given getCharacters invocation returns results`() {
         coEvery { repo.getCharacters(1) } returns
-            Result.success(SampleData.heroesSample)
+            Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
     }
 
     private suspend fun `when the use case gets invoked`() {

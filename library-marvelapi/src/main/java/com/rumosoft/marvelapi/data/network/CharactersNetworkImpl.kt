@@ -21,13 +21,16 @@ class CharactersNetworkImpl @Inject constructor(
                 limit = limit,
             )
             result.data?.let { data ->
+                val results = data.results.orEmpty()
+                val total = data.total ?: Int.MAX_VALUE
                 Result.success(
                     HeroesResult(
                         paginationInfo = PaginationInfo(
                             current = data.offset?.div(limit) ?: 1,
-                            total = data.total?.div(limit) ?: Int.MAX_VALUE,
+                            total = total.div(limit),
+                            hasMorePages = (data.offset ?: 0) + results.size < total,
                         ),
-                        characters = data.results.orEmpty(),
+                        characters = results,
                     ),
                 )
             } ?: run {

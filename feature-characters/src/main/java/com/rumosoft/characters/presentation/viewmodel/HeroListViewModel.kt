@@ -3,6 +3,7 @@ package com.rumosoft.characters.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.characters.domain.model.Character
+import com.rumosoft.characters.domain.model.CharactersPage
 import com.rumosoft.characters.domain.usecase.GetCharactersUseCase
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListScreenState
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
@@ -36,8 +37,8 @@ class HeroListViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getCharactersUseCase(currentPage).fold(
-                    onSuccess = { charactersList ->
-                        parseSuccessResponse(charactersList, currentPage)
+                    onSuccess = { charactersPage ->
+                        parseSuccessResponse(charactersPage, currentPage)
                         currentPage++
                     },
                     onFailure = { parseErrorResponse(it) },
@@ -51,7 +52,7 @@ class HeroListViewModel @Inject constructor(
         }
     }
 
-    private fun parseSuccessResponse(charactersList: List<Character>, page: Int) {
+    private fun parseSuccessResponse(charactersPage: CharactersPage, page: Int) {
         setLoadingMore(false)
         _heroListScreenState.update {
             val previousList: List<Character> =
@@ -62,8 +63,9 @@ class HeroListViewModel @Inject constructor(
                 }
             it.copy(
                 heroListState = HeroListState.Success(
-                    characters = previousList + charactersList,
+                    characters = previousList + charactersPage.characters,
                     loadingMore = false,
+                    hasMorePages = charactersPage.hasMorePages,
                 ),
             )
         }
@@ -86,6 +88,9 @@ class HeroListViewModel @Inject constructor(
     }
 
     fun onReachedEnd() {
+        val current =
+            _heroListScreenState.value.heroListState as? HeroListState.Success ?: return
+        if (!current.hasMorePages || current.loadingMore) return
         setLoadingMore(true)
         loadCharacters(fromStart = false)
     }

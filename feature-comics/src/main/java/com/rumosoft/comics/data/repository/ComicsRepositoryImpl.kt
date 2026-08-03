@@ -2,6 +2,7 @@ package com.rumosoft.comics.data.repository
 
 import com.rumosoft.comics.data.mappers.toComic
 import com.rumosoft.comics.domain.model.Comic
+import com.rumosoft.comics.domain.model.ComicsPage
 import com.rumosoft.comics.domain.usecase.interfaces.ComicsRepository
 import com.rumosoft.comics.domain.model.RequestInProgressException
 import com.rumosoft.marvelapi.data.network.ComicsNetwork
@@ -16,7 +17,7 @@ class ComicsRepositoryImpl @Inject constructor(
 ) : ComicsRepository {
     private val mutex = Mutex()
 
-    override suspend fun getComics(page: Int): Result<List<Comic>> {
+    override suspend fun getComics(page: Int): Result<ComicsPage> {
         if (!mutex.tryLock()) {
             Timber.d("Request is in progress current page: $page")
             return Result.failure(RequestInProgressException("Request is in progress"))
@@ -38,11 +39,14 @@ class ComicsRepositoryImpl @Inject constructor(
         return network.fetchComic(comicId).map { it.toComic() }
     }
 
-    private suspend fun performNetworkFetch(page: Int): Result<List<Comic>> {
+    private suspend fun performNetworkFetch(page: Int): Result<ComicsPage> {
         val offset = (page - 1) * LIMIT
         val networkResult = network.getComics(offset, LIMIT)
         return networkResult.map { result ->
-            result.comics?.map { it.toComic() } ?: emptyList()
+            ComicsPage(
+                comics = result.comics?.map { it.toComic() } ?: emptyList(),
+                hasMorePages = result.paginationInfo.hasMorePages,
+            )
         }
     }
 }

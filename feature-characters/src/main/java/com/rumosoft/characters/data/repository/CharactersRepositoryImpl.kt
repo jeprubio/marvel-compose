@@ -2,6 +2,7 @@ package com.rumosoft.characters.data.repository
 
 import com.rumosoft.characters.data.mappers.toHero
 import com.rumosoft.characters.domain.model.Character
+import com.rumosoft.characters.domain.model.CharactersPage
 import com.rumosoft.characters.domain.usecase.interfaces.CharactersRepository
 import com.rumosoft.characters.domain.model.RequestInProgressException
 import com.rumosoft.marvelapi.data.network.CharactersNetwork
@@ -18,7 +19,7 @@ class CharactersRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacters(
         page: Int,
-    ): Result<List<Character>> {
+    ): Result<CharactersPage> {
         if (!mutex.tryLock()) {
             Timber.d("Request is in progress")
             return Result.failure(RequestInProgressException("Request is in progress"))
@@ -50,11 +51,14 @@ class CharactersRepositoryImpl @Inject constructor(
 
     private suspend fun performNetworkFetch(
         page: Int,
-    ): Result<List<Character>> {
+    ): Result<CharactersPage> {
         val offset = (page - 1) * CHARACTERS_LIMIT
         val networkResult = network.getHeroes(offset, CHARACTERS_LIMIT)
         return networkResult.map { result ->
-            result.characters?.map { it.toHero() } ?: emptyList()
+            CharactersPage(
+                characters = result.characters?.map { it.toHero() } ?: emptyList(),
+                hasMorePages = result.paginationInfo.hasMorePages,
+            )
         }
     }
 }

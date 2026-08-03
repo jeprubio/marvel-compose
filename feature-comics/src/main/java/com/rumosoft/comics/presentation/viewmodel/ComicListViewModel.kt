@@ -3,6 +3,7 @@ package com.rumosoft.comics.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.comics.domain.model.Comic
+import com.rumosoft.comics.domain.model.ComicsPage
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListScreenState
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -36,8 +37,8 @@ class ComicListViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getComicsUseCase(currentPage).fold(
-                    onSuccess = { comicsList ->
-                        parseSuccessResponse(comicsList, currentPage)
+                    onSuccess = { comicsPage ->
+                        parseSuccessResponse(comicsPage, currentPage)
                         currentPage++
                     },
                     onFailure = { throwable ->
@@ -53,7 +54,7 @@ class ComicListViewModel @Inject constructor(
         }
     }
 
-    private fun parseSuccessResponse(comicsList: List<Comic>, page: Int) {
+    private fun parseSuccessResponse(comicsPage: ComicsPage, page: Int) {
         setLoadingMore(false)
         _comicsListScreenState.update {
             val previousList: List<Comic> =
@@ -64,8 +65,9 @@ class ComicListViewModel @Inject constructor(
                 }
             it.copy(
                 comicListState = ComicListState.Success(
-                    comics = previousList + comicsList,
+                    comics = previousList + comicsPage.comics,
                     loadingMore = false,
+                    hasMorePages = comicsPage.hasMorePages,
                 ),
             )
         }
@@ -88,6 +90,9 @@ class ComicListViewModel @Inject constructor(
     }
 
     fun onReachedEnd() {
+        val current =
+            _comicsListScreenState.value.comicListState as? ComicListState.Success ?: return
+        if (!current.hasMorePages || current.loadingMore) return
         setLoadingMore(true)
         loadComics(fromStart = false)
     }

@@ -1,5 +1,6 @@
 package com.rumosoft.comics.presentation.viewmodel
 
+import com.rumosoft.comics.domain.model.ComicsPage
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -78,14 +79,57 @@ internal class ComicListViewModelTest {
         }
     }
 
+    @Test
+    fun `Success state propagates hasMorePages when the page reports no more pages`() =
+        runTest {
+            `given searchUseCase invocation returns results without more pages`()
+
+            `when initialising the ViewModel`()
+
+            `then the Success state reports hasMorePages as false`()
+        }
+
+    @Test
+    fun `onReachedEnd does not fetch the next page when hasMorePages is false`() =
+        runTest {
+            `given searchUseCase invocation returns results without more pages`()
+            `when initialising the ViewModel`()
+
+            comicListViewModel.onReachedEnd()
+
+            `then the use case is invoked only once`()
+        }
+
+    @Test
+    fun `onReachedEnd fetches the next page when hasMorePages is true`() =
+        runTest {
+            `given searchUseCase invocation returns results`()
+            `given searchUseCase invocation for page 2 returns results without more pages`()
+            `when initialising the ViewModel`()
+
+            comicListViewModel.onReachedEnd()
+
+            `then the use case is invoked for page 2`()
+        }
+
     private fun `given searchUseCase invocation returns results`() {
         coEvery { comicsUseCase.invoke(1) } returns
-            Result.success(SampleData.comicsSample)
+            Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = true))
     }
 
     private fun `given searchUseCase invocation returns error`() {
         coEvery { comicsUseCase.invoke(1) } returns
             Result.failure(Exception())
+    }
+
+    private fun `given searchUseCase invocation returns results without more pages`() {
+        coEvery { comicsUseCase.invoke(1) } returns
+            Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = false))
+    }
+
+    private fun `given searchUseCase invocation for page 2 returns results without more pages`() {
+        coEvery { comicsUseCase.invoke(2) } returns
+            Result.success(ComicsPage(emptyList(), hasMorePages = false))
     }
 
     private fun `given the ViewModel is initialised`() {
@@ -131,5 +175,19 @@ internal class ComicListViewModelTest {
 
     private fun `then the screen state selected comic should have been reset`() {
         assertNull(comicListViewModel.comicsListScreenState.value.selectedComic)
+    }
+
+    private fun `then the Success state reports hasMorePages as false`() {
+        val state = comicListViewModel.comicsListScreenState.value.comicListState
+        assertTrue(state is ComicListState.Success)
+        assertEquals(false, (state as ComicListState.Success).hasMorePages)
+    }
+
+    private fun `then the use case is invoked only once`() {
+        coVerify(exactly = 1) { comicsUseCase.invoke(any()) }
+    }
+
+    private fun `then the use case is invoked for page 2`() {
+        coVerify { comicsUseCase.invoke(2) }
     }
 }

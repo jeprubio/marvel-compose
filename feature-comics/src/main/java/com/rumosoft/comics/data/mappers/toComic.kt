@@ -17,8 +17,3 @@ fun ComicDto.toComic(): Comic {
     )
 }
 
-fun ComicDto.getThumbnail(): String? {
-    return thumbnail?.path?.takeIf { "image_not_available" !in it }?.let {
-        "${thumbnail!!.path}.${thumbnail!!.extension}"
-    }
-}

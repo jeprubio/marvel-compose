@@ -1,5 +1,6 @@
 package com.rumosoft.components.presentation.component
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -67,7 +68,7 @@ fun SearchBar(
             .focusRequester(focusRequester)
             .fillMaxWidth()
             .semantics { contentDescription = searchTextContentDescription },
-        textStyle = TextStyle(color = Color.Black, fontSize = 18.sp),
+        textStyle = TextStyle(color = MarvelComposeTheme.colors.onBackground, fontSize = 18.sp),
         leadingIcon = {
             SearchBarLeadingIcon(onLeadingClicked)
         },
@@ -79,8 +80,8 @@ fun SearchBar(
         singleLine = true,
         shape = RectangleShape,
         colors = TextFieldDefaults.colors(
-            unfocusedTextColor = Color.Black,
-            cursorColor = Color.Black,
+            unfocusedTextColor = MarvelComposeTheme.colors.onBackground,
+            cursorColor = MarvelComposeTheme.colors.onBackground,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
@@ -131,6 +132,10 @@ private fun SearchBarTrailingIcon(
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun SearchViewPreviewEmpty() {
     MarvelComposeTheme {
@@ -139,6 +144,10 @@ private fun SearchViewPreviewEmpty() {
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun SearchViewPreviewWithText() {
     MarvelComposeTheme {

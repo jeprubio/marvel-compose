@@ -41,7 +41,7 @@ internal fun ComicDetailsScreenContent(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun ComicDetailsScreenPreview() {
+private fun ComicDetailsScreenPreview() {
     MarvelComposeTheme {
         ComicDetailsScreenContent(ComicDetailsState.Success(SampleData.comicsSample.first()))
     }
@@ -53,7 +53,7 @@ fun ComicDetailsScreenPreview() {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun ComicDetailsScreenErrorPreview() {
+private fun ComicDetailsScreenErrorPreview() {
     MarvelComposeTheme {
         ComicDetailsScreenContent(ComicDetailsState.Error(Exception("Something went wrong")))
     }

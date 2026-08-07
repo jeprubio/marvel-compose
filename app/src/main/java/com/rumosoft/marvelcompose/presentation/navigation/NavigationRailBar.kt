@@ -45,7 +45,7 @@ fun NavigationRailBar(
 
 @Preview
 @Composable
-fun PreviewNavigationRailBar() {
+private fun PreviewNavigationRailBar() {
     MarvelComposeTheme {
         NavigationRailBar(
             currentScreen = CharactersScreen,

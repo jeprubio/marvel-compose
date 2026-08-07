@@ -132,7 +132,7 @@ private fun SearchBarTrailingIcon(
 
 @Preview(showBackground = true)
 @Composable
-fun SearchViewPreviewEmpty() {
+private fun SearchViewPreviewEmpty() {
     MarvelComposeTheme {
         SearchBar("")
     }
@@ -140,7 +140,7 @@ fun SearchViewPreviewEmpty() {
 
 @Preview(showBackground = true)
 @Composable
-fun SearchViewPreviewWithText() {
+private fun SearchViewPreviewWithText() {
     MarvelComposeTheme {
         SearchBar("Spider")
     }

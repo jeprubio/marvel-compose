@@ -77,7 +77,7 @@ fun AnimatedIcon(
 
 @Preview(group = "Icon")
 @Composable
-fun PreviewIcon() {
+private fun PreviewIcon() {
     Surface {
         var selected by remember {
             mutableStateOf(false)

@@ -67,7 +67,7 @@ private fun ResultBox(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun ComicsScreenPreview() {
+private fun ComicsScreenPreview() {
     val comics = SampleData.comicsSample
     MarvelComposeTheme {
         ComicsScreenContent(

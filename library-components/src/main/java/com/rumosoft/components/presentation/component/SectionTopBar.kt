@@ -61,7 +61,7 @@ fun SectionTopBar(
 
 @PreviewLightDark
 @Composable
-fun SectionTabBarPreview() {
+private fun SectionTabBarPreview() {
     MarvelComposeTheme {
         SectionTopBar(R.string.app_name)
     }

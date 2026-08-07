@@ -42,7 +42,7 @@ fun TopBar(
 
 @Preview
 @Composable
-fun TopBarPreview() {
+private fun TopBarPreview() {
     MarvelComposeTheme {
         TopBar(
             apBarText = "App Bar Text",

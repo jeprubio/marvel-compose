@@ -121,7 +121,7 @@ private fun Loading() {
     uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
-fun ComicResultsPreview() {
+private fun ComicResultsPreview() {
     val comics = remember { SampleData.comicsSample }
     MarvelComposeTheme {
         ComicResults(

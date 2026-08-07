@@ -45,12 +45,12 @@ fun ErrorMessage(
 
 @Preview(widthDp = 150, heightDp = 150)
 @Composable
-fun ErrorMessagePreview() {
+private fun ErrorMessagePreview() {
     ErrorMessage(message = "Whatever")
 }
 
 @Preview(widthDp = 150, heightDp = 150)
 @Composable
-fun ErrorMessageWithRetryPreview() {
+private fun ErrorMessageWithRetryPreview() {
     ErrorMessage(message = "Whatever", onRetry = { })
 }

@@ -52,7 +52,7 @@ fun ComicDetails(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewComicDetails() {
+private fun PreviewComicDetails() {
     MarvelComposeTheme {
         ComicDetails(
             comic = SampleData.comicsSample.first()

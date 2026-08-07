@@ -41,6 +41,6 @@ fun MarvelImage(
 
 @Preview(widthDp = 150, heightDp = 150)
 @Composable
-fun MarvelImageNoImagePreview() {
+private fun MarvelImageNoImagePreview() {
     MarvelImage(thumbnailUrl = "", noImage = R.drawable.img_no_image)
 }

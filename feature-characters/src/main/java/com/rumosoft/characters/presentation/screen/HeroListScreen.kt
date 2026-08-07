@@ -68,7 +68,7 @@ private fun ResultBox(
     uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
-fun HeroListScreenPreview() {
+private fun HeroListScreenPreview() {
     val heroes = SampleData.heroesSample
     MarvelComposeTheme {
         HeroListScreenContent(

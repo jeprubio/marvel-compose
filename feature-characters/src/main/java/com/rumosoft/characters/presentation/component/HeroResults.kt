@@ -175,7 +175,7 @@ private fun Loading() {
     uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
-fun HeroResultPreview() {
+private fun HeroResultPreview() {
     val heroes = remember { listOf(SampleData.heroesSample.first()) }
     MarvelComposeTheme {
         HeroResults(heroes)

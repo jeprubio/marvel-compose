@@ -46,7 +46,7 @@ internal fun DetailsScreenContent(
     uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
-fun DetailsPreviewSuccess() {
+private fun DetailsPreviewSuccess() {
     MarvelComposeTheme {
         DetailsScreenContent(DetailsState.Success(SampleData.heroesSample.first()))
     }
@@ -54,7 +54,7 @@ fun DetailsPreviewSuccess() {
 
 @Preview(showBackground = true)
 @Composable
-fun DetailsPreviewLoading() {
+private fun DetailsPreviewLoading() {
     MarvelComposeTheme {
         DetailsScreenContent(DetailsState.Loading)
     }
@@ -66,7 +66,7 @@ fun DetailsPreviewLoading() {
     uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
-fun DetailsPreviewError() {
+private fun DetailsPreviewError() {
     MarvelComposeTheme {
         DetailsScreenContent(DetailsState.Error(Exception("Something went wrong")))
     }
@@ -86,7 +86,7 @@ fun DetailsPreviewError() {
     uiMode = UI_MODE_NIGHT_YES,
 )
 @Composable
-fun DetailsPreviewSuccessLandscape() {
+private fun DetailsPreviewSuccessLandscape() {
     MarvelComposeTheme {
         DetailsScreenContent(DetailsState.Success(SampleData.heroesSample.first()))
     }

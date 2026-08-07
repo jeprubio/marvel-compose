@@ -65,7 +65,7 @@ private fun BuildLoading() {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun PreviewDetailsSuccess() {
+private fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
         Success(SampleData.heroesSample.first()).BuildUI(onComicSelected = {})
     }
@@ -73,7 +73,7 @@ fun PreviewDetailsSuccess() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewDetailsLoading() {
+private fun PreviewDetailsLoading() {
     MarvelComposeTheme {
         Loading.BuildUI(onComicSelected = {})
     }

@@ -106,7 +106,7 @@ private fun Success.BuildSuccess(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun PreviewSearchSuccess() {
+private fun PreviewSearchSuccess() {
     MarvelComposeTheme {
         Success(listOf(SampleData.comicsSample.first())).BuildUI()
     }
@@ -118,7 +118,7 @@ fun PreviewSearchSuccess() {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun PreviewSearchError() {
+private fun PreviewSearchError() {
     MarvelComposeTheme {
         Error(Exception("Whatever")).BuildUI()
     }
@@ -126,7 +126,7 @@ fun PreviewSearchError() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewSearchLoading() {
+private fun PreviewSearchLoading() {
     MarvelComposeTheme {
         Loading
     }

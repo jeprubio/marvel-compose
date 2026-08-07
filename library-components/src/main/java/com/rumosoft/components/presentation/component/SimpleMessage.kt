@@ -37,7 +37,7 @@ fun SimpleMessage(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun PreviewSimpleMessage() {
+private fun PreviewSimpleMessage() {
     MarvelComposeTheme {
         SimpleMessage(message = "Message")
     }

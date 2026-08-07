@@ -61,7 +61,7 @@ private fun Error.BuildError(onRetry: () -> Unit) {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun PreviewDetailsSuccess() {
+private fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
         Success(SampleData.comicsSample.first()).BuildUI()
     }
@@ -69,7 +69,7 @@ fun PreviewDetailsSuccess() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewDetailsLoading() {
+private fun PreviewDetailsLoading() {
     MarvelComposeTheme {
         Loading
     }

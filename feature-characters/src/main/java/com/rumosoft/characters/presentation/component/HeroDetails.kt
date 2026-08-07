@@ -186,7 +186,7 @@ fun SectionTitle(section: String) {
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun PreviewHeroDetails() {
+private fun PreviewHeroDetails() {
     MarvelComposeTheme {
         HeroDetails(SampleData.heroesSample.first())
     }

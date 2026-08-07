@@ -47,6 +47,6 @@ private fun getComicId(url: String): Int? =
 
 @Preview
 @Composable
-fun ComicThumbnailImagePreview() {
+private fun ComicThumbnailImagePreview() {
     ComicThumbnail(title = "title", thumbnail = "thumbnailUrl", url = "url")
 }

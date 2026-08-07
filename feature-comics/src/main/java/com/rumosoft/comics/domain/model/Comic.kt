@@ -15,6 +15,7 @@ data class Comic(
     val description: String,
     val pageCount: Int,
     val urls: List<String>,
+    val resourceUri: String? = null,
     var thumbnail: String? = null,
     var characters: List<CharacterSummary> = emptyList(),
 ) : Parcelable

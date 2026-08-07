@@ -82,8 +82,7 @@ private fun ComicResult(
             .padding(MarvelComposeTheme.paddings.smallPadding),
     ) {
         comic.thumbnail?.let {
-            val comicUrl = "https://marvel.antonioleiva.com/v1/public/comics/${comic.id}"
-            ComicThumbnail(title = comic.title, thumbnail = it, url = comicUrl)
+            ComicThumbnail(title = comic.title, thumbnail = it, url = comic.resourceUri.orEmpty())
         }
         ComicName(comic)
     }

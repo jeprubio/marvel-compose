@@ -1,6 +1,7 @@
 package com.rumosoft.marvelapi.data.network.apimodels
 
 import androidx.annotation.Keep
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Keep
@@ -12,6 +13,8 @@ data class ComicDto(
     val pageCount: Int? = null,
     val description: String? = null,
     val thumbnail: ImageDto? = null,
+    @SerialName("resourceURI")
+    val resourceUri: String? = null,
 )
 
 fun ComicDto.getThumbnail(): String? {

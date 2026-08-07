@@ -12,6 +12,7 @@ fun ComicDto.toComic(): Comic {
         pageCount = pageCount ?: 0,
         description = description.orEmpty(),
         urls = emptyList(),
+        resourceUri = resourceUri,
         thumbnail = thumbnail?.toThumbnailUrl().orEmpty(),
     )
 }

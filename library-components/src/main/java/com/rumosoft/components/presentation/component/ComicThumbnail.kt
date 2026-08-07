@@ -30,7 +30,7 @@ fun ComicThumbnail(
             .then(
                 if (onComicSelected != null) {
                     Modifier.clickable {
-                        onComicSelected.invoke(getComicId(url))
+                        getComicId(url)?.let { onComicSelected.invoke(it) }
                     }
                 } else {
                     Modifier
@@ -42,10 +42,8 @@ fun ComicThumbnail(
     )
 }
 
-private fun getComicId(url: String) = url
-    .split("/")
-    .last()
-    .toInt()
+private fun getComicId(url: String): Int? =
+    url.split("/").lastOrNull()?.toIntOrNull()
 
 @Preview
 @Composable

@@ -52,13 +52,12 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         actionBar?.hide()
 
         setContent {
             val darkTheme = isSystemInDarkTheme()
-            LaunchedEffect(darkTheme) {
+            LaunchedEffect(Unit) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.dark(
                         android.graphics.Color.TRANSPARENT,

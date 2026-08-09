@@ -1,6 +1,7 @@
 package com.rumosoft.characters.presentation.viewmodel
 
 import com.rumosoft.characters.domain.model.CharactersPage
+import com.rumosoft.characters.domain.model.RequestInProgressException
 import com.rumosoft.characters.domain.usecase.GetCharactersUseCase
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
@@ -140,6 +141,22 @@ internal class HeroListViewModelTest {
             heroListViewModel.onReachedEnd()
 
             `then the accumulated character list contains items from both pages`()
+        }
+
+    @Test
+    fun `RequestInProgressException does not change the current state`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results`()
+            `when initialising the ViewModel`()
+
+            coEvery { getCharactersUseCase.invoke(2) } returns
+                Result.failure(RequestInProgressException("in progress"))
+            heroListViewModel.onReachedEnd()
+
+            // State must still be Success (not Error) — the real request is still running
+            val state = heroListViewModel.heroListScreenState.value.heroListState
+            assertTrue(state is HeroListState.Success)
+            assertTrue((state as HeroListState.Success).loadingMore)
         }
 
     private fun `given getCharactersUseCase invocation returns results`() {

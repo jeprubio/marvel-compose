@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.domain.model.ComicsPage
+import com.rumosoft.comics.domain.model.RequestInProgressException
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListScreenState
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -84,6 +85,7 @@ class ComicListViewModel @Inject constructor(
     }
 
     private fun parseErrorResponse(throwable: Throwable) {
+        if (throwable is RequestInProgressException) return
         _comicsListScreenState.update {
             it.copy(comicListState = ComicListState.Error(throwable))
         }

@@ -1,6 +1,7 @@
 package com.rumosoft.comics.presentation.viewmodel
 
 import com.rumosoft.comics.domain.model.ComicsPage
+import com.rumosoft.comics.domain.model.RequestInProgressException
 import com.rumosoft.comics.domain.usecase.GetComicsUseCase
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -140,6 +141,22 @@ internal class ComicListViewModelTest {
             comicListViewModel.onReachedEnd()
 
             `then the accumulated comic list contains items from both pages`()
+        }
+
+    @Test
+    fun `RequestInProgressException does not change the current state`() =
+        runTest {
+            `given searchUseCase invocation returns results`()
+            `when initialising the ViewModel`()
+
+            coEvery { comicsUseCase.invoke(2) } returns
+                Result.failure(RequestInProgressException("in progress"))
+            comicListViewModel.onReachedEnd()
+
+            // State must still be Success (not Error) — the real request is still running
+            val state = comicListViewModel.comicsListScreenState.value.comicListState
+            assertTrue(state is ComicListState.Success)
+            assertTrue((state as ComicListState.Success).loadingMore)
         }
 
     private fun `given searchUseCase invocation returns results`() {

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.domain.model.CharactersPage
+import com.rumosoft.characters.domain.model.RequestInProgressException
 import com.rumosoft.characters.domain.usecase.GetCharactersUseCase
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListScreenState
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
@@ -82,6 +83,7 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun parseErrorResponse(throwable: Throwable) {
+        if (throwable is RequestInProgressException) return
         _heroListScreenState.update {
             it.copy(heroListState = HeroListState.Error(throwable))
         }

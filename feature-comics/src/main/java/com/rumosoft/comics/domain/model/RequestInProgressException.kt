@@ -1,4 +1,4 @@
 package com.rumosoft.comics.domain.model
 
-class RequestInProgressException(message: String) : IllegalStateException(message)
+class RequestInProgressException(message: String) : RuntimeException(message)
 

@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -31,8 +30,8 @@ import androidx.navigation3.runtime.NavKey
 import com.rumosoft.components.presentation.component.isWindowCompact
 import com.rumosoft.components.presentation.deeplinks.CharactersScreen
 import com.rumosoft.components.presentation.deeplinks.ComicsScreen
-import com.rumosoft.components.presentation.deeplinks.DEEP_LINKS_BASE_PATH
 import com.rumosoft.components.presentation.deeplinks.Screen
+import com.rumosoft.components.presentation.deeplinks.resolveDeepLinkRoute
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import com.rumosoft.marvelcompose.R
 import com.rumosoft.marvelcompose.presentation.navigation.BottomNavigationBar
@@ -50,10 +49,13 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private var deepLinkIntent by mutableStateOf<Intent?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         actionBar?.hide()
+        deepLinkIntent = intent
 
         setContent {
             val darkTheme = isSystemInDarkTheme()
@@ -72,25 +74,31 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MarvelComposeTheme.colors.background,
                 ) {
-                    MarvelApp()
+                    MarvelApp(deepLinkIntent = deepLinkIntent)
                 }
             }
         }
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        deepLinkIntent = intent
+    }
 }
 
 @Composable
-fun MarvelApp() {
+fun MarvelApp(deepLinkIntent: Intent? = null) {
     val navigationState = rememberNavigationState(
         startRoute = CharactersScreen,
         topLevelRoutes = setOf<NavKey>(CharactersScreen, ComicsScreen)
     )
     val navigator = remember { Navigator(navigationState) }
 
-    // Handle deep links from intent
-    val activity = LocalActivity.current
-    LaunchedEffect(Unit) {
-        activity?.intent?.let { intent ->
+    // Handle deep links from intent. Re-runs whenever a new intent is delivered
+    // (e.g. via onNewIntent), not just on first composition.
+    LaunchedEffect(deepLinkIntent) {
+        deepLinkIntent?.let { intent ->
             handleDeepLink(intent, navigator)
         }
     }
@@ -184,10 +192,7 @@ private fun onAppBack(
 
 private fun handleDeepLink(intent: Intent, navigator: Navigator) {
     val uri = intent.data ?: return
-    val path = uri.toString().removePrefix(DEEP_LINKS_BASE_PATH)
-    when {
-        path.startsWith("/comics") -> navigator.navigate(ComicsScreen as NavKey)
-        path.startsWith("/characters") -> navigator.navigate(CharactersScreen as NavKey)
-    }
+    resolveDeepLinkRoute(uri.toString())?.let { route -> navigator.navigate(route) }
 }
+
 

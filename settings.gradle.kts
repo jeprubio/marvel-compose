@@ -22,5 +22,6 @@ include(":library-components")
 include(":feature-characters")
 include(":feature-comics")
 include(":library-marvelapi")
+include(":library-marvelapi-contracts")
 include(":library-tests")
 

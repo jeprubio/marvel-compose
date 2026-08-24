@@ -10,4 +10,3 @@ data class PaginationInfo(
     val total: Int,
     val hasMorePages: Boolean = true,
 )
-

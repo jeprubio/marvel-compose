@@ -1,5 +1,6 @@
 package com.rumosoft.comics.presentation.component
 
+import com.rumosoft.components.presentation.component.LocalSharedElementVisibilityScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsSuccessResult
+import com.rumosoft.components.presentation.component.LocalSharedTransitionScope
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.component.isExpandedDisplay
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -23,6 +25,8 @@ fun ComicDetails(
     comic: Comic,
     modifier: Modifier = Modifier,
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedContentScope = LocalSharedElementVisibilityScope.current
     val imageContentScale = if (isExpandedDisplay())
         ContentScale.Inside
     else
@@ -31,9 +35,19 @@ fun ComicDetails(
     LazyColumn(modifier = modifier) {
         item {
             comic.thumbnail?.let {
+                val sharedModifier = if (sharedTransitionScope != null && animatedContentScope != null) {
+                    with(sharedTransitionScope) {
+                        Modifier.sharedElement(
+                            rememberSharedContentState(key = "comic_image_${comic.id}"),
+                            animatedVisibilityScope = animatedContentScope,
+                        )
+                    }
+                } else {
+                    Modifier
+                }
                 MarvelImage(
                     thumbnailUrl = it,
-                    modifier = Modifier
+                    modifier = sharedModifier
                         .height(570.dp)
                         .fillMaxWidth(),
                     contentDescription = comic.title,

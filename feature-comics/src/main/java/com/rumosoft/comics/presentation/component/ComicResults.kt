@@ -1,6 +1,7 @@
 package com.rumosoft.comics.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import com.rumosoft.components.presentation.component.LocalSharedElementVisibilityScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.components.presentation.component.ComicThumbnail
+import com.rumosoft.components.presentation.component.LocalSharedTransitionScope
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
@@ -70,6 +72,8 @@ private fun ComicResult(
     comic: Comic,
     onClick: (Comic) -> Unit = {},
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedContentScope = LocalSharedElementVisibilityScope.current
     Column(
         modifier = Modifier
             .padding(MarvelComposeTheme.paddings.smallPadding)
@@ -82,7 +86,22 @@ private fun ComicResult(
             .padding(MarvelComposeTheme.paddings.smallPadding),
     ) {
         comic.thumbnail?.let {
-            ComicThumbnail(title = comic.title, thumbnail = it, url = comic.resourceUri.orEmpty())
+            val thumbnailModifier = if (sharedTransitionScope != null && animatedContentScope != null) {
+                with(sharedTransitionScope) {
+                    Modifier.sharedElement(
+                        rememberSharedContentState(key = "comic_image_${comic.id}"),
+                        animatedVisibilityScope = animatedContentScope,
+                    )
+                }
+            } else {
+                Modifier
+            }
+            ComicThumbnail(
+                title = comic.title,
+                thumbnail = it,
+                url = comic.resourceUri.orEmpty(),
+                modifier = thumbnailModifier,
+            )
         }
         ComicName(comic)
     }

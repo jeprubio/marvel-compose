@@ -1,6 +1,8 @@
 package com.rumosoft.marvelcompose.presentation.navigation
 
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.navigation3.runtime.NavKey
@@ -8,7 +10,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.rumosoft.characters.presentation.navigation.charactersGraph
 import com.rumosoft.comics.presentation.navigation.comicsGraph
-
+import com.rumosoft.components.presentation.component.LocalSharedTransitionScope
 import com.rumosoft.components.presentation.deeplinks.ComicDetails
 import com.rumosoft.components.presentation.deeplinks.ComicsScreen
 
@@ -37,9 +39,13 @@ fun NavigationHost(
         )
     }
 
-    NavDisplay(
-        entries = navigationState.toEntries(entryProvider),
-        onBack = { navigator.goBack() },
-        modifier = modifier.testTag(NAVIGATION_HOST_TEST_TAG),
-    )
+    SharedTransitionLayout {
+        CompositionLocalProvider(LocalSharedTransitionScope provides this) {
+            NavDisplay(
+                entries = navigationState.toEntries(entryProvider),
+                onBack = { navigator.goBack() },
+                modifier = modifier.testTag(NAVIGATION_HOST_TEST_TAG),
+            )
+        }
+    }
 }

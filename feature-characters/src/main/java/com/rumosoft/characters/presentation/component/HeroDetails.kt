@@ -3,7 +3,6 @@ package com.rumosoft.characters.presentation.component
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
-import com.rumosoft.components.presentation.component.LocalSharedElementVisibilityScope
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -36,9 +35,9 @@ import com.rumosoft.characters.domain.model.Link
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListSuccessResult
 import com.rumosoft.components.presentation.component.ComicThumbnail
-import com.rumosoft.components.presentation.component.LocalSharedTransitionScope
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.component.SimpleMessage
+import com.rumosoft.components.presentation.component.sharedElementTransition
 import com.rumosoft.components.presentation.theme.CustomDiamond
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 
@@ -50,8 +49,6 @@ fun HeroDetails(
     modifier: Modifier = Modifier,
     onComicSelected: (Int) -> Unit = {},
 ) {
-    val sharedTransitionScope = LocalSharedTransitionScope.current
-    val animatedContentScope = LocalSharedElementVisibilityScope.current
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -61,17 +58,8 @@ fun HeroDetails(
             .padding(horizontal = MarvelComposeTheme.paddings.defaultPadding)
             .padding(bottom = MarvelComposeTheme.paddings.defaultPadding),
     ) {
-        val sharedModifier = if (sharedTransitionScope != null && animatedContentScope != null) {
-            with(sharedTransitionScope) {
-                Modifier.sharedElement(
-                    rememberSharedContentState(key = "character_image_${character.id}"),
-                    animatedVisibilityScope = animatedContentScope,
-                )
-            }
-        } else {
-            Modifier
-        }
-        val avatarModifier = sharedModifier
+        val avatarModifier = Modifier
+            .sharedElementTransition(character.imageSharedKey())
             .align(alignment = Alignment.CenterHorizontally)
             .padding(top = MarvelComposeTheme.paddings.defaultPadding)
             .size(150.dp)

@@ -1,7 +1,6 @@
 package com.rumosoft.characters.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import com.rumosoft.components.presentation.component.LocalSharedElementVisibilityScope
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -32,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import com.rumosoft.characters.domain.model.Character
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.component.semantics.numColumns
-import com.rumosoft.components.presentation.component.LocalSharedTransitionScope
 import com.rumosoft.components.presentation.component.MarvelImage
 import com.rumosoft.components.presentation.component.isExpandedDisplay
 import com.rumosoft.components.presentation.component.isWindowCompact
+import com.rumosoft.components.presentation.component.sharedElementTransition
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
@@ -94,8 +93,6 @@ private fun HeroResult(
     character: Character,
     onClick: (Character) -> Unit = {},
 ) {
-    val sharedTransitionScope = LocalSharedTransitionScope.current
-    val animatedContentScope = LocalSharedElementVisibilityScope.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -107,18 +104,9 @@ private fun HeroResult(
             }
             .padding(MarvelComposeTheme.paddings.smallPadding),
     ) {
-        val imageModifier = if (sharedTransitionScope != null && animatedContentScope != null) {
-            with(sharedTransitionScope) {
-                Modifier
-                    .sharedElement(
-                        rememberSharedContentState(key = "character_image_${character.id}"),
-                        animatedVisibilityScope = animatedContentScope,
-                    )
-                    .size(80.dp)
-            }
-        } else {
-            Modifier.size(80.dp)
-        }
+        val imageModifier = Modifier
+            .sharedElementTransition(character.imageSharedKey())
+            .size(80.dp)
         HeroImage(character, imageModifier)
         Spacer(modifier = Modifier.padding(8.dp))
         HeroName(character)

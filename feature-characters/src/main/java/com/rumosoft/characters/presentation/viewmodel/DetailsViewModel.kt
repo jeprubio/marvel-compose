@@ -23,9 +23,9 @@ class DetailsViewModel @Inject constructor(
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase,
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
 ) : ViewModel() {
-    val detailsState: StateFlow<DetailsState> get() = _detailsState
-    private val _detailsState =
-        MutableStateFlow(initialDetailsState())
+
+    val detailsState: StateFlow<DetailsState>
+        field = MutableStateFlow(initialDetailsState())
 
     private var initialized = false
     private var characterId: Long = -1
@@ -39,7 +39,7 @@ class DetailsViewModel @Inject constructor(
     }
 
     fun retry() {
-        _detailsState.update { DetailsState.Loading }
+        detailsState.update { DetailsState.Loading }
         setCharacter(characterId)
     }
 
@@ -49,14 +49,14 @@ class DetailsViewModel @Inject constructor(
             getCharacterDetailsUseCase(characterId).fold(
                 onSuccess = { character ->
                     if (character != null) {
-                        _detailsState.update { DetailsState.Success(character) }
+                        detailsState.update { DetailsState.Success(character) }
                         loadComicThumbnails(character)
                     } else {
-                        _detailsState.update { DetailsState.Error(Exception("Character not found")) }
+                        detailsState.update { DetailsState.Error(Exception("Character not found")) }
                     }
                 },
                 onFailure = { throwable ->
-                    _detailsState.update { DetailsState.Error(throwable) }
+                    detailsState.update { DetailsState.Error(throwable) }
                 },
             )
         }
@@ -71,7 +71,7 @@ class DetailsViewModel @Inject constructor(
                         val comicId = comic.url.split("/").lastOrNull()?.toIntOrNull()
                             ?: return@async
                         getComicThumbnailUseCase(comicId).onSuccess { thumb ->
-                            _detailsState.update { currentState ->
+                            detailsState.update { currentState ->
                                 val currentHero = (currentState as? DetailsState.Success)?.character
                                     ?: return@update currentState
                                 val updatedComics = currentHero.comics.update(

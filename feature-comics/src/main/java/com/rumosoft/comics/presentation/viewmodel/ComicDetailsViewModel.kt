@@ -15,9 +15,9 @@ import javax.inject.Inject
 class ComicDetailsViewModel @Inject constructor(
     private val getComicDetailsUseCase: GetComicDetailsUseCase,
 ) : ViewModel() {
-    val detailsState: StateFlow<ComicDetailsState> get() = _detailsState
-    private val _detailsState =
-        MutableStateFlow<ComicDetailsState>(ComicDetailsState.Loading)
+
+    val detailsState: StateFlow<ComicDetailsState>
+        field = MutableStateFlow<ComicDetailsState>(ComicDetailsState.Loading)
 
     private var initialized = false
     private var comicId: Int = -1
@@ -31,7 +31,7 @@ class ComicDetailsViewModel @Inject constructor(
     }
 
     fun retry() {
-        _detailsState.update { ComicDetailsState.Loading }
+        detailsState.update { ComicDetailsState.Loading }
         setComic(comicId)
     }
 
@@ -39,10 +39,10 @@ class ComicDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             getComicDetailsUseCase(comicId).fold(
                 onSuccess = { comic ->
-                    _detailsState.update { ComicDetailsState.Success(comic) }
+                    detailsState.update { ComicDetailsState.Success(comic) }
                 },
                 onFailure = { throwable ->
-                    _detailsState.update { ComicDetailsState.Error(throwable) }
+                    detailsState.update { ComicDetailsState.Error(throwable) }
                 },
             )
         }

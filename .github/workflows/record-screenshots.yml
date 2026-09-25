@@ -3,9 +3,19 @@ name: Record Screenshot Baseline
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   roborazzi:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v7
@@ -18,4 +28,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
       - name: Record Roborazzi screenshots baseline
         run: ./gradlew recordRoborazziDebug
+      - name: Commit updated baselines
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: Update Roborazzi screenshot baselines
+          file_pattern: "feature-characters/screenshots/roborazzi/*.png feature-comics/screenshots/roborazzi/*.png library-components/screenshots/roborazzi/*.png"
+          disable_globbing: true
 

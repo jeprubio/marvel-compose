@@ -54,7 +54,6 @@ class HeroListViewModel @Inject constructor(
     }
 
     private fun parseSuccessResponse(charactersPage: CharactersPage, page: Int) {
-        setLoadingMore(false)
         heroListScreenState.update {
             val previousList: List<Character> =
                 if (page > 1 && it.heroListState is HeroListState.Success) {
@@ -67,6 +66,7 @@ class HeroListViewModel @Inject constructor(
                     characters = previousList + charactersPage.characters,
                     loadingMore = false,
                     hasMorePages = charactersPage.hasMorePages,
+                    loadMoreError = null,
                 ),
             )
         }
@@ -84,8 +84,18 @@ class HeroListViewModel @Inject constructor(
 
     private fun parseErrorResponse(throwable: Throwable) {
         if (throwable is RequestInProgressException) return
-        heroListScreenState.update {
-            it.copy(heroListState = HeroListState.Error(throwable))
+        heroListScreenState.update { current ->
+            val successState = current.heroListState as? HeroListState.Success
+            if (successState != null && successState.characters.isNotEmpty()) {
+                current.copy(
+                    heroListState = successState.copy(
+                        loadingMore = false,
+                        loadMoreError = throwable,
+                    ),
+                )
+            } else {
+                current.copy(heroListState = HeroListState.Error(throwable))
+            }
         }
     }
 
@@ -98,8 +108,24 @@ class HeroListViewModel @Inject constructor(
     }
 
     fun retry() {
-        heroListScreenState.update { it.copy(heroListState = HeroListState.Loading) }
-        loadCharacters(fromStart = false)
+        val successState =
+            heroListScreenState.value.heroListState as? HeroListState.Success
+        if (successState != null && successState.characters.isNotEmpty()) {
+            heroListScreenState.update { current ->
+                val currentSuccess = current.heroListState as? HeroListState.Success
+                    ?: return@update current
+                current.copy(
+                    heroListState = currentSuccess.copy(
+                        loadMoreError = null,
+                        loadingMore = true,
+                    ),
+                )
+            }
+            loadCharacters(fromStart = false)
+        } else {
+            heroListScreenState.update { it.copy(heroListState = HeroListState.Loading) }
+            loadCharacters(fromStart = false)
+        }
     }
 
     private fun setLoadingMore(value: Boolean) {

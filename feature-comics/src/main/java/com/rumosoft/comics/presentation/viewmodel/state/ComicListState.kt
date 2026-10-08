@@ -26,5 +26,6 @@ sealed class ComicListState {
         val comics: List<Comic>,
         val loadingMore: Boolean = false,
         val hasMorePages: Boolean = true,
+        val loadMoreError: Throwable? = null,
     ) : ComicListState()
 }

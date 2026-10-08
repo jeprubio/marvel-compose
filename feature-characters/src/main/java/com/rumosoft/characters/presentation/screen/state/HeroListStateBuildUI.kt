@@ -34,7 +34,11 @@ fun HeroListState.BuildUI(
     when (this) {
         is Loading -> BuildLoading()
         is Error -> BuildError(onRetry)
-        is Success -> BuildSuccess(onCharacterClick, onEndReached)
+        is Success -> BuildSuccess(
+            onCharacterClick = onCharacterClick,
+            onEndReached = onEndReached,
+            onRetry = onRetry,
+        )
     }
 }
 
@@ -64,6 +68,7 @@ private fun BuildError(onRetry: () -> Unit) {
 private fun Success.BuildSuccess(
     onCharacterClick: (Character) -> Unit,
     onEndReached: () -> Unit,
+    onRetry: () -> Unit,
 ) {
     characters.takeIf { it.isNotEmpty() }?.let {
         HeroResults(
@@ -73,6 +78,8 @@ private fun Success.BuildSuccess(
             onClick = onCharacterClick,
             onEndReached = onEndReached,
             hasMorePages = hasMorePages,
+            loadMoreError = loadMoreError,
+            onRetry = onRetry,
         )
     } ?: run {
         SimpleMessage(

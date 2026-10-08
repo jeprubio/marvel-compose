@@ -56,7 +56,6 @@ class ComicListViewModel @Inject constructor(
     }
 
     private fun parseSuccessResponse(comicsPage: ComicsPage, page: Int) {
-        setLoadingMore(false)
         comicsListScreenState.update {
             val previousList: List<Comic> =
                 if (page > 1 && it.comicListState is ComicListState.Success) {
@@ -69,6 +68,7 @@ class ComicListViewModel @Inject constructor(
                     comics = previousList + comicsPage.comics,
                     loadingMore = false,
                     hasMorePages = comicsPage.hasMorePages,
+                    loadMoreError = null,
                 ),
             )
         }
@@ -86,8 +86,18 @@ class ComicListViewModel @Inject constructor(
 
     private fun parseErrorResponse(throwable: Throwable) {
         if (throwable is RequestInProgressException) return
-        comicsListScreenState.update {
-            it.copy(comicListState = ComicListState.Error(throwable))
+        comicsListScreenState.update { current ->
+            val successState = current.comicListState as? ComicListState.Success
+            if (successState != null && successState.comics.isNotEmpty()) {
+                current.copy(
+                    comicListState = successState.copy(
+                        loadingMore = false,
+                        loadMoreError = throwable,
+                    ),
+                )
+            } else {
+                current.copy(comicListState = ComicListState.Error(throwable))
+            }
         }
     }
 
@@ -100,8 +110,24 @@ class ComicListViewModel @Inject constructor(
     }
 
     fun retry() {
-        comicsListScreenState.update { it.copy(comicListState = ComicListState.Loading) }
-        loadComics(fromStart = false)
+        val successState =
+            comicsListScreenState.value.comicListState as? ComicListState.Success
+        if (successState != null && successState.comics.isNotEmpty()) {
+            comicsListScreenState.update { current ->
+                val currentSuccess = current.comicListState as? ComicListState.Success
+                    ?: return@update current
+                current.copy(
+                    comicListState = currentSuccess.copy(
+                        loadMoreError = null,
+                        loadingMore = true,
+                    ),
+                )
+            }
+            loadComics(fromStart = false)
+        } else {
+            comicsListScreenState.update { it.copy(comicListState = ComicListState.Loading) }
+            loadComics(fromStart = false)
+        }
     }
 
     private fun setLoadingMore(value: Boolean) {

@@ -159,6 +159,52 @@ internal class HeroListViewModelTest {
             assertTrue((state as HeroListState.Success).loadingMore)
         }
 
+    @Test
+    fun `pagination failure keeps the already loaded list with an inline error`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results`()
+            coEvery { getCharactersUseCase.invoke(2) } returns
+                Result.failure(Exception("page 2 failed"))
+            `when initialising the ViewModel`()
+
+            heroListViewModel.onReachedEnd()
+
+            val state = heroListViewModel.heroListScreenState.value.heroListState
+            assertTrue(state is HeroListState.Success)
+            state as HeroListState.Success
+            assertEquals(SampleData.heroesSample, state.characters)
+            assertNotNull(state.loadMoreError)
+        }
+
+    @Test
+    fun `retry after a pagination failure preserves the list and appends the page`() =
+        runTest {
+            `given getCharactersUseCase invocation returns results`()
+            coEvery { getCharactersUseCase.invoke(2) } returns
+                Result.failure(Exception("page 2 failed"))
+            `when initialising the ViewModel`()
+
+            heroListViewModel.onReachedEnd()
+            coEvery { getCharactersUseCase.invoke(2) } returns
+                Result.success(CharactersPage(listOf(hero), hasMorePages = false))
+            heroListViewModel.retry()
+
+            `then the accumulated character list contains items from both pages`()
+        }
+
+    @Test
+    fun `retry after an initial load failure still shows loading and reloads`() =
+        runTest {
+            `given getCharactersUseCase invocation returns error`()
+            `when initialising the ViewModel`()
+
+            coEvery { getCharactersUseCase.invoke(1) } returns
+                Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
+            heroListViewModel.retry()
+
+            `then HeroListScreenSuccess should be Success`()
+        }
+
     private fun `given getCharactersUseCase invocation returns results`() {
         coEvery { getCharactersUseCase.invoke(1) } returns
             Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))

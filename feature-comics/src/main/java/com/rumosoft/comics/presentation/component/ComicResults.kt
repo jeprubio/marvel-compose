@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.rumosoft.comics.domain.model.Comic
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.components.presentation.component.ComicThumbnail
+import com.rumosoft.components.presentation.component.LoadMoreError
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
 import timber.log.Timber
 
@@ -34,9 +36,11 @@ fun ComicResults(
     comics: List<Comic>,
     modifier: Modifier = Modifier,
     loadingMore: Boolean = false,
+    hasMorePages: Boolean = true,
+    loadMoreError: Throwable? = null,
     onClick: (Comic) -> Unit = {},
     onEndReached: () -> Unit = {},
-    hasMorePages: Boolean = true,
+    onRetry: () -> Unit = {},
 ) {
     val lastIndex = comics.lastIndex
     LazyVerticalGrid(
@@ -55,6 +59,11 @@ fun ComicResults(
         if (loadingMore) {
             item {
                 Loading()
+            }
+        }
+        if (loadMoreError != null) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                LoadMoreError(onRetry = onRetry)
             }
         }
     }

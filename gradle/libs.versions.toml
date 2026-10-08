@@ -7,7 +7,7 @@ android-compileSdk = "37"
 android-minSdk = "26"
 # @keep
 android-targetSdk = "37"
-konsist = "0.17.3"
+konsist = "0.18.0"
 kotlin = "2.4.21"
 ksp = "2.3.12"
 appcompat = "1.8.0"

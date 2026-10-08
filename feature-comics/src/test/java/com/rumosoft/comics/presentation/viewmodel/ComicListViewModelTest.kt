@@ -159,6 +159,52 @@ internal class ComicListViewModelTest {
             assertTrue((state as ComicListState.Success).loadingMore)
         }
 
+    @Test
+    fun `pagination failure keeps the already loaded list with an inline error`() =
+        runTest {
+            `given searchUseCase invocation returns results`()
+            coEvery { comicsUseCase.invoke(2) } returns
+                Result.failure(Exception("page 2 failed"))
+            `when initialising the ViewModel`()
+
+            comicListViewModel.onReachedEnd()
+
+            val state = comicListViewModel.comicsListScreenState.value.comicListState
+            assertTrue(state is ComicListState.Success)
+            state as ComicListState.Success
+            assertEquals(SampleData.comicsSample, state.comics)
+            assertNotNull(state.loadMoreError)
+        }
+
+    @Test
+    fun `retry after a pagination failure preserves the list and appends the page`() =
+        runTest {
+            `given searchUseCase invocation returns results`()
+            coEvery { comicsUseCase.invoke(2) } returns
+                Result.failure(Exception("page 2 failed"))
+            `when initialising the ViewModel`()
+
+            comicListViewModel.onReachedEnd()
+            coEvery { comicsUseCase.invoke(2) } returns
+                Result.success(ComicsPage(listOf(comic), hasMorePages = false))
+            comicListViewModel.retry()
+
+            `then the accumulated comic list contains items from both pages`()
+        }
+
+    @Test
+    fun `retry after an initial load failure still shows loading and reloads`() =
+        runTest {
+            `given searchUseCase invocation returns error`()
+            `when initialising the ViewModel`()
+
+            coEvery { comicsUseCase.invoke(1) } returns
+                Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = true))
+            comicListViewModel.retry()
+
+            `then comicListState should be Success`()
+        }
+
     private fun `given searchUseCase invocation returns results`() {
         coEvery { comicsUseCase.invoke(1) } returns
             Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = true))

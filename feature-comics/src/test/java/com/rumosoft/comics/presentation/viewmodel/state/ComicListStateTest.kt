@@ -15,6 +15,8 @@ import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.ProgressIndicator
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.RetryTag
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState.Companion.SuccessResult
+import com.rumosoft.components.presentation.component.LoadMoreErrorTag
+import com.rumosoft.components.presentation.component.LoadMoreRetryTag
 import com.rumosoft.components.presentation.theme.LocalLottieAnimationIterations
 import com.rumosoft.components.presentation.theme.LottieAnimationIterations
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -112,5 +114,46 @@ internal class ComicListScreenStateTest {
         composeTestRule.onNodeWithTag(NoResults).assertIsDisplayed()
 
         composeTestRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun comicListState_success_with_load_more_error_shows_list_and_inline_error() {
+        composeTestRule.setContent {
+            MarvelComposeTheme {
+                ComicListState.Success(
+                    comics = SampleData.comicsSample,
+                    loadMoreError = Exception("page 2 failed"),
+                ).BuildUI(
+                    onComicClick = {},
+                    onEndReached = {},
+                    onRetry = {},
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(SuccessResult).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(LoadMoreErrorTag).assertIsDisplayed()
+
+        composeTestRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun comicListState_success_with_load_more_error_tap_on_retry_executes_lambda() {
+        var retried = false
+        composeTestRule.setContent {
+            MarvelComposeTheme {
+                ComicListState.Success(
+                    comics = SampleData.comicsSample,
+                    loadMoreError = Exception("page 2 failed"),
+                ).BuildUI(
+                    onComicClick = {},
+                    onEndReached = {},
+                    onRetry = { retried = true },
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(LoadMoreRetryTag).performClick()
+        assertTrue(retried)
     }
 }

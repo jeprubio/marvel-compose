@@ -23,5 +23,6 @@ sealed class HeroListState {
         val characters: List<Character>,
         val loadingMore: Boolean = false,
         val hasMorePages: Boolean = true,
+        val loadMoreError: Throwable? = null,
     ) : HeroListState()
 }

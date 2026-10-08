@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,6 +28,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rumosoft.components.presentation.component.LoadMoreError
 import com.rumosoft.components.presentation.component.isExpandedDisplay
 import com.rumosoft.components.presentation.component.isWindowCompact
 import com.rumosoft.characters.domain.model.Character
@@ -46,10 +48,12 @@ fun HeroResults(
     characters: List<Character>,
     modifier: Modifier = Modifier,
     loadingMore: Boolean = false,
+    hasMorePages: Boolean = true,
+    loadMoreError: Throwable? = null,
+    columnsProvider: (() -> Int)? = null,
     onClick: (Character) -> Unit = {},
     onEndReached: () -> Unit = {},
-    hasMorePages: Boolean = true,
-    columnsProvider: (() -> Int)? = null,
+    onRetry: () -> Unit = {},
 ) {
     val columns = columnsProvider?.invoke() ?: getDeviceColumns()
     val lastIndex = characters.lastIndex
@@ -71,6 +75,11 @@ fun HeroResults(
         if (loadingMore) {
             item {
                 Loading()
+            }
+        }
+        if (loadMoreError != null) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                LoadMoreError(onRetry = onRetry)
             }
         }
     }

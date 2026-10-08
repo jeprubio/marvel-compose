@@ -36,7 +36,11 @@ fun ComicListState.BuildUI(
     when (this) {
         is Loading -> BuildLoading()
         is Error -> BuildError(onRetry)
-        is Success -> BuildSuccess(onComicClick, onEndReached)
+        is Success -> BuildSuccess(
+            onComicClick = onComicClick,
+            onEndReached = onEndReached,
+            onRetry = onRetry,
+        )
     }
 }
 
@@ -80,6 +84,7 @@ private fun Error.BuildError(onRetry: () -> Unit) {
 private fun Success.BuildSuccess(
     onComicClick: (Comic) -> Unit,
     onEndReached: () -> Unit,
+    onRetry: () -> Unit,
 ) {
     comics.takeIf { it.isNotEmpty() }?.let {
         ComicResults(
@@ -89,6 +94,8 @@ private fun Success.BuildSuccess(
             onClick = onComicClick,
             onEndReached = onEndReached,
             hasMorePages = hasMorePages,
+            loadMoreError = loadMoreError,
+            onRetry = onRetry,
         )
     } ?: run {
         SimpleMessage(

@@ -116,7 +116,7 @@ fun Links(links: List<Link>, modifier: Modifier = Modifier) {
 @Composable
 fun Urls(link: Link) {
     val context = LocalContext.current
-    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link.url)) }
+    val intent = remember(link.url) { Intent(Intent.ACTION_VIEW, Uri.parse(link.url)) }
     Surface(
         color = MarvelComposeTheme.colors.surface,
         border = BorderStroke(1.dp, MarvelComposeTheme.colors.onSecondary),

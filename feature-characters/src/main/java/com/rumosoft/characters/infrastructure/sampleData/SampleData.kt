@@ -14,7 +14,7 @@ object SampleData {
             name = "Character$it",
             description = "Description character $it",
             thumbnail = ImageDto(
-                path = "http://lorempixel.com/150/150/people/$it/",
+                path = "https://picsum.photos/seed/marvel-character-$it/150/150",
                 extension = "jpg",
             ),
             urls = listOf(

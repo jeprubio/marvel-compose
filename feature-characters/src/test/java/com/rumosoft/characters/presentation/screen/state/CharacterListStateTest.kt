@@ -6,6 +6,8 @@ import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.characters.infrastructure.sampleData.SampleData
@@ -35,6 +37,8 @@ internal class CharacterListStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    private val scrollTimeoutMillis = 5_000L
 
     @Test
     fun heroListResult_loading_shows_ProgressIndicator() {
@@ -132,6 +136,10 @@ internal class CharacterListStateTest {
         }
 
         composeTestRule.onNodeWithTag(HeroListSuccessResult).assertIsDisplayed()
+        scrollToElement(
+            targetTag = LoadMoreRetryTag,
+            containerTag = HeroListSuccessResult,
+        )
         composeTestRule.onNodeWithTag(LoadMoreErrorTag).assertIsDisplayed()
 
         composeTestRule.onRoot().captureRoboImage()
@@ -153,7 +161,30 @@ internal class CharacterListStateTest {
             }
         }
 
+        scrollToElement(
+            targetTag = LoadMoreRetryTag,
+            containerTag = HeroListSuccessResult,
+        )
         composeTestRule.onNodeWithTag(LoadMoreRetryTag).performClick()
         assertTrue(retried)
+    }
+
+    private fun scrollToElement(
+        targetTag: String,
+        containerTag: String,
+    ) {
+        composeTestRule.waitUntil(timeoutMillis = scrollTimeoutMillis) {
+            try {
+                composeTestRule
+                    .onNodeWithTag(containerTag)
+                    .performTouchInput { swipeUp() }
+                composeTestRule
+                    .onNodeWithTag(targetTag)
+                    .assertExists()
+                true
+            } catch (_: AssertionError) {
+                false
+            }
+        }
     }
 }

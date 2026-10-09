@@ -12,12 +12,17 @@ object SampleData {
             title = "comic $it",
             description = "description",
             thumbnail = ImageDto(
-                path = "path",
-                extension = "extension",
+                path = "https://picsum.photos/seed/marvel-comic-$it/150/150",
+                extension = "jpg",
             ),
             pageCount = 0,
         )
     }
 
     fun comicsSample(count: Int = 10) = comicsDtoSample(count).map { it.toComic() }
+
+    fun comicsSampleWithoutImages(count: Int = 10) =
+        comicsSample(count).map { comic ->
+            comic.copy(thumbnail = "")
+        }
 }

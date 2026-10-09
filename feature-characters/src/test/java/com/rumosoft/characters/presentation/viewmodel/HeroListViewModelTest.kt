@@ -22,7 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class HeroListViewModelTest {
     private val getCharactersUseCase: GetCharactersUseCase = mockk()
     private lateinit var heroListViewModel: HeroListViewModel
-    private val hero = SampleData.heroesSample.first()
+    private val hero = SampleData.charactersSample().first()
 
     @Test
     fun `performSearch() calls searchUseCase`() {
@@ -172,7 +172,7 @@ internal class HeroListViewModelTest {
             val state = heroListViewModel.heroListScreenState.value.heroListState
             assertTrue(state is HeroListState.Success)
             state as HeroListState.Success
-            assertEquals(SampleData.heroesSample, state.characters)
+            assertEquals(SampleData.charactersSample(), state.characters)
             assertNotNull(state.loadMoreError)
         }
 
@@ -199,7 +199,7 @@ internal class HeroListViewModelTest {
             `when initialising the ViewModel`()
 
             coEvery { getCharactersUseCase.invoke(1) } returns
-                Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
+                Result.success(CharactersPage(SampleData.charactersSample(), hasMorePages = true))
             heroListViewModel.retry()
 
             `then HeroListScreenSuccess should be Success`()
@@ -207,7 +207,7 @@ internal class HeroListViewModelTest {
 
     private fun `given getCharactersUseCase invocation returns results`() {
         coEvery { getCharactersUseCase.invoke(1) } returns
-            Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
+            Result.success(CharactersPage(SampleData.charactersSample(), hasMorePages = true))
     }
 
     private fun `given getCharactersUseCase invocation returns error`() {
@@ -217,7 +217,7 @@ internal class HeroListViewModelTest {
 
     private fun `given getCharactersUseCase invocation returns results without more pages`() {
         coEvery { getCharactersUseCase.invoke(1) } returns
-            Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = false))
+            Result.success(CharactersPage(SampleData.charactersSample(), hasMorePages = false))
     }
 
     private fun `given getCharactersUseCase invocation for page 2 returns results without more pages`() {
@@ -286,6 +286,6 @@ internal class HeroListViewModelTest {
 
     private fun `then the accumulated character list contains items from both pages`() {
         val state = heroListViewModel.heroListScreenState.value.heroListState as HeroListState.Success
-        assertEquals(SampleData.heroesSample.size + 1, state.characters.size)
+        assertEquals(SampleData.charactersSample().size + 1, state.characters.size)
     }
 }

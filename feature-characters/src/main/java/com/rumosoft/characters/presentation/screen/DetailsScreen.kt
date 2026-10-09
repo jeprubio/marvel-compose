@@ -48,7 +48,7 @@ internal fun DetailsScreenContent(
 @Composable
 private fun DetailsPreviewSuccess() {
     MarvelComposeTheme {
-        DetailsScreenContent(DetailsState.Success(SampleData.heroesSample.first()))
+        DetailsScreenContent(DetailsState.Success(SampleData.charactersSample().first()))
     }
 }
 
@@ -88,6 +88,6 @@ private fun DetailsPreviewError() {
 @Composable
 private fun DetailsPreviewSuccessLandscape() {
     MarvelComposeTheme {
-        DetailsScreenContent(DetailsState.Success(SampleData.heroesSample.first()))
+        DetailsScreenContent(DetailsState.Success(SampleData.charactersSample().first()))
     }
 }

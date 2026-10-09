@@ -14,23 +14,6 @@ data class Comic(
     val title: String,
     val description: String,
     val pageCount: Int,
-    val urls: List<String>,
     val resourceUri: String? = null,
     val thumbnail: String? = null,
-    val characters: List<CharacterSummary> = emptyList(),
-) : Parcelable
-
-@Keep
-@Parcelize
-@Serializable
-data class CharacterSummary(
-    val items: List<CharacterUrls>,
-) : Parcelable
-
-@Keep
-@Parcelize
-@Serializable
-data class CharacterUrls(
-    val name: String,
-    val resourceUri: String,
 ) : Parcelable

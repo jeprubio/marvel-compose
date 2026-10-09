@@ -88,7 +88,7 @@ internal class ComicListScreenStateTest {
     fun comicListState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicListState.Success(SampleData.comicsSample).BuildUI(
+                ComicListState.Success(SampleData.comicsSample()).BuildUI(
                     onComicClick = {},
                     onEndReached = {}
                 )
@@ -121,7 +121,7 @@ internal class ComicListScreenStateTest {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Success(
-                    comics = SampleData.comicsSample,
+                    comics = SampleData.comicsSample(),
                     loadMoreError = Exception("page 2 failed"),
                 ).BuildUI(
                     onComicClick = {},
@@ -143,7 +143,7 @@ internal class ComicListScreenStateTest {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Success(
-                    comics = SampleData.comicsSample,
+                    comics = SampleData.comicsSample(),
                     loadMoreError = Exception("page 2 failed"),
                 ).BuildUI(
                     onComicClick = {},

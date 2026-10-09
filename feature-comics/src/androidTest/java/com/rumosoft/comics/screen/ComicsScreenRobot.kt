@@ -17,6 +17,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
+import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.screen.ComicsScreenContent
 import com.rumosoft.comics.presentation.screen.ComicsTopBar
 import com.rumosoft.comics.presentation.viewmodel.state.ComicListState
@@ -46,7 +47,7 @@ class ComicsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
                     ) {
                         ComicsScreenContent(
                             comicListState = ComicListState.Success(
-                                comics = FakeComics.getSampleComics(20),
+                                comics = SampleData.comicsSample(20),
                             ),
                             onComicClick = {},
                             onEndReached = { endReached = true },

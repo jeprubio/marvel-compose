@@ -43,7 +43,7 @@ internal fun ComicDetailsScreenContent(
 @Composable
 private fun ComicDetailsScreenPreview() {
     MarvelComposeTheme {
-        ComicDetailsScreenContent(ComicDetailsState.Success(SampleData.comicsSample.first()))
+        ComicDetailsScreenContent(ComicDetailsState.Success(SampleData.comicsSample().first()))
     }
 }
 

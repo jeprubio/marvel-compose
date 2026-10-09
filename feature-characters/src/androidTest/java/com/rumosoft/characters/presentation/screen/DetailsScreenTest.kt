@@ -12,7 +12,7 @@ class DetailsScreenTest {
     fun whenScreenIsLoadedItShouldShowTheCharacterName() {
         detailsScreenRobot {
         } verify {
-            characterIsDisplayed("character 1")
+            characterIsDisplayed("Character1")
         }
     }
 

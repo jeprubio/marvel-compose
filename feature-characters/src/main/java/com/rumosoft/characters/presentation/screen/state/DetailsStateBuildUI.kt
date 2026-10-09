@@ -67,7 +67,7 @@ private fun BuildLoading() {
 @Composable
 private fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
-        Success(SampleData.heroesSample.first()).BuildUI(onComicSelected = {})
+        Success(SampleData.charactersSample().first()).BuildUI(onComicSelected = {})
     }
 }
 

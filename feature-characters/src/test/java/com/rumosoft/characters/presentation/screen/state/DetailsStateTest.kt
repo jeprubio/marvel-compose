@@ -49,7 +49,7 @@ internal class DetailsStateTest {
     fun detailsState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                DetailsState.Success(SampleData.heroesSampleWithoutImages.first()).BuildUI(onComicSelected = {})
+                DetailsState.Success(SampleData.charactersSampleWithoutImages().first()).BuildUI(onComicSelected = {})
             }
         }
 

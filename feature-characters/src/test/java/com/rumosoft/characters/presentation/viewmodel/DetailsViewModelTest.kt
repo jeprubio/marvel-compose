@@ -18,7 +18,7 @@ internal class DetailsViewModelTest {
     private val getComicThumbnailUseCase: GetComicThumbnailUseCase = mockk()
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase = mockk()
     private lateinit var detailsViewModel: DetailsViewModel
-    private val hero = SampleData.heroesSampleWithoutImages.first()
+    private val hero = SampleData.charactersSampleWithoutImages().first()
 
     @Test
     fun `When the view model is created getComicThumbnailUseCase is invoked`() {

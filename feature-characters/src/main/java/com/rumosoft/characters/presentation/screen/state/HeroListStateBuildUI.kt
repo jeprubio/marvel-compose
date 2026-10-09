@@ -99,7 +99,7 @@ private fun Success.BuildSuccess(
 @Composable
 private fun PreviewSearchSuccess() {
     MarvelComposeTheme {
-        Success(listOf(SampleData.heroesSample.first())).BuildUI()
+        Success(listOf(SampleData.charactersSample().first())).BuildUI()
     }
 }
 

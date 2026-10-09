@@ -68,7 +68,7 @@ private fun ResultBox(
 )
 @Composable
 private fun ComicsScreenPreview() {
-    val comics = SampleData.comicsSample
+    val comics = SampleData.comicsSample()
     MarvelComposeTheme {
         ComicsScreenContent(
             comicListState = ComicListState.Success(comics),

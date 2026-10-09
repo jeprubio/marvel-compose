@@ -12,7 +12,7 @@ class HeroListScreenTest {
     fun whenScreenIsLoadedItShouldShowTheListOfCharacters() {
         heroListRobot {
         } verify {
-            characterIsDisplayed("character 1")
+            characterIsDisplayed("Character1")
         }
     }
 

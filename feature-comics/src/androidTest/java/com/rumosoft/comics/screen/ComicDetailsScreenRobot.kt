@@ -13,6 +13,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
+import com.rumosoft.comics.infrastructure.sampleData.SampleData
 import com.rumosoft.comics.presentation.screen.ComicDetailsScreenContent
 import com.rumosoft.comics.presentation.screen.ComicDetailsTopBar
 import com.rumosoft.comics.presentation.viewmodel.state.ComicDetailsState
@@ -41,7 +42,7 @@ class ComicDetailsScreenRobot(private val composeTestRule: ComposeContentTestRul
                     ) {
                         ComicDetailsScreenContent(
                             screenState = ComicDetailsState.Success(
-                                comic = FakeComics.getSampleComics(1).first(),
+                                comic = SampleData.comicsSample(1).first(),
                             ),
                         )
                     }

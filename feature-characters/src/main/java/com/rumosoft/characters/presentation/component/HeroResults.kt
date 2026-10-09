@@ -185,7 +185,7 @@ private fun Loading() {
 )
 @Composable
 private fun HeroResultPreview() {
-    val heroes = remember { listOf(SampleData.heroesSample.first()) }
+    val heroes = remember { listOf(SampleData.charactersSample().first()) }
     MarvelComposeTheme {
         HeroResults(heroes)
     }

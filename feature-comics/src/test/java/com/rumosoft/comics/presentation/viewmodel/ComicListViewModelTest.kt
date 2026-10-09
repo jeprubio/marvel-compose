@@ -22,7 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class ComicListViewModelTest {
     private val comicsUseCase: GetComicsUseCase = mockk()
     private lateinit var comicListViewModel: ComicListViewModel
-    private val comic = SampleData.comicsSample.first()
+    private val comic = SampleData.comicsSample().first()
 
     @Test
     fun `performSearch() calls searchUseCase`() {
@@ -172,7 +172,7 @@ internal class ComicListViewModelTest {
             val state = comicListViewModel.comicsListScreenState.value.comicListState
             assertTrue(state is ComicListState.Success)
             state as ComicListState.Success
-            assertEquals(SampleData.comicsSample, state.comics)
+            assertEquals(SampleData.comicsSample(), state.comics)
             assertNotNull(state.loadMoreError)
         }
 
@@ -199,7 +199,7 @@ internal class ComicListViewModelTest {
             `when initialising the ViewModel`()
 
             coEvery { comicsUseCase.invoke(1) } returns
-                Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = true))
+                Result.success(ComicsPage(SampleData.comicsSample(), hasMorePages = true))
             comicListViewModel.retry()
 
             `then comicListState should be Success`()
@@ -207,7 +207,7 @@ internal class ComicListViewModelTest {
 
     private fun `given searchUseCase invocation returns results`() {
         coEvery { comicsUseCase.invoke(1) } returns
-            Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = true))
+            Result.success(ComicsPage(SampleData.comicsSample(), hasMorePages = true))
     }
 
     private fun `given searchUseCase invocation returns error`() {
@@ -217,7 +217,7 @@ internal class ComicListViewModelTest {
 
     private fun `given searchUseCase invocation returns results without more pages`() {
         coEvery { comicsUseCase.invoke(1) } returns
-            Result.success(ComicsPage(SampleData.comicsSample, hasMorePages = false))
+            Result.success(ComicsPage(SampleData.comicsSample(), hasMorePages = false))
     }
 
     private fun `given searchUseCase invocation for page 2 returns results without more pages`() {
@@ -286,6 +286,6 @@ internal class ComicListViewModelTest {
 
     private fun `then the accumulated comic list contains items from both pages`() {
         val state = comicListViewModel.comicsListScreenState.value.comicListState as ComicListState.Success
-        assertEquals(SampleData.comicsSample.size + 1, state.comics.size)
+        assertEquals(SampleData.comicsSample().size + 1, state.comics.size)
     }
 }

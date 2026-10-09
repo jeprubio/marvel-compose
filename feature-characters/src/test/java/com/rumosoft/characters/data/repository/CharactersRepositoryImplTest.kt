@@ -57,7 +57,7 @@ internal class CharactersRepositoryImplTest {
             Result.success(
                 HeroesResult(
                     PaginationInfo(1, 1),
-                    SampleData.heroesDtoSample,
+                    SampleData.charactersDtoSample(),
                 ),
             )
     }

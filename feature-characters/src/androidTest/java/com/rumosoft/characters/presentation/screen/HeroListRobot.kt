@@ -17,7 +17,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
-import com.rumosoft.characters.presentation.FakeCharacters
+import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListState
 import com.rumosoft.characters.presentation.viewmodel.state.HeroListSuccessResult
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -44,7 +44,7 @@ class HeroListRobot(private val composeTestRule: ComposeContentTestRule) {
                     Box(modifier = Modifier.padding(innerPadding)) {
                         HeroListScreenContent(
                             heroListState = HeroListState.Success(
-                                characters = FakeCharacters.getSampleCharacters(15),
+                                characters = SampleData.charactersSample(15),
                             ),
                             onCharacterClick = {},
                             onEndReached = { endReached = true },

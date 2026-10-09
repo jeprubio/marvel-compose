@@ -88,7 +88,7 @@ internal class CharacterListStateTest {
     fun heroListResult_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                HeroListState.Success(SampleData.heroesSampleWithoutImages).BuildUI(
+                HeroListState.Success(SampleData.charactersSampleWithoutImages()).BuildUI(
                     onCharacterClick = {},
                     onEndReached = {}
                 )
@@ -121,7 +121,7 @@ internal class CharacterListStateTest {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 HeroListState.Success(
-                    characters = SampleData.heroesSampleWithoutImages,
+                    characters = SampleData.charactersSampleWithoutImages(),
                     loadMoreError = Exception("page 2 failed"),
                 ).BuildUI(
                     onCharacterClick = {},
@@ -143,7 +143,7 @@ internal class CharacterListStateTest {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 HeroListState.Success(
-                    characters = SampleData.heroesSampleWithoutImages,
+                    characters = SampleData.charactersSampleWithoutImages(),
                     loadMoreError = Exception("page 2 failed"),
                 ).BuildUI(
                     onCharacterClick = {},

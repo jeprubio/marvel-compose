@@ -77,7 +77,7 @@ internal class ComicsRepositoryImplTest {
             Result.success(
                 ComicsResult(
                     PaginationInfo(1, 1),
-                    SampleData.comicsDtoSample,
+                    SampleData.comicsDtoSample(),
                 ),
             )
     }
@@ -85,7 +85,7 @@ internal class ComicsRepositoryImplTest {
     private fun `given fetchComic invocation on network returns results`() {
         coEvery { comicsNetwork.fetchComic(comicId) } returns
             Result.success(
-                SampleData.comicsDtoSample.first(),
+                SampleData.comicsDtoSample().first(),
             )
     }
 

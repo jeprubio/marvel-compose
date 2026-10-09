@@ -5,10 +5,10 @@ import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
 import com.rumosoft.marvelapi.data.network.apimodels.ImageDto
 
 object SampleData {
-    val comicsDtoSample = (1..10).map {
+    fun comicsDtoSample(count: Int = 10) = (1..count).map {
         ComicDto(
-            id = 0,
-            digitalId = 0,
+            id = it,
+            digitalId = it,
             title = "comic $it",
             description = "description",
             thumbnail = ImageDto(
@@ -19,5 +19,5 @@ object SampleData {
         )
     }
 
-    val comicsSample = comicsDtoSample.map { it.toComic() }
+    fun comicsSample(count: Int = 10) = comicsDtoSample(count).map { it.toComic() }
 }

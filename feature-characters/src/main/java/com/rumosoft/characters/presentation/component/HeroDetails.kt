@@ -188,6 +188,6 @@ fun SectionTitle(section: String) {
 @Composable
 private fun PreviewHeroDetails() {
     MarvelComposeTheme {
-        HeroDetails(SampleData.heroesSample.first())
+        HeroDetails(SampleData.charactersSample().first())
     }
 }

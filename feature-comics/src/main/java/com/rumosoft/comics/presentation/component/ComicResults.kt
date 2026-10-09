@@ -130,7 +130,7 @@ private fun Loading() {
 )
 @Composable
 private fun ComicResultsPreview() {
-    val comics = remember { SampleData.comicsSample }
+    val comics = remember { SampleData.comicsSample() }
     MarvelComposeTheme {
         ComicResults(
             comics = comics,

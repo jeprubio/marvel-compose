@@ -13,7 +13,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
-import com.rumosoft.characters.presentation.FakeCharacters
+import com.rumosoft.characters.infrastructure.sampleData.SampleData
 import com.rumosoft.characters.presentation.viewmodel.state.DetailsState
 import com.rumosoft.components.R
 import com.rumosoft.components.presentation.theme.MarvelComposeTheme
@@ -42,7 +42,7 @@ class DetailsScreenRobot(private val composeTestRule: ComposeContentTestRule) {
                     ) {
                         DetailsScreenContent(
                             detailsState = DetailsState.Success(
-                                character = FakeCharacters.getSampleCharacters(1).first(),
+                                character = SampleData.charactersSample(1).first(),
                             ),
                         )
                     }

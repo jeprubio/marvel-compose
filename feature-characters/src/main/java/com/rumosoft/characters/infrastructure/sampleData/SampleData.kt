@@ -8,11 +8,11 @@ import com.rumosoft.marvelapi.data.network.apimodels.ImageDto
 import com.rumosoft.marvelapi.data.network.apimodels.UrlDto
 
 object SampleData {
-    val heroesDtoSample = (1..10).map {
+    fun charactersDtoSample(count: Int = 10) = (1..count).map {
         HeroDto(
             id = it.toLong(),
-            name = "Hero$it",
-            description = "Description hero $it",
+            name = "Character$it",
+            description = "Description character $it",
             thumbnail = ImageDto(
                 path = "http://lorempixel.com/150/150/people/$it/",
                 extension = "jpg",
@@ -46,9 +46,9 @@ object SampleData {
     }
 
 
-    val heroesSample = heroesDtoSample.map { it.toHero() }
+    fun charactersSample(count: Int = 10) = charactersDtoSample(count).map { it.toHero() }
 
-    val heroesSampleWithoutImages = heroesSample.map { hero ->
+    fun charactersSampleWithoutImages(count: Int = 10) = charactersSample(count).map { hero ->
         hero.copy(
             thumbnail = "",
             comics = hero.comics.map {

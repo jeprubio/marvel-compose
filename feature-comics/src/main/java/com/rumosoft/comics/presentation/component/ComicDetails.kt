@@ -55,7 +55,7 @@ fun ComicDetails(
 private fun PreviewComicDetails() {
     MarvelComposeTheme {
         ComicDetails(
-            comic = SampleData.comicsSample.first()
+            comic = SampleData.comicsSample().first()
         )
     }
 }

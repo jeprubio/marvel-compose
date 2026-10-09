@@ -20,7 +20,7 @@ internal class GetComicsUseCaseTest {
     val repo: ComicsRepository = mockk()
     private val useCase: GetComicsUseCase = GetComicsUseCase(repo)
 
-    private val comicsList: List<Comic> = SampleData.comicsSample
+    private val comicsList: List<Comic> = SampleData.comicsSample()
 
     init {
         MockKAnnotations.init(this)

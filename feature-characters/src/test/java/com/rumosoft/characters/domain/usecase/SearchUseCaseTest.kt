@@ -36,7 +36,7 @@ internal class GetCharactersUseCaseTest {
 
     private fun `given getCharacters invocation returns results`() {
         coEvery { repo.getCharacters(1) } returns
-            Result.success(CharactersPage(SampleData.heroesSample, hasMorePages = true))
+            Result.success(CharactersPage(SampleData.charactersSample(), hasMorePages = true))
     }
 
     private suspend fun `when the use case gets invoked`() {

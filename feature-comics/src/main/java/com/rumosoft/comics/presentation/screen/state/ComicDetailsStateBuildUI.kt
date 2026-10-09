@@ -63,7 +63,7 @@ private fun Error.BuildError(onRetry: () -> Unit) {
 @Composable
 private fun PreviewDetailsSuccess() {
     MarvelComposeTheme {
-        Success(SampleData.comicsSample.first()).BuildUI()
+        Success(SampleData.comicsSample().first()).BuildUI()
     }
 }
 

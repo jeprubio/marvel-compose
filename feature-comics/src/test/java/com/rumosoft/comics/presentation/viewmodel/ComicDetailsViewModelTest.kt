@@ -79,7 +79,7 @@ internal class ComicDetailsViewModelTest {
     }
 
     private fun `given use case invocation returns results`() {
-        coEvery { comicDetailsUseCase.invoke(comicId) } returns Result.success(SampleData.comicsSample.first())
+        coEvery { comicDetailsUseCase.invoke(comicId) } returns Result.success(SampleData.comicsSample().first())
     }
 
     private fun `given use case invocation returns failure`() {

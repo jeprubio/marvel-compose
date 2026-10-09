@@ -7,8 +7,10 @@ import com.lemonappdev.konsist.api.ext.list.containingFiles
 import com.lemonappdev.konsist.api.ext.list.imports
 import com.lemonappdev.konsist.api.ext.list.withAllParentsOf
 import com.lemonappdev.konsist.api.ext.list.withAnnotationOf
+import com.lemonappdev.konsist.api.ext.list.withExternalParent
 import com.lemonappdev.konsist.api.ext.list.withNameContaining
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
+import com.lemonappdev.konsist.api.ext.list.withParentClass
 import com.lemonappdev.konsist.api.verify.assertFalse
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.jupiter.api.Test
@@ -19,7 +21,7 @@ class KonsistTests {
     fun `classes extending 'ViewModel' should have 'ViewModel' suffix`() {
         Konsist.scopeFromProject()
             .classes()
-            .withAllParentsOf(ViewModel::class)
+            .withParentClass { it.name == "ViewModel" }
             .assertTrue { it.name.endsWith("ViewModel") }
     }
 

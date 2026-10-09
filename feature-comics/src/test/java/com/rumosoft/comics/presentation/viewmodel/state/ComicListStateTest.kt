@@ -6,6 +6,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.rumosoft.comics.infrastructure.sampleData.SampleData
@@ -35,6 +37,8 @@ internal class ComicListScreenStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    private val scrollTimeoutMillis = 5_000L
 
     @Test
     fun comicListState_loading_shows_ProgressIndicator() {
@@ -88,7 +92,7 @@ internal class ComicListScreenStateTest {
     fun comicListState_success_shows_success_result() {
         composeTestRule.setContent {
             MarvelComposeTheme {
-                ComicListState.Success(SampleData.comicsSample()).BuildUI(
+                ComicListState.Success(SampleData.comicsSampleWithoutImages()).BuildUI(
                     onComicClick = {},
                     onEndReached = {}
                 )
@@ -121,7 +125,7 @@ internal class ComicListScreenStateTest {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Success(
-                    comics = SampleData.comicsSample(),
+                    comics = SampleData.comicsSampleWithoutImages(),
                     loadMoreError = Exception("page 2 failed"),
                 ).BuildUI(
                     onComicClick = {},
@@ -132,6 +136,10 @@ internal class ComicListScreenStateTest {
         }
 
         composeTestRule.onNodeWithTag(SuccessResult).assertIsDisplayed()
+        scrollToElement(
+            targetTag = LoadMoreRetryTag,
+            containerTag = SuccessResult,
+        )
         composeTestRule.onNodeWithTag(LoadMoreErrorTag).assertIsDisplayed()
 
         composeTestRule.onRoot().captureRoboImage()
@@ -143,7 +151,7 @@ internal class ComicListScreenStateTest {
         composeTestRule.setContent {
             MarvelComposeTheme {
                 ComicListState.Success(
-                    comics = SampleData.comicsSample(),
+                    comics = SampleData.comicsSampleWithoutImages(),
                     loadMoreError = Exception("page 2 failed"),
                 ).BuildUI(
                     onComicClick = {},
@@ -153,7 +161,30 @@ internal class ComicListScreenStateTest {
             }
         }
 
+        scrollToElement(
+            targetTag = LoadMoreRetryTag,
+            containerTag = SuccessResult,
+        )
         composeTestRule.onNodeWithTag(LoadMoreRetryTag).performClick()
         assertTrue(retried)
+    }
+
+    private fun scrollToElement(
+        targetTag: String,
+        containerTag: String,
+    ) {
+        composeTestRule.waitUntil(timeoutMillis = scrollTimeoutMillis) {
+            try {
+                composeTestRule
+                    .onNodeWithTag(containerTag)
+                    .performTouchInput { swipeUp() }
+                composeTestRule
+                    .onNodeWithTag(targetTag)
+                    .assertExists()
+                true
+            } catch (_: AssertionError) {
+                false
+            }
+        }
     }
 }

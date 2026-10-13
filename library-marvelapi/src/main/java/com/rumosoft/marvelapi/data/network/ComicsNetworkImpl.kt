@@ -2,7 +2,6 @@ package com.rumosoft.marvelapi.data.network
 
 import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
 import com.rumosoft.marvelapi.data.network.apimodels.ErrorParsingException
-import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,13 +20,14 @@ class ComicsNetworkImpl @Inject constructor(
             )
             result.data?.let { data ->
                 val results = data.results.orEmpty()
-                val total = data.total ?: Int.MAX_VALUE
                 Result.success(
                     ComicsResult(
-                        paginationInfo = PaginationInfo(
-                            current = data.offset?.div(limit) ?: 1,
-                            total = total.div(limit),
-                            hasMorePages = (data.offset ?: 0) + results.size < total,
+                        paginationInfo = buildPaginationInfo(
+                            requestOffset = offset,
+                            apiOffset = data.offset,
+                            apiTotal = data.total,
+                            fetchedCount = results.size,
+                            limit = limit,
                         ),
                         comics = results,
                     ),

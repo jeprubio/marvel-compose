@@ -149,13 +149,72 @@ internal class CharactersNetworkImplTest {
         }
 
     @Test
-    fun `getHeroes returns hasMorePages true when total is null`() =
+    fun `getHeroes returns hasMorePages false when total is null and the page is partial`() =
         runTest {
             `given a response where total is null`()
 
             val response = `when getHeroes gets called on the network`()
 
+            `then hasMorePages should be false`(response)
+        }
+
+    @Test
+    fun `getHeroes returns hasMorePages true when total is null and the page is full`() =
+        runTest {
+            `given a response where total is null and the page is full`()
+
+            val response = `when getHeroes gets called on the network`()
+
             `then hasMorePages should be true`(response)
+        }
+
+    @Test
+    fun `getHeroes returns 1-based current page and ceiling total pages`() =
+        runTest {
+            `given a response with total not divisible by limit`()
+
+            val response = `when getHeroes gets called on the network`()
+
+            assertTrue(response.isSuccess)
+            val paginationInfo = response.getOrThrow().paginationInfo
+            assertEquals(1, paginationInfo.current)
+            assertEquals(2, paginationInfo.total)
+            assertEquals(true, paginationInfo.hasMorePages)
+        }
+
+    @Test
+    fun `getHeroes returns current page 2 for second page offset`() =
+        runTest {
+            `given a response for the second page`()
+
+            val response = charactersNetwork.getHeroes(20, limit)
+
+            assertTrue(response.isSuccess)
+            val paginationInfo = response.getOrThrow().paginationInfo
+            assertEquals(2, paginationInfo.current)
+            assertEquals(3, paginationInfo.total)
+            assertEquals(true, paginationInfo.hasMorePages)
+        }
+
+    @Test
+    fun `getHeroes falls back to requested offset when api offset is null`() =
+        runTest {
+            `given a response with null api offset`()
+
+            val response = charactersNetwork.getHeroes(20, limit)
+
+            assertTrue(response.isSuccess)
+            assertEquals(2, response.getOrThrow().paginationInfo.current)
+        }
+
+    @Test
+    fun `getHeroes with zero limit returns Error`() =
+        runTest {
+            `given a response is returned when getHeroes gets called with zero limit`()
+
+            val response = charactersNetwork.getHeroes(0, 0)
+
+            `then the response should be of type Error`(response)
         }
 
     private fun `given an exception is thrown when getHeroes gets called on the service`() {
@@ -203,6 +262,81 @@ internal class CharactersNetworkImplTest {
                     offset = 0,
                     limit = limit,
                     total = null,
+                    count = 1,
+                    results = listOf(
+                        HeroDto(id = 0, name = "Hero", thumbnail = ImageDto("path", "jpg")),
+                    ),
+                ),
+            )
+    }
+
+    private fun `given a response where total is null and the page is full`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 0,
+                    limit = limit,
+                    total = null,
+                    count = limit,
+                    results = (1..limit).map {
+                        HeroDto(id = it.toLong(), name = "Hero$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response with total not divisible by limit`() {
+        coEvery { marvelService.getHeroes(offset = offset, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 0,
+                    limit = limit,
+                    total = 21,
+                    count = limit,
+                    results = (1..limit).map {
+                        HeroDto(id = it.toLong(), name = "Hero$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response for the second page`() {
+        coEvery { marvelService.getHeroes(offset = 20, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 20,
+                    limit = limit,
+                    total = 45,
+                    count = limit,
+                    results = (21..40).map {
+                        HeroDto(id = it.toLong(), name = "Hero$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response with null api offset`() {
+        coEvery { marvelService.getHeroes(offset = 20, limit = limit) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = null,
+                    limit = limit,
+                    total = 45,
+                    count = limit,
+                    results = (21..40).map {
+                        HeroDto(id = it.toLong(), name = "Hero$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response is returned when getHeroes gets called with zero limit`() {
+        coEvery { marvelService.getHeroes(offset = 0, limit = 0) } returns
+            HeroResults(
+                data = SearchData(
+                    offset = 0,
+                    limit = 0,
+                    total = 1,
                     count = 1,
                     results = listOf(
                         HeroDto(id = 0, name = "Hero", thumbnail = ImageDto("path", "jpg")),

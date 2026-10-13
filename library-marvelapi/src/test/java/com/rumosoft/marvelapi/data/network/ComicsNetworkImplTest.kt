@@ -129,13 +129,72 @@ internal class ComicsNetworkImplTest {
         }
 
     @Test
-    fun `getComics returns hasMorePages true when total is null`() =
+    fun `getComics returns hasMorePages false when total is null and the page is partial`() =
         runTest {
             `given a response where total is null`()
 
             val response = `when getComics gets called on the network`()
 
+            `then hasMorePages should be false`(response)
+        }
+
+    @Test
+    fun `getComics returns hasMorePages true when total is null and the page is full`() =
+        runTest {
+            `given a response where total is null and the page is full`()
+
+            val response = `when getComics gets called on the network`()
+
             `then hasMorePages should be true`(response)
+        }
+
+    @Test
+    fun `getComics returns 1-based current page and ceiling total pages`() =
+        runTest {
+            `given a response with total not divisible by limit`()
+
+            val response = `when getComics gets called on the network`()
+
+            assertTrue(response.isSuccess)
+            val paginationInfo = response.getOrThrow().paginationInfo
+            assertEquals(1, paginationInfo.current)
+            assertEquals(2, paginationInfo.total)
+            assertEquals(true, paginationInfo.hasMorePages)
+        }
+
+    @Test
+    fun `getComics returns current page 2 for second page offset`() =
+        runTest {
+            `given a response for the second page`()
+
+            val response = comicsNetwork.getComics(20, limit)
+
+            assertTrue(response.isSuccess)
+            val paginationInfo = response.getOrThrow().paginationInfo
+            assertEquals(2, paginationInfo.current)
+            assertEquals(3, paginationInfo.total)
+            assertEquals(true, paginationInfo.hasMorePages)
+        }
+
+    @Test
+    fun `getComics falls back to requested offset when api offset is null`() =
+        runTest {
+            `given a response with null api offset`()
+
+            val response = comicsNetwork.getComics(20, limit)
+
+            assertTrue(response.isSuccess)
+            assertEquals(2, response.getOrThrow().paginationInfo.current)
+        }
+
+    @Test
+    fun `getComics with zero limit returns Error`() =
+        runTest {
+            `given a response is returned when getComics gets called with zero limit`()
+
+            val response = comicsNetwork.getComics(0, 0)
+
+            `then the response should be of type Error`(response)
         }
 
     private fun `given an exception is thrown when getComics gets called on the service`() {
@@ -183,6 +242,81 @@ internal class ComicsNetworkImplTest {
                     offset = 0,
                     limit = limit,
                     total = null,
+                    count = 1,
+                    results = listOf(
+                        ComicDto(id = 0, title = "Comic", thumbnail = ImageDto("path", "jpg")),
+                    ),
+                ),
+            )
+    }
+
+    private fun `given a response where total is null and the page is full`() {
+        coEvery { marvelService.getComics(offset = offset, limit = limit) } returns
+            ComicResults(
+                data = ComicDataContainer(
+                    offset = 0,
+                    limit = limit,
+                    total = null,
+                    count = limit,
+                    results = (1..limit).map {
+                        ComicDto(id = it, title = "Comic$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response with total not divisible by limit`() {
+        coEvery { marvelService.getComics(offset = offset, limit = limit) } returns
+            ComicResults(
+                data = ComicDataContainer(
+                    offset = 0,
+                    limit = limit,
+                    total = 21,
+                    count = limit,
+                    results = (1..limit).map {
+                        ComicDto(id = it, title = "Comic$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response for the second page`() {
+        coEvery { marvelService.getComics(offset = 20, limit = limit) } returns
+            ComicResults(
+                data = ComicDataContainer(
+                    offset = 20,
+                    limit = limit,
+                    total = 45,
+                    count = limit,
+                    results = (21..40).map {
+                        ComicDto(id = it, title = "Comic$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response with null api offset`() {
+        coEvery { marvelService.getComics(offset = 20, limit = limit) } returns
+            ComicResults(
+                data = ComicDataContainer(
+                    offset = null,
+                    limit = limit,
+                    total = 45,
+                    count = limit,
+                    results = (21..40).map {
+                        ComicDto(id = it, title = "Comic$it", thumbnail = ImageDto("path", "jpg"))
+                    },
+                ),
+            )
+    }
+
+    private fun `given a response is returned when getComics gets called with zero limit`() {
+        coEvery { marvelService.getComics(offset = 0, limit = 0) } returns
+            ComicResults(
+                data = ComicDataContainer(
+                    offset = 0,
+                    limit = 0,
+                    total = 1,
                     count = 1,
                     results = listOf(
                         ComicDto(id = 0, title = "Comic", thumbnail = ImageDto("path", "jpg")),

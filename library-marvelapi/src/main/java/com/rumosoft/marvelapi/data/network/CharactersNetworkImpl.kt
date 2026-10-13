@@ -2,7 +2,6 @@ package com.rumosoft.marvelapi.data.network
 
 import com.rumosoft.marvelapi.data.network.apimodels.ErrorParsingException
 import com.rumosoft.marvelapi.data.network.apimodels.HeroDto
-import com.rumosoft.marvelapi.data.network.apimodels.PaginationInfo
 import com.rumosoft.marvelapi.data.network.apimodels.getThumbnail
 import kotlinx.coroutines.CancellationException
 import timber.log.Timber
@@ -22,13 +21,14 @@ class CharactersNetworkImpl @Inject constructor(
             )
             result.data?.let { data ->
                 val results = data.results.orEmpty()
-                val total = data.total ?: Int.MAX_VALUE
                 Result.success(
                     HeroesResult(
-                        paginationInfo = PaginationInfo(
-                            current = data.offset?.div(limit) ?: 1,
-                            total = total.div(limit),
-                            hasMorePages = (data.offset ?: 0) + results.size < total,
+                        paginationInfo = buildPaginationInfo(
+                            requestOffset = offset,
+                            apiOffset = data.offset,
+                            apiTotal = data.total,
+                            fetchedCount = results.size,
+                            limit = limit,
                         ),
                         characters = results,
                     ),

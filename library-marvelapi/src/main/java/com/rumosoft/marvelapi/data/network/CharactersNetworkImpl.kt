@@ -45,10 +45,12 @@ class CharactersNetworkImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHeroDetails(heroId: Long): Result<HeroDto?> {
+    override suspend fun getHeroDetails(heroId: Long): Result<HeroDto> {
         return try {
             val result = marvelService.searchHero(heroId)
-            Result.success(result.data?.results?.firstOrNull())
+            result.data?.results?.firstOrNull()?.let {
+                Result.success(it)
+            } ?: Result.failure(ErrorParsingException("Hero not found"))
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

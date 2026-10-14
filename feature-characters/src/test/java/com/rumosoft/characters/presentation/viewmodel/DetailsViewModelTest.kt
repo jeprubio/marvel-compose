@@ -56,17 +56,6 @@ internal class DetailsViewModelTest {
     }
 
     @Test
-    fun `When getCharacterDetailsUseCase returns null the state is Error`() {
-        runTest {
-            coEvery { getCharacterDetailsUseCase.invoke(hero.id) } returns Result.success(null)
-
-            `when view model is initialised`()
-
-            `then the state is Error`()
-        }
-    }
-
-    @Test
     fun `When retry is called after error and succeeds the state is Success`() {
         runTest {
             `given getCharacterDetailsUseCase invocation returns failure`()

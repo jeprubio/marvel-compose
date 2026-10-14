@@ -9,6 +9,6 @@ class GetCharacterDetailsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         characterId: Long,
-    ): Result<Character?> =
+    ): Result<Character> =
         repository.getCharacterDetails(characterId)
 }

@@ -48,12 +48,8 @@ class DetailsViewModel @Inject constructor(
             Timber.d("characterId: $characterId")
             getCharacterDetailsUseCase(characterId).fold(
                 onSuccess = { character ->
-                    if (character != null) {
-                        detailsState.update { DetailsState.Success(character) }
-                        loadComicThumbnails(character)
-                    } else {
-                        detailsState.update { DetailsState.Error(Exception("Character not found")) }
-                    }
+                    detailsState.update { DetailsState.Success(character) }
+                    loadComicThumbnails(character)
                 },
                 onFailure = { throwable ->
                     detailsState.update { DetailsState.Error(throwable) }

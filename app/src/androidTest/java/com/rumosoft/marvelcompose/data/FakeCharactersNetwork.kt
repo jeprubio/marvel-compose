@@ -31,7 +31,7 @@ class FakeCharactersNetwork @Inject constructor(): CharactersNetwork {
         return Result.success(heroesResult)
     }
 
-    override suspend fun getHeroDetails(heroId: Long): Result<HeroDto?> {
+    override suspend fun getHeroDetails(heroId: Long): Result<HeroDto> {
         val hero = getHeroes(0, 0).getOrNull()?.characters?.find { it.id == heroId }
         return hero?.let {
             Result.success(it)

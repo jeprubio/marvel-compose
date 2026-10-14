@@ -3,7 +3,6 @@ package com.rumosoft.marvelapi.data.network
 import com.rumosoft.libraryTests.FileReader
 import com.rumosoft.libraryTests.TestCoroutineExtension
 import com.rumosoft.marvelapi.data.network.apimodels.ComicDto
-import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,6 +12,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import retrofit2.Retrofit
@@ -33,19 +33,20 @@ internal class ComicsNetworkImplIntegrationTest {
         explicitNulls = false
     }
 
-    private val marvelService: MarvelService = Retrofit.Builder()
-        .baseUrl(mockWebServer.url("/"))
-        .client(client)
-        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-        .build()
-        .create(MarvelService::class.java)
-    private val comicsNetwork: ComicsNetwork
+    private lateinit var comicsNetwork: ComicsNetwork
     private val offset = 0
     private val limit = 20
     private val comicId = 123
 
-    init {
-        MockKAnnotations.init(this)
+    @BeforeEach
+    fun setUp() {
+        mockWebServer.start()
+        val marvelService: MarvelService = Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/"))
+            .client(client)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+            .create(MarvelService::class.java)
         comicsNetwork = ComicsNetworkImpl(marvelService)
     }
 
@@ -62,6 +63,7 @@ internal class ComicsNetworkImplIntegrationTest {
 
             `then the response should be of type Success`(response)
             `then there should be one element in the returned data`(response)
+            `then the request path should be the comics list path`()
         }
 
     @Test
@@ -80,6 +82,7 @@ internal class ComicsNetworkImplIntegrationTest {
             val response = `when fetchComic gets called on the network`()
 
             `then the response should be of type Success`(response)
+            `then the request path should be the comic details path`()
         }
 
     @Test
@@ -130,5 +133,19 @@ internal class ComicsNetworkImplIntegrationTest {
 
     private fun <T> `then the response should be of type Error`(response: Result<T>) {
         Assertions.assertTrue(response.isFailure)
+    }
+
+    private fun `then the request path should be the comics list path`() {
+        assertEquals(
+            "/v1/public/comics?offset=$offset&limit=$limit",
+            mockWebServer.takeRequest(2, TimeUnit.SECONDS)?.path,
+        )
+    }
+
+    private fun `then the request path should be the comic details path`() {
+        assertEquals(
+            "/v1/public/comics/$comicId",
+            mockWebServer.takeRequest(2, TimeUnit.SECONDS)?.path,
+        )
     }
 }

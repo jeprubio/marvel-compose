@@ -8,31 +8,29 @@ import retrofit2.http.Query
 
 interface MarvelService {
 
-    @GET("/v1/public/characters")
+    @GET("v1/public/characters")
     suspend fun getHeroes(
         @Query(OFFSET) offset: Int = 0,
         @Query(LIMIT) limit: Int = 20,
     ): HeroResults
 
-    @GET("/v1/public/characters/{$CHARACTER_ID}")
+    @GET("v1/public/characters/{characterId}")
     suspend fun searchHero(
-        @Path(CHARACTER_ID) characterId: Long,
+        @Path("characterId") characterId: Long,
     ): HeroResults
 
-    @GET("/v1/public/comics")
+    @GET("v1/public/comics")
     suspend fun getComics(
         @Query(OFFSET) offset: Int = 0,
         @Query(LIMIT) limit: Int = 20,
     ): ComicResults
 
-    @GET("/v1/public/comics/{$COMIC_ID}")
+    @GET("v1/public/comics/{comicId}")
     suspend fun searchComic(
-        @Path(COMIC_ID) comicId: Int,
+        @Path("comicId") comicId: Int,
     ): ComicResults
 
     companion object {
-        const val CHARACTER_ID = "characterId"
-        const val COMIC_ID = "comicId"
         const val OFFSET = "offset"
         const val LIMIT = "limit"
     }
